@@ -416,6 +416,9 @@ async function loadData(){
   try{
     const r=await fetch(FB_PATH);
     const j=await r.json();
+    if(!r.ok || (j && j.error)){
+      throw new Error((j && j.error) ? j.error : `HTTP ${r.status}`);
+    }
     if(j && j.talleres && Array.isArray(j.talleres) && j.talleres.length){
       TALLERES=j.talleres;
       setConn(true,'Sincronizado con Firebase');
@@ -434,13 +437,17 @@ async function loadData(){
 
 async function saveData(toast=true){
   try{
-    await fetch(FB_PATH,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,ts:Date.now()})});
+    const r=await fetch(FB_PATH,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,ts:Date.now()})});
+    const j=await r.json().catch(()=>null);
+    if(!r.ok || (j && j.error)){
+      throw new Error((j && j.error) ? j.error : `HTTP ${r.status}`);
+    }
     setConn(true,'Sincronizado con Firebase');
     if(toast) showToast('Guardado ✓','ok');
   }catch(e){
     console.warn('FB save error',e);
     setConn(false,'Sin conexión · cambios solo locales');
-    if(toast) showToast('No se pudo guardar — revisa tu conexión','bad');
+    if(toast) showToast('No se pudo guardar: '+e.message,'bad');
   }
 }
 
