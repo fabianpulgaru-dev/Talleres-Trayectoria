@@ -440,13 +440,16 @@ async function loadData(){
     if(!r.ok || (j && j.error)){
       throw new Error((j && j.error) ? j.error : `HTTP ${r.status}`);
     }
-    if(j && Array.isArray(j.talleres)){
-      TALLERES=j.talleres;
-      setConn(true,'Sincronizado con Firebase');
-    } else {
+    if(j===null || j===undefined){
+      // La ruta nunca se ha escrito en Firebase: primera carga real, sembramos datos de ejemplo.
       TALLERES=SEED.slice();
       setConn(true,'Sincronizado · datos de ejemplo cargados');
       await saveData(false);
+    } else {
+      // Ya existe un registro previo. Si "talleres" no viene, es porque Firebase
+      // descarta arrays vacíos al guardarlos — significa que la lista quedó en 0, no que falte el seed.
+      TALLERES=Array.isArray(j.talleres)?j.talleres:[];
+      setConn(true,'Sincronizado con Firebase');
     }
   }catch(e){
     console.warn('FB load error',e);
