@@ -129,7 +129,10 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 .day-pill{font-family:var(--fm);font-size:.8rem;font-weight:800;color:var(--txt2);background:var(--surface2);padding:5px 12px;border-radius:8px;min-width:96px;text-align:center;}
 .day-pill.today{background:var(--p);color:#fff;}
 
-.row{display:grid;grid-template-columns:72px 1fr 150px 160px 150px 100px;align-items:center;gap:16px;background:var(--surface);border:2px solid var(--line);border-radius:var(--rs);padding:14px 16px;margin-bottom:8px;transition:border-color .15s,box-shadow .15s;position:relative;}
+.row{display:grid;grid-template-columns:26px 72px 1fr 150px 160px 150px 100px;align-items:center;gap:16px;background:var(--surface);border:2px solid var(--line);border-radius:var(--rs);padding:14px 16px;margin-bottom:8px;transition:border-color .15s,box-shadow .15s;position:relative;}
+.row.row-selected{border-color:var(--p);background:var(--p-bg);}
+.row-check{display:flex;justify-content:center;}
+.row-check input{width:18px;height:18px;accent-color:var(--p);cursor:pointer;margin:0;}
 .row:hover{border-color:var(--line2);box-shadow:0 4px 14px rgba(110,70,180,.08);}
 .row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;border-radius:var(--rs) 0 0 var(--rs);}
 .row.st-realizado::before{background:var(--ok);}
@@ -199,6 +202,15 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 .btn-danger-link{background:none;border:none;color:var(--bad);font-size:.86rem;font-weight:800;cursor:pointer;padding:8px 0;margin-top:8px;display:block;}
 .btn-danger-link:hover{text-decoration:underline;}
 
+/* ══ SELECTION BAR ══ */
+.selection-bar{display:none;align-items:center;gap:14px;background:var(--p-dk);color:#fff;border-radius:var(--rs);padding:12px 18px;margin-bottom:16px;font-weight:800;font-size:.9rem;}
+.selection-bar.show{display:flex;}
+.selection-bar .sel-count{flex:1;}
+.btn-sel-clear{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);color:#fff;border-radius:9px;padding:8px 14px;font-family:var(--fb);font-weight:800;font-size:.85rem;cursor:pointer;}
+.btn-sel-clear:hover{background:rgba(255,255,255,.25);}
+.btn-sel-delete{background:var(--bad);border:none;color:#fff;border-radius:9px;padding:8px 16px;font-family:var(--fb);font-weight:800;font-size:.85rem;cursor:pointer;}
+.btn-sel-delete:hover{opacity:.9;}
+
 /* ══ TOAST ══ */
 .toast{position:fixed;bottom:24px;right:24px;background:var(--surface);border:2px solid var(--line2);color:var(--txt);border-radius:13px;padding:15px 22px;font-size:.92rem;font-weight:800;box-shadow:0 8px 28px rgba(110,70,180,.2);z-index:700;display:flex;align-items:center;gap:10px;transform:translateY(16px);opacity:0;transition:all .25s;}
 .toast.show{transform:translateY(0);opacity:1;}
@@ -209,7 +221,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 @media(max-width:880px){
   :root{--fs:16px;}
   .kpis{grid-template-columns:repeat(2,1fr);}
-  .row{grid-template-columns:56px 1fr;grid-template-rows:auto auto auto;gap:10px;}
+  .row{grid-template-columns:22px 56px 1fr;grid-template-rows:auto auto auto;gap:10px;}
   .row-resp,.row-asist{grid-column:1/-1;}
   .row-edit{grid-column:1/-1;justify-content:flex-start;}
   .cal-cell{min-height:110px;}
@@ -217,6 +229,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
   .toolbar{gap:8px;}
   .search-box input{width:170px;}
   .fg-row,.status-grid{grid-template-columns:1fr;}
+  .selection-bar{flex-wrap:wrap;}
 }
 @media(max-width:540px){
   .kpis{grid-template-columns:repeat(2,1fr);}
@@ -272,6 +285,13 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
     <span class="legend-item"><span class="legend-dot pendiente"></span> Pendiente</span>
     <span class="legend-item"><span class="legend-dot sin-asistencia"></span> Sin asistencia</span>
     <span class="legend-item"><span class="legend-dot cancelado"></span> Cancelado</span>
+  </div>
+
+  <!-- SELECTION BAR -->
+  <div class="selection-bar" id="selectionBar">
+    <span class="sel-count" id="selCount">0 talleres seleccionados</span>
+    <button class="btn-sel-clear" id="btnSelClear">Cancelar selección</button>
+    <button class="btn-sel-delete" id="btnSelDelete">🗑️ Eliminar seleccionados</button>
   </div>
 
   <!-- CALENDAR VIEW -->
@@ -343,7 +363,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
       <div class="fg"><label for="fAsistentes">Asistentes</label><input type="number" id="fAsistentes" min="0" placeholder="0"></div>
     </div>
 
-    <div class="fg"><label for="fNotas">Notas / observaciones</label><textarea id="fNotas" placeholder="Ej: se reprogramó por conflicto de sala; revisar convocatoria para próxima sesión..."></textarea></div>
+    <div class="fg"><label for="fNotas">Objetivo</label><textarea id="fNotas" placeholder="Ej: que los estudiantes identifiquen estrategias de lectura y escritura académica..."></textarea></div>
 
     <button class="btn-sub" id="btnGuardar">Guardar taller</button>
     <button class="btn-danger-link" id="btnEliminar" style="display:none;">Eliminar este taller</button>
@@ -400,6 +420,7 @@ let curCarrera='ALL', curView='list', curSearch='';
 let calM=2, calY=2026;
 let editingId=null;
 let saveTimer=null;
+let SELECTED=new Set();
 
 const today=new Date(); today.setHours(0,0,0,0);
 
@@ -419,7 +440,7 @@ async function loadData(){
     if(!r.ok || (j && j.error)){
       throw new Error((j && j.error) ? j.error : `HTTP ${r.status}`);
     }
-    if(j && j.talleres && Array.isArray(j.talleres) && j.talleres.length){
+    if(j && Array.isArray(j.talleres)){
       TALLERES=j.talleres;
       setConn(true,'Sincronizado con Firebase');
     } else {
@@ -524,13 +545,14 @@ function rowHTML(t){
   const cap=Math.max(Number(t.inscritos)||1,1);
   const asis=Number(t.asistentes)||0;
   const pct=Math.min(100,Math.round((asis/cap)*100));
-  return `<div class="row st-${t.estado}" data-id="${t.id}">
+  return `<div class="row st-${t.estado}${SELECTED.has(t.id)?' row-selected':''}" data-id="${t.id}">
+    <div class="row-check"><input type="checkbox" class="row-cb" data-id="${t.id}" data-action="select" ${SELECTED.has(t.id)?'checked':''}></div>
     <div class="row-time">${t.hora}</div>
     <div class="row-main">
       <span class="row-line ${t.linea}">${ICONS[t.linea]} ${t.linea}</span>
       <p class="row-title">${t.titulo}${t.carrera?`<span class="row-carrera">🎓 ${t.carrera}</span>`:''}</p>
       <div class="row-meta">${t.modalidad==='presencial'?'🏛':'💻'} ${t.sala}</div>
-      ${t.notas?`<div class="row-note-tag">📝 ${t.notas}</div>`:''}
+      ${t.notas?`<div class="row-note-tag">🎯 ${t.notas}</div>`:''}
     </div>
     <div class="row-resp">
       <span class="resp-avatar">${(t.resp||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase()}</span>
@@ -664,6 +686,46 @@ function debounceSave(){
   clearTimeout(saveTimer);
   saveTimer=setTimeout(()=>saveData(false),1200);
 }
+
+// ══════════════════════════════════════════════════════════════
+// SELECCIÓN MÚLTIPLE — checkboxes + borrado en lote
+// ══════════════════════════════════════════════════════════════
+document.addEventListener('change',e=>{
+  const cb=e.target.closest('.row-cb');
+  if(!cb) return;
+  const id=cb.dataset.id;
+  if(cb.checked) SELECTED.add(id); else SELECTED.delete(id);
+  updateSelectionBar();
+  const rowEl=cb.closest('.row');
+  if(rowEl) rowEl.classList.toggle('row-selected',cb.checked);
+});
+
+function updateSelectionBar(){
+  const bar=document.getElementById('selectionBar');
+  const n=SELECTED.size;
+  bar.classList.toggle('show',n>0);
+  document.getElementById('selCount').textContent=n===1?'1 taller seleccionado':`${n} talleres seleccionados`;
+}
+
+function clearSelection(){
+  SELECTED.clear();
+  updateSelectionBar();
+  document.querySelectorAll('.row-cb').forEach(cb=>cb.checked=false);
+  document.querySelectorAll('.row.row-selected').forEach(r=>r.classList.remove('row-selected'));
+}
+
+document.getElementById('btnSelClear').onclick=clearSelection;
+
+document.getElementById('btnSelDelete').onclick=async()=>{
+  const n=SELECTED.size;
+  if(!n) return;
+  if(!confirm(`¿Eliminar ${n} taller${n!==1?'es':''} seleccionado${n!==1?'s':''}? Esta acción no se puede deshacer.`)) return;
+  TALLERES=TALLERES.filter(t=>!SELECTED.has(t.id));
+  SELECTED.clear();
+  updateSelectionBar();
+  renderAll();
+  await saveData(true);
+};
 
 // ══════════════════════════════════════════════════════════════
 // TOOLBAR — filtro dinámico por carrera
@@ -815,6 +877,8 @@ document.getElementById('btnEliminar').onclick=async()=>{
   if(!editingId) return;
   if(!confirm('¿Eliminar este taller? Esta acción no se puede deshacer.')) return;
   TALLERES=TALLERES.filter(x=>x.id!==editingId);
+  SELECTED.delete(editingId);
+  updateSelectionBar();
   closeModal();
   renderAll();
   await saveData(true);
