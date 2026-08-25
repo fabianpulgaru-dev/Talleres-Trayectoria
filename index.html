@@ -555,7 +555,7 @@ function rowHTML(t){
       <span class="row-line ${t.linea}">${ICONS[t.linea]} ${t.linea}</span>
       <p class="row-title">${t.titulo}${t.carrera?`<span class="row-carrera">🎓 ${t.carrera}</span>`:''}</p>
       <div class="row-meta">${t.modalidad==='presencial'?'🏛':'💻'} ${t.sala}</div>
-      ${t.notas?`<div class="row-note-tag">🎯 ${t.notas}</div>`:''}
+      ${t.notas?`<div class="row-note-tag">🎯 <span><strong>Objetivo:</strong> ${t.notas}</span></div>`:''}
     </div>
     <div class="row-resp">
       <span class="resp-avatar">${(t.resp||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase()}</span>
