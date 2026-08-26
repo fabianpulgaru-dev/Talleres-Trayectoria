@@ -261,6 +261,23 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 @media(max-width:760px){.area-grid{grid-template-columns:1fr}.family-grid{grid-template-columns:1fr}.case-kpis{grid-template-columns:repeat(2,1fr)}.case-row{grid-template-columns:1fr 100px 42px}.case-row .case-col-mobile{display:none}.module-nav{padding:10px 16px 0}.module-btn{flex:1}.section-head{align-items:flex-start}}
 
 /* ══ RESPONSIVE ══ */
+
+/* ══ ORGANIZACIÓN Y TAREAS ══ */
+.task-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+.task-access-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.task-access{border:2px solid var(--line);background:var(--surface);border-radius:16px;padding:18px;text-align:left;cursor:pointer;transition:.16s;box-shadow:0 3px 14px rgba(110,70,180,.05);}
+.task-access:hover{border-color:var(--line2);transform:translateY(-2px);box-shadow:0 7px 20px rgba(110,70,180,.10);}
+.task-access.active{border-color:var(--p);background:var(--p-bg);}
+.task-access-icon{font-size:1.5rem;margin-bottom:8px;display:block;}.task-access-name{font-weight:900;color:var(--p-dk);font-size:.95rem;display:block;}.task-access-count{font-family:var(--fm);font-size:.76rem;color:var(--txt2);margin-top:5px;display:block;}
+.task-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px;}.task-toolbar .search-box{flex:1;min-width:220px;}.task-toolbar .search-box input{width:100%;}
+.task-list{display:flex;flex-direction:column;gap:10px;}.task-row{display:grid;grid-template-columns:38px 1.3fr .8fr .75fr .75fr 44px;gap:14px;align-items:center;background:var(--surface);border:2px solid var(--line);border-radius:13px;padding:14px 15px;position:relative;}.task-row:hover{border-color:var(--line2);box-shadow:0 4px 14px rgba(110,70,180,.07);}.task-row.done{opacity:.68}.task-row.overdue{border-left:5px solid var(--bad)}.task-row.today{border-left:5px solid var(--warn)}
+.task-check{width:23px;height:23px;accent-color:var(--ok);cursor:pointer}.task-title{font-weight:900;color:var(--txt);line-height:1.3}.task-title.done{text-decoration:line-through}.task-sub{font-size:.78rem;color:var(--txt2);font-weight:650;margin-top:4px}.task-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);font-weight:900}.task-value{font-size:.82rem;color:var(--txt2);font-weight:750;margin-top:2px}.task-date{font-family:var(--fm);font-size:.8rem;font-weight:800}.task-date.bad{color:var(--bad)}.task-date.warn{color:var(--warn)}
+.task-priority{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:.72rem;font-weight:900}.task-priority.alta{background:var(--bad-bg);color:var(--bad)}.task-priority.media{background:var(--warn-bg);color:var(--warn)}.task-priority.baja{background:var(--ok-bg);color:var(--ok)}
+.task-empty{text-align:center;padding:42px 20px;color:var(--txt2);background:var(--surface);border:2px dashed var(--line);border-radius:14px;}
+.task-quick{background:linear-gradient(135deg,var(--p-bg),#fff);border:2px solid var(--line2);border-radius:14px;padding:15px 16px;margin-bottom:20px;display:flex;gap:10px;align-items:center}.task-quick input{flex:1;border:0;background:transparent;font-family:var(--fb);font-size:.96rem;color:var(--txt);outline:none}.task-quick button{border:0;background:var(--p);color:#fff;border-radius:10px;padding:10px 14px;font-weight:900;cursor:pointer}
+@media(max-width:980px){.task-access-grid{grid-template-columns:repeat(2,1fr)}.task-row{grid-template-columns:34px 1fr 120px 44px}.task-col-secondary{display:none}.task-kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.task-access-grid{grid-template-columns:1fr 1fr}.task-row{grid-template-columns:30px 1fr 40px}.task-date-col{display:none}.task-quick{align-items:stretch;flex-direction:column}.task-access{padding:14px}}
+
 @media(max-width:880px){
   :root{--fs:16px;}
   .kpis{grid-template-columns:repeat(2,1fr);}
@@ -305,6 +322,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
     <button class="module-btn active" data-module="home">⌂ Resumen</button>
     <button class="module-btn" data-module="cases">👤 Casos Específicos</button>
     <button class="module-btn" data-module="workshops">▦ Talleres</button>
+    <button class="module-btn" data-module="tasks">✓ Organización y tareas</button>
   </nav>
 </header>
 
@@ -327,6 +345,11 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
         <p>Planificación, implementación y seguimiento de la oferta grupal, organizada por tipo de taller.</p>
         <div class="area-metrics" id="homeWorkshopMetrics"></div>
       </button>
+      <button class="area-card" data-go="tasks">
+        <div class="area-icon">✓</div><h3>Organización y tareas</h3>
+        <p>Centro de mando personal para organizar pendientes, proyectos, carreras, equipo, acuerdos e hitos.</p>
+        <div class="area-metrics" id="homeTaskMetrics"></div>
+      </button>
     </div>
   </section>
 
@@ -341,6 +364,21 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
     </div>
     <div class="case-list" id="caseList"></div>
     <div class="case-empty" id="caseEmpty" style="display:none">No hay casos con este filtro.</div>
+  </section>
+
+  <!-- ORGANIZACIÓN Y TAREAS -->
+  <section id="moduleTasks" class="module">
+    <div class="section-head"><div><h2>Organización y tareas</h2><p>Accesos para ordenar el trabajo cotidiano sin perder una vista transversal de pendientes y fechas.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
+    <div class="task-kpis" id="taskKpis"></div>
+    <div class="task-access-grid" id="taskAccessGrid"></div>
+    <div class="task-quick"><span>⚡</span><input id="taskQuickInput" type="text" placeholder="Agregar pendiente rápido y clasificar después…"><button id="taskQuickAdd" type="button">Agregar</button></div>
+    <div class="task-toolbar">
+      <div class="seg" id="taskStatusSeg"><button class="active" data-task-status="ALL">Todas</button><button data-task-status="pendiente">Pendientes</button><button data-task-status="en-curso">En curso</button><button data-task-status="realizada">Realizadas</button></div>
+      <div class="search-box"><input id="taskSearch" type="text" placeholder="Buscar tarea, proyecto, carrera, persona…"></div>
+      <button class="btn-primary" id="btnNuevaTarea">+ Nueva tarea</button>
+    </div>
+    <div class="task-list" id="taskList"></div>
+    <div class="task-empty" id="taskEmpty" style="display:none">No hay tareas con este filtro.</div>
   </section>
 
   <!-- TALLERES -->
@@ -485,6 +523,21 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
   </div>
 </div>
 
+<!-- MODAL TAREA -->
+<div class="mo" id="moTarea" role="dialog" aria-modal="true">
+  <div class="md" style="max-width:650px">
+    <button class="md-close" id="taskClose">✕</button><h3 id="taskModalTitle">Nueva tarea</h3><p class="md-info" id="taskId"></p>
+    <div class="fg"><label for="tTitulo">Tarea</label><input id="tTitulo" type="text" placeholder="Ej: Enviar propuesta metodológica a carrera"></div>
+    <div class="fg-row"><div class="fg"><label for="tAcceso">Acceso</label><select id="tAcceso"></select></div><div class="fg"><label for="tEstado">Estado</label><select id="tEstado"><option value="pendiente">Pendiente</option><option value="en-curso">En curso</option><option value="realizada">Realizada</option></select></div></div>
+    <div class="fg-row"><div class="fg"><label for="tPrioridad">Prioridad</label><select id="tPrioridad"><option value="alta">Alta</option><option value="media" selected>Media</option><option value="baja">Baja</option></select></div><div class="fg"><label for="tFecha">Fecha límite / hito</label><input id="tFecha" type="date"></div></div>
+    <div class="fg-row"><div class="fg"><label for="tProyecto">Proyecto</label><input id="tProyecto" type="text" placeholder="Opcional"></div><div class="fg"><label for="tCarrera">Carrera</label><input id="tCarrera" type="text" placeholder="Opcional"></div></div>
+    <div class="fg-row"><div class="fg"><label for="tPersona">Persona / equipo</label><input id="tPersona" type="text" placeholder="Opcional"></div><div class="fg"><label for="tReunion">Reunión / acuerdo</label><input id="tReunion" type="text" placeholder="Opcional"></div></div>
+    <div class="fg"><label for="tDetalle">Detalle / próximo paso</label><textarea id="tDetalle"></textarea></div>
+    <div class="fg"><label for="tLink">Enlace</label><input id="tLink" type="url" placeholder="https://..."></div>
+    <button class="btn-sub" id="btnGuardarTarea">Guardar tarea</button><button class="btn-danger-link" id="btnEliminarTarea" style="display:none">Eliminar esta tarea</button>
+  </div>
+</div>
+
 <!-- MODAL IMPORTAR -->
 <div class="mo" id="moImport" role="dialog" aria-modal="true">
   <div class="md" style="max-width:480px;">
@@ -533,10 +586,13 @@ const SEED=[
 
 let TALLERES=[];
 let CASOS=[];
+let TAREAS=[];
 const CATEGORIAS_TALLER=['Ciclo de Inserción','Ciclo de Fortalecimiento','Talleres Catálogo','Talleres solicitados por carrera','Colaboraciones'];
 let curCategoria='ALL';
 let curCarrera='ALL', curView='list', curSearch='';
 let curModule='home', caseSearch='', caseStatus='ALL', editingCaseId=null;
+const TASK_ACCESOS=[['Mis tareas','📌'],['Proyectos','🗃️'],['Carreras','🎓'],['Equipo','👥'],['Reuniones y acuerdos','📅'],['Próximos hitos','⏰'],['Notas rápidas','📝']];
+let taskAccess='ALL', taskStatus='ALL', taskSearch='', editingTaskId=null;
 let calM=2, calY=2026;
 let editingId=null;
 let saveTimer=null;
@@ -564,6 +620,7 @@ async function loadData(){
       // La ruta nunca se ha escrito en Firebase: primera carga real, sembramos datos de ejemplo.
       TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
       CASOS=[];
+      TAREAS=[];
       setConn(true,'Sincronizado · datos de ejemplo cargados');
       await saveData(false);
     } else {
@@ -571,6 +628,7 @@ async function loadData(){
       // descarta arrays vacíos al guardarlos — significa que la lista quedó en 0, no que falte el seed.
       TALLERES=Array.isArray(j.talleres)?j.talleres:[];
       CASOS=Array.isArray(j.casos)?j.casos:[];
+      TAREAS=Array.isArray(j.tareas)?j.tareas:[];
       TALLERES=TALLERES.map(t=>({...t,categoria:t.categoria||'Ciclo de Inserción'}));
       setConn(true,'Sincronizado con Firebase');
     }
@@ -578,6 +636,7 @@ async function loadData(){
     console.warn('FB load error',e);
     TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
     CASOS=[];
+    TAREAS=[];
     setConn(false,'Sin conexión · usando datos locales');
   }
   renderAll();
@@ -585,7 +644,7 @@ async function loadData(){
 
 async function saveData(toast=true){
   try{
-    const r=await fetch(FB_PATH,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,ts:Date.now()})});
+    const r=await fetch(FB_PATH,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,tareas:TAREAS,ts:Date.now()})});
     const j=await r.json().catch(()=>null);
     if(!r.ok || (j && j.error)){
       throw new Error((j && j.error) ? j.error : `HTTP ${r.status}`);
@@ -774,7 +833,7 @@ function renderCal(){
 function switchModule(name){
   curModule=name;
   document.querySelectorAll('.module').forEach(x=>x.classList.remove('active'));
-  const map={home:'moduleHome',cases:'moduleCases',workshops:'moduleWorkshops'};
+  const map={home:'moduleHome',cases:'moduleCases',workshops:'moduleWorkshops',tasks:'moduleTasks'};
   document.getElementById(map[name]||map.home).classList.add('active');
   document.querySelectorAll('.module-btn').forEach(b=>b.classList.toggle('active',b.dataset.module===name));
   window.scrollTo({top:0,behavior:'smooth'});
@@ -790,6 +849,10 @@ function renderHome(){
   const realizados=TALLERES.filter(t=>t.estado==='realizado').length;
   const pendientes=TALLERES.filter(t=>t.estado==='pendiente').length;
   document.getElementById('homeWorkshopMetrics').innerHTML=`<span class="metric-mini">${TALLERES.length} talleres</span><span class="metric-mini">${realizados} realizados</span><span class="metric-mini">${pendientes} pendientes</span>`;
+  const taskPend=TAREAS.filter(t=>t.estado!=='realizada').length;
+  const taskOver=TAREAS.filter(t=>t.estado!=='realizada'&&isTaskOverdue(t)).length;
+  const taskWeek=TAREAS.filter(t=>t.estado!=='realizada'&&isTaskThisWeek(t)).length;
+  document.getElementById('homeTaskMetrics').innerHTML=`<span class="metric-mini">${taskPend} pendientes</span><span class="metric-mini">${taskOver} vencidas</span><span class="metric-mini">${taskWeek} esta semana</span>`;
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -856,12 +919,83 @@ document.getElementById('btnGuardarCaso').onclick=async()=>{
 document.getElementById('btnEliminarCaso').onclick=async()=>{if(!editingCaseId)return;if(!confirm('¿Eliminar este caso? Esta acción no se puede deshacer.'))return;CASOS=CASOS.filter(c=>c.id!==editingCaseId);closeCase();renderAll();await saveData(true);};
 
 // ══════════════════════════════════════════════════════════════
+// ORGANIZACIÓN Y TAREAS
+// ══════════════════════════════════════════════════════════════
+const TASK_STATUS_LABEL={'pendiente':'Pendiente','en-curso':'En curso','realizada':'Realizada'};
+function taskDateObj(v){if(!v)return null;const [y,m,d]=v.split('-').map(Number);return new Date(y,m-1,d);}
+function isTaskOverdue(t){const d=taskDateObj(t.fecha);if(!d)return false;d.setHours(0,0,0,0);return d<today;}
+function isTaskToday(t){const d=taskDateObj(t.fecha);return d?isToday(d):false;}
+function isTaskThisWeek(t){const d=taskDateObj(t.fecha);if(!d)return false;const start=new Date(today);const dow=start.getDay();start.setDate(start.getDate()-(dow===0?6:dow-1));const end=new Date(start);end.setDate(end.getDate()+6);return d>=start&&d<=end;}
+function taskAccessCount(name){
+  if(name==='Mis tareas')return TAREAS.filter(t=>!['Proyectos','Carreras','Equipo','Reuniones y acuerdos','Próximos hitos','Notas rápidas'].includes(t.acceso)).length;
+  if(name==='Próximos hitos')return TAREAS.filter(t=>t.estado!=='realizada'&&t.fecha).length;
+  return TAREAS.filter(t=>t.acceso===name).length;
+}
+function renderTaskAccess(){
+  const el=document.getElementById('taskAccessGrid');if(!el)return;
+  el.innerHTML=`<button class="task-access ${taskAccess==='ALL'?'active':''}" data-task-access="ALL"><span class="task-access-icon">⌂</span><span class="task-access-name">Todo</span><span class="task-access-count">${TAREAS.length} registros</span></button>`+TASK_ACCESOS.map(([name,icon])=>`<button class="task-access ${taskAccess===name?'active':''}" data-task-access="${name}"><span class="task-access-icon">${icon}</span><span class="task-access-name">${name}</span><span class="task-access-count">${taskAccessCount(name)} registros</span></button>`).join('');
+}
+function filteredTasks(){
+  return TAREAS.filter(t=>{
+    if(taskAccess!=='ALL'){
+      if(taskAccess==='Próximos hitos'){if(!t.fecha||t.estado==='realizada')return false;}
+      else if(taskAccess==='Mis tareas'){if(['Proyectos','Carreras','Equipo','Reuniones y acuerdos','Próximos hitos','Notas rápidas'].includes(t.acceso))return false;}
+      else if(t.acceso!==taskAccess)return false;
+    }
+    if(taskStatus!=='ALL'&&t.estado!==taskStatus)return false;
+    if(taskSearch){const h=[t.titulo,t.acceso,t.proyecto,t.carrera,t.persona,t.reunion,t.detalle].join(' ').toLowerCase();if(!h.includes(taskSearch.toLowerCase()))return false;}
+    return true;
+  }).sort((a,b)=>{
+    if(a.estado==='realizada'&&b.estado!=='realizada')return 1;if(a.estado!=='realizada'&&b.estado==='realizada')return -1;
+    const ad=a.fecha||'9999-12-31',bd=b.fecha||'9999-12-31';if(ad!==bd)return ad.localeCompare(bd);
+    const p={alta:0,media:1,baja:2};return (p[a.prioridad]??1)-(p[b.prioridad]??1);
+  });
+}
+function renderTasks(){
+  renderTaskAccess();
+  const pending=TAREAS.filter(t=>t.estado!=='realizada').length, overdue=TAREAS.filter(t=>t.estado!=='realizada'&&isTaskOverdue(t)).length, week=TAREAS.filter(t=>t.estado!=='realizada'&&isTaskThisWeek(t)).length, done=TAREAS.filter(t=>t.estado==='realizada').length;
+  document.getElementById('taskKpis').innerHTML=`<div class="kpi warn"><div class="kn">${pending}</div><div class="kl">Pendientes</div></div><div class="kpi bad"><div class="kn">${overdue}</div><div class="kl">Vencidas</div></div><div class="kpi"><div class="kn">${week}</div><div class="kl">Esta semana</div></div><div class="kpi ok"><div class="kn">${done}</div><div class="kl">Realizadas</div></div>`;
+  const rows=filteredTasks();document.getElementById('taskEmpty').style.display=rows.length?'none':'block';
+  document.getElementById('taskList').innerHTML=rows.map(t=>{
+    const overdue=t.estado!=='realizada'&&isTaskOverdue(t), todayTask=t.estado!=='realizada'&&isTaskToday(t);
+    const tags=[t.proyecto&&`🗃️ ${t.proyecto}`,t.carrera&&`🎓 ${t.carrera}`,t.persona&&`👤 ${t.persona}`].filter(Boolean).join(' · ');
+    return `<div class="task-row ${t.estado==='realizada'?'done':''} ${overdue?'overdue':''} ${todayTask?'today':''}">
+      <input class="task-check" type="checkbox" data-task-toggle="${t.id}" ${t.estado==='realizada'?'checked':''} aria-label="Marcar tarea como realizada">
+      <div><div class="task-title ${t.estado==='realizada'?'done':''}">${escapeHTML(t.titulo||'Sin título')}</div><div class="task-sub">${escapeHTML(t.acceso||'Mis tareas')}${tags?' · '+escapeHTML(tags):''}${t.detalle?' · '+escapeHTML(t.detalle):''}</div></div>
+      <div class="task-col-secondary"><div class="task-label">Estado</div><div class="task-value">${TASK_STATUS_LABEL[t.estado]||t.estado}</div></div>
+      <div class="task-col-secondary"><div class="task-label">Prioridad</div><span class="task-priority ${t.prioridad||'media'}">${(t.prioridad||'media').toUpperCase()}</span></div>
+      <div class="task-date-col"><div class="task-label">Fecha</div><div class="task-date ${overdue?'bad':todayTask?'warn':''}">${t.fecha||'—'}</div></div>
+      <button class="btn-edit" data-task-edit="${t.id}" aria-label="Editar tarea">✎</button>
+    </div>`;
+  }).join('');
+}
+function escapeHTML(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fillTaskAccessSelect(){const el=document.getElementById('tAcceso');el.innerHTML=TASK_ACCESOS.map(([n,i])=>`<option value="${n}">${i} ${n}</option>`).join('');}
+function openTask(id=''){
+  fillTaskAccessSelect();const t=id?TAREAS.find(x=>x.id===id):null;editingTaskId=t?t.id:null;
+  document.getElementById('taskModalTitle').textContent=t?'Editar tarea':'Nueva tarea';document.getElementById('taskId').textContent=t?'ID '+t.id:'';
+  document.getElementById('tTitulo').value=t?.titulo||'';document.getElementById('tAcceso').value=t?.acceso||'Mis tareas';document.getElementById('tEstado').value=t?.estado||'pendiente';document.getElementById('tPrioridad').value=t?.prioridad||'media';document.getElementById('tFecha').value=t?.fecha||'';document.getElementById('tProyecto').value=t?.proyecto||'';document.getElementById('tCarrera').value=t?.carrera||'';document.getElementById('tPersona').value=t?.persona||'';document.getElementById('tReunion').value=t?.reunion||'';document.getElementById('tDetalle').value=t?.detalle||'';document.getElementById('tLink').value=t?.link||'';
+  document.getElementById('btnEliminarTarea').style.display=t?'block':'none';document.getElementById('moTarea').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>document.getElementById('tTitulo').focus(),80);
+}
+function closeTask(){document.getElementById('moTarea').classList.remove('open');document.body.style.overflow='';editingTaskId=null;}
+document.getElementById('btnNuevaTarea').onclick=()=>openTask();document.getElementById('taskClose').onclick=closeTask;document.getElementById('moTarea').addEventListener('click',e=>{if(e.target.id==='moTarea')closeTask();});
+document.getElementById('taskSearch').addEventListener('input',e=>{taskSearch=e.target.value;renderTasks();});
+document.getElementById('taskStatusSeg').addEventListener('click',e=>{const b=e.target.closest('[data-task-status]');if(!b)return;taskStatus=b.dataset.taskStatus;document.querySelectorAll('[data-task-status]').forEach(x=>x.classList.toggle('active',x===b));renderTasks();});
+document.addEventListener('click',e=>{const a=e.target.closest('[data-task-access]');if(a){taskAccess=a.dataset.taskAccess;renderTasks();return;}const b=e.target.closest('[data-task-edit]');if(b){openTask(b.dataset.taskEdit);return;}});
+document.addEventListener('change',async e=>{const cb=e.target.closest('[data-task-toggle]');if(!cb)return;const t=TAREAS.find(x=>x.id===cb.dataset.taskToggle);if(!t)return;t.estado=cb.checked?'realizada':'pendiente';renderAll();await saveData(false);});
+document.getElementById('btnGuardarTarea').onclick=async()=>{const titulo=document.getElementById('tTitulo').value.trim();if(!titulo){showToast('Escribe la tarea','bad');return;}const data={titulo,acceso:document.getElementById('tAcceso').value,estado:document.getElementById('tEstado').value,prioridad:document.getElementById('tPrioridad').value,fecha:document.getElementById('tFecha').value,proyecto:document.getElementById('tProyecto').value.trim(),carrera:document.getElementById('tCarrera').value.trim(),persona:document.getElementById('tPersona').value.trim(),reunion:document.getElementById('tReunion').value.trim(),detalle:document.getElementById('tDetalle').value.trim(),link:document.getElementById('tLink').value.trim(),actualizado:Date.now()};if(editingTaskId){const i=TAREAS.findIndex(x=>x.id===editingTaskId);if(i>-1)TAREAS[i]={...TAREAS[i],...data};}else TAREAS.push({id:'ta'+Date.now().toString(36),creado:Date.now(),...data});closeTask();renderAll();await saveData(true);};
+document.getElementById('btnEliminarTarea').onclick=async()=>{if(!editingTaskId)return;if(!confirm('¿Eliminar esta tarea?'))return;TAREAS=TAREAS.filter(t=>t.id!==editingTaskId);closeTask();renderAll();await saveData(true);};
+async function quickAddTask(){const inp=document.getElementById('taskQuickInput');const titulo=inp.value.trim();if(!titulo)return;TAREAS.push({id:'ta'+Date.now().toString(36),titulo,acceso:'Mis tareas',estado:'pendiente',prioridad:'media',fecha:'',proyecto:'',carrera:'',persona:'',reunion:'',detalle:'',link:'',creado:Date.now(),actualizado:Date.now()});inp.value='';renderAll();await saveData(false);showToast('Pendiente agregado ✓','ok');}
+document.getElementById('taskQuickAdd').onclick=quickAddTask;document.getElementById('taskQuickInput').addEventListener('keydown',e=>{if(e.key==='Enter')quickAddTask();});
+
+// ══════════════════════════════════════════════════════════════
 // RENDER ALL
 // ══════════════════════════════════════════════════════════════
 function renderAll(){
   renderHome();
   renderFamilyGrid();
   renderCases();
+  renderTasks();
   renderKPIs();
   renderCarreraChips();
   const ts=filtered();
@@ -1307,6 +1441,10 @@ function exportarTodoExcel(){
     ['Casos activos',casosActivos],
     ['Casos cerrados',CASOS.filter(c=>c.estado==='cerrado').length],
     ['Casos prioridad alta activos',CASOS.filter(c=>c.estado!=='cerrado'&&c.prioridad==='alta').length],
+    ['Tareas totales',TAREAS.length],
+    ['Tareas pendientes',TAREAS.filter(t=>t.estado!=='realizada').length],
+    ['Tareas vencidas',TAREAS.filter(t=>t.estado!=='realizada'&&isTaskOverdue(t)).length],
+    ['Tareas realizadas',TAREAS.filter(t=>t.estado==='realizada').length],
     ['Talleres totales',TALLERES.length],
     ['Talleres realizados',TALLERES.filter(t=>t.estado==='realizado').length],
     ['Talleres pendientes',TALLERES.filter(t=>t.estado==='pendiente').length],
@@ -1339,6 +1477,15 @@ function exportarTodoExcel(){
   wsCasos['!cols']=[{wch:16},{wch:28},{wch:18},{wch:28},{wch:16},{wch:24},{wch:12},{wch:20},{wch:24},{wch:42},{wch:38},{wch:20},{wch:48}];
   if(!casos.length) XLSX.utils.sheet_add_aoa(wsCasos,[headersCasos],{origin:'A1'});
   XLSX.utils.book_append_sheet(wb,wsCasos,'Casos Específicos');
+
+  const tareas=[...TAREAS].map(t=>({
+    'ID':t.id||'', 'Tarea':t.titulo||'', 'Acceso':t.acceso||'Mis tareas', 'Estado':TASK_STATUS_LABEL[t.estado]||t.estado||'', 'Prioridad':t.prioridad||'', 'Fecha límite / hito':t.fecha||'', 'Proyecto':t.proyecto||'', 'Carrera':t.carrera||'', 'Persona / equipo':t.persona||'', 'Reunión / acuerdo':t.reunion||'', 'Detalle / próximo paso':t.detalle||'', 'Enlace':t.link||''
+  }));
+  const headersTareas=['ID','Tarea','Acceso','Estado','Prioridad','Fecha límite / hito','Proyecto','Carrera','Persona / equipo','Reunión / acuerdo','Detalle / próximo paso','Enlace'];
+  const wsTareas=XLSX.utils.json_to_sheet(tareas,{header:headersTareas});
+  wsTareas['!cols']=[{wch:16},{wch:42},{wch:24},{wch:16},{wch:12},{wch:18},{wch:28},{wch:28},{wch:24},{wch:28},{wch:45},{wch:40}];
+  if(!tareas.length) XLSX.utils.sheet_add_aoa(wsTareas,[headersTareas],{origin:'A1'});
+  XLSX.utils.book_append_sheet(wb,wsTareas,'Tareas');
 
   const talleres=[...TALLERES].sort((a,b)=>String(a.fecha||'').localeCompare(String(b.fecha||''))||String(a.hora||'').localeCompare(String(b.hora||''))).map(t=>({
     'ID':t.id||'',
@@ -1378,7 +1525,7 @@ document.getElementById('btnExportExcel').addEventListener('click',exportarTodoE
 // ══════════════════════════════════════════════════════════════
 // ESC
 // ══════════════════════════════════════════════════════════════
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeCase();closeImport();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeCase();closeTask();closeImport();}});
 
 // ══════════════════════════════════════════════════════════════
 // INIT
