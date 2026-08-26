@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Panel de Talleres — UTE UAH 2026</title>
+<title>Panel de Gestión — UTE UAH 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,400&family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
@@ -217,6 +217,46 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 .toast.ok{border-color:var(--ok-line);color:var(--ok);}
 .toast.bad{border-color:var(--bad-line);color:var(--bad);}
 
+
+/* ══ NAVEGACIÓN GENERAL / PORTADA ══ */
+.module-nav{max-width:1340px;margin:0 auto;padding:12px 28px 0;display:flex;gap:8px;flex-wrap:wrap}
+.module-btn{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:#fff;border-radius:10px;padding:9px 15px;font-family:var(--fb);font-weight:800;cursor:pointer;transition:.15s}
+.module-btn:hover,.module-btn.active{background:#fff;color:var(--p);border-color:#fff}
+.module{display:none}.module.active{display:block}
+.home-intro{margin-bottom:22px}.home-intro h2{font-family:var(--fd);font-size:2rem;margin:0 0 6px;color:var(--p-dk)}
+.home-intro p{margin:0;color:var(--txt2);max-width:850px}
+.area-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-bottom:26px}
+.area-card{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:24px;cursor:pointer;text-align:left;color:var(--txt);font-family:var(--fb);transition:.18s;box-shadow:0 4px 16px rgba(110,70,180,.05)}
+.area-card:hover{border-color:var(--p);transform:translateY(-2px);box-shadow:0 10px 26px rgba(110,70,180,.10)}
+.area-icon{font-size:2rem}.area-card h3{font-family:var(--fd);font-size:1.4rem;margin:9px 0 5px;color:var(--p-dk)}
+.area-card p{color:var(--txt2);margin:0 0 16px}.area-metrics{display:flex;gap:10px;flex-wrap:wrap}
+.metric-mini{background:var(--surface2);border-radius:9px;padding:7px 10px;font-size:.8rem;font-weight:800;color:var(--txt2)}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.section-head h2{font-family:var(--fd);font-size:1.75rem;color:var(--p-dk);margin:0}.section-head p{color:var(--txt2);margin:4px 0 0}
+.back-home{border:2px solid var(--line2);background:var(--surface);color:var(--p);border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer}
+
+/* ══ FAMILIAS DE TALLERES ══ */
+.family-grid{display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));gap:10px;margin:0 0 22px}
+.family-card{background:var(--surface);border:2px solid var(--line);border-radius:13px;padding:14px;cursor:pointer;text-align:left;font-family:var(--fb);transition:.15s;min-height:108px}
+.family-card:hover{border-color:var(--line2);transform:translateY(-1px)}.family-card.active{border-color:var(--p);background:var(--p-bg)}
+.family-card .fc-count{font-family:var(--fd);font-size:1.7rem;color:var(--p);font-weight:600;line-height:1}.family-card .fc-name{font-size:.84rem;font-weight:900;color:var(--txt);margin-top:8px;line-height:1.2}.family-card .fc-sub{font-size:.72rem;color:var(--txt2);margin-top:4px}
+.family-all{grid-column:1/-1;display:flex;align-items:center;min-height:auto;gap:12px;padding:10px 14px}.family-all .fc-count{font-size:1.15rem}.family-all .fc-name{margin:0}
+.row-family{display:inline-flex;font-size:.68rem;font-weight:800;color:var(--p-dk);background:var(--p-bg);border:1px solid var(--line2);padding:2px 8px;border-radius:999px;margin-left:6px}
+
+/* ══ CASOS ESPECÍFICOS ══ */
+.case-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.case-list{display:grid;gap:10px}.case-row{display:grid;grid-template-columns:1.2fr 1fr 1fr 130px 150px 42px;gap:14px;align-items:center;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:14px 16px;position:relative}
+.case-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;border-radius:10px 0 0 10px;background:var(--p)}
+.case-row.prio-alta::before{background:var(--bad)}.case-row.prio-media::before{background:var(--warn)}.case-row.prio-baja::before{background:var(--ok)}
+.case-name{font-weight:900}.case-sub{font-size:.78rem;color:var(--txt2);margin-top:3px}.case-label{font-size:.72rem;color:var(--mut);font-weight:800;text-transform:uppercase;letter-spacing:.05em}.case-value{font-size:.86rem;font-weight:700;color:var(--txt2)}
+.case-status{padding:7px 10px;border-radius:999px;font-size:.76rem;font-weight:900;text-align:center;background:var(--surface2);color:var(--txt2)}
+.case-status.cerrado{background:var(--ok-bg);color:var(--ok)}.case-status.implementacion,.case-status.seguimiento{background:var(--p-bg);color:var(--p)}.case-status.nuevo{background:var(--warn-bg);color:var(--warn)}
+.case-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px}.case-toolbar .search-box{margin-left:auto}
+.case-empty{background:var(--surface);border:2px dashed var(--line2);border-radius:14px;padding:44px;text-align:center;color:var(--txt2)}
+
+@media(max-width:1050px){.family-grid{grid-template-columns:repeat(2,1fr)}.family-all{grid-column:1/-1}.case-row{grid-template-columns:1fr 1fr 120px 42px}.case-row .case-col-hide{display:none}}
+@media(max-width:760px){.area-grid{grid-template-columns:1fr}.family-grid{grid-template-columns:1fr}.case-kpis{grid-template-columns:repeat(2,1fr)}.case-row{grid-template-columns:1fr 100px 42px}.case-row .case-col-mobile{display:none}.module-nav{padding:10px 16px 0}.module-btn{flex:1}.section-head{align-items:flex-start}}
+
 /* ══ RESPONSIVE ══ */
 @media(max-width:880px){
   :root{--fs:16px;}
@@ -248,16 +288,59 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
   <div class="topbar-inner">
     <div class="tb-id">
       <span class="mono">UTE · Panel interno</span>
-      <h1>Talleres y actividades 2026</h1>
+      <h1>Gestión de Fortalecimiento Académico 2026</h1>
     </div>
     <div class="tb-status" id="connStatus">
       <span class="tb-dot"></span>
       <span id="connLabel">Sincronizado con Firebase</span>
     </div>
   </div>
+  <nav class="module-nav" aria-label="Áreas del panel">
+    <button class="module-btn active" data-module="home">⌂ Resumen</button>
+    <button class="module-btn" data-module="cases">👤 Casos Específicos</button>
+    <button class="module-btn" data-module="workshops">▦ Talleres</button>
+  </nav>
 </header>
 
 <div class="shell">
+
+  <!-- PORTADA -->
+  <section id="moduleHome" class="module active">
+    <div class="home-intro">
+      <h2>Panel de gestión</h2>
+      <p>Vista general para organizar las intervenciones de Fortalecimiento Académico, distinguiendo el seguimiento de casos específicos de la gestión de talleres.</p>
+    </div>
+    <div class="area-grid">
+      <button class="area-card" data-go="cases">
+        <div class="area-icon">👤</div><h3>Casos Específicos</h3>
+        <p>Seguimiento de estudiantes que requieren una intervención focalizada, sostenida o articulada.</p>
+        <div class="area-metrics" id="homeCaseMetrics"></div>
+      </button>
+      <button class="area-card" data-go="workshops">
+        <div class="area-icon">▦</div><h3>Talleres</h3>
+        <p>Planificación, implementación y seguimiento de la oferta grupal, organizada por tipo de taller.</p>
+        <div class="area-metrics" id="homeWorkshopMetrics"></div>
+      </button>
+    </div>
+  </section>
+
+  <!-- CASOS ESPECÍFICOS -->
+  <section id="moduleCases" class="module">
+    <div class="section-head"><div><h2>Casos Específicos</h2><p>Registro y seguimiento operativo de intervenciones focalizadas.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
+    <div class="case-kpis" id="caseKpis"></div>
+    <div class="case-toolbar">
+      <div class="seg" id="caseStatusSeg"><button class="active" data-case-status="ALL">Todos</button><button data-case-status="activo">Activos</button><button data-case-status="cerrado">Cerrados</button></div>
+      <div class="search-box"><input type="text" id="caseSearch" placeholder="Buscar estudiante, carrera, responsable..."></div>
+      <button class="btn-primary" id="btnNuevoCaso">+ Nuevo caso</button>
+    </div>
+    <div class="case-list" id="caseList"></div>
+    <div class="case-empty" id="caseEmpty" style="display:none">No hay casos con este filtro.</div>
+  </section>
+
+  <!-- TALLERES -->
+  <section id="moduleWorkshops" class="module">
+    <div class="section-head"><div><h2>Talleres</h2><p>Planificación y seguimiento de la oferta grupal.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
+    <div class="family-grid" id="familyGrid"></div>
 
   <!-- KPIS -->
   <div class="kpis" id="kpiStrip"></div>
@@ -312,8 +395,9 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 
   <div class="empty" id="emptyState" style="display:none;">
     <span class="ee">🗂️</span>
-    <p>No hay talleres con este filtro. Prueba con otra línea o agrega uno nuevo.</p>
+    <p>No hay talleres con este filtro. Prueba con otra categoría o agrega uno nuevo.</p>
   </div>
+  </section>
 
 </div>
 
@@ -330,6 +414,15 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
     </div>
     <div class="fg"><label for="fTitulo">Nombre del taller</label><input type="text" id="fTitulo" placeholder="Ej: Estrategias para leer y escribir trabajos"></div>
     <div class="fg"><label for="fCarrera">Carrera</label><input type="text" id="fCarrera" placeholder="Ej: Pedagogía en Matemática"></div>
+    <div class="fg"><label for="fCategoria">Tipo de taller</label>
+      <select id="fCategoria">
+        <option value="Ciclo de Inserción">Ciclo de Inserción</option>
+        <option value="Ciclo de Fortalecimiento">Ciclo de Fortalecimiento</option>
+        <option value="Talleres Catálogo">Talleres Catálogo</option>
+        <option value="Talleres solicitados por carrera">Talleres solicitados por carrera</option>
+        <option value="Colaboraciones">Colaboraciones</option>
+      </select>
+    </div>
     <div class="fg-row">
       <div class="fg"><label for="fLinea">Línea</label>
         <select id="fLinea">
@@ -370,6 +463,22 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
   </div>
 </div>
 
+
+<!-- MODAL CASO -->
+<div class="mo" id="moCaso" role="dialog" aria-modal="true">
+  <div class="md" style="max-width:620px">
+    <button class="md-close" id="caseClose">✕</button><h3 id="caseModalTitle">Nuevo caso específico</h3><p class="md-info" id="caseId"></p>
+    <div class="fg-row"><div class="fg"><label for="cEstudiante">Estudiante</label><input id="cEstudiante" type="text"></div><div class="fg"><label for="cRut">RUT / identificador</label><input id="cRut" type="text"></div></div>
+    <div class="fg-row"><div class="fg"><label for="cCarrera">Carrera</label><input id="cCarrera" type="text"></div><div class="fg"><label for="cResponsable">Responsable</label><input id="cResponsable" type="text"></div></div>
+    <div class="fg-row"><div class="fg"><label for="cDispositivo">Tipo de intervención</label><select id="cDispositivo"><option>Plan específico</option><option>Apoyo focalizado</option><option>Causal de eliminación</option><option>Articulación interdisciplinaria</option><option>Otro</option></select></div><div class="fg"><label for="cPrioridad">Prioridad</label><select id="cPrioridad"><option value="alta">Alta</option><option value="media" selected>Media</option><option value="baja">Baja</option></select></div></div>
+    <div class="fg-row"><div class="fg"><label for="cEstado">Estado</label><select id="cEstado"><option value="nuevo">Nuevo</option><option value="indagacion">En indagación</option><option value="implementacion">En implementación</option><option value="seguimiento">En seguimiento</option><option value="cerrado">Cerrado</option></select></div><div class="fg"><label for="cFechaIngreso">Fecha de ingreso</label><input id="cFechaIngreso" type="date"></div></div>
+    <div class="fg"><label for="cMotivo">Necesidad / motivo</label><textarea id="cMotivo" placeholder="Síntesis breve de la necesidad que origina el caso"></textarea></div>
+    <div class="fg-row"><div class="fg"><label for="cProxima">Próxima acción</label><input id="cProxima" type="text" placeholder="Ej: sesión de seguimiento"></div><div class="fg"><label for="cFechaProxima">Fecha próxima acción</label><input id="cFechaProxima" type="date"></div></div>
+    <div class="fg"><label for="cNotas">Observaciones</label><textarea id="cNotas"></textarea></div>
+    <button class="btn-sub" id="btnGuardarCaso">Guardar caso</button><button class="btn-danger-link" id="btnEliminarCaso" style="display:none">Eliminar este caso</button>
+  </div>
+</div>
+
 <!-- MODAL IMPORTAR -->
 <div class="mo" id="moImport" role="dialog" aria-modal="true">
   <div class="md" style="max-width:480px;">
@@ -390,7 +499,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 // CONFIG
 // ══════════════════════════════════════════════════════════════
 const FB_URL = 'https://ee12026-f5e3d-default-rtdb.firebaseio.com';
-const FB_PATH = FB_URL + '/panel_talleres.json';
+const FB_PATH = FB_URL + '/panel_talleres.json'; // se conserva la ruta para no perder los talleres ya registrados
 
 const DIAS_ES=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 const DIAS_C=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
@@ -416,7 +525,11 @@ const SEED=[
 ];
 
 let TALLERES=[];
+let CASOS=[];
+const CATEGORIAS_TALLER=['Ciclo de Inserción','Ciclo de Fortalecimiento','Talleres Catálogo','Talleres solicitados por carrera','Colaboraciones'];
+let curCategoria='ALL';
 let curCarrera='ALL', curView='list', curSearch='';
+let curModule='home', caseSearch='', caseStatus='ALL', editingCaseId=null;
 let calM=2, calY=2026;
 let editingId=null;
 let saveTimer=null;
@@ -442,18 +555,22 @@ async function loadData(){
     }
     if(j===null || j===undefined){
       // La ruta nunca se ha escrito en Firebase: primera carga real, sembramos datos de ejemplo.
-      TALLERES=SEED.slice();
+      TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
+      CASOS=[];
       setConn(true,'Sincronizado · datos de ejemplo cargados');
       await saveData(false);
     } else {
       // Ya existe un registro previo. Si "talleres" no viene, es porque Firebase
       // descarta arrays vacíos al guardarlos — significa que la lista quedó en 0, no que falte el seed.
       TALLERES=Array.isArray(j.talleres)?j.talleres:[];
+      CASOS=Array.isArray(j.casos)?j.casos:[];
+      TALLERES=TALLERES.map(t=>({...t,categoria:t.categoria||'Ciclo de Inserción'}));
       setConn(true,'Sincronizado con Firebase');
     }
   }catch(e){
     console.warn('FB load error',e);
-    TALLERES=SEED.slice();
+    TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
+    CASOS=[];
     setConn(false,'Sin conexión · usando datos locales');
   }
   renderAll();
@@ -461,7 +578,7 @@ async function loadData(){
 
 async function saveData(toast=true){
   try{
-    const r=await fetch(FB_PATH,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,ts:Date.now()})});
+    const r=await fetch(FB_PATH,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,ts:Date.now()})});
     const j=await r.json().catch(()=>null);
     if(!r.ok || (j && j.error)){
       throw new Error((j && j.error) ? j.error : `HTTP ${r.status}`);
@@ -495,9 +612,10 @@ function isToday(d){const dd=new Date(d);dd.setHours(0,0,0,0);return dd.getTime(
 
 function filtered(){
   return TALLERES.filter(t=>{
+    if(curCategoria!=='ALL' && (t.categoria||'Ciclo de Inserción')!==curCategoria) return false;
     if(curCarrera!=='ALL' && (t.carrera||'Sin carrera')!==curCarrera) return false;
     if(curSearch){
-      const hay=(t.titulo+' '+t.sala+' '+t.resp+' '+t.linea).toLowerCase();
+      const hay=(t.titulo+' '+t.sala+' '+t.resp+' '+t.linea+' '+(t.carrera||'')+' '+(t.categoria||'')).toLowerCase();
       if(!hay.includes(curSearch.toLowerCase())) return false;
     }
     return true;
@@ -553,7 +671,7 @@ function rowHTML(t){
     <div class="row-time">${t.hora}</div>
     <div class="row-main">
       <span class="row-line ${t.linea}">${ICONS[t.linea]} ${t.linea}</span>
-      <p class="row-title">${t.titulo}${t.carrera?`<span class="row-carrera">🎓 ${t.carrera}</span>`:''}</p>
+      <p class="row-title">${t.titulo}<span class="row-family">${t.categoria||'Ciclo de Inserción'}</span>${t.carrera?`<span class="row-carrera">🎓 ${t.carrera}</span>`:''}</p>
       <div class="row-meta">${t.modalidad==='presencial'?'🏛':'💻'} ${t.sala}</div>
       ${t.notas?`<div class="row-note-tag">🎯 <span><strong>Objetivo:</strong> ${t.notas}</span></div>`:''}
     </div>
@@ -644,9 +762,99 @@ function renderCal(){
 }
 
 // ══════════════════════════════════════════════════════════════
+// NAVEGACIÓN GENERAL + PORTADA
+// ══════════════════════════════════════════════════════════════
+function switchModule(name){
+  curModule=name;
+  document.querySelectorAll('.module').forEach(x=>x.classList.remove('active'));
+  const map={home:'moduleHome',cases:'moduleCases',workshops:'moduleWorkshops'};
+  document.getElementById(map[name]||map.home).classList.add('active');
+  document.querySelectorAll('.module-btn').forEach(b=>b.classList.toggle('active',b.dataset.module===name));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.addEventListener('click',e=>{
+  const go=e.target.closest('[data-go]'); if(go){switchModule(go.dataset.go);return;}
+  const mb=e.target.closest('.module-btn[data-module]'); if(mb){switchModule(mb.dataset.module);return;}
+});
+function renderHome(){
+  const activeCases=CASOS.filter(c=>c.estado!=='cerrado').length;
+  const nextCases=CASOS.filter(c=>c.fechaProxima && c.estado!=='cerrado').length;
+  document.getElementById('homeCaseMetrics').innerHTML=`<span class="metric-mini">${CASOS.length} casos</span><span class="metric-mini">${activeCases} activos</span><span class="metric-mini">${nextCases} con próxima acción</span>`;
+  const realizados=TALLERES.filter(t=>t.estado==='realizado').length;
+  const pendientes=TALLERES.filter(t=>t.estado==='pendiente').length;
+  document.getElementById('homeWorkshopMetrics').innerHTML=`<span class="metric-mini">${TALLERES.length} talleres</span><span class="metric-mini">${realizados} realizados</span><span class="metric-mini">${pendientes} pendientes</span>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+// FAMILIAS DE TALLERES
+// ══════════════════════════════════════════════════════════════
+function renderFamilyGrid(){
+  const el=document.getElementById('familyGrid'); if(!el)return;
+  const count=cat=>TALLERES.filter(t=>(t.categoria||'Ciclo de Inserción')===cat).length;
+  const cards=CATEGORIAS_TALLER.map(cat=>`<button class="family-card ${curCategoria===cat?'active':''}" data-family="${cat}"><div class="fc-count">${count(cat)}</div><div class="fc-name">${cat}</div><div class="fc-sub">Ver y gestionar</div></button>`).join('');
+  el.innerHTML=`<button class="family-card family-all ${curCategoria==='ALL'?'active':''}" data-family="ALL"><div class="fc-count">${TALLERES.length}</div><div class="fc-name">Todos los talleres</div></button>${cards}`;
+}
+document.addEventListener('click',e=>{
+  const f=e.target.closest('[data-family]'); if(!f)return;
+  curCategoria=f.dataset.family; curCarrera='ALL';
+  const sb=document.getElementById('searchBox'); if(sb){sb.value='';curSearch='';}
+  renderAll();
+});
+
+// ══════════════════════════════════════════════════════════════
+// CASOS ESPECÍFICOS
+// ══════════════════════════════════════════════════════════════
+const CASE_STATUS_LABEL={nuevo:'Nuevo',indagacion:'En indagación',implementacion:'En implementación',seguimiento:'En seguimiento',cerrado:'Cerrado'};
+function filteredCases(){
+  return CASOS.filter(c=>{
+    if(caseStatus==='activo' && c.estado==='cerrado')return false;
+    if(caseStatus==='cerrado' && c.estado!=='cerrado')return false;
+    if(caseSearch){const h=(c.estudiante+' '+c.rut+' '+c.carrera+' '+c.responsable+' '+c.dispositivo+' '+c.motivo).toLowerCase();if(!h.includes(caseSearch.toLowerCase()))return false;}
+    return true;
+  }).sort((a,b)=>(a.estado==='cerrado')-(b.estado==='cerrado') || String(a.fechaProxima||'9999').localeCompare(String(b.fechaProxima||'9999')));
+}
+function renderCases(){
+  const active=CASOS.filter(c=>c.estado!=='cerrado').length, high=CASOS.filter(c=>c.estado!=='cerrado'&&c.prioridad==='alta').length, follow=CASOS.filter(c=>c.estado==='seguimiento').length, closed=CASOS.filter(c=>c.estado==='cerrado').length;
+  document.getElementById('caseKpis').innerHTML=`<div class="kpi"><div class="kn">${CASOS.length}</div><div class="kl">Casos totales</div></div><div class="kpi warn"><div class="kn">${active}</div><div class="kl">Activos</div></div><div class="kpi bad"><div class="kn">${high}</div><div class="kl">Prioridad alta</div></div><div class="kpi ok"><div class="kn">${closed}</div><div class="kl">Cerrados</div></div>`;
+  const rows=filteredCases();
+  document.getElementById('caseEmpty').style.display=rows.length?'none':'block';
+  document.getElementById('caseList').innerHTML=rows.map(c=>`<div class="case-row prio-${c.prioridad||'media'}">
+    <div><div class="case-name">${c.estudiante||'Sin nombre'}</div><div class="case-sub">${c.rut||'Sin identificador'} · ${c.carrera||'Sin carrera'}</div></div>
+    <div class="case-col-mobile"><div class="case-label">Intervención</div><div class="case-value">${c.dispositivo||'—'}</div></div>
+    <div class="case-col-hide"><div class="case-label">Próxima acción</div><div class="case-value">${c.proxima||'—'}${c.fechaProxima?` · ${c.fechaProxima}`:''}</div></div>
+    <div><span class="case-status ${c.estado}">${CASE_STATUS_LABEL[c.estado]||c.estado}</span></div>
+    <div class="case-col-hide"><div class="case-label">Responsable</div><div class="case-value">${c.responsable||'Sin asignar'}</div></div>
+    <button class="btn-edit" data-case-edit="${c.id}" aria-label="Editar caso">✎</button>
+  </div>`).join('');
+}
+document.getElementById('caseSearch').addEventListener('input',e=>{caseSearch=e.target.value;renderCases();});
+document.getElementById('caseStatusSeg').addEventListener('click',e=>{const b=e.target.closest('[data-case-status]');if(!b)return;caseStatus=b.dataset.caseStatus;document.querySelectorAll('[data-case-status]').forEach(x=>x.classList.toggle('active',x===b));renderCases();});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-case-edit]');if(b)openCase(b.dataset.caseEdit);});
+function openCase(id=''){
+  const c=id?CASOS.find(x=>x.id===id):null; editingCaseId=c?c.id:null;
+  document.getElementById('caseModalTitle').textContent=c?'Editar caso específico':'Nuevo caso específico'; document.getElementById('caseId').textContent=c?'ID '+c.id:'';
+  document.getElementById('cEstudiante').value=c?.estudiante||'';document.getElementById('cRut').value=c?.rut||'';document.getElementById('cCarrera').value=c?.carrera||'';document.getElementById('cResponsable').value=c?.responsable||'';
+  document.getElementById('cDispositivo').value=c?.dispositivo||'Plan específico';document.getElementById('cPrioridad').value=c?.prioridad||'media';document.getElementById('cEstado').value=c?.estado||'nuevo';document.getElementById('cFechaIngreso').value=c?.fechaIngreso||new Date().toISOString().slice(0,10);
+  document.getElementById('cMotivo').value=c?.motivo||'';document.getElementById('cProxima').value=c?.proxima||'';document.getElementById('cFechaProxima').value=c?.fechaProxima||'';document.getElementById('cNotas').value=c?.notas||'';
+  document.getElementById('btnEliminarCaso').style.display=c?'block':'none'; document.getElementById('moCaso').classList.add('open');document.body.style.overflow='hidden';
+}
+function closeCase(){document.getElementById('moCaso').classList.remove('open');document.body.style.overflow='';editingCaseId=null;}
+document.getElementById('btnNuevoCaso').onclick=()=>openCase();document.getElementById('caseClose').onclick=closeCase;document.getElementById('moCaso').addEventListener('click',e=>{if(e.target.id==='moCaso')closeCase();});
+document.getElementById('btnGuardarCaso').onclick=async()=>{
+  const estudiante=document.getElementById('cEstudiante').value.trim(); if(!estudiante){showToast('Ingresa el nombre del estudiante','bad');return;}
+  const data={estudiante,rut:document.getElementById('cRut').value.trim(),carrera:document.getElementById('cCarrera').value.trim(),responsable:document.getElementById('cResponsable').value.trim(),dispositivo:document.getElementById('cDispositivo').value,prioridad:document.getElementById('cPrioridad').value,estado:document.getElementById('cEstado').value,fechaIngreso:document.getElementById('cFechaIngreso').value,motivo:document.getElementById('cMotivo').value.trim(),proxima:document.getElementById('cProxima').value.trim(),fechaProxima:document.getElementById('cFechaProxima').value,notas:document.getElementById('cNotas').value.trim()};
+  if(editingCaseId){const i=CASOS.findIndex(x=>x.id===editingCaseId);if(i>-1)CASOS[i]={...CASOS[i],...data};}else CASOS.push({id:'c'+Date.now().toString(36),...data});
+  closeCase();renderAll();await saveData(true);
+};
+document.getElementById('btnEliminarCaso').onclick=async()=>{if(!editingCaseId)return;if(!confirm('¿Eliminar este caso? Esta acción no se puede deshacer.'))return;CASOS=CASOS.filter(c=>c.id!==editingCaseId);closeCase();renderAll();await saveData(true);};
+
+// ══════════════════════════════════════════════════════════════
 // RENDER ALL
 // ══════════════════════════════════════════════════════════════
 function renderAll(){
+  renderHome();
+  renderFamilyGrid();
+  renderCases();
   renderKPIs();
   renderCarreraChips();
   const ts=filtered();
@@ -800,6 +1008,7 @@ function openNew(){
   document.getElementById('fHora').value='';
   document.getElementById('fTitulo').value='';
   document.getElementById('fCarrera').value='';
+  document.getElementById('fCategoria').value=curCategoria==='ALL'?'Ciclo de Inserción':curCategoria;
   document.getElementById('fLinea').value='LEA+';
   document.getElementById('fModalidad').value='presencial';
   document.getElementById('fSala').value='';
@@ -823,6 +1032,7 @@ function openEdit(id){
   document.getElementById('fHora').value=t.hora;
   document.getElementById('fTitulo').value=t.titulo;
   document.getElementById('fCarrera').value=t.carrera||'';
+  document.getElementById('fCategoria').value=t.categoria||'Ciclo de Inserción';
   document.getElementById('fLinea').value=t.linea;
   document.getElementById('fModalidad').value=t.modalidad;
   document.getElementById('fSala').value=t.sala;
@@ -855,6 +1065,7 @@ document.getElementById('btnGuardar').onclick=async()=>{
   const data={
     fecha, hora, titulo,
     carrera:document.getElementById('fCarrera').value.trim(),
+    categoria:document.getElementById('fCategoria').value,
     linea:document.getElementById('fLinea').value,
     modalidad:document.getElementById('fModalidad').value,
     sala:document.getElementById('fSala').value.trim()||'Por confirmar',
@@ -1012,6 +1223,7 @@ document.getElementById('btnFetchPreview').onclick=async()=>{
         sala:row.lugar||'Por confirmar',
         resp:row.encargado||'',
         linea,
+        categoria:'Talleres solicitados por carrera',
         modalidad:/online|virtual/i.test(row.lugar||'')?'online':'presencial',
         estado:'pendiente',
         inscritos:0,
@@ -1068,7 +1280,7 @@ document.getElementById('btnConfirmImport').onclick=async()=>{
 // ══════════════════════════════════════════════════════════════
 // ESC
 // ══════════════════════════════════════════════════════════════
-document.addEventListener('keydown',e=>{if(e.key==='Escape') closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeCase();closeImport();}});
 
 // ══════════════════════════════════════════════════════════════
 // INIT
