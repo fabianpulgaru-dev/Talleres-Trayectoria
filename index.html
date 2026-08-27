@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Panel de Gestión — UTE UAH 2026 · v7 Drive automático</title>
+<title>Panel de Gestión — UTE UAH 2026 · v17 Drive automático</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,400&family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
@@ -1190,7 +1190,7 @@ function extraerDatosCartaAjustes(text){
   // y encabezados provenientes de tablas de Word.
   const antecedentes=extractBetween(
     raw,
-    /Antecedentes\s+entregados\s+por\s+(?:el|la)\s+estudiante\s*:?/i,
+    /Antecedentes(?:\s+(?:entregados|presentados))?(?:\s+por\s+(?:el|la)\s+estudiante)?\s*:?/i,
     [
       /(?:^|\n)\s*Ajustes\s+razonables\b/i,
       /(?:^|\n)\s*1\.\s*Adecuaciones\s+en\s+situaciones\s+evaluativas/i,
@@ -1350,7 +1350,7 @@ async function readDriveFileText(f,index,total){
   return await readCartaAR(file,index,total);
 }
 function driveLinkForFile(f){return f.webViewLink||(`https://drive.google.com/open?id=${encodeURIComponent(f.id)}`);}
-function needsARReparse(a){const n=String(a?.estudiante||'');const raw=String(a?.rawText||'');const missingAntecedentes=!(String(a?.antecedentes||'').trim()) && /Antecedentes\s+entregados\s+por\s+(?:el|la)\s+estudiante/i.test(raw);return !n||n.length>80||/documento oficial|direcci[oó]n de docencia|ajustes razonables aquellas|necesidades educativas|estudiante sin identificar/i.test(n)||missingAntecedentes;}
+function needsARReparse(a){const n=String(a?.estudiante||'');const raw=String(a?.rawText||'');const missingAntecedentes=!(String(a?.antecedentes||'').trim()) && /Antecedentes(?:\s+(?:entregados|presentados))?(?:\s+por\s+(?:el|la)\s+estudiante)?\s*:?/i.test(raw);return !n||n.length>80||/documento oficial|direcci[oó]n de docencia|ajustes razonables aquellas|necesidades educativas|estudiante sin identificar/i.test(n)||missingAntecedentes;}
 function normalizedRutAR(v=''){return String(v||'').replace(/[^0-9kK]/g,'').toLowerCase();}
 function validRutAR(v=''){const r=normalizedRutAR(v);return r.length>=8 && r.length<=9;}
 function findExistingARForDrive(d,f){
