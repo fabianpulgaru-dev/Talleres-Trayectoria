@@ -1185,7 +1185,21 @@ function extraerDatosCartaAjustes(text){
   const phoneNarrative=firstMatch(raw,/(?:tel[eé]fono|celular|fono)\s*[:\-]\s*((?:\+?56\s*)?(?:\(?9\)?\s*)?[\d\s.-]{8,14})/i);
 
   const fecha=firstMatch(raw,/Santiago,\s*([^\n]+)/i);
-  const antecedentes=extractBetween(raw,/Antecedentes entregados por la estudiante/i,[/Ajustes razonables\s+\d|Ajustes razonables/i,/1\.\s*Adecuaciones/i]);
+
+  // Antecedentes: admite cartas antiguas y nuevas, con estudiante en masculino/femenino
+  // y encabezados provenientes de tablas de Word.
+  const antecedentes=extractBetween(
+    raw,
+    /Antecedentes\s+entregados\s+por\s+(?:el|la)\s+estudiante\s*:?/i,
+    [
+      /(?:^|\n)\s*Ajustes\s+razonables\b/i,
+      /(?:^|\n)\s*1\.\s*Adecuaciones\s+en\s+situaciones\s+evaluativas/i,
+      /(?:^|\n)\s*Adecuaciones\s+en\s+situaciones\s+evaluativas/i,
+      /(?:^|\n)\s*Adecuaci[oó]n\s+de\s+acceso\s+a\s+la\s+informaci[oó]n/i,
+      /(?:^|\n)\s*Adecuaciones\s+para\s+la\s+participaci[oó]n/i,
+      /(?:^|\n)\s*Adecuaciones\s+de\s+infraestructura/i
+    ]
+  );
 
   return {
     estudiante:cleanCarta(studentLabel||studentInline||studentHeader||'Estudiante sin identificar'),
@@ -1234,7 +1248,7 @@ function renderAR(){
         <div class="ar-card-select"><input type="checkbox" class="ar-select-box" data-ar-select="${a.id}" ${AR_SELECTED.has(a.id)?'checked':''}></div>
         <div class="ar-card-student"><div class="ar-student">${arEsc(a.estudiante||'Estudiante sin identificar')}</div><div class="ar-meta">${arEsc(a.rut||'Sin RUT')} · ${arEsc(a.carrera||'Sin carrera')}</div><div class="ar-meta">${a.correo?'✉ '+arEsc(a.correo):'Sin correo'}</div></div>
         <div class="ar-card-field"><div class="case-label">Estado</div><button type="button" class="ar-state-btn ${a.revision==='emitida'?'emitida':'pendiente'}" data-ar-toggle-state="${a.id}" title="Cambiar estado con un clic">${a.revision==='emitida'?'✓ Emitida':'⏳ Pendiente'}</button></div>
-        <div class="ar-card-field"><div class="case-label">Fecha / año de emisión</div><div class="case-value">${arEsc(a.fechaCarta||'—')}</div></div>
+        <div class="ar-card-field"><div class="case-label">Año de emisión</div><div class="case-value">${arEsc(arYearOf(a)==="Sin año"?"—":arYearOf(a))}</div></div>
         <div class="ar-card-field ar-card-antecedentes"><div class="case-label">Antecedentes</div><div class="case-value">${antecedente?arEsc(antecedente.slice(0,260))+(antecedente.length>260?'…':''):'—'}</div></div>
         <button class="btn-edit" data-ar-edit="${a.id}" title="Editar ficha">✎</button>
       </div>
@@ -1336,7 +1350,7 @@ async function readDriveFileText(f,index,total){
   return await readCartaAR(file,index,total);
 }
 function driveLinkForFile(f){return f.webViewLink||(`https://drive.google.com/open?id=${encodeURIComponent(f.id)}`);}
-function needsARReparse(a){const n=String(a?.estudiante||'');return !n||n.length>80||/documento oficial|direcci[oó]n de docencia|ajustes razonables aquellas|necesidades educativas|estudiante sin identificar/i.test(n);}
+function needsARReparse(a){const n=String(a?.estudiante||'');const raw=String(a?.rawText||'');const missingAntecedentes=!(String(a?.antecedentes||'').trim()) && /Antecedentes\s+entregados\s+por\s+(?:el|la)\s+estudiante/i.test(raw);return !n||n.length>80||/documento oficial|direcci[oó]n de docencia|ajustes razonables aquellas|necesidades educativas|estudiante sin identificar/i.test(n)||missingAntecedentes;}
 function normalizedRutAR(v=''){return String(v||'').replace(/[^0-9kK]/g,'').toLowerCase();}
 function validRutAR(v=''){const r=normalizedRutAR(v);return r.length>=8 && r.length<=9;}
 function findExistingARForDrive(d,f){
