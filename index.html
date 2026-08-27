@@ -1305,6 +1305,19 @@ async function readDriveFileText(f,index,total){
 }
 function driveLinkForFile(f){return f.webViewLink||(`https://drive.google.com/open?id=${encodeURIComponent(f.id)}`);}
 function needsARReparse(a){const n=String(a?.estudiante||'');return !n||n.length>80||/documento oficial|direcci[oó]n de docencia|ajustes razonables aquellas|necesidades educativas|estudiante sin identificar/i.test(n);}
+function normalizedRutAR(v=''){return String(v||'').replace(/[^0-9kK]/g,'').toLowerCase();}
+function validRutAR(v=''){const r=normalizedRutAR(v);return r.length>=8 && r.length<=9;}
+function findExistingARForDrive(d,f){
+  // Drive file ID is the primary identity. Never merge two different Drive files by a
+  // generic/misparsed student name such as “Estudiante sin identificar”.
+  const byFile=AJUSTES.find(a=>a.carta?.driveFileId===f?.id);
+  if(byFile)return byFile;
+  if(validRutAR(d?.rut)){
+    const nr=normalizedRutAR(d.rut);
+    return AJUSTES.find(a=>validRutAR(a.rut) && normalizedRutAR(a.rut)===nr) || null;
+  }
+  return null;
+}
 async function syncDriveFolder({silent=false}={}){
   if(driveSyncRunning)return;
   const folderUrl=(document.getElementById('arDriveFolder')?.value||localStorage.getItem(DRIVE_FOLDER_KEY)||'').trim(),folderId=extractDriveFolderId(folderUrl);
@@ -1312,7 +1325,7 @@ async function syncDriveFolder({silent=false}={}){
   driveSyncRunning=true;updateDriveStatus('Explorando carpeta por lotes…','warn');arLog('Consultando Google Drive por lotes. Solo se abrirán cartas nuevas o modificadas…',false);arSetProgress(1);
   try{
     let files=(await listDriveFolderRecursive(folderId)).filter(driveFileSupported);
-    files.sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''),'es'));arLog(`Metadatos terminados: ${files.length} carta(s) compatibles encontradas.`);arSetProgress(8);
+    files.sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''),'es'));arLog(`Metadatos terminados: ${files.length} carta(s) compatibles encontradas.`);updateDriveStatus(`${files.length} cartas encontradas · comparando cambios…`,'warn');arSetProgress(8);
     if(!files.length){updateDriveStatus('Carpeta sin cartas compatibles','warn');arLog('No se encontraron PDF, Word, Google Docs o imágenes compatibles.');return;}
     let nuevos=0,actualizados=0,iguales=0,errores=0;
     for(let i=0;i<files.length;i++){
@@ -1322,7 +1335,7 @@ async function syncDriveFolder({silent=false}={}){
         let ficha=AJUSTES.find(a=>a.carta?.driveFileId===f.id);
         if(ficha && ficha.carta?.driveModifiedTime===f.modifiedTime && !needsARReparse(ficha)){iguales++;continue;}
         arLog(`Leyendo Drive ${i+1}/${files.length}: ${f.name}`);
-        const text=await readDriveFileText(f,i,files.length),d=extraerDatosCartaAjustes(text),byStudent=findExistingAR(d);
+        const text=await readDriveFileText(f,i,files.length),d=extraerDatosCartaAjustes(text),byStudent=findExistingARForDrive(d,f);
         if(!ficha)ficha=byStudent;
         const isNew=!ficha;
         if(!ficha){ficha={id:'ar'+Date.now().toString(36)+i,createdAt:new Date().toISOString(),observaciones:''};AJUSTES.push(ficha);}
@@ -1334,7 +1347,7 @@ async function syncDriveFolder({silent=false}={}){
       }catch(e){errores++;console.error(e);arLog(`✕ ${f.name}: ${e.message}`);}
     }
     await saveData(false);renderAR();renderHome();arSetProgress(100);
-    const hora=new Date().toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'}),msg=`Drive sincronizado ${hora} · ${nuevos} nuevas · ${actualizados} actualizadas · ${iguales} sin cambios${errores?' · '+errores+' errores':''}`;
+    const hora=new Date().toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'}),msg=`Drive sincronizado ${hora} · ${files.length} encontradas · ${nuevos} nuevas · ${actualizados} actualizadas · ${iguales} sin cambios${errores?' · '+errores+' errores':''}`;
     updateDriveStatus(msg,errores?'warn':'ok');if(!silent)showToast(msg,errores?'bad':'ok');
   }catch(e){console.error(e);updateDriveStatus('Error de sincronización','warn');arLog('Error: '+e.message);if(!silent)showToast('No se pudo sincronizar Drive: '+e.message,'bad');}
   finally{driveSyncRunning=false;}
