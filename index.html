@@ -1166,7 +1166,39 @@ function cleanCarta(s){return String(s||'').replace(/\s+\n/g,'\n').replace(/\n\s
 function firstMatch(text,regex,group=1){const m=String(text||'').match(regex);return m?cleanCarta(m[group]||''):'';}
 function extractBetween(text,startRegex,endRegexes=[]){const t=String(text||'');const start=t.search(startRegex);if(start<0)return '';const after=t.slice(start).replace(startRegex,'');let end=after.length;for(const er of endRegexes){const idx=after.search(er);if(idx>=0)end=Math.min(end,idx);}return cleanCarta(after.slice(0,end));}
 function parseSeccionesAjustesUAH(text){const t=normCartaText(text);const starts=[{key:'evaluativas',re:/1\.\s*Adecuaciones en situaciones evaluativas/i},{key:'acceso',re:/2\.\s*Adecuaci[oó]n de acceso a la informaci[oó]n/i},{key:'participacion',re:/3\.\s*Adecuaciones para la participaci[oó]n/i},{key:'infraestructura',re:/4\.\s*Adecuaciones de infraestructura/i}];const found=starts.map(x=>({...x,idx:t.search(x.re)})).filter(x=>x.idx>=0).sort((a,b)=>a.idx-b.idx);const sections={};for(let i=0;i<found.length;i++){const cur=found[i],next=found[i+1];let chunk=t.slice(cur.idx,next?next.idx:t.length);chunk=chunk.replace(cur.re,'').trim().replace(/La Unidad de Trayectoria Estudiantil[\s\S]*$/i,'').trim();sections[cur.key]=cleanCarta(chunk);}return sections;}
-function extraerDatosCartaAjustes(text){const raw=normCartaText(text);const fecha=firstMatch(raw,/Santiago,\s*([^\n]+)/i);const studentInline=firstMatch(raw,/(?:la\s+)?estudiante\s+([A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚÑáéíóúñ'-]+(?:\s+[A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚÑáéíóúñ'-]+){1,5})\s+RUT\b/i);const studentHeader=firstMatch(raw,/Carta de Ajustes Razonables(?:\s*[:\-]?\s*)?(?:Estudiante\s+)?([A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚÑáéíóúñ'-]+(?:\s+[A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚÑáéíóúñ'-]+){1,5})\s+RUT\b/i);const career=firstMatch(raw,/comunica a la carrera de\s+(.+?)\s+que la estudiante/i);const rut=firstMatch(raw,/\bRUT\s+(\d{1,2}\.?\d{3}\.?\d{3}-[\dkK])\b/i);const email=firstMatch(raw,/(?:correo(?: electrónico)?(?: estudiante)?|email(?: estudiante)?)\s*[:\-]\s*([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/i);const phone=firstMatch(raw,/(?:tel[eé]fono|celular|fono)\s*[:\-]\s*((?:\+?56\s*)?(?:\(?9\)?\s*)?[\d\s.-]{8,14})/i);const antecedentes=extractBetween(raw,/Antecedentes entregados por la estudiante/i,[/Ajustes razonables\s+\d|Ajustes razonables/i,/1\.\s*Adecuaciones/i]);return {estudiante:cleanCarta(studentInline||studentHeader||'Estudiante sin identificar'),rut:cleanCarta(rut),correo:cleanCarta(email),telefono:cleanCarta(phone),carrera:cleanCarta(career),fechaCarta:cleanCarta(fecha),antecedentes:cleanCarta(antecedentes),secciones:parseSeccionesAjustesUAH(raw),rawText:raw};}
+function extraerDatosCartaAjustes(text){
+  const raw=normCartaText(text);
+
+  // Formato 2026: campos explícitos al inicio de la carta.
+  const studentLabel=firstMatch(raw,/(?:^|\n)\s*Estudiante\s*:\s*([^\n]+)/i);
+  const rutLabel=firstMatch(raw,/(?:^|\n)\s*RUT\s*:\s*(\d{1,2}\.?\d{3}\.?\d{3}-[\dkK])/i);
+  const careerLabel=firstMatch(raw,/(?:^|\n)\s*Carrera\s*:\s*([^\n]+)/i);
+  const emailLabel=firstMatch(raw,/(?:^|\n)\s*(?:Correo|E-?mail)\s*:\s*([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/i);
+  const phoneLabel=firstMatch(raw,/(?:^|\n)\s*(?:Tel[eé]fono|Celular|Fono)\s*:\s*((?:\+?56\s*)?(?:\(?9\)?\s*)?[\d\s.-]{8,14})/i);
+
+  // Formatos anteriores: redacción narrativa.
+  const studentInline=firstMatch(raw,/(?:la\s+)?estudiante\s+([A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚÑáéíóúñ'-]+(?:\s+[A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚÑáéíóúñ'-]+){1,5})\s+RUT\b/i);
+  const studentHeader=firstMatch(raw,/Carta de Ajustes Razonables(?:\s*[:\-]?\s*)?(?:Estudiante\s+)?([A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚÑáéíóúñ'-]+(?:\s+[A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚÑáéíóúñ'-]+){1,5})\s+RUT\b/i);
+  const careerNarrative=firstMatch(raw,/comunica a la carrera de\s+(.+?)\s+que la estudiante/i);
+  const rutNarrative=firstMatch(raw,/\bRUT\s+(\d{1,2}\.?\d{3}\.?\d{3}-[\dkK])\b/i);
+  const emailNarrative=firstMatch(raw,/(?:correo(?: electrónico)?(?: estudiante)?|email(?: estudiante)?)\s*[:\-]\s*([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/i);
+  const phoneNarrative=firstMatch(raw,/(?:tel[eé]fono|celular|fono)\s*[:\-]\s*((?:\+?56\s*)?(?:\(?9\)?\s*)?[\d\s.-]{8,14})/i);
+
+  const fecha=firstMatch(raw,/Santiago,\s*([^\n]+)/i);
+  const antecedentes=extractBetween(raw,/Antecedentes entregados por la estudiante/i,[/Ajustes razonables\s+\d|Ajustes razonables/i,/1\.\s*Adecuaciones/i]);
+
+  return {
+    estudiante:cleanCarta(studentLabel||studentInline||studentHeader||'Estudiante sin identificar'),
+    rut:cleanCarta(rutLabel||rutNarrative),
+    correo:cleanCarta(emailLabel||emailNarrative),
+    telefono:cleanCarta(phoneLabel||phoneNarrative),
+    carrera:cleanCarta(careerLabel||careerNarrative),
+    fechaCarta:cleanCarta(fecha),
+    antecedentes:cleanCarta(antecedentes),
+    secciones:parseSeccionesAjustesUAH(raw),
+    rawText:raw
+  };
+}
 async function ocrImageAR(file,base=0,span=100){if(typeof Tesseract==='undefined')throw new Error('No cargó Tesseract OCR');const result=await Tesseract.recognize(file,'spa+eng',{logger:m=>{if(m.status==='recognizing text'&&typeof m.progress==='number')arSetProgress(base+m.progress*span)}});return result?.data?.text||'';}
 async function readPdfAR(file,base=0,span=100){if(!window.pdfjsLib)throw new Error('No cargó PDF.js');pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;let full='';for(let p=1;p<=pdf.numPages;p++){arLog(`Página ${p}/${pdf.numPages}: leyendo…`);const page=await pdf.getPage(p);const tc=await page.getTextContent().catch(()=>null);const embedded=tc?.items?.map(i=>i.str).join(' ')||'';if(embedded.trim().length>80){full+='\n'+embedded;arSetProgress(base+(p/pdf.numPages)*span);}else{const vp=page.getViewport({scale:1.7}),canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');canvas.width=vp.width;canvas.height=vp.height;await page.render({canvasContext:ctx,viewport:vp}).promise;const blob=await new Promise(res=>canvas.toBlob(res,'image/png'));full+='\n'+await ocrImageAR(blob,base+((p-1)/pdf.numPages)*span,span/pdf.numPages);}}return full;}
 async function readCartaAR(file,index,total){const base=(index/total)*100,span=100/total,name=file.name.toLowerCase();if(name.endsWith('.doc')||name.endsWith('.docx')){if(typeof mammoth==='undefined')throw new Error('No cargó lector de Word');const r=await mammoth.extractRawText({arrayBuffer:await file.arrayBuffer()});arSetProgress(base+span);return r?.value||'';}if(name.endsWith('.pdf'))return readPdfAR(file,base,span);if(/\.(jpg|jpeg|png)$/i.test(name))return ocrImageAR(file,base,span);throw new Error('Formato no soportado');}
