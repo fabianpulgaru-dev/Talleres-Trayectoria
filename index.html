@@ -299,6 +299,37 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
   .cal-ev{padding:4px 5px;}
   .cal-ev-title{font-size:.68rem;}
 }
+
+/* ══ DOCUMENTOS DE CASOS · FIREBASE STORAGE ══ */
+.case-docs{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);}
+.case-docs-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;}
+.case-docs-title{font-size:.78rem;font-weight:900;color:var(--txt2);text-transform:uppercase;letter-spacing:.05em;}
+.case-doc-count{display:inline-flex;align-items:center;justify-content:center;min-width:25px;height:25px;padding:0 7px;border-radius:999px;background:var(--p-bg);color:var(--p);font-size:.75rem;font-weight:900;}
+.btn-doc{border:1px solid var(--line2);background:var(--surface);color:var(--p);border-radius:9px;padding:7px 10px;font-family:var(--fb);font-weight:900;font-size:.78rem;cursor:pointer;}
+.btn-doc:hover{background:var(--p);color:#fff;border-color:var(--p);}
+.doc-list{display:flex;flex-direction:column;gap:7px;}
+.doc-item{display:flex;align-items:center;gap:10px;background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:9px 10px;}
+.doc-icon{width:34px;height:34px;border-radius:9px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.doc-info{min-width:0;flex:1;}
+.doc-name{font-size:.84rem;font-weight:900;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.doc-meta{font-size:.72rem;color:var(--txt2);margin-top:2px;}
+.doc-actions{display:flex;gap:5px;flex-shrink:0;}
+.doc-link,.doc-delete{border:none;background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-family:var(--fb);font-size:.73rem;font-weight:900;cursor:pointer;text-decoration:none;color:var(--p);}
+.doc-delete{color:var(--bad);}
+.doc-link:hover{background:var(--p);color:#fff;border-color:var(--p);}.doc-delete:hover{background:var(--bad);color:#fff;border-color:var(--bad);}
+.doc-empty{font-size:.78rem;color:var(--mut);padding:6px 1px;}
+.storage-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 14px;padding:10px 12px;background:var(--surface2);border:1px solid var(--line);border-radius:11px;font-size:.8rem;color:var(--txt2);font-weight:700;}
+.storage-dot{width:9px;height:9px;border-radius:50%;background:var(--off);}.storage-dot.ready{background:var(--ok);}.storage-dot.warn{background:var(--warn);}
+.storage-user{font-weight:900;color:var(--txt);}.storage-spacer{flex:1;}
+.upload-zone{border:2px dashed var(--line2);background:var(--p-bg);border-radius:13px;padding:18px;text-align:center;margin:8px 0 15px;}
+.upload-zone input[type=file]{display:block;width:100%;margin-top:10px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:9px;}
+.upload-title{font-weight:900;color:var(--p-dk);}.upload-sub{font-size:.78rem;color:var(--txt2);margin-top:4px;}
+.upload-progress{height:7px;background:#fff;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-top:10px;display:none;}.upload-progress>div{height:100%;width:0;background:var(--p);transition:width .2s;}
+
+
+/* ══ AJUSTES RAZONABLES ══ */
+.ar-import{background:linear-gradient(135deg,var(--p-bg),#fff);border:2px dashed var(--line2);border-radius:16px;padding:18px 20px;margin-bottom:20px}.ar-import h3{font-family:var(--fd);font-size:1.15rem;color:var(--p-dk);margin:0 0 6px}.ar-import p{margin:0 0 14px;color:var(--txt2);font-size:.88rem}.ar-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.ar-actions input[type=file]{flex:1;min-width:260px;background:#fff;border:2px solid var(--line);border-radius:11px;padding:10px}.ar-progress{height:8px;background:#fff;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-top:12px;display:none}.ar-progress div{height:100%;width:0;background:var(--p);transition:width .2s}.ar-log{margin-top:10px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--txt2);font-size:.8rem;white-space:pre-wrap;max-height:150px;overflow:auto;display:none}.ar-list{display:flex;flex-direction:column;gap:10px}.ar-row{background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(110,70,180,.04)}.ar-row-top{display:grid;grid-template-columns:minmax(230px,1.25fr) minmax(180px,.8fr) minmax(150px,.65fr) auto;gap:14px;align-items:center}.ar-student{font-weight:900;color:var(--txt);font-size:1rem}.ar-meta{color:var(--txt2);font-size:.82rem;margin-top:3px}.ar-adjustments{margin-top:12px;background:var(--surface2);border-radius:11px;padding:12px 14px;color:var(--txt2);font-size:.82rem;line-height:1.55}.ar-adjustments strong{color:var(--p-dk)}.ar-doc-pill{display:inline-flex;gap:6px;align-items:center;background:var(--p-bg);color:var(--p-dk);border:1px solid var(--line2);border-radius:999px;padding:5px 9px;font-size:.76rem;font-weight:800;text-decoration:none}.ar-review{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:.74rem;font-weight:900;background:var(--warn-bg);color:var(--warn);border:1px solid var(--warn-line)}.ar-review.ok{background:var(--ok-bg);color:var(--ok);border-color:var(--ok-line)}@media(max-width:850px){.ar-row-top{grid-template-columns:1fr}.ar-actions input[type=file]{min-width:100%}}
+
 </style>
 </head>
 <body>
@@ -321,6 +352,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
   <nav class="module-nav" aria-label="Áreas del panel">
     <button class="module-btn active" data-module="home">⌂ Resumen</button>
     <button class="module-btn" data-module="cases">👤 Casos Específicos</button>
+    <button class="module-btn" data-module="adjustments">♿ Ajustes Razonables</button>
     <button class="module-btn" data-module="workshops">▦ Talleres</button>
     <button class="module-btn" data-module="tasks">✓ Organización y tareas</button>
   </nav>
@@ -339,6 +371,12 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
         <div class="area-icon">👤</div><h3>Casos Específicos</h3>
         <p>Seguimiento de estudiantes que requieren una intervención focalizada, sostenida o articulada.</p>
         <div class="area-metrics" id="homeCaseMetrics"></div>
+      </button>
+
+      <button class="area-card" data-go="adjustments">
+        <div class="area-icon">♿</div><h3>Ajustes Razonables</h3>
+        <p>Registro de estudiantes a partir de sus cartas de ajustes, con extracción automática de datos y resguardo del documento original.</p>
+        <div class="area-metrics" id="homeARMetrics"></div>
       </button>
       <button class="area-card" data-go="workshops">
         <div class="area-icon">▦</div><h3>Talleres</h3>
@@ -364,6 +402,22 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
     </div>
     <div class="case-list" id="caseList"></div>
     <div class="case-empty" id="caseEmpty" style="display:none">No hay casos con este filtro.</div>
+  </section>
+
+
+  <!-- AJUSTES RAZONABLES -->
+  <section id="moduleAdjustments" class="module">
+    <div class="section-head"><div><h2>Ajustes Razonables</h2><p>Sube una carta y el sistema crea o actualiza automáticamente la ficha del estudiante.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
+    <div class="case-kpis" id="arKpis"></div>
+    <div class="ar-import">
+      <h3>📄 Importar carta de ajustes</h3>
+      <p>Admite PDF, Word, JPG y PNG. Se intenta leer primero el texto del documento y se usa OCR cuando es necesario. Antes de usar los datos oficialmente, revisa la ficha creada.</p>
+      <div class="storage-bar" style="margin-bottom:12px"><span class="storage-dot" id="arStorageDot"></span><span id="arStorageStatus">Storage no conectado</span><span class="storage-spacer"></span><span class="storage-user" id="arStorageUser"></span><button type="button" class="btn-doc" id="btnARStorageLogin">Conectar con Google</button></div>
+      <div class="ar-actions"><input id="arFiles" type="file" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"><button class="btn-primary" id="btnImportAR" type="button">Leer cartas y agregar estudiantes</button></div>
+      <div class="ar-progress" id="arProgress"><div id="arProgressBar"></div></div><div class="ar-log" id="arLog"></div>
+    </div>
+    <div class="case-toolbar"><div class="seg" id="arReviewSeg"><button class="active" data-ar-review="ALL">Todos</button><button data-ar-review="pendiente">Por revisar</button><button data-ar-review="validado">Validados</button></div><div class="search-box"><input type="text" id="arSearch" placeholder="Buscar estudiante, RUT, carrera..."></div><button class="btn-primary" id="btnNuevoAR">+ Agregar manualmente</button></div>
+    <div class="ar-list" id="arList"></div><div class="case-empty" id="arEmpty" style="display:none">No hay estudiantes con este filtro.</div>
   </section>
 
   <!-- ORGANIZACIÓN Y TAREAS -->
@@ -523,6 +577,17 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
   </div>
 </div>
 
+
+<!-- MODAL AJUSTES RAZONABLES -->
+<div class="mo" id="moAR" role="dialog" aria-modal="true"><div class="md" style="max-width:760px"><button class="md-close" id="arClose">✕</button><h3 id="arModalTitle">Ficha de Ajustes Razonables</h3><p class="md-info" id="arId"></p>
+<div class="fg-row"><div class="fg"><label for="aEstudiante">Estudiante</label><input id="aEstudiante"></div><div class="fg"><label for="aRut">RUT / identificador</label><input id="aRut"></div></div>
+<div class="fg-row"><div class="fg"><label for="aCarrera">Carrera</label><input id="aCarrera"></div><div class="fg"><label for="aCorreo">Correo</label><input id="aCorreo" type="email"></div></div>
+<div class="fg-row"><div class="fg"><label for="aTelefono">Teléfono</label><input id="aTelefono"></div><div class="fg"><label for="aFechaCarta">Fecha carta</label><input id="aFechaCarta"></div></div>
+<div class="fg"><label for="aAntecedentes">Antecedentes entregados</label><textarea id="aAntecedentes" style="min-height:100px"></textarea></div>
+<div class="fg"><label for="aEvaluativas">1. Adecuaciones en situaciones evaluativas</label><textarea id="aEvaluativas"></textarea></div><div class="fg"><label for="aAcceso">2. Adecuación de acceso a la información</label><textarea id="aAcceso"></textarea></div><div class="fg"><label for="aParticipacion">3. Adecuaciones para la participación</label><textarea id="aParticipacion"></textarea></div><div class="fg"><label for="aInfraestructura">4. Adecuaciones de infraestructura</label><textarea id="aInfraestructura"></textarea></div>
+<div class="fg-row"><div class="fg"><label for="aRevision">Revisión</label><select id="aRevision"><option value="pendiente">Por revisar</option><option value="validado">Validado</option></select></div><div class="fg"><label for="aObservaciones">Observaciones</label><textarea id="aObservaciones"></textarea></div></div>
+<div id="arCartaActual"></div><button class="btn-sub" id="btnGuardarAR">Guardar ficha</button><button class="btn-danger-link" id="btnEliminarAR" style="display:none">Eliminar estudiante de Ajustes Razonables</button></div></div>
+
 <!-- MODAL TAREA -->
 <div class="mo" id="moTarea" role="dialog" aria-modal="true">
   <div class="md" style="max-width:650px">
@@ -535,6 +600,33 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
     <div class="fg"><label for="tDetalle">Detalle / próximo paso</label><textarea id="tDetalle"></textarea></div>
     <div class="fg"><label for="tLink">Enlace</label><input id="tLink" type="url" placeholder="https://..."></div>
     <button class="btn-sub" id="btnGuardarTarea">Guardar tarea</button><button class="btn-danger-link" id="btnEliminarTarea" style="display:none">Eliminar esta tarea</button>
+  </div>
+</div>
+
+
+<!-- MODAL DOCUMENTO DE CASO -->
+<div class="mo" id="moDocumento" role="dialog" aria-modal="true">
+  <div class="md" style="max-width:600px">
+    <button class="md-close" id="docClose">✕</button>
+    <h3>Subir documento</h3>
+    <p class="md-info" id="docCaseLabel"></p>
+    <div class="storage-bar">
+      <span class="storage-dot" id="storageDot"></span>
+      <span id="storageStatus">Storage no conectado</span>
+      <span class="storage-spacer"></span>
+      <span class="storage-user" id="storageUser"></span>
+      <button type="button" class="btn-doc" id="btnStorageLogin">Conectar con Google</button>
+    </div>
+    <div class="fg"><label for="dNombre">Nombre visible</label><input id="dNombre" type="text" placeholder="Ej: Carta de ajustes razonables 2026-2"></div>
+    <div class="fg-row"><div class="fg"><label for="dTipo">Tipo / clasificación</label><select id="dTipo"><option>Carta de ajustes</option><option>Certificado</option><option>Informe</option><option>Diagnóstico</option><option>Acuerdo</option><option>Seguimiento</option><option>Otro</option></select></div><div class="fg"><label for="dFecha">Fecha del documento</label><input id="dFecha" type="date"></div></div>
+    <div class="fg"><label for="dDescripcion">Descripción / observación</label><textarea id="dDescripcion" placeholder="Qué contiene o para qué se utiliza este documento"></textarea></div>
+    <div class="upload-zone">
+      <div class="upload-title">☁️ Seleccionar archivo desde el computador</div>
+      <div class="upload-sub">PDF, Word, Excel, JPG, PNG o TXT. El archivo se almacenará en Firebase Storage.</div>
+      <input id="dArchivo" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.txt">
+      <div class="upload-progress" id="docProgress"><div id="docProgressBar"></div></div>
+    </div>
+    <button class="btn-sub" id="btnSubirDocumento">Subir y guardar documento</button>
   </div>
 </div>
 
@@ -554,12 +646,34 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+<!-- Firebase Storage para documentos de Casos Específicos -->
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
+
 <script>
 // ══════════════════════════════════════════════════════════════
 // CONFIG
 // ══════════════════════════════════════════════════════════════
 const FB_URL = 'https://ee12026-f5e3d-default-rtdb.firebaseio.com';
 const FB_PATH = FB_URL + '/panel_talleres.json'; // se conserva la ruta para no perder los talleres ya registrados
+
+// Firebase Storage: reutiliza la infraestructura de documentos de la Mesa de Trabajo.
+// Los datos generales del panel siguen en FB_PATH; aquí solo viven los archivos físicos.
+const DOCS_FIREBASE_CONFIG={
+  apiKey:"AIzaSyCTMsAAvTOt7IRXvXRlZGgoYk4knccHpa4",
+  authDomain:"trayectoria-2026.firebaseapp.com",
+  projectId:"trayectoria-2026",
+  storageBucket:"trayectoria-2026.firebasestorage.app",
+  messagingSenderId:"963939528799",
+  appId:"1:963939528799:web:dc462d7717bc0e7df5abea"
+};
+let docsApp=null,docsAuth=null,docsStorage=null,docsUser=null,docsCaseId=null;
+
 
 const DIAS_ES=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 const DIAS_C=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
@@ -587,10 +701,12 @@ const SEED=[
 let TALLERES=[];
 let CASOS=[];
 let TAREAS=[];
+let AJUSTES=[];
 const CATEGORIAS_TALLER=['Ciclo de Inserción','Ciclo de Fortalecimiento','Talleres Catálogo','Talleres solicitados por carrera','Colaboraciones'];
 let curCategoria='ALL';
 let curCarrera='ALL', curView='list', curSearch='';
 let curModule='home', caseSearch='', caseStatus='ALL', editingCaseId=null;
+let arSearch='', arReview='ALL', editingARId=null;
 const TASK_ACCESOS=[['Mis tareas','📌'],['Proyectos','🗃️'],['Carreras','🎓'],['Equipo','👥'],['Reuniones y acuerdos','📅'],['Próximos hitos','⏰'],['Notas rápidas','📝']];
 let taskAccess='ALL', taskStatus='ALL', taskSearch='', editingTaskId=null;
 let calM=2, calY=2026;
@@ -621,14 +737,16 @@ async function loadData(){
       TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
       CASOS=[];
       TAREAS=[];
+      AJUSTES=[];
       setConn(true,'Sincronizado · datos de ejemplo cargados');
       await saveData(false);
     } else {
       // Ya existe un registro previo. Si "talleres" no viene, es porque Firebase
       // descarta arrays vacíos al guardarlos — significa que la lista quedó en 0, no que falte el seed.
       TALLERES=Array.isArray(j.talleres)?j.talleres:[];
-      CASOS=Array.isArray(j.casos)?j.casos:[];
+      CASOS=(Array.isArray(j.casos)?j.casos:[]).map(c=>({...c,documentos:Array.isArray(c.documentos)?c.documentos:[]}));
       TAREAS=Array.isArray(j.tareas)?j.tareas:[];
+      AJUSTES=(Array.isArray(j.ajustesRazonables)?j.ajustesRazonables:[]).map(a=>({...a,secciones:a.secciones||{},carta:a.carta||null}));
       TALLERES=TALLERES.map(t=>({...t,categoria:t.categoria||'Ciclo de Inserción'}));
       setConn(true,'Sincronizado con Firebase');
     }
@@ -644,7 +762,7 @@ async function loadData(){
 
 async function saveData(toast=true){
   try{
-    const r=await fetch(FB_PATH,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,tareas:TAREAS,ts:Date.now()})});
+    const r=await fetch(FB_PATH,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,tareas:TAREAS,ajustesRazonables:AJUSTES,ts:Date.now()})});
     const j=await r.json().catch(()=>null);
     if(!r.ok || (j && j.error)){
       throw new Error((j && j.error) ? j.error : `HTTP ${r.status}`);
@@ -833,7 +951,7 @@ function renderCal(){
 function switchModule(name){
   curModule=name;
   document.querySelectorAll('.module').forEach(x=>x.classList.remove('active'));
-  const map={home:'moduleHome',cases:'moduleCases',workshops:'moduleWorkshops',tasks:'moduleTasks'};
+  const map={home:'moduleHome',cases:'moduleCases',adjustments:'moduleAdjustments',workshops:'moduleWorkshops',tasks:'moduleTasks'};
   document.getElementById(map[name]||map.home).classList.add('active');
   document.querySelectorAll('.module-btn').forEach(b=>b.classList.toggle('active',b.dataset.module===name));
   window.scrollTo({top:0,behavior:'smooth'});
@@ -846,6 +964,8 @@ function renderHome(){
   const activeCases=CASOS.filter(c=>c.estado!=='cerrado').length;
   const nextCases=CASOS.filter(c=>c.fechaProxima && c.estado!=='cerrado').length;
   document.getElementById('homeCaseMetrics').innerHTML=`<span class="metric-mini">${CASOS.length} casos</span><span class="metric-mini">${activeCases} activos</span><span class="metric-mini">${nextCases} con próxima acción</span>`;
+  const arPending=AJUSTES.filter(a=>(a.revision||'pendiente')==='pendiente').length;
+  document.getElementById('homeARMetrics').innerHTML=`<span class="metric-mini">${AJUSTES.length} estudiantes</span><span class="metric-mini">${arPending} por revisar</span><span class="metric-mini">${AJUSTES.filter(a=>a.carta).length} cartas</span>`;
   const realizados=TALLERES.filter(t=>t.estado==='realizado').length;
   const pendientes=TALLERES.filter(t=>t.estado==='pendiente').length;
   document.getElementById('homeWorkshopMetrics').innerHTML=`<span class="metric-mini">${TALLERES.length} talleres</span><span class="metric-mini">${realizados} realizados</span><span class="metric-mini">${pendientes} pendientes</span>`;
@@ -895,6 +1015,10 @@ function renderCases(){
     <div><span class="case-status ${c.estado}">${CASE_STATUS_LABEL[c.estado]||c.estado}</span></div>
     <div class="case-col-hide"><div class="case-label">Responsable</div><div class="case-value">${c.responsable||'Sin asignar'}</div></div>
     <button class="btn-edit" data-case-edit="${c.id}" aria-label="Editar caso">✎</button>
+    <div class="case-docs" style="grid-column:1/-1">
+      <div class="case-docs-head"><div class="case-docs-title">📎 Documentos <span class="case-doc-count">${(c.documentos||[]).length}</span></div><button class="btn-doc" type="button" data-doc-add="${c.id}">+ Subir documento</button></div>
+      ${(c.documentos||[]).length?`<div class="doc-list">${(c.documentos||[]).map(d=>docItemHTML(c.id,d)).join('')}</div>`:`<div class="doc-empty">Sin documentos asociados todavía.</div>`}
+    </div>
   </div>`).join('');
 }
 document.getElementById('caseSearch').addEventListener('input',e=>{caseSearch=e.target.value;renderCases();});
@@ -913,10 +1037,100 @@ document.getElementById('btnNuevoCaso').onclick=()=>openCase();document.getEleme
 document.getElementById('btnGuardarCaso').onclick=async()=>{
   const estudiante=document.getElementById('cEstudiante').value.trim(); if(!estudiante){showToast('Ingresa el nombre del estudiante','bad');return;}
   const data={estudiante,rut:document.getElementById('cRut').value.trim(),carrera:document.getElementById('cCarrera').value.trim(),responsable:document.getElementById('cResponsable').value.trim(),dispositivo:document.getElementById('cDispositivo').value,prioridad:document.getElementById('cPrioridad').value,estado:document.getElementById('cEstado').value,fechaIngreso:document.getElementById('cFechaIngreso').value,motivo:document.getElementById('cMotivo').value.trim(),proxima:document.getElementById('cProxima').value.trim(),fechaProxima:document.getElementById('cFechaProxima').value,notas:document.getElementById('cNotas').value.trim()};
-  if(editingCaseId){const i=CASOS.findIndex(x=>x.id===editingCaseId);if(i>-1)CASOS[i]={...CASOS[i],...data};}else CASOS.push({id:'c'+Date.now().toString(36),...data});
+  if(editingCaseId){const i=CASOS.findIndex(x=>x.id===editingCaseId);if(i>-1)CASOS[i]={...CASOS[i],...data};}else CASOS.push({id:'c'+Date.now().toString(36),documentos:[],...data});
   closeCase();renderAll();await saveData(true);
 };
 document.getElementById('btnEliminarCaso').onclick=async()=>{if(!editingCaseId)return;if(!confirm('¿Eliminar este caso? Esta acción no se puede deshacer.'))return;CASOS=CASOS.filter(c=>c.id!==editingCaseId);closeCase();renderAll();await saveData(true);};
+
+// ══════════════════════════════════════════════════════════════
+// DOCUMENTOS DE CASOS · FIREBASE STORAGE
+// ══════════════════════════════════════════════════════════════
+function humanFileSize(bytes){const n=Number(bytes)||0;if(!n)return '0 KB';const u=['B','KB','MB','GB'];let i=0,v=n;while(v>=1024&&i<u.length-1){v/=1024;i++;}return `${v.toFixed(i?1:0)} ${u[i]}`;}
+function docIcon(mime='',name=''){const x=(mime+' '+name).toLowerCase();if(x.includes('pdf'))return '📕';if(x.includes('word')||x.includes('.doc'))return '📘';if(x.includes('excel')||x.includes('sheet')||x.includes('.xls'))return '📗';if(x.includes('image')||/\.(png|jpg|jpeg)/.test(x))return '🖼️';return '📄';}
+function escHtml(v=''){return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function docItemHTML(caseId,d){
+  const url=d.downloadURL||'';
+  return `<div class="doc-item"><div class="doc-icon">${docIcon(d.mime,d.fileName)}</div><div class="doc-info"><div class="doc-name" title="${escHtml(d.nombre||d.fileName||'Documento')}">${escHtml(d.nombre||d.fileName||'Documento')}</div><div class="doc-meta">${escHtml(d.tipo||'Documento')}${d.fecha?' · '+escHtml(d.fecha):''}${d.size?' · '+humanFileSize(d.size):''}${d.descripcion?' · '+escHtml(d.descripcion):''}</div></div><div class="doc-actions">${url?`<a class="doc-link" href="${escHtml(url)}" target="_blank" rel="noopener">Abrir</a>`:''}<button class="doc-delete" type="button" data-doc-delete="${caseId}" data-doc-id="${d.id}">Eliminar</button></div></div>`;
+}
+function initDocsFirebase(){
+  try{
+    if(typeof firebase==='undefined')return;
+    docsApp=firebase.apps.find(a=>a.name==='caseDocs')||firebase.initializeApp(DOCS_FIREBASE_CONFIG,'caseDocs');
+    docsAuth=docsApp.auth();docsStorage=docsApp.storage();
+    docsAuth.onAuthStateChanged(u=>{docsUser=u||null;updateStorageUI();if(docsUser)showToast('Documentos conectados a Firebase Storage ✓','ok');});
+  }catch(e){console.warn('Docs Firebase init',e);}
+}
+function updateStorageUI(){
+  const dot=document.getElementById('storageDot'),st=document.getElementById('storageStatus'),us=document.getElementById('storageUser'),btn=document.getElementById('btnStorageLogin');
+  if(!dot)return;
+  if(docsUser){dot.className='storage-dot ready';st.textContent='Firebase Storage conectado';us.textContent=docsUser.displayName||docsUser.email||'Usuario';btn.textContent='Cambiar cuenta';}
+  else{dot.className='storage-dot warn';st.textContent='Conecta tu cuenta para subir archivos';us.textContent='';btn.textContent='Conectar con Google';}
+  const ad=document.getElementById('arStorageDot'),as=document.getElementById('arStorageStatus'),au=document.getElementById('arStorageUser'),ab=document.getElementById('btnARStorageLogin');if(ad){if(docsUser){ad.className='storage-dot ready';as.textContent='Firebase Storage conectado';au.textContent=docsUser.displayName||docsUser.email||'Usuario';ab.textContent='Cambiar cuenta';}else{ad.className='storage-dot warn';as.textContent='Conecta tu cuenta para almacenar las cartas';au.textContent='';ab.textContent='Conectar con Google';}}
+}
+async function loginDocs(){
+  if(!docsAuth){showToast('No fue posible iniciar Firebase Storage','bad');return;}
+  try{const provider=new firebase.auth.GoogleAuthProvider();await docsAuth.signInWithPopup(provider);}catch(e){console.error(e);showToast('No se pudo conectar con Google: '+e.message,'bad');}
+}
+function safeStorageName(name='archivo'){return String(name).replace(/[^\w.\-áéíóúñÁÉÍÓÚÑ ]+/g,'_').slice(0,100);}
+function storagePathFor(caseId,fileName){return `users/${docsUser.uid}/panelFortalecimiento/casos/${caseId}/${Date.now()}_${safeStorageName(fileName)}`;}
+function openDocUpload(caseId){
+  const c=CASOS.find(x=>x.id===caseId);if(!c)return;docsCaseId=caseId;
+  document.getElementById('docCaseLabel').textContent=`Caso: ${c.estudiante||'Sin nombre'} · ${c.carrera||'Sin carrera'}`;
+  document.getElementById('dNombre').value='Carta de ajustes razonables';document.getElementById('dTipo').value='Carta de ajustes';document.getElementById('dFecha').value=new Date().toISOString().slice(0,10);document.getElementById('dDescripcion').value='';document.getElementById('dArchivo').value='';
+  document.getElementById('docProgress').style.display='none';document.getElementById('docProgressBar').style.width='0%';updateStorageUI();
+  document.getElementById('moDocumento').classList.add('open');document.body.style.overflow='hidden';
+}
+function closeDocUpload(){document.getElementById('moDocumento').classList.remove('open');document.body.style.overflow='';docsCaseId=null;}
+document.addEventListener('click',e=>{const add=e.target.closest('[data-doc-add]');if(add){openDocUpload(add.dataset.docAdd);return;}const del=e.target.closest('[data-doc-delete]');if(del){deleteCaseDocument(del.dataset.docDelete,del.dataset.docId);}});
+document.getElementById('docClose').onclick=closeDocUpload;document.getElementById('moDocumento').addEventListener('click',e=>{if(e.target.id==='moDocumento')closeDocUpload();});document.getElementById('btnStorageLogin').onclick=loginDocs;
+document.getElementById('btnSubirDocumento').onclick=async()=>{
+  const c=CASOS.find(x=>x.id===docsCaseId),file=document.getElementById('dArchivo').files[0];if(!c)return;
+  if(!docsUser){showToast('Conecta tu cuenta de Google antes de subir','bad');await loginDocs();return;}
+  if(!file){showToast('Selecciona un archivo','bad');return;}
+  if(file.size>25*1024*1024){showToast('El archivo supera el máximo de 25 MB','bad');return;}
+  const btn=document.getElementById('btnSubirDocumento');btn.disabled=true;btn.textContent='Subiendo…';
+  try{
+    const path=storagePathFor(c.id,file.name),ref=docsStorage.ref(path),task=ref.put(file,{contentType:file.type||'application/octet-stream'}),prog=document.getElementById('docProgress'),bar=document.getElementById('docProgressBar');prog.style.display='block';
+    await new Promise((resolve,reject)=>task.on('state_changed',snap=>{bar.style.width=Math.round((snap.bytesTransferred/snap.totalBytes)*100)+'%';},reject,resolve));
+    const url=await ref.getDownloadURL();
+    c.documentos=Array.isArray(c.documentos)?c.documentos:[];c.documentos.push({id:'d'+Date.now().toString(36),nombre:document.getElementById('dNombre').value.trim()||file.name,tipo:document.getElementById('dTipo').value,fecha:document.getElementById('dFecha').value,descripcion:document.getElementById('dDescripcion').value.trim(),fileName:file.name,mime:file.type||'application/octet-stream',size:file.size,storagePath:path,downloadURL:url,subidoAt:new Date().toISOString(),subidoPor:docsUser.email||docsUser.displayName||''});
+    await saveData(false);closeDocUpload();renderAll();showToast('Documento almacenado ✓','ok');
+  }catch(e){console.error(e);showToast('No se pudo subir el documento: '+e.message,'bad');}
+  finally{btn.disabled=false;btn.textContent='Subir y guardar documento';}
+};
+async function deleteCaseDocument(caseId,docId){
+  const c=CASOS.find(x=>x.id===caseId);if(!c)return;const d=(c.documentos||[]).find(x=>x.id===docId);if(!d)return;if(!confirm(`¿Eliminar “${d.nombre||d.fileName||'este documento'}”?`))return;
+  try{if(d.storagePath&&docsStorage&&docsUser)await docsStorage.ref(d.storagePath).delete();}catch(e){console.warn('No se pudo borrar Storage',e);}
+  c.documentos=(c.documentos||[]).filter(x=>x.id!==docId);await saveData(false);renderAll();showToast('Documento eliminado','ok');
+}
+
+// ══════════════════════════════════════════════════════════════
+// AJUSTES RAZONABLES · IMPORTACIÓN DESDE CARTAS UAH
+// ══════════════════════════════════════════════════════════════
+function arEsc(v=''){return escHtml(v)}
+function arSetProgress(p){const w=document.getElementById('arProgress'),b=document.getElementById('arProgressBar');w.style.display='block';b.style.width=Math.max(0,Math.min(100,p))+'%';}
+function arLog(msg,append=true){const el=document.getElementById('arLog');el.style.display='block';el.textContent=append&&el.textContent?el.textContent+'\n'+msg:msg;el.scrollTop=el.scrollHeight;}
+function normCartaText(t){return String(t||'').replace(/\r/g,'\n').replace(/\u00a0/g,' ').replace(/[ \t]+/g,' ').replace(/\n{3,}/g,'\n\n').trim();}
+function cleanCarta(s){return String(s||'').replace(/\s+\n/g,'\n').replace(/\n\s+/g,'\n').replace(/[ \t]{2,}/g,' ').trim();}
+function firstMatch(text,regex,group=1){const m=String(text||'').match(regex);return m?cleanCarta(m[group]||''):'';}
+function extractBetween(text,startRegex,endRegexes=[]){const t=String(text||'');const start=t.search(startRegex);if(start<0)return '';const after=t.slice(start).replace(startRegex,'');let end=after.length;for(const er of endRegexes){const idx=after.search(er);if(idx>=0)end=Math.min(end,idx);}return cleanCarta(after.slice(0,end));}
+function parseSeccionesAjustesUAH(text){const t=normCartaText(text);const starts=[{key:'evaluativas',re:/1\.\s*Adecuaciones en situaciones evaluativas/i},{key:'acceso',re:/2\.\s*Adecuaci[oó]n de acceso a la informaci[oó]n/i},{key:'participacion',re:/3\.\s*Adecuaciones para la participaci[oó]n/i},{key:'infraestructura',re:/4\.\s*Adecuaciones de infraestructura/i}];const found=starts.map(x=>({...x,idx:t.search(x.re)})).filter(x=>x.idx>=0).sort((a,b)=>a.idx-b.idx);const sections={};for(let i=0;i<found.length;i++){const cur=found[i],next=found[i+1];let chunk=t.slice(cur.idx,next?next.idx:t.length);chunk=chunk.replace(cur.re,'').trim().replace(/La Unidad de Trayectoria Estudiantil[\s\S]*$/i,'').trim();sections[cur.key]=cleanCarta(chunk);}return sections;}
+function extraerDatosCartaAjustes(text){const raw=normCartaText(text);const fecha=firstMatch(raw,/Santiago,\s*([^\n]+)/i);const studentHeader=firstMatch(raw,/Carta de Ajustes Razonables\s*Estudiante\s+([^\n]+)/i);const studentInline=firstMatch(raw,/estudiante\s+([A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚÑáéíóúñ]+(?:\s+[A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚÑáéíóúñ]+){1,5})\s+RUT/i);const career=firstMatch(raw,/comunica a la carrera de\s+(.+?)\s+que la estudiante/i);const rut=firstMatch(raw,/\bRUT\s+(\d{1,2}\.?\d{3}\.?\d{3}-[\dkK])\b/i);const email=firstMatch(raw,/(?:correo(?: electrónico)?(?: estudiante)?|email(?: estudiante)?)\s*[:\-]\s*([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/i);const phone=firstMatch(raw,/(?:tel[eé]fono|celular|fono)\s*[:\-]\s*((?:\+?56\s*)?(?:\(?9\)?\s*)?[\d\s.-]{8,14})/i);const antecedentes=extractBetween(raw,/Antecedentes entregados por la estudiante/i,[/Ajustes razonables\s+\d|Ajustes razonables/i,/1\.\s*Adecuaciones/i]);return {estudiante:cleanCarta(studentHeader||studentInline||'Estudiante sin identificar'),rut:cleanCarta(rut),correo:cleanCarta(email),telefono:cleanCarta(phone),carrera:cleanCarta(career),fechaCarta:cleanCarta(fecha),antecedentes:cleanCarta(antecedentes),secciones:parseSeccionesAjustesUAH(raw),rawText:raw};}
+async function ocrImageAR(file,base=0,span=100){if(typeof Tesseract==='undefined')throw new Error('No cargó Tesseract OCR');const result=await Tesseract.recognize(file,'spa+eng',{logger:m=>{if(m.status==='recognizing text'&&typeof m.progress==='number')arSetProgress(base+m.progress*span)}});return result?.data?.text||'';}
+async function readPdfAR(file,base=0,span=100){if(!window.pdfjsLib)throw new Error('No cargó PDF.js');pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;let full='';for(let p=1;p<=pdf.numPages;p++){arLog(`Página ${p}/${pdf.numPages}: leyendo…`);const page=await pdf.getPage(p);const tc=await page.getTextContent().catch(()=>null);const embedded=tc?.items?.map(i=>i.str).join(' ')||'';if(embedded.trim().length>80){full+='\n'+embedded;arSetProgress(base+(p/pdf.numPages)*span);}else{const vp=page.getViewport({scale:1.7}),canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');canvas.width=vp.width;canvas.height=vp.height;await page.render({canvasContext:ctx,viewport:vp}).promise;const blob=await new Promise(res=>canvas.toBlob(res,'image/png'));full+='\n'+await ocrImageAR(blob,base+((p-1)/pdf.numPages)*span,span/pdf.numPages);}}return full;}
+async function readCartaAR(file,index,total){const base=(index/total)*100,span=100/total,name=file.name.toLowerCase();if(name.endsWith('.doc')||name.endsWith('.docx')){if(typeof mammoth==='undefined')throw new Error('No cargó lector de Word');const r=await mammoth.extractRawText({arrayBuffer:await file.arrayBuffer()});arSetProgress(base+span);return r?.value||'';}if(name.endsWith('.pdf'))return readPdfAR(file,base,span);if(/\.(jpg|jpeg|png)$/i.test(name))return ocrImageAR(file,base,span);throw new Error('Formato no soportado');}
+function storagePathForAR(id,fileName){return `users/${docsUser.uid}/panelFortalecimiento/ajustesRazonables/${id}/${Date.now()}_${safeStorageName(fileName)}`;}
+async function uploadCartaAR(id,file){if(!docsUser||!docsStorage)return null;const path=storagePathForAR(id,file.name),ref=docsStorage.ref(path),task=ref.put(file,{contentType:file.type||'application/octet-stream'});await new Promise((resolve,reject)=>task.on('state_changed',snap=>arSetProgress(Math.max(5,Math.round((snap.bytesTransferred/snap.totalBytes)*100))),reject,resolve));return {fileName:file.name,mime:file.type||'application/octet-stream',size:file.size,storagePath:path,downloadURL:await ref.getDownloadURL(),subidoAt:new Date().toISOString(),subidoPor:docsUser.email||docsUser.displayName||''};}
+function findExistingAR(d){const nr=(d.rut||'').replace(/[^0-9kK]/g,'').toLowerCase();if(nr)return AJUSTES.find(a=>(a.rut||'').replace(/[^0-9kK]/g,'').toLowerCase()===nr);return AJUSTES.find(a=>a.estudiante&&d.estudiante&&a.estudiante.toLowerCase()===d.estudiante.toLowerCase());}
+async function importarAR(){const files=[...(document.getElementById('arFiles').files||[])];if(!files.length){showToast('Selecciona una o más cartas','bad');return}if(!docsUser){showToast('Conecta Google para almacenar la carta original','bad');await loginDocs();return}arLog('Iniciando lectura de cartas…',false);arSetProgress(0);let n=0;for(let i=0;i<files.length;i++){const file=files[i];try{arLog(`Procesando ${i+1}/${files.length}: ${file.name}`);const text=await readCartaAR(file,i,files.length);const d=extraerDatosCartaAjustes(text);let ficha=findExistingAR(d);const isNew=!ficha;if(!ficha){ficha={id:'ar'+Date.now().toString(36)+i,revision:'pendiente',observaciones:'',createdAt:new Date().toISOString()};AJUSTES.push(ficha);}Object.assign(ficha,{estudiante:d.estudiante,rut:d.rut,correo:d.correo,telefono:d.telefono,carrera:d.carrera,fechaCarta:d.fechaCarta,antecedentes:d.antecedentes,secciones:d.secciones,rawText:d.rawText,updatedAt:new Date().toISOString(),revision:'pendiente'});try{if(ficha.carta?.storagePath)await docsStorage.ref(ficha.carta.storagePath).delete().catch(()=>{});ficha.carta=await uploadCartaAR(ficha.id,file);}catch(e){arLog('⚠ No se pudo almacenar la carta original: '+e.message);}n++;arLog(`✓ ${isNew?'Agregado':'Actualizado'}: ${ficha.estudiante} · ${ficha.carrera||'carrera no detectada'} · ${ficha.rut||'RUT no detectado'}`);await saveData(false);renderAR();renderHome();}catch(e){console.error(e);arLog(`✕ ${file.name}: ${e.message}`);}}arSetProgress(100);showToast(`Importación terminada: ${n} carta(s) procesada(s)`,'ok');}
+function arSummary(a){const s=a.secciones||{};const parts=[];if(s.evaluativas)parts.push('Evaluación');if(s.acceso)parts.push('Acceso');if(s.participacion)parts.push('Participación');if(s.infraestructura)parts.push('Infraestructura');return parts.length?parts.join(' · '):'Sin bloques de ajustes detectados';}
+function filteredAR(){return AJUSTES.filter(a=>{if(arReview!=='ALL'&&(a.revision||'pendiente')!==arReview)return false;if(arSearch){const h=[a.estudiante,a.rut,a.carrera,a.correo].join(' ').toLowerCase();if(!h.includes(arSearch.toLowerCase()))return false;}return true;});}
+function renderAR(){const el=document.getElementById('arList');if(!el)return;const rows=filteredAR(),pending=AJUSTES.filter(a=>(a.revision||'pendiente')==='pendiente').length,valid=AJUSTES.filter(a=>a.revision==='validado').length,docs=AJUSTES.filter(a=>a.carta).length;document.getElementById('arKpis').innerHTML=`<div class="kpi"><div class="kn">${AJUSTES.length}</div><div class="kl">Estudiantes</div></div><div class="kpi warn"><div class="kn">${pending}</div><div class="kl">Por revisar</div></div><div class="kpi ok"><div class="kn">${valid}</div><div class="kl">Validados</div></div><div class="kpi"><div class="kn">${docs}</div><div class="kl">Cartas almacenadas</div></div>`;document.getElementById('arEmpty').style.display=rows.length?'none':'block';el.innerHTML=rows.map(a=>`<div class="ar-row"><div class="ar-row-top"><div><div class="ar-student">${arEsc(a.estudiante||'Estudiante sin identificar')}</div><div class="ar-meta">${arEsc(a.rut||'Sin RUT')} · ${arEsc(a.correo||'Sin correo')}</div></div><div><strong>${arEsc(a.carrera||'Carrera no detectada')}</strong><div class="ar-meta">Carta: ${arEsc(a.fechaCarta||'sin fecha detectada')}</div></div><div><span class="ar-review ${a.revision==='validado'?'ok':''}">${a.revision==='validado'?'✓ Validado':'⚠ Por revisar'}</span><div class="ar-meta">${arEsc(arSummary(a))}</div></div><div class="doc-actions">${a.carta?.downloadURL?`<a class="ar-doc-pill" href="${arEsc(a.carta.downloadURL)}" target="_blank" rel="noopener">📄 Abrir carta</a>`:''}<button class="btn-edit" data-ar-edit="${a.id}" title="Editar">✎</button></div></div>${a.antecedentes?`<div class="ar-adjustments"><strong>Antecedentes:</strong> ${arEsc(a.antecedentes.slice(0,500))}${a.antecedentes.length>500?'…':''}</div>`:''}</div>`).join('');}
+function openAR(id=''){const a=AJUSTES.find(x=>x.id===id)||null;editingARId=a?.id||null;document.getElementById('arModalTitle').textContent=a?'Editar ficha de Ajustes Razonables':'Agregar estudiante manualmente';document.getElementById('arId').textContent=a?'ID '+a.id:'';document.getElementById('aEstudiante').value=a?.estudiante||'';document.getElementById('aRut').value=a?.rut||'';document.getElementById('aCarrera').value=a?.carrera||'';document.getElementById('aCorreo').value=a?.correo||'';document.getElementById('aTelefono').value=a?.telefono||'';document.getElementById('aFechaCarta').value=a?.fechaCarta||'';document.getElementById('aAntecedentes').value=a?.antecedentes||'';document.getElementById('aEvaluativas').value=a?.secciones?.evaluativas||'';document.getElementById('aAcceso').value=a?.secciones?.acceso||'';document.getElementById('aParticipacion').value=a?.secciones?.participacion||'';document.getElementById('aInfraestructura').value=a?.secciones?.infraestructura||'';document.getElementById('aRevision').value=a?.revision||'pendiente';document.getElementById('aObservaciones').value=a?.observaciones||'';document.getElementById('arCartaActual').innerHTML=a?.carta?.downloadURL?`<div class="fg"><label>Carta original</label><a class="ar-doc-pill" href="${arEsc(a.carta.downloadURL)}" target="_blank">📄 ${arEsc(a.carta.fileName||'Abrir carta')}</a></div>`:'';document.getElementById('btnEliminarAR').style.display=a?'block':'none';document.getElementById('moAR').classList.add('open');document.body.style.overflow='hidden';}
+function closeAR(){document.getElementById('moAR').classList.remove('open');document.body.style.overflow='';editingARId=null;}
+async function saveARFicha(){const data={estudiante:document.getElementById('aEstudiante').value.trim(),rut:document.getElementById('aRut').value.trim(),carrera:document.getElementById('aCarrera').value.trim(),correo:document.getElementById('aCorreo').value.trim(),telefono:document.getElementById('aTelefono').value.trim(),fechaCarta:document.getElementById('aFechaCarta').value.trim(),antecedentes:document.getElementById('aAntecedentes').value.trim(),secciones:{evaluativas:document.getElementById('aEvaluativas').value.trim(),acceso:document.getElementById('aAcceso').value.trim(),participacion:document.getElementById('aParticipacion').value.trim(),infraestructura:document.getElementById('aInfraestructura').value.trim()},revision:document.getElementById('aRevision').value,observaciones:document.getElementById('aObservaciones').value.trim(),updatedAt:new Date().toISOString()};if(!data.estudiante){showToast('Ingresa el nombre del estudiante','bad');return}if(editingARId){const a=AJUSTES.find(x=>x.id===editingARId);Object.assign(a,data);}else AJUSTES.push({id:'ar'+Date.now().toString(36),createdAt:new Date().toISOString(),carta:null,...data});await saveData(false);closeAR();renderAll();showToast('Ficha guardada ✓','ok');}
+async function deleteARFicha(){if(!editingARId)return;const a=AJUSTES.find(x=>x.id===editingARId);if(!confirm(`¿Eliminar a ${a?.estudiante||'este estudiante'} de Ajustes Razonables?`))return;try{if(a?.carta?.storagePath&&docsStorage&&docsUser)await docsStorage.ref(a.carta.storagePath).delete();}catch(e){console.warn(e)}AJUSTES=AJUSTES.filter(x=>x.id!==editingARId);await saveData(false);closeAR();renderAll();showToast('Registro eliminado','ok');}
+document.getElementById('btnImportAR').onclick=importarAR;document.getElementById('btnARStorageLogin').onclick=loginDocs;document.getElementById('btnNuevoAR').onclick=()=>openAR();document.getElementById('arSearch').addEventListener('input',e=>{arSearch=e.target.value;renderAR()});document.getElementById('arReviewSeg').addEventListener('click',e=>{const b=e.target.closest('[data-ar-review]');if(!b)return;arReview=b.dataset.arReview;document.querySelectorAll('[data-ar-review]').forEach(x=>x.classList.toggle('active',x===b));renderAR()});document.addEventListener('click',e=>{const b=e.target.closest('[data-ar-edit]');if(b)openAR(b.dataset.arEdit)});document.getElementById('arClose').onclick=closeAR;document.getElementById('moAR').addEventListener('click',e=>{if(e.target.id==='moAR')closeAR()});document.getElementById('btnGuardarAR').onclick=saveARFicha;document.getElementById('btnEliminarAR').onclick=deleteARFicha;
 
 // ══════════════════════════════════════════════════════════════
 // ORGANIZACIÓN Y TAREAS
@@ -995,6 +1209,7 @@ function renderAll(){
   renderHome();
   renderFamilyGrid();
   renderCases();
+  renderAR();
   renderTasks();
   renderKPIs();
   renderCarreraChips();
@@ -1445,6 +1660,7 @@ function exportarTodoExcel(){
     ['Tareas pendientes',TAREAS.filter(t=>t.estado!=='realizada').length],
     ['Tareas vencidas',TAREAS.filter(t=>t.estado!=='realizada'&&isTaskOverdue(t)).length],
     ['Tareas realizadas',TAREAS.filter(t=>t.estado==='realizada').length],
+    ['Documentos almacenados',CASOS.reduce((n,c)=>n+(c.documentos||[]).length,0)],
     ['Talleres totales',TALLERES.length],
     ['Talleres realizados',TALLERES.filter(t=>t.estado==='realizado').length],
     ['Talleres pendientes',TALLERES.filter(t=>t.estado==='pendiente').length],
@@ -1487,6 +1703,16 @@ function exportarTodoExcel(){
   if(!tareas.length) XLSX.utils.sheet_add_aoa(wsTareas,[headersTareas],{origin:'A1'});
   XLSX.utils.book_append_sheet(wb,wsTareas,'Tareas');
 
+  const documentos=[];
+  CASOS.forEach(c=>(c.documentos||[]).forEach(d=>documentos.push({
+    'Caso ID':c.id||'', 'Estudiante':c.estudiante||'', 'Carrera':c.carrera||'', 'Documento':d.nombre||d.fileName||'', 'Tipo':d.tipo||'', 'Fecha documento':d.fecha||'', 'Archivo':d.fileName||'', 'Tamaño':humanFileSize(d.size), 'Descripción':d.descripcion||'', 'URL de descarga':d.downloadURL||'', 'Subido por':d.subidoPor||'', 'Fecha de carga':d.subidoAt||''
+  })));
+  const headersDocs=['Caso ID','Estudiante','Carrera','Documento','Tipo','Fecha documento','Archivo','Tamaño','Descripción','URL de descarga','Subido por','Fecha de carga'];
+  const wsDocs=XLSX.utils.json_to_sheet(documentos,{header:headersDocs});
+  wsDocs['!cols']=[{wch:16},{wch:28},{wch:28},{wch:38},{wch:20},{wch:16},{wch:36},{wch:12},{wch:45},{wch:60},{wch:28},{wch:24}];
+  if(!documentos.length) XLSX.utils.sheet_add_aoa(wsDocs,[headersDocs],{origin:'A1'});
+  XLSX.utils.book_append_sheet(wb,wsDocs,'Documentos');
+
   const talleres=[...TALLERES].sort((a,b)=>String(a.fecha||'').localeCompare(String(b.fecha||''))||String(a.hora||'').localeCompare(String(b.hora||''))).map(t=>({
     'ID':t.id||'',
     'Categoría':t.categoria||'Ciclo de Inserción',
@@ -1525,11 +1751,12 @@ document.getElementById('btnExportExcel').addEventListener('click',exportarTodoE
 // ══════════════════════════════════════════════════════════════
 // ESC
 // ══════════════════════════════════════════════════════════════
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeCase();closeTask();closeImport();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeCase();closeTask();closeImport();closeDocUpload();closeAR();}});
 
 // ══════════════════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════════════════
+initDocsFirebase();
 loadData();
 </script>
 </body>
