@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Panel de Gestión — UTE UAH 2026 · v5 Drive automático</title>
+<title>Panel de Gestión — UTE UAH 2026 · v7 Drive automático</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,400&family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
@@ -420,12 +420,13 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 
   <!-- AJUSTES RAZONABLES -->
   <section id="moduleAdjustments" class="module">
-    <div class="section-head"><div><h2>Ajustes Razonables <span style="font-family:var(--fm);font-size:.62rem;color:var(--p);vertical-align:middle">v6 · DRIVE AUTO</span></h2><p>La carpeta de Google Drive es el repositorio principal: el panel lee las cartas directamente desde allí y crea o actualiza las fichas.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
+    <div class="section-head"><div><h2>Ajustes Razonables <span style="font-family:var(--fm);font-size:.62rem;color:var(--p);vertical-align:middle">v7 · DRIVE AUTO</span></h2><p>La carpeta de Google Drive es el repositorio principal: el panel lee las cartas directamente desde allí y crea o actualiza las fichas.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
     <div class="case-kpis" id="arKpis"></div>
     <div class="ar-import drive-primary-panel">
-      <div class="drive-primary-head"><div><div class="drive-kicker">GOOGLE DRIVE · REPOSITORIO AUTOMÁTICO</div><h3>📁 Leer automáticamente la carpeta de cartas</h3><p>Conecta la carpeta una vez. El panel entra a Drive mediante la API, detecta Word, Google Docs, PDF e imágenes, lee cada carta y crea o actualiza la ficha del estudiante. No necesitas subir las cartas una por una.</p></div><span class="drive-api-badge">Drive API</span></div>
-      <div class="drive-box drive-box-v5"><strong>Carpeta de cartas</strong><input type="url" id="arDriveFolder" placeholder="https://drive.google.com/drive/folders/..."><button class="btn-primary" id="btnSaveDriveFolder" type="button">Conectar y sincronizar Drive</button><button class="btn-doc" id="btnSyncDrive" type="button">↻ Sincronizar ahora</button><a class="btn-doc" id="btnOpenDriveFolder" href="#" target="_blank" rel="noopener" style="text-decoration:none;display:none">Ver carpeta ↗</a><span class="drive-sync-status warn" id="driveSyncStatus">Drive no conectado</span></div>
-      <div class="drive-help" id="driveHelp">La primera conexión pedirá permiso de solo lectura para Google Drive. Luego el panel usa el ID de cada archivo y su fecha de modificación para evitar duplicados.</div>
+      <div class="drive-primary-head"><div><div class="drive-kicker">GOOGLE DRIVE · REPOSITORIO AUTOMÁTICO</div><h3>📁 Sincronizar automáticamente la carpeta de cartas</h3><p>Las cartas permanecen en Google Drive. Un conector de Apps Script autorizado por tu cuenta lee la carpeta, detecta archivos nuevos o modificados y el panel crea o actualiza las fichas sin subir documentos manualmente.</p></div><span class="drive-api-badge">Drive + Apps Script</span></div>
+      <div class="drive-box drive-box-v5"><strong>Carpeta de cartas</strong><input type="url" id="arDriveFolder" placeholder="https://drive.google.com/drive/folders/..."><a class="btn-doc" id="btnOpenDriveFolder" href="#" target="_blank" rel="noopener" style="text-decoration:none;display:none">Ver carpeta ↗</a></div>
+      <div class="drive-box drive-box-v5"><strong>Conector Apps Script</strong><input type="url" id="arDriveBridge" placeholder="https://script.google.com/macros/s/.../exec"><input type="password" id="arDriveBridgeKey" placeholder="Clave del conector" style="max-width:190px"><button class="btn-primary" id="btnSaveDriveFolder" type="button">Guardar y sincronizar</button><button class="btn-doc" id="btnSyncDrive" type="button">↻ Sincronizar ahora</button><span class="drive-sync-status warn" id="driveSyncStatus">Conector no configurado</span></div>
+      <div class="drive-help" id="driveHelp">Configuración única: despliega el archivo <strong>Conector_Drive_Cartas_UTE.gs</strong> como Web App, pega aquí su URL y la misma clave definida en el script. Después solo debes mantener las cartas dentro de la carpeta de Drive.</div>
       <div class="ar-progress" id="arProgress"><div id="arProgressBar"></div></div><div class="ar-log" id="arLog"></div>
       <details class="manual-backup" style="margin-top:12px"><summary style="cursor:pointer;font-weight:800;color:var(--txt2);font-size:.82rem">Importación manual de respaldo (opcional)</summary><div class="ar-actions" style="margin-top:10px"><input id="arFiles" type="file" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"><button class="btn-doc" id="btnImportAR" type="button">Leer archivos seleccionados</button></div></details>
     </div>
@@ -1177,89 +1178,88 @@ async function saveARFicha(){const data={estudiante:document.getElementById('aEs
 async function deleteARFicha(){if(!editingARId)return;const a=AJUSTES.find(x=>x.id===editingARId);if(!confirm(`¿Eliminar a ${a?.estudiante||'este estudiante'} de Ajustes Razonables?`))return;try{if(a?.carta?.storagePath&&docsStorage&&docsUser)await docsStorage.ref(a.carta.storagePath).delete();}catch(e){console.warn(e)}AJUSTES=AJUSTES.filter(x=>x.id!==editingARId);await saveData(false);closeAR();renderAll();showToast('Registro eliminado','ok');}
 document.getElementById('btnImportAR').onclick=importarAR;document.getElementById('btnNuevoAR').onclick=()=>openAR();document.getElementById('arSearch').addEventListener('input',e=>{arSearch=e.target.value;renderAR()});document.getElementById('arCareerFilter').addEventListener('change',e=>{arCareer=e.target.value;renderAR()});document.getElementById('arReviewSeg').addEventListener('click',e=>{const b=e.target.closest('[data-ar-review]');if(!b)return;arReview=b.dataset.arReview;document.querySelectorAll('[data-ar-review]').forEach(x=>x.classList.toggle('active',x===b));renderAR()});document.addEventListener('click',e=>{const t=e.target.closest('[data-ar-toggle-state]');if(t){toggleARState(t.dataset.arToggleState);return;}const b=e.target.closest('[data-ar-edit]');if(b)openAR(b.dataset.arEdit)});document.getElementById('arClose').onclick=closeAR;document.getElementById('moAR').addEventListener('click',e=>{if(e.target.id==='moAR')closeAR()});document.getElementById('btnGuardarAR').onclick=saveARFicha;document.getElementById('btnEliminarAR').onclick=deleteARFicha;
 
-// Google Drive · carpeta como repositorio principal de cartas
-const DRIVE_FOLDER_KEY='ute_ar_drive_folder';
+// Google Drive · repositorio automático mediante Apps Script bridge
+const DRIVE_FOLDER_KEY='ute_ar_drive_folder_v7';
+const DRIVE_BRIDGE_KEY='ute_ar_drive_bridge_v7';
+const DRIVE_SECRET_KEY='ute_ar_drive_bridge_secret_v7';
 function updateDriveStatus(txt,mode='warn'){const el=document.getElementById('driveSyncStatus');if(!el)return;el.textContent=txt;el.className='drive-sync-status '+mode;}
 function extractDriveFolderId(value=''){const v=String(value||'').trim();const m=v.match(/\/folders\/([A-Za-z0-9_-]+)/);if(m)return m[1];if(/^[A-Za-z0-9_-]{15,}$/.test(v))return v;return '';}
-function refreshDriveFolder(){const input=document.getElementById('arDriveFolder'),open=document.getElementById('btnOpenDriveFolder');if(!input||!open)return;const url=localStorage.getItem(DRIVE_FOLDER_KEY)||'';input.value=url;open.href=url||'#';open.style.display=url?'inline-flex':'none';updateDriveStatus(driveAccessToken?'Drive conectado · listo para sincronizar':(url?'Carpeta guardada · falta autorizar Drive':'Drive no conectado'),driveAccessToken?'ok':'warn');}
-async function connectDrive(){
-  if(LOCAL_FILE_MODE){showToast('Drive automático requiere abrir el panel por HTTPS.','bad');return false;}
-  if(!docsAuth){showToast('No fue posible iniciar la autenticación de Google','bad');return false;}
-  try{
-    updateDriveStatus('Solicitando permiso de lectura…','warn');
-    const provider=new firebase.auth.GoogleAuthProvider();
-    provider.addScope('https://www.googleapis.com/auth/drive.readonly');
-    provider.setCustomParameters({prompt:'consent',access_type:'online'});
-    const result=await docsAuth.signInWithPopup(provider);
-    const cred=result.credential || (firebase.auth.GoogleAuthProvider.credentialFromResult?firebase.auth.GoogleAuthProvider.credentialFromResult(result):null);
-    driveAccessToken=cred?.accessToken||'';
-    if(!driveAccessToken)throw new Error('La sesión de Google se abrió, pero no llegó el token OAuth de Drive. Cierra sesión, vuelve a conectar y acepta el permiso de lectura de Drive.');
-    sessionStorage.setItem('ute_drive_access_token',driveAccessToken);
-    updateDriveStatus('Drive conectado · leyendo carpeta…','ok');showToast('Google Drive conectado ✓','ok');return true;
-  }catch(e){console.error(e);updateDriveStatus('Error al autorizar Drive','warn');showToast('No se pudo autorizar Drive: '+e.message,'bad');return false;}
+function refreshDriveFolder(){
+  const f=document.getElementById('arDriveFolder'),b=document.getElementById('arDriveBridge'),k=document.getElementById('arDriveBridgeKey'),open=document.getElementById('btnOpenDriveFolder');
+  if(!f||!b||!k||!open)return;
+  const folder=localStorage.getItem(DRIVE_FOLDER_KEY)||'',bridge=localStorage.getItem(DRIVE_BRIDGE_KEY)||'',secret=localStorage.getItem(DRIVE_SECRET_KEY)||'';
+  f.value=folder;b.value=bridge;k.value=secret;open.href=folder||'#';open.style.display=folder?'inline-flex':'none';
+  updateDriveStatus(folder&&bridge&&secret?'Listo para sincronizar':'Conector no configurado',folder&&bridge&&secret?'ok':'warn');
 }
-async function driveFetch(url,opts={}){
-  if(!driveAccessToken)throw new Error('Drive no está conectado');
-  const headers=new Headers(opts.headers||{});headers.set('Authorization','Bearer '+driveAccessToken);
-  const r=await fetch(url,{...opts,headers});
-  if(r.status===401||r.status===403){if(r.status===401){driveAccessToken='';sessionStorage.removeItem('ute_drive_access_token');updateDriveStatus('Sesión Drive vencida · vuelve a conectar','warn');}const msg=await r.text().catch(()=>'');const hint=r.status===403?' Verifica que Google Drive API esté habilitada para el proyecto y que tu cuenta tenga acceso a la carpeta.':'';throw new Error('Google Drive rechazó el acceso.'+hint+(msg?' · '+msg.slice(0,180):''));}
-  if(!r.ok)throw new Error('Drive HTTP '+r.status+' · '+await r.text().catch(()=>''));
-  return r;
+function jsonpDrive(params,timeout=45000){
+  const base=(document.getElementById('arDriveBridge')?.value||localStorage.getItem(DRIVE_BRIDGE_KEY)||'').trim();
+  const secret=(document.getElementById('arDriveBridgeKey')?.value||localStorage.getItem(DRIVE_SECRET_KEY)||'').trim();
+  if(!base) return Promise.reject(new Error('Falta la URL del conector Apps Script'));
+  if(!secret) return Promise.reject(new Error('Falta la clave del conector'));
+  return new Promise((resolve,reject)=>{
+    const cb='__uteDriveCb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    const u=new URL(base);Object.entries({...params,key:secret,callback:cb}).forEach(([a,v])=>u.searchParams.set(a,String(v??'')));
+    const sc=document.createElement('script');let done=false;
+    const clean=()=>{if(done)return;done=true;clearTimeout(timer);try{delete window[cb]}catch{};sc.remove();};
+    window[cb]=(data)=>{clean();if(data&&data.ok===false)reject(new Error(data.error||'Error del conector Drive'));else resolve(data);};
+    sc.onerror=()=>{clean();reject(new Error('No se pudo cargar el conector Apps Script. Revisa que esté desplegado como Web App y accesible.'));};
+    const timer=setTimeout(()=>{clean();reject(new Error('El conector Drive tardó demasiado en responder'));},timeout);
+    sc.src=u.toString();document.head.appendChild(sc);
+  });
 }
-async function listDriveChildren(folderId){
-  let pageToken='',out=[];
-  do{
-    const qs=new URLSearchParams({q:`'${folderId}' in parents and trashed=false`,fields:'nextPageToken,files(id,name,mimeType,modifiedTime,webViewLink,size)',pageSize:'1000',supportsAllDrives:'true',includeItemsFromAllDrives:'true'});if(pageToken)qs.set('pageToken',pageToken);
-    const r=await driveFetch('https://www.googleapis.com/drive/v3/files?'+qs.toString());const j=await r.json();out.push(...(j.files||[]));pageToken=j.nextPageToken||'';
-  }while(pageToken);return out;
+function driveFileSupported(f){return f && (f.googleDoc || /pdf|word|document|image|officedocument\.wordprocessingml/i.test(f.mimeType||'') || /\.(pdf|docx?|jpe?g|png)$/i.test(f.name||''));}
+async function listDriveFolderRecursive(folderId){const r=await jsonpDrive({mode:'list',folderId},60000);return Array.isArray(r.files)?r.files:[];}
+function base64ToFile(b64,name,mime){const bin=atob(b64||''),arr=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);return new File([arr],name||'carta',{type:mime||'application/octet-stream'});}
+async function readDriveFileText(f,index,total){
+  const r=await jsonpDrive({mode:'file',fileId:f.id},90000);
+  if(r.text!=null)return String(r.text);
+  if(!r.base64)throw new Error('El conector no devolvió contenido para '+f.name);
+  const file=base64ToFile(r.base64,r.name||f.name,r.mimeType||f.mimeType);
+  return await readCartaAR(file,index,total);
 }
-async function listDriveFolderRecursive(rootId){
-  const folderMime='application/vnd.google-apps.folder',queue=[rootId],files=[],seen=new Set();
-  while(queue.length){const id=queue.shift();if(seen.has(id))continue;seen.add(id);const children=await listDriveChildren(id);for(const f of children){if(f.mimeType===folderMime)queue.push(f.id);else files.push(f);}}
-  return files;
-}
-function driveFileSupported(f){const n=(f.name||'').toLowerCase(),m=f.mimeType||'';return m==='application/vnd.google-apps.document'||m==='application/pdf'||m.startsWith('image/')||m.includes('wordprocessingml')||/\.(pdf|docx?|jpg|jpeg|png)$/i.test(n);}
-async function driveFileToText(f,index,total){
-  if(f.mimeType==='application/vnd.google-apps.document'){
-    const r=await driveFetch(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(f.id)}/export?mimeType=text%2Fplain`);arSetProgress(((index+1)/Math.max(total,1))*100);return await r.text();
-  }
-  const r=await driveFetch(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(f.id)}?alt=media&supportsAllDrives=true`);const blob=await r.blob();const file=new File([blob],f.name,{type:f.mimeType||blob.type||'application/octet-stream'});return await readCartaAR(file,index,total);
-}
-function driveWebLink(f){return f.webViewLink||`https://drive.google.com/file/d/${encodeURIComponent(f.id)}/view`;}
+function driveLinkForFile(f){return f.webViewLink||(`https://drive.google.com/open?id=${encodeURIComponent(f.id)}`);}
 async function syncDriveFolder({silent=false}={}){
-  if(driveSyncRunning)return;if(LOCAL_FILE_MODE){if(!silent)showToast('La lectura automática de Drive requiere HTTPS.','bad');return;}
+  if(driveSyncRunning)return;
   const folderUrl=(document.getElementById('arDriveFolder')?.value||localStorage.getItem(DRIVE_FOLDER_KEY)||'').trim(),folderId=extractDriveFolderId(folderUrl);
   if(!folderId){if(!silent)showToast('Pega primero el enlace de la carpeta de Drive','bad');return;}
-  if(!driveAccessToken){const ok=await connectDrive();if(!ok)return;}
-  driveSyncRunning=true;updateDriveStatus('Revisando carpeta…','warn');arLog('Consultando Google Drive…',false);arSetProgress(1);
+  driveSyncRunning=true;updateDriveStatus('Revisando carpeta…','warn');arLog('Consultando Google Drive mediante Apps Script…',false);arSetProgress(1);
   try{
     let files=(await listDriveFolderRecursive(folderId)).filter(driveFileSupported);
-    files.sort((a,b)=>String(a.modifiedTime||'').localeCompare(String(b.modifiedTime||'')));
+    files.sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''),'es'));
     if(!files.length){updateDriveStatus('Carpeta sin cartas compatibles','warn');arLog('No se encontraron PDF, Word, Google Docs o imágenes compatibles.');return;}
     let nuevos=0,actualizados=0,iguales=0,errores=0;
     for(let i=0;i<files.length;i++){
-      const f=files[i],existingByFile=AJUSTES.find(a=>a.carta?.driveFileId===f.id);
-      if(existingByFile&&existingByFile.carta?.modifiedTime===f.modifiedTime){iguales++;arSetProgress(((i+1)/files.length)*100);continue;}
+      const f=files[i];arSetProgress(Math.round((i/files.length)*100));
       try{
+        let ficha=AJUSTES.find(a=>a.carta?.driveFileId===f.id);
+        if(ficha && ficha.carta?.driveModifiedTime===f.modifiedTime){iguales++;continue;}
         arLog(`Leyendo Drive ${i+1}/${files.length}: ${f.name}`);
-        const text=await driveFileToText(f,i,files.length),d=extraerDatosCartaAjustes(text);
-        let ficha=existingByFile||findExistingAR(d),isNew=!ficha;
-        if(!ficha){ficha={id:'ar'+Date.now().toString(36)+i,createdAt:new Date().toISOString(),observaciones:'',revision:'pendiente'};AJUSTES.push(ficha);nuevos++;}else actualizados++;
-        const changed=!ficha.carta||ficha.carta.driveFileId!==f.id||ficha.carta.modifiedTime!==f.modifiedTime;
-        Object.assign(ficha,{estudiante:d.estudiante,rut:d.rut,correo:d.correo,telefono:d.telefono,carrera:d.carrera,fechaCarta:d.fechaCarta,antecedentes:d.antecedentes,secciones:d.secciones,rawText:d.rawText,updatedAt:new Date().toISOString()});
-        if(changed)ficha.revision='pendiente';
-        ficha.carta={source:'drive',driveFileId:f.id,fileName:f.name,mime:f.mimeType||'',size:Number(f.size)||0,modifiedTime:f.modifiedTime||'',webViewLink:driveWebLink(f)};
-        ficha.cartaLink=driveWebLink(f);
-        arLog(`✓ ${isNew?'Creada':'Actualizada'}: ${ficha.estudiante} · ${f.name}`);
+        const text=await readDriveFileText(f,i,files.length),d=extraerDatosCartaAjustes(text),byStudent=findExistingAR(d);
+        if(!ficha)ficha=byStudent;
+        const isNew=!ficha;
+        if(!ficha){ficha={id:'ar'+Date.now().toString(36)+i,createdAt:new Date().toISOString(),observaciones:''};AJUSTES.push(ficha);}
+        Object.assign(ficha,{estudiante:d.estudiante,rut:d.rut,correo:d.correo,telefono:d.telefono,carrera:d.carrera,fechaCarta:d.fechaCarta,antecedentes:d.antecedentes,secciones:d.secciones,rawText:d.rawText,revision:'pendiente',updatedAt:new Date().toISOString()});
+        ficha.carta={...(ficha.carta||{}),fileName:f.name,mime:f.mimeType||'',size:Number(f.size)||0,driveFileId:f.id,driveModifiedTime:f.modifiedTime||'',webViewLink:driveLinkForFile(f),source:'google-drive'};
+        ficha.cartaLink=driveLinkForFile(f);
+        if(isNew)nuevos++;else actualizados++;
+        arLog(`✓ ${isNew?'Agregado':'Actualizado'}: ${ficha.estudiante} · ${f.name}`);
       }catch(e){errores++;console.error(e);arLog(`✕ ${f.name}: ${e.message}`);}
     }
-    await saveData(false);renderAR();renderHome();arSetProgress(100);const hora=new Date().toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'});const msg=`Drive sincronizado ${hora} · ${nuevos} nuevas · ${actualizados} actualizadas · ${iguales} sin cambios${errores?' · '+errores+' errores':''}`;updateDriveStatus(msg,errores?'warn':'ok');if(!silent)showToast(msg,errores?'bad':'ok');
+    await saveData(false);renderAR();renderHome();arSetProgress(100);
+    const hora=new Date().toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'}),msg=`Drive sincronizado ${hora} · ${nuevos} nuevas · ${actualizados} actualizadas · ${iguales} sin cambios${errores?' · '+errores+' errores':''}`;
+    updateDriveStatus(msg,errores?'warn':'ok');if(!silent)showToast(msg,errores?'bad':'ok');
   }catch(e){console.error(e);updateDriveStatus('Error de sincronización','warn');arLog('Error: '+e.message);if(!silent)showToast('No se pudo sincronizar Drive: '+e.message,'bad');}
   finally{driveSyncRunning=false;}
 }
-document.getElementById('btnSaveDriveFolder').onclick=async()=>{const url=document.getElementById('arDriveFolder').value.trim();if(!url||!extractDriveFolderId(url)){showToast('Pega un enlace válido de carpeta de Google Drive','bad');return}localStorage.setItem(DRIVE_FOLDER_KEY,url);refreshDriveFolder();if(!driveAccessToken){const ok=await connectDrive();if(!ok)return;}await syncDriveFolder();};
+document.getElementById('btnSaveDriveFolder').onclick=async()=>{
+  const folder=document.getElementById('arDriveFolder').value.trim(),bridge=document.getElementById('arDriveBridge').value.trim(),secret=document.getElementById('arDriveBridgeKey').value.trim();
+  if(!folder||!extractDriveFolderId(folder)){showToast('Pega un enlace válido de carpeta de Google Drive','bad');return;}
+  if(!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:\?.*)?$/.test(bridge)){showToast('Pega la URL /exec del Apps Script desplegado','bad');return;}
+  if(!secret){showToast('Ingresa la clave del conector','bad');return;}
+  localStorage.setItem(DRIVE_FOLDER_KEY,folder);localStorage.setItem(DRIVE_BRIDGE_KEY,bridge);localStorage.setItem(DRIVE_SECRET_KEY,secret);refreshDriveFolder();await syncDriveFolder();
+};
 document.getElementById('btnSyncDrive').onclick=()=>syncDriveFolder();
-document.addEventListener('click',e=>{const b=e.target.closest('[data-module="adjustments"]');if(b)setTimeout(()=>{if(localStorage.getItem(DRIVE_FOLDER_KEY)&&driveAccessToken)syncDriveFolder({silent:true});},250);});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-module="adjustments"]');if(b)setTimeout(()=>{if(localStorage.getItem(DRIVE_FOLDER_KEY)&&localStorage.getItem(DRIVE_BRIDGE_KEY)&&localStorage.getItem(DRIVE_SECRET_KEY))syncDriveFolder({silent:true});},250);});
 refreshDriveFolder();
 
 // ══════════════════════════════════════════════════════════════
