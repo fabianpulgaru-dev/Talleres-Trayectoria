@@ -334,7 +334,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 /* ══ FILTROS ESTUDIANTES + DRIVE ══ */
 .student-filter-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}.student-filter-row .search-box{flex:1;min-width:250px}.student-filter-row .search-box input{width:100%}.filter-select{background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:10px 14px;font-family:var(--fb);font-size:.9rem;font-weight:800;color:var(--txt2);min-width:220px}.filter-select:focus{outline:none;border-color:var(--p)}
 .ar-state-btn{border:2px solid transparent;border-radius:999px;padding:7px 11px;font-family:var(--fb);font-size:.78rem;font-weight:900;cursor:pointer;transition:.15s;white-space:nowrap}.ar-state-btn.pendiente{background:var(--warn-bg);border-color:var(--warn-line);color:var(--warn)}.ar-state-btn.emitida{background:var(--ok-bg);border-color:var(--ok-line);color:var(--ok)}.ar-state-btn:hover{transform:translateY(-1px);filter:brightness(.97)}
-.drive-box{display:flex;gap:9px;align-items:center;flex-wrap:wrap;background:var(--surface2);border:2px solid var(--line);border-radius:12px;padding:10px 12px;margin:10px 0 14px}.drive-box strong{font-size:.82rem;color:var(--p-dk)}.drive-box input{flex:1;min-width:260px;border:2px solid var(--line);border-radius:9px;padding:8px 10px;font-family:var(--fb);color:var(--txt);background:#fff}.drive-link-visible{font-size:.75rem;color:var(--txt2);word-break:break-all;margin-top:5px}.ar-link-line{font-size:.75rem;color:var(--txt2);margin-top:5px;word-break:break-all}.ar-link-line a{color:var(--p);font-weight:800;text-decoration:none}.ar-link-line a:hover{text-decoration:underline}
+.drive-box{display:flex;gap:9px;align-items:center;flex-wrap:wrap;background:var(--surface2);border:2px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0 14px}.drive-box strong{font-size:.82rem;color:var(--p-dk)}.drive-box input{flex:1;min-width:260px;border:2px solid var(--line);border-radius:9px;padding:8px 10px;font-family:var(--fb);color:var(--txt);background:#fff}.drive-link-visible{font-size:.75rem;color:var(--txt2);word-break:break-all;margin-top:5px}.drive-sync-status{font-size:.76rem;font-weight:800;color:var(--txt2);padding:5px 8px;border-radius:8px;background:#fff;border:1px solid var(--line)}.drive-sync-status.ok{color:var(--ok);background:var(--ok-bg);border-color:var(--ok-line)}.drive-sync-status.warn{color:var(--warn);background:var(--warn-bg);border-color:var(--warn-line)}.ar-document-line{margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff;border:1px solid var(--line2);border-left:4px solid var(--p);border-radius:10px;padding:9px 11px}.ar-document-line .doc-label{font-size:.76rem;font-weight:900;color:var(--p-dk);text-transform:uppercase;letter-spacing:.04em}.ar-document-line .doc-file{font-size:.8rem;font-weight:800;color:var(--txt);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:420px}.ar-document-line a{margin-left:auto;color:#fff;background:var(--p);text-decoration:none;font-size:.76rem;font-weight:900;padding:6px 10px;border-radius:8px}.ar-document-line a:hover{opacity:.9}.ar-document-line.no-link{border-left-color:var(--off);color:var(--txt2)}
 </style>
 </head>
 <body>
@@ -416,13 +416,12 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
     <div class="section-head"><div><h2>Ajustes Razonables</h2><p>Sube una carta y el sistema crea o actualiza automáticamente la ficha del estudiante.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
     <div class="case-kpis" id="arKpis"></div>
     <div class="ar-import">
-      <h3>📄 Importar carta de ajustes</h3>
-      <p>Admite PDF, Word, JPG y PNG. Se intenta leer primero el texto del documento y se usa OCR cuando es necesario. Antes de usar los datos oficialmente, revisa la ficha creada.</p>
-      <div class="storage-bar" style="margin-bottom:12px"><span class="storage-dot" id="arStorageDot"></span><span id="arStorageStatus">Storage no conectado</span><span class="storage-spacer"></span><span class="storage-user" id="arStorageUser"></span><button type="button" class="btn-doc" id="btnARStorageLogin">Conectar con Google</button></div>
-      <div class="ar-actions"><input id="arFiles" type="file" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"><button class="btn-primary" id="btnImportAR" type="button">Leer cartas y agregar estudiantes</button></div>
+      <h3>📁 Sincronización automática con Google Drive</h3>
+      <p>Pega una sola vez la carpeta donde mantienes las cartas. Al entrar a esta sección, el panel revisará Drive, leerá las cartas nuevas o modificadas y creará o actualizará las fichas automáticamente.</p>
+      <div class="drive-box"><strong>Carpeta de cartas</strong><input type="url" id="arDriveFolder" placeholder="https://drive.google.com/drive/folders/..."><button class="btn-doc" id="btnSaveDriveFolder" type="button">Guardar carpeta</button><button class="btn-doc" id="btnConnectDrive" type="button">Conectar Drive</button><button class="btn-primary" id="btnSyncDrive" type="button">↻ Sincronizar ahora</button><a class="btn-doc" id="btnOpenDriveFolder" href="#" target="_blank" rel="noopener" style="text-decoration:none;display:none">Abrir carpeta ↗</a><span class="drive-sync-status warn" id="driveSyncStatus">Drive no conectado</span></div>
       <div class="ar-progress" id="arProgress"><div id="arProgressBar"></div></div><div class="ar-log" id="arLog"></div>
+      <details style="margin-top:12px"><summary style="cursor:pointer;font-weight:800;color:var(--txt2);font-size:.82rem">Importación manual de respaldo</summary><div class="ar-actions" style="margin-top:10px"><input id="arFiles" type="file" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"><button class="btn-doc" id="btnImportAR" type="button">Leer archivos seleccionados</button></div></details>
     </div>
-    <div class="drive-box"><strong>📁 Carpeta Drive de cartas</strong><input type="url" id="arDriveFolder" placeholder="Pega aquí el enlace de la carpeta de Google Drive"><button class="btn-doc" id="btnSaveDriveFolder" type="button">Guardar enlace</button><a class="btn-doc" id="btnOpenDriveFolder" href="#" target="_blank" rel="noopener" style="text-decoration:none;display:none">Abrir carpeta Drive ↗</a></div>
     <div class="case-toolbar"><div class="seg" id="arReviewSeg"><button class="active" data-ar-review="ALL">Todos</button><button data-ar-review="emitida">Emitidas</button><button data-ar-review="pendiente">Pendientes</button></div><select class="filter-select" id="arCareerFilter"><option value="ALL">Todas las carreras</option></select><div class="search-box"><input type="text" id="arSearch" list="arStudentNames" autocomplete="off" placeholder="Buscar estudiante por nombre..."><datalist id="arStudentNames"></datalist></div><button class="btn-primary" id="btnNuevoAR">+ Agregar manualmente</button></div>
     <div class="ar-list" id="arList"></div><div class="case-empty" id="arEmpty" style="display:none">No hay estudiantes con este filtro.</div>
   </section>
@@ -680,6 +679,8 @@ const DOCS_FIREBASE_CONFIG={
   appId:"1:963939528799:web:dc462d7717bc0e7df5abea"
 };
 let docsApp=null,docsAuth=null,docsStorage=null,docsUser=null,docsCaseId=null;
+let driveAccessToken=sessionStorage.getItem('ute_drive_access_token')||'';
+let driveSyncRunning=false;
 
 
 const DIAS_ES=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
@@ -1087,7 +1088,7 @@ async function loginDocs(){
     return;
   }
   if(!docsAuth){showToast('No fue posible iniciar Firebase Storage','bad');return;}
-  try{const provider=new firebase.auth.GoogleAuthProvider();await docsAuth.signInWithPopup(provider);}catch(e){console.error(e);showToast('No se pudo conectar con Google: '+e.message,'bad');}
+  try{const provider=new firebase.auth.GoogleAuthProvider();const result=await docsAuth.signInWithPopup(provider);const cred=firebase.auth.GoogleAuthProvider.credentialFromResult(result);if(cred?.accessToken){driveAccessToken=cred.accessToken;sessionStorage.setItem('ute_drive_access_token',driveAccessToken);updateDriveStatus('Drive conectado','ok');}}catch(e){console.error(e);showToast('No se pudo conectar con Google: '+e.message,'bad');}
 }
 function safeStorageName(name='archivo'){return String(name).replace(/[^\w.\-áéíóúñÁÉÍÓÚÑ ]+/g,'_').slice(0,100);}
 function storagePathFor(caseId,fileName){return `users/${docsUser.uid}/panelFortalecimiento/casos/${caseId}/${Date.now()}_${safeStorageName(fileName)}`;}
@@ -1154,19 +1155,98 @@ function renderAR(){
   const rows=filteredAR(),pending=AJUSTES.filter(a=>(a.revision||'pendiente')==='pendiente').length,issued=AJUSTES.filter(a=>a.revision==='emitida').length,docs=AJUSTES.filter(a=>cartaURL(a)||a.carta).length;
   document.getElementById('arKpis').innerHTML=`<div class="kpi"><div class="kn">${AJUSTES.length}</div><div class="kl">Estudiantes</div></div><div class="kpi ok"><div class="kn">${issued}</div><div class="kl">Emitidas</div></div><div class="kpi warn"><div class="kn">${pending}</div><div class="kl">Pendientes</div></div><div class="kpi"><div class="kn">${docs}</div><div class="kl">Cartas vinculadas</div></div>`;
   document.getElementById('arEmpty').style.display=rows.length?'none':'block';
-  el.innerHTML=rows.map(a=>{const link=cartaURL(a);return `<div class="ar-row"><div class="ar-row-top"><div><div class="ar-student">${arEsc(a.estudiante||'Estudiante sin identificar')}</div><div class="ar-meta">${arEsc(a.rut||'Sin RUT')} · ${arEsc(a.correo||'Sin correo')}</div></div><div><strong>${arEsc(a.carrera||'Carrera no detectada')}</strong><div class="ar-meta">Carta: ${arEsc(a.fechaCarta||'sin fecha detectada')}</div></div><div><button type="button" class="ar-state-btn ${a.revision==='emitida'?'emitida':'pendiente'}" data-ar-toggle-state="${a.id}" title="Cambiar estado con un clic">${a.revision==='emitida'?'✓ Emitida':'⏳ Pendiente'}</button><div class="ar-meta">${arEsc(arSummary(a))}</div></div><div class="doc-actions">${link?`<a class="ar-doc-pill" href="${arEsc(link)}" target="_blank" rel="noopener">📄 Abrir carta ↗</a>`:a.carta?.localOnly?`<span class="ar-doc-pill" title="Importada en modo local; publica el panel por HTTPS para almacenar el archivo original">📄 ${arEsc(a.carta.fileName||'Carta')} · sin link</span>`:''}<button class="btn-edit" data-ar-edit="${a.id}" title="Editar">✎</button></div></div>${link?`<div class="ar-link-line">🔗 <a href="${arEsc(link)}" target="_blank" rel="noopener">${arEsc(link)}</a></div>`:''}${a.antecedentes?`<div class="ar-adjustments"><strong>Antecedentes:</strong> ${arEsc(a.antecedentes.slice(0,500))}${a.antecedentes.length>500?'…':''}</div>`:''}</div>`}).join('');
+  el.innerHTML=rows.map(a=>{const link=cartaURL(a),fn=a.carta?.fileName||'Carta de ajustes';return `<div class="ar-row"><div class="ar-row-top"><div><div class="ar-student">${arEsc(a.estudiante||'Estudiante sin identificar')}</div><div class="ar-meta">${arEsc(a.rut||'Sin RUT')} · ${arEsc(a.correo||'Sin correo')}</div></div><div><strong>${arEsc(a.carrera||'Carrera no detectada')}</strong><div class="ar-meta">Carta: ${arEsc(a.fechaCarta||'sin fecha detectada')}</div></div><div><button type="button" class="ar-state-btn ${a.revision==='emitida'?'emitida':'pendiente'}" data-ar-toggle-state="${a.id}" title="Cambiar estado con un clic">${a.revision==='emitida'?'✓ Emitida':'⏳ Pendiente'}</button><div class="ar-meta">${arEsc(arSummary(a))}</div></div><div class="doc-actions"><button class="btn-edit" data-ar-edit="${a.id}" title="Editar">✎</button></div></div><div class="ar-document-line${link?'':' no-link'}"><span class="doc-label">📄 Documento Word / carta</span><span class="doc-file" title="${arEsc(fn)}">${arEsc(fn)}</span>${link?`<a href="${arEsc(link)}" target="_blank" rel="noopener">Abrir documento ↗</a>`:`<span class="ar-meta">Sin enlace asociado</span>`}</div>${a.antecedentes?`<div class="ar-adjustments"><strong>Antecedentes:</strong> ${arEsc(a.antecedentes.slice(0,500))}${a.antecedentes.length>500?'…':''}</div>`:''}</div>`}).join('');
 }
 async function toggleARState(id){const a=AJUSTES.find(x=>x.id===id);if(!a)return;a.revision=a.revision==='emitida'?'pendiente':'emitida';a.updatedAt=new Date().toISOString();await saveData(false);renderAR();renderHome();showToast(`Estado: ${a.revision==='emitida'?'Emitida':'Pendiente'}`,'ok');}
 function openAR(id=''){const a=AJUSTES.find(x=>x.id===id)||null;editingARId=a?.id||null;document.getElementById('arModalTitle').textContent=a?'Editar ficha de Ajustes Razonables':'Agregar estudiante manualmente';document.getElementById('arId').textContent=a?'ID '+a.id:'';document.getElementById('aEstudiante').value=a?.estudiante||'';document.getElementById('aRut').value=a?.rut||'';document.getElementById('aCarrera').value=a?.carrera||'';document.getElementById('aCorreo').value=a?.correo||'';document.getElementById('aTelefono').value=a?.telefono||'';document.getElementById('aFechaCarta').value=a?.fechaCarta||'';document.getElementById('aAntecedentes').value=a?.antecedentes||'';document.getElementById('aEvaluativas').value=a?.secciones?.evaluativas||'';document.getElementById('aAcceso').value=a?.secciones?.acceso||'';document.getElementById('aParticipacion').value=a?.secciones?.participacion||'';document.getElementById('aInfraestructura').value=a?.secciones?.infraestructura||'';document.getElementById('aRevision').value=a?.revision==='validado'?'emitida':(a?.revision||'pendiente');document.getElementById('aObservaciones').value=a?.observaciones||'';document.getElementById('aCartaLink').value=a?.cartaLink||a?.carta?.downloadURL||'';document.getElementById('arCartaActual').innerHTML=a&&cartaURL(a)?`<div class="fg"><label>Carta vinculada</label><a class="ar-doc-pill" href="${arEsc(cartaURL(a))}" target="_blank">📄 ${arEsc(a.carta?.fileName||'Abrir carta')}</a><div class="drive-link-visible">${arEsc(cartaURL(a))}</div></div>`:'';document.getElementById('btnEliminarAR').style.display=a?'block':'none';document.getElementById('moAR').classList.add('open');document.body.style.overflow='hidden';}
 function closeAR(){document.getElementById('moAR').classList.remove('open');document.body.style.overflow='';editingARId=null;}
 async function saveARFicha(){const data={estudiante:document.getElementById('aEstudiante').value.trim(),rut:document.getElementById('aRut').value.trim(),carrera:document.getElementById('aCarrera').value.trim(),correo:document.getElementById('aCorreo').value.trim(),telefono:document.getElementById('aTelefono').value.trim(),fechaCarta:document.getElementById('aFechaCarta').value.trim(),antecedentes:document.getElementById('aAntecedentes').value.trim(),secciones:{evaluativas:document.getElementById('aEvaluativas').value.trim(),acceso:document.getElementById('aAcceso').value.trim(),participacion:document.getElementById('aParticipacion').value.trim(),infraestructura:document.getElementById('aInfraestructura').value.trim()},revision:document.getElementById('aRevision').value,cartaLink:document.getElementById('aCartaLink').value.trim(),observaciones:document.getElementById('aObservaciones').value.trim(),updatedAt:new Date().toISOString()};if(!data.estudiante){showToast('Ingresa el nombre del estudiante','bad');return}if(editingARId){const a=AJUSTES.find(x=>x.id===editingARId);Object.assign(a,data);}else AJUSTES.push({id:'ar'+Date.now().toString(36),createdAt:new Date().toISOString(),carta:null,...data});await saveData(false);closeAR();renderAll();showToast('Ficha guardada ✓','ok');}
 async function deleteARFicha(){if(!editingARId)return;const a=AJUSTES.find(x=>x.id===editingARId);if(!confirm(`¿Eliminar a ${a?.estudiante||'este estudiante'} de Ajustes Razonables?`))return;try{if(a?.carta?.storagePath&&docsStorage&&docsUser)await docsStorage.ref(a.carta.storagePath).delete();}catch(e){console.warn(e)}AJUSTES=AJUSTES.filter(x=>x.id!==editingARId);await saveData(false);closeAR();renderAll();showToast('Registro eliminado','ok');}
-document.getElementById('btnImportAR').onclick=importarAR;document.getElementById('btnARStorageLogin').onclick=loginDocs;document.getElementById('btnNuevoAR').onclick=()=>openAR();document.getElementById('arSearch').addEventListener('input',e=>{arSearch=e.target.value;renderAR()});document.getElementById('arCareerFilter').addEventListener('change',e=>{arCareer=e.target.value;renderAR()});document.getElementById('arReviewSeg').addEventListener('click',e=>{const b=e.target.closest('[data-ar-review]');if(!b)return;arReview=b.dataset.arReview;document.querySelectorAll('[data-ar-review]').forEach(x=>x.classList.toggle('active',x===b));renderAR()});document.addEventListener('click',e=>{const t=e.target.closest('[data-ar-toggle-state]');if(t){toggleARState(t.dataset.arToggleState);return;}const b=e.target.closest('[data-ar-edit]');if(b)openAR(b.dataset.arEdit)});document.getElementById('arClose').onclick=closeAR;document.getElementById('moAR').addEventListener('click',e=>{if(e.target.id==='moAR')closeAR()});document.getElementById('btnGuardarAR').onclick=saveARFicha;document.getElementById('btnEliminarAR').onclick=deleteARFicha;
+document.getElementById('btnImportAR').onclick=importarAR;document.getElementById('btnNuevoAR').onclick=()=>openAR();document.getElementById('arSearch').addEventListener('input',e=>{arSearch=e.target.value;renderAR()});document.getElementById('arCareerFilter').addEventListener('change',e=>{arCareer=e.target.value;renderAR()});document.getElementById('arReviewSeg').addEventListener('click',e=>{const b=e.target.closest('[data-ar-review]');if(!b)return;arReview=b.dataset.arReview;document.querySelectorAll('[data-ar-review]').forEach(x=>x.classList.toggle('active',x===b));renderAR()});document.addEventListener('click',e=>{const t=e.target.closest('[data-ar-toggle-state]');if(t){toggleARState(t.dataset.arToggleState);return;}const b=e.target.closest('[data-ar-edit]');if(b)openAR(b.dataset.arEdit)});document.getElementById('arClose').onclick=closeAR;document.getElementById('moAR').addEventListener('click',e=>{if(e.target.id==='moAR')closeAR()});document.getElementById('btnGuardarAR').onclick=saveARFicha;document.getElementById('btnEliminarAR').onclick=deleteARFicha;
 
-// Carpeta Drive general: acceso directo. La indexación automática requiere Google Drive API/OAuth.
+// Google Drive · carpeta como repositorio principal de cartas
 const DRIVE_FOLDER_KEY='ute_ar_drive_folder';
-function refreshDriveFolder(){const input=document.getElementById('arDriveFolder'),open=document.getElementById('btnOpenDriveFolder');if(!input||!open)return;const url=localStorage.getItem(DRIVE_FOLDER_KEY)||'';input.value=url;open.href=url||'#';open.style.display=url?'inline-flex':'none';}
-document.getElementById('btnSaveDriveFolder').onclick=()=>{const url=document.getElementById('arDriveFolder').value.trim();if(url&&!/^https?:\/\//i.test(url)){showToast('Ingresa un enlace válido de Drive','bad');return}if(url)localStorage.setItem(DRIVE_FOLDER_KEY,url);else localStorage.removeItem(DRIVE_FOLDER_KEY);refreshDriveFolder();showToast(url?'Carpeta Drive guardada ✓':'Enlace de Drive eliminado','ok');};
+function updateDriveStatus(txt,mode='warn'){const el=document.getElementById('driveSyncStatus');if(!el)return;el.textContent=txt;el.className='drive-sync-status '+mode;}
+function extractDriveFolderId(value=''){const v=String(value||'').trim();const m=v.match(/\/folders\/([A-Za-z0-9_-]+)/);if(m)return m[1];if(/^[A-Za-z0-9_-]{15,}$/.test(v))return v;return '';}
+function refreshDriveFolder(){const input=document.getElementById('arDriveFolder'),open=document.getElementById('btnOpenDriveFolder');if(!input||!open)return;const url=localStorage.getItem(DRIVE_FOLDER_KEY)||'';input.value=url;open.href=url||'#';open.style.display=url?'inline-flex':'none';updateDriveStatus(driveAccessToken?'Drive conectado':'Drive no conectado',driveAccessToken?'ok':'warn');}
+async function connectDrive(){
+  if(LOCAL_FILE_MODE){showToast('Para conectar Drive, publica el panel por HTTPS (por ejemplo GitHub Pages).','bad');return false;}
+  if(!docsAuth){showToast('No fue posible iniciar la autenticación de Google','bad');return false;}
+  try{
+    const provider=new firebase.auth.GoogleAuthProvider();
+    provider.addScope('https://www.googleapis.com/auth/drive.readonly');
+    provider.setCustomParameters({prompt:'consent'});
+    const result=await docsAuth.signInWithPopup(provider);
+    const cred=firebase.auth.GoogleAuthProvider.credentialFromResult(result);
+    driveAccessToken=cred?.accessToken||'';
+    if(!driveAccessToken)throw new Error('Google no entregó un token de acceso a Drive');
+    sessionStorage.setItem('ute_drive_access_token',driveAccessToken);
+    updateDriveStatus('Drive conectado','ok');showToast('Google Drive conectado ✓','ok');return true;
+  }catch(e){console.error(e);updateDriveStatus('Error al conectar Drive','warn');showToast('No se pudo conectar Drive: '+e.message,'bad');return false;}
+}
+async function driveFetch(url,opts={}){
+  if(!driveAccessToken)throw new Error('Drive no está conectado');
+  const headers=new Headers(opts.headers||{});headers.set('Authorization','Bearer '+driveAccessToken);
+  const r=await fetch(url,{...opts,headers});
+  if(r.status===401||r.status===403){if(r.status===401){driveAccessToken='';sessionStorage.removeItem('ute_drive_access_token');updateDriveStatus('Sesión Drive vencida','warn');}const msg=await r.text().catch(()=>'');throw new Error('Google Drive rechazó el acceso'+(msg?' · '+msg.slice(0,180):''));}
+  if(!r.ok)throw new Error('Drive HTTP '+r.status+' · '+await r.text().catch(()=>''));
+  return r;
+}
+async function listDriveChildren(folderId){
+  let pageToken='',out=[];
+  do{
+    const qs=new URLSearchParams({q:`'${folderId}' in parents and trashed=false`,fields:'nextPageToken,files(id,name,mimeType,modifiedTime,webViewLink,size)',pageSize:'1000',supportsAllDrives:'true',includeItemsFromAllDrives:'true'});if(pageToken)qs.set('pageToken',pageToken);
+    const r=await driveFetch('https://www.googleapis.com/drive/v3/files?'+qs.toString());const j=await r.json();out.push(...(j.files||[]));pageToken=j.nextPageToken||'';
+  }while(pageToken);return out;
+}
+async function listDriveFolderRecursive(rootId){
+  const folderMime='application/vnd.google-apps.folder',queue=[rootId],files=[],seen=new Set();
+  while(queue.length){const id=queue.shift();if(seen.has(id))continue;seen.add(id);const children=await listDriveChildren(id);for(const f of children){if(f.mimeType===folderMime)queue.push(f.id);else files.push(f);}}
+  return files;
+}
+function driveFileSupported(f){const n=(f.name||'').toLowerCase(),m=f.mimeType||'';return m==='application/vnd.google-apps.document'||m==='application/pdf'||m.startsWith('image/')||m.includes('wordprocessingml')||/\.(pdf|docx?|jpg|jpeg|png)$/i.test(n);}
+async function driveFileToText(f,index,total){
+  if(f.mimeType==='application/vnd.google-apps.document'){
+    const r=await driveFetch(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(f.id)}/export?mimeType=text%2Fplain`);arSetProgress(((index+1)/Math.max(total,1))*100);return await r.text();
+  }
+  const r=await driveFetch(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(f.id)}?alt=media&supportsAllDrives=true`);const blob=await r.blob();const file=new File([blob],f.name,{type:f.mimeType||blob.type||'application/octet-stream'});return await readCartaAR(file,index,total);
+}
+function driveWebLink(f){return f.webViewLink||`https://drive.google.com/file/d/${encodeURIComponent(f.id)}/view`;}
+async function syncDriveFolder({silent=false}={}){
+  if(driveSyncRunning)return;if(LOCAL_FILE_MODE){if(!silent)showToast('La lectura automática de Drive requiere HTTPS.','bad');return;}
+  const folderUrl=(document.getElementById('arDriveFolder')?.value||localStorage.getItem(DRIVE_FOLDER_KEY)||'').trim(),folderId=extractDriveFolderId(folderUrl);
+  if(!folderId){if(!silent)showToast('Pega primero el enlace de la carpeta de Drive','bad');return;}
+  if(!driveAccessToken){const ok=await connectDrive();if(!ok)return;}
+  driveSyncRunning=true;updateDriveStatus('Revisando carpeta…','warn');arLog('Consultando Google Drive…',false);arSetProgress(1);
+  try{
+    let files=(await listDriveFolderRecursive(folderId)).filter(driveFileSupported);
+    files.sort((a,b)=>String(a.modifiedTime||'').localeCompare(String(b.modifiedTime||'')));
+    if(!files.length){updateDriveStatus('Carpeta sin cartas compatibles','warn');arLog('No se encontraron PDF, Word, Google Docs o imágenes compatibles.');return;}
+    let nuevos=0,actualizados=0,iguales=0,errores=0;
+    for(let i=0;i<files.length;i++){
+      const f=files[i],existingByFile=AJUSTES.find(a=>a.carta?.driveFileId===f.id);
+      if(existingByFile&&existingByFile.carta?.modifiedTime===f.modifiedTime){iguales++;arSetProgress(((i+1)/files.length)*100);continue;}
+      try{
+        arLog(`Leyendo Drive ${i+1}/${files.length}: ${f.name}`);
+        const text=await driveFileToText(f,i,files.length),d=extraerDatosCartaAjustes(text);
+        let ficha=existingByFile||findExistingAR(d),isNew=!ficha;
+        if(!ficha){ficha={id:'ar'+Date.now().toString(36)+i,createdAt:new Date().toISOString(),observaciones:'',revision:'pendiente'};AJUSTES.push(ficha);nuevos++;}else actualizados++;
+        const changed=!ficha.carta||ficha.carta.driveFileId!==f.id||ficha.carta.modifiedTime!==f.modifiedTime;
+        Object.assign(ficha,{estudiante:d.estudiante,rut:d.rut,correo:d.correo,telefono:d.telefono,carrera:d.carrera,fechaCarta:d.fechaCarta,antecedentes:d.antecedentes,secciones:d.secciones,rawText:d.rawText,updatedAt:new Date().toISOString()});
+        if(changed)ficha.revision='pendiente';
+        ficha.carta={source:'drive',driveFileId:f.id,fileName:f.name,mime:f.mimeType||'',size:Number(f.size)||0,modifiedTime:f.modifiedTime||'',webViewLink:driveWebLink(f)};
+        ficha.cartaLink=driveWebLink(f);
+        arLog(`✓ ${isNew?'Creada':'Actualizada'}: ${ficha.estudiante} · ${f.name}`);
+      }catch(e){errores++;console.error(e);arLog(`✕ ${f.name}: ${e.message}`);}
+    }
+    await saveData(false);renderAR();renderHome();arSetProgress(100);const msg=`Drive sincronizado · ${nuevos} nuevas · ${actualizados} actualizadas · ${iguales} sin cambios${errores?' · '+errores+' errores':''}`;updateDriveStatus(msg,errores?'warn':'ok');if(!silent)showToast(msg,errores?'bad':'ok');
+  }catch(e){console.error(e);updateDriveStatus('Error de sincronización','warn');arLog('Error: '+e.message);if(!silent)showToast('No se pudo sincronizar Drive: '+e.message,'bad');}
+  finally{driveSyncRunning=false;}
+}
+document.getElementById('btnSaveDriveFolder').onclick=()=>{const url=document.getElementById('arDriveFolder').value.trim();if(url&&!extractDriveFolderId(url)){showToast('No pude reconocer el ID de la carpeta de Drive','bad');return}if(url)localStorage.setItem(DRIVE_FOLDER_KEY,url);else localStorage.removeItem(DRIVE_FOLDER_KEY);refreshDriveFolder();showToast(url?'Carpeta Drive guardada ✓':'Carpeta eliminada','ok');};
+document.getElementById('btnConnectDrive').onclick=connectDrive;
+document.getElementById('btnSyncDrive').onclick=()=>syncDriveFolder();
+document.addEventListener('click',e=>{const b=e.target.closest('[data-module="adjustments"]');if(b)setTimeout(()=>{if(localStorage.getItem(DRIVE_FOLDER_KEY)&&driveAccessToken)syncDriveFolder({silent:true});},250);});
 refreshDriveFolder();
 
 // ══════════════════════════════════════════════════════════════
