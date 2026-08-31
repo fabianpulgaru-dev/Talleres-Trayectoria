@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Panel de Gestión — UTE UAH 2026 · v17 Drive automático</title>
+<title>Panel de Gestión — UTE UAH 2026 · v18 filtros de tareas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,400&family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
@@ -270,11 +270,24 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 .task-access.active{border-color:var(--p);background:var(--p-bg);}
 .task-access-icon{font-size:1.5rem;margin-bottom:8px;display:block;}.task-access-name{font-weight:900;color:var(--p-dk);font-size:.95rem;display:block;}.task-access-count{font-family:var(--fm);font-size:.76rem;color:var(--txt2);margin-top:5px;display:block;}
 .task-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px;}.task-toolbar .search-box{flex:1;min-width:220px;}.task-toolbar .search-box input{width:100%;}
+.task-filterbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:-7px 0 18px;padding:11px 12px;background:var(--surface2);border:1px solid var(--line);border-radius:12px}.task-filterbar .filter-select{min-width:150px;flex:0 1 190px}.task-filter-label{font-size:.72rem;font-weight:900;color:var(--p-dk);text-transform:uppercase;letter-spacing:.06em;margin-right:2px}.task-filter-count{font-size:.76rem;font-weight:900;color:var(--txt2);margin-left:auto;white-space:nowrap}.task-filter-count.active{color:var(--p)}.btn-task-clear{border:1px solid var(--line2);background:#fff;color:var(--p-dk);border-radius:9px;padding:8px 11px;font-family:var(--fb);font-weight:900;font-size:.78rem;cursor:pointer}.btn-task-clear:hover{background:var(--p);color:#fff;border-color:var(--p)}
 .task-list{display:flex;flex-direction:column;gap:10px;}.task-row{display:grid;grid-template-columns:38px 1.3fr .8fr .75fr .75fr 44px;gap:14px;align-items:center;background:var(--surface);border:2px solid var(--line);border-radius:13px;padding:14px 15px;position:relative;}.task-row:hover{border-color:var(--line2);box-shadow:0 4px 14px rgba(110,70,180,.07);}.task-row.done{opacity:.68}.task-row.overdue{border-left:5px solid var(--bad)}.task-row.today{border-left:5px solid var(--warn)}
 .task-check{width:23px;height:23px;accent-color:var(--ok);cursor:pointer}.task-title{font-weight:900;color:var(--txt);line-height:1.3}.task-title.done{text-decoration:line-through}.task-sub{font-size:.78rem;color:var(--txt2);font-weight:650;margin-top:4px}.task-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);font-weight:900}.task-value{font-size:.82rem;color:var(--txt2);font-weight:750;margin-top:2px}.task-date{font-family:var(--fm);font-size:.8rem;font-weight:800}.task-date.bad{color:var(--bad)}.task-date.warn{color:var(--warn)}
 .task-priority{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:.72rem;font-weight:900}.task-priority.alta{background:var(--bad-bg);color:var(--bad)}.task-priority.media{background:var(--warn-bg);color:var(--warn)}.task-priority.baja{background:var(--ok-bg);color:var(--ok)}
 .task-empty{text-align:center;padding:42px 20px;color:var(--txt2);background:var(--surface);border:2px dashed var(--line);border-radius:14px;}
 .task-quick{background:linear-gradient(135deg,var(--p-bg),#fff);border:2px solid var(--line2);border-radius:14px;padding:15px 16px;margin-bottom:20px;display:flex;gap:10px;align-items:center}.task-quick input{flex:1;border:0;background:transparent;font-family:var(--fb);font-size:.96rem;color:var(--txt);outline:none}.task-quick button{border:0;background:var(--p);color:#fff;border-radius:10px;padding:10px 14px;font-weight:900;cursor:pointer}
+
+.task-collapse{background:var(--surface);border:2px solid var(--line);border-radius:14px;margin-bottom:16px;overflow:hidden;box-shadow:0 2px 10px rgba(110,70,180,.04)}
+.task-collapse>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 15px;font-weight:900;color:var(--p-dk);user-select:none}
+.task-collapse>summary::-webkit-details-marker{display:none}
+.task-collapse>summary:hover{background:var(--surface2)}
+.task-collapse-title{display:flex;align-items:center;gap:9px}
+.task-collapse-meta{font-size:.76rem;color:var(--txt2);font-weight:800;margin-left:auto}
+.task-collapse-chevron{width:28px;height:28px;border:1px solid var(--line2);border-radius:8px;display:grid;place-items:center;color:var(--p);font-weight:900;transition:transform .18s;flex:0 0 auto}
+.task-collapse[open] .task-collapse-chevron{transform:rotate(180deg)}
+.task-collapse-body{padding:0 12px 12px}
+.task-collapse .task-access-grid{margin-bottom:0}
+.task-collapse .task-filterbar{margin:0}
 @media(max-width:980px){.task-access-grid{grid-template-columns:repeat(2,1fr)}.task-row{grid-template-columns:34px 1fr 120px 44px}.task-col-secondary{display:none}.task-kpis{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:540px){.task-access-grid{grid-template-columns:1fr 1fr}.task-row{grid-template-columns:30px 1fr 40px}.task-date-col{display:none}.task-quick{align-items:stretch;flex-direction:column}.task-access{padding:14px}}
 
@@ -458,13 +471,32 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
   <section id="moduleTasks" class="module">
     <div class="section-head"><div><h2>Organización y tareas</h2><p>Accesos para ordenar el trabajo cotidiano sin perder una vista transversal de pendientes y fechas.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
     <div class="task-kpis" id="taskKpis"></div>
-    <div class="task-access-grid" id="taskAccessGrid"></div>
+    <details class="task-collapse" id="taskAccessCollapse">
+      <summary><span class="task-collapse-title">🗂️ Vistas de organización</span><span class="task-collapse-meta" id="taskAccessSummary">Todo</span><span class="task-collapse-chevron">⌄</span></summary>
+      <div class="task-collapse-body"><div class="task-access-grid" id="taskAccessGrid"></div></div>
+    </details>
     <div class="task-quick"><span>⚡</span><input id="taskQuickInput" type="text" placeholder="Agregar pendiente rápido y clasificar después…"><button id="taskQuickAdd" type="button">Agregar</button></div>
     <div class="task-toolbar">
       <div class="seg" id="taskStatusSeg"><button class="active" data-task-status="ALL">Todas</button><button data-task-status="pendiente">Pendientes</button><button data-task-status="en-curso">En curso</button><button data-task-status="realizada">Realizadas</button></div>
       <div class="search-box"><input id="taskSearch" type="text" placeholder="Buscar tarea, proyecto, carrera, persona…"></div>
       <button class="btn-primary" id="btnNuevaTarea">+ Nueva tarea</button>
     </div>
+    <details class="task-collapse" id="taskFiltersCollapse">
+      <summary><span class="task-collapse-title">⚙️ Filtros avanzados</span><span class="task-collapse-meta" id="taskFilterSummary">Sin filtros adicionales</span><span class="task-collapse-chevron">⌄</span></summary>
+      <div class="task-collapse-body">
+        <div class="task-filterbar" id="taskFilterBar">
+          <span class="task-filter-label">Filtrar por</span>
+          <select class="filter-select" id="taskPriorityFilter"><option value="ALL">Todas las prioridades</option><option value="alta">Prioridad alta</option><option value="media">Prioridad media</option><option value="baja">Prioridad baja</option></select>
+          <select class="filter-select" id="taskDateFilter"><option value="ALL">Cualquier fecha</option><option value="overdue">Vencidas</option><option value="today">Hoy</option><option value="week">Esta semana</option><option value="nodate">Sin fecha</option></select>
+          <select class="filter-select" id="taskProjectFilter"><option value="ALL">Todos los proyectos</option></select>
+          <select class="filter-select" id="taskCareerFilter"><option value="ALL">Todas las carreras</option></select>
+          <select class="filter-select" id="taskPersonFilter"><option value="ALL">Todas las personas/equipos</option></select>
+          <select class="filter-select" id="taskMeetingFilter"><option value="ALL">Todas las reuniones/acuerdos</option></select>
+          <span class="task-filter-count" id="taskFilterCount">Sin filtros adicionales</span>
+          <button class="btn-task-clear" id="taskClearFilters" type="button">Limpiar filtros</button>
+        </div>
+      </div>
+    </details>
     <div class="task-list" id="taskList"></div>
     <div class="task-empty" id="taskEmpty" style="display:none">No hay tareas con este filtro.</div>
   </section>
@@ -746,7 +778,7 @@ let arSearch='', arReview='ALL', arCareer='ALL', arYear='ALL', editingARId=null;
 let AR_SELECTED=new Set();
 let AR_DELETED_DRIVE_IDS=[];
 const TASK_ACCESOS=[['Mis tareas','📌'],['Proyectos','🗃️'],['Carreras','🎓'],['Equipo','👥'],['Reuniones y acuerdos','📅'],['Próximos hitos','⏰'],['Notas rápidas','📝']];
-let taskAccess='ALL', taskStatus='ALL', taskSearch='', editingTaskId=null;
+let taskAccess='ALL', taskStatus='ALL', taskSearch='', taskPriority='ALL', taskDate='ALL', taskProject='ALL', taskCareer='ALL', taskPerson='ALL', taskMeeting='ALL', editingTaskId=null;
 let calM=2, calY=2026;
 let editingId=null;
 let saveTimer=null;
@@ -1427,6 +1459,33 @@ function taskAccessCount(name){
 function renderTaskAccess(){
   const el=document.getElementById('taskAccessGrid');if(!el)return;
   el.innerHTML=`<button class="task-access ${taskAccess==='ALL'?'active':''}" data-task-access="ALL"><span class="task-access-icon">⌂</span><span class="task-access-name">Todo</span><span class="task-access-count">${TAREAS.length} registros</span></button>`+TASK_ACCESOS.map(([name,icon])=>`<button class="task-access ${taskAccess===name?'active':''}" data-task-access="${name}"><span class="task-access-icon">${icon}</span><span class="task-access-name">${name}</span><span class="task-access-count">${taskAccessCount(name)} registros</span></button>`).join('');
+  const tas=document.getElementById('taskAccessSummary');if(tas)tas.textContent=taskAccess==='ALL'?'Todo':taskAccess;
+}
+function taskUniqueValues(field){
+  return [...new Set(TAREAS.map(t=>String(t[field]||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
+}
+function setTaskDynamicSelect(id,label,field,current){
+  const el=document.getElementById(id);if(!el)return;
+  const vals=taskUniqueValues(field);
+  el.innerHTML=`<option value="ALL">${label}</option>`+vals.map(v=>`<option value="${escapeHTML(v)}">${escapeHTML(v)}</option>`).join('');
+  el.value=vals.includes(current)?current:'ALL';
+}
+function renderTaskFilters(){
+  setTaskDynamicSelect('taskProjectFilter','Todos los proyectos','proyecto',taskProject);taskProject=document.getElementById('taskProjectFilter')?.value||'ALL';
+  setTaskDynamicSelect('taskCareerFilter','Todas las carreras','carrera',taskCareer);taskCareer=document.getElementById('taskCareerFilter')?.value||'ALL';
+  setTaskDynamicSelect('taskPersonFilter','Todas las personas/equipos','persona',taskPerson);taskPerson=document.getElementById('taskPersonFilter')?.value||'ALL';
+  setTaskDynamicSelect('taskMeetingFilter','Todas las reuniones/acuerdos','reunion',taskMeeting);taskMeeting=document.getElementById('taskMeetingFilter')?.value||'ALL';
+  const active=[taskPriority,taskDate,taskProject,taskCareer,taskPerson,taskMeeting].filter(v=>v!=='ALL').length;
+  const count=document.getElementById('taskFilterCount');if(count){count.textContent=active?`${active} filtro${active===1?'':'s'} adicional${active===1?'':'es'} activo${active===1?'':'s'}`:'Sin filtros adicionales';count.classList.toggle('active',active>0);}
+  const summary=document.getElementById('taskFilterSummary');if(summary)summary.textContent=active?`${active} filtro${active===1?'':'s'} activo${active===1?'':'s'}`:'Sin filtros adicionales';
+}
+function taskMatchesDateFilter(t){
+  if(taskDate==='ALL')return true;
+  if(taskDate==='overdue')return t.estado!=='realizada'&&isTaskOverdue(t);
+  if(taskDate==='today')return isTaskToday(t);
+  if(taskDate==='week')return isTaskThisWeek(t);
+  if(taskDate==='nodate')return !t.fecha;
+  return true;
 }
 function filteredTasks(){
   return TAREAS.filter(t=>{
@@ -1436,6 +1495,12 @@ function filteredTasks(){
       else if(t.acceso!==taskAccess)return false;
     }
     if(taskStatus!=='ALL'&&t.estado!==taskStatus)return false;
+    if(taskPriority!=='ALL'&&(t.prioridad||'media')!==taskPriority)return false;
+    if(!taskMatchesDateFilter(t))return false;
+    if(taskProject!=='ALL'&&(t.proyecto||'')!==taskProject)return false;
+    if(taskCareer!=='ALL'&&(t.carrera||'')!==taskCareer)return false;
+    if(taskPerson!=='ALL'&&(t.persona||'')!==taskPerson)return false;
+    if(taskMeeting!=='ALL'&&(t.reunion||'')!==taskMeeting)return false;
     if(taskSearch){const h=[t.titulo,t.acceso,t.proyecto,t.carrera,t.persona,t.reunion,t.detalle].join(' ').toLowerCase();if(!h.includes(taskSearch.toLowerCase()))return false;}
     return true;
   }).sort((a,b)=>{
@@ -1446,6 +1511,7 @@ function filteredTasks(){
 }
 function renderTasks(){
   renderTaskAccess();
+  renderTaskFilters();
   const pending=TAREAS.filter(t=>t.estado!=='realizada').length, overdue=TAREAS.filter(t=>t.estado!=='realizada'&&isTaskOverdue(t)).length, week=TAREAS.filter(t=>t.estado!=='realizada'&&isTaskThisWeek(t)).length, done=TAREAS.filter(t=>t.estado==='realizada').length;
   document.getElementById('taskKpis').innerHTML=`<div class="kpi warn"><div class="kn">${pending}</div><div class="kl">Pendientes</div></div><div class="kpi bad"><div class="kn">${overdue}</div><div class="kl">Vencidas</div></div><div class="kpi"><div class="kn">${week}</div><div class="kl">Esta semana</div></div><div class="kpi ok"><div class="kn">${done}</div><div class="kl">Realizadas</div></div>`;
   const rows=filteredTasks();document.getElementById('taskEmpty').style.display=rows.length?'none':'block';
@@ -1474,6 +1540,13 @@ function closeTask(){document.getElementById('moTarea').classList.remove('open')
 document.getElementById('btnNuevaTarea').onclick=()=>openTask();document.getElementById('taskClose').onclick=closeTask;document.getElementById('moTarea').addEventListener('click',e=>{if(e.target.id==='moTarea')closeTask();});
 document.getElementById('taskSearch').addEventListener('input',e=>{taskSearch=e.target.value;renderTasks();});
 document.getElementById('taskStatusSeg').addEventListener('click',e=>{const b=e.target.closest('[data-task-status]');if(!b)return;taskStatus=b.dataset.taskStatus;document.querySelectorAll('[data-task-status]').forEach(x=>x.classList.toggle('active',x===b));renderTasks();});
+document.getElementById('taskPriorityFilter').addEventListener('change',e=>{taskPriority=e.target.value;renderTasks();});
+document.getElementById('taskDateFilter').addEventListener('change',e=>{taskDate=e.target.value;renderTasks();});
+document.getElementById('taskProjectFilter').addEventListener('change',e=>{taskProject=e.target.value;renderTasks();});
+document.getElementById('taskCareerFilter').addEventListener('change',e=>{taskCareer=e.target.value;renderTasks();});
+document.getElementById('taskPersonFilter').addEventListener('change',e=>{taskPerson=e.target.value;renderTasks();});
+document.getElementById('taskMeetingFilter').addEventListener('change',e=>{taskMeeting=e.target.value;renderTasks();});
+document.getElementById('taskClearFilters').addEventListener('click',()=>{taskPriority='ALL';taskDate='ALL';taskProject='ALL';taskCareer='ALL';taskPerson='ALL';taskMeeting='ALL';['taskPriorityFilter','taskDateFilter','taskProjectFilter','taskCareerFilter','taskPersonFilter','taskMeetingFilter'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='ALL';});renderTasks();});
 document.addEventListener('click',e=>{const a=e.target.closest('[data-task-access]');if(a){taskAccess=a.dataset.taskAccess;renderTasks();return;}const b=e.target.closest('[data-task-edit]');if(b){openTask(b.dataset.taskEdit);return;}});
 document.addEventListener('change',async e=>{const cb=e.target.closest('[data-task-toggle]');if(!cb)return;const t=TAREAS.find(x=>x.id===cb.dataset.taskToggle);if(!t)return;t.estado=cb.checked?'realizada':'pendiente';renderAll();await saveData(false);});
 document.getElementById('btnGuardarTarea').onclick=async()=>{const titulo=document.getElementById('tTitulo').value.trim();if(!titulo){showToast('Escribe la tarea','bad');return;}const data={titulo,acceso:document.getElementById('tAcceso').value,estado:document.getElementById('tEstado').value,prioridad:document.getElementById('tPrioridad').value,fecha:document.getElementById('tFecha').value,proyecto:document.getElementById('tProyecto').value.trim(),carrera:document.getElementById('tCarrera').value.trim(),persona:document.getElementById('tPersona').value.trim(),reunion:document.getElementById('tReunion').value.trim(),detalle:document.getElementById('tDetalle').value.trim(),link:document.getElementById('tLink').value.trim(),actualizado:Date.now()};if(editingTaskId){const i=TAREAS.findIndex(x=>x.id===editingTaskId);if(i>-1)TAREAS[i]={...TAREAS[i],...data};}else TAREAS.push({id:'ta'+Date.now().toString(36),creado:Date.now(),...data});closeTask();renderAll();await saveData(true);};
