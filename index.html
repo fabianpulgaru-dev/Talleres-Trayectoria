@@ -377,6 +377,13 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 .prof-list{display:flex;flex-direction:column;gap:8px;margin:10px 0 14px}.prof-row{display:grid;grid-template-columns:1fr 1.25fr 38px;gap:8px;align-items:center}.prof-row input{width:100%;padding:9px 10px;border:2px solid var(--line);border-radius:9px;font-family:var(--fb);font-size:.88rem;background:var(--bg)}.prof-row button{height:38px;border:1px solid var(--bad-line);background:var(--bad-bg);color:var(--bad);border-radius:9px;font-weight:900;cursor:pointer}.prof-add{border:1px solid var(--line2);background:var(--surface2);color:var(--p-dk);border-radius:9px;padding:8px 11px;font-family:var(--fb);font-weight:900;cursor:pointer}.notify-status{font-size:.76rem;color:var(--txt2);padding:8px 10px;background:var(--surface2);border-radius:9px;margin-top:8px}.notify-status.ok{background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-line)}.notify-status.warn{background:var(--warn-bg);color:var(--warn);border:1px solid var(--warn-line)}
 @media(max-width:620px){.prof-row{grid-template-columns:1fr 38px}.prof-row input:nth-child(2){grid-column:1/2}.task-toolbar .task-notify-btn{width:100%}}
 
+
+/* v21 · Resúmenes colapsables + asignación transversal */
+.summary-collapse{border:2px solid var(--line);background:var(--surface);border-radius:14px;margin-bottom:18px;overflow:hidden;box-shadow:0 3px 14px rgba(110,70,180,.04)}
+.summary-collapse>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:11px 14px;font-weight:900;color:var(--p-dk);background:linear-gradient(135deg,var(--surface2),#fff)}
+.summary-collapse>summary::-webkit-details-marker{display:none}.summary-collapse-title{flex:1}.summary-collapse-meta{font-size:.75rem;color:var(--txt2);font-weight:800}.summary-collapse-chevron{width:28px;height:28px;border:1px solid var(--line2);border-radius:8px;display:grid;place-items:center;color:var(--p);transition:transform .18s}.summary-collapse[open] .summary-collapse-chevron{transform:rotate(180deg)}.summary-collapse-body{padding:14px 14px 2px}
+.assign-box{border:1px solid var(--line2);background:var(--p-bg);border-radius:12px;padding:12px 14px;margin:6px 0 14px}.assign-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:10px}.assign-grid .fg{margin-bottom:0}.assign-check{display:flex;align-items:flex-start;gap:9px;font-size:.84rem;font-weight:800;color:var(--p-dk);margin-top:10px}.assign-check input{width:17px;height:17px;margin-top:2px;accent-color:var(--p)}.assign-hint{font-size:.74rem;color:var(--txt2);margin:5px 0 0 26px}.global-notify-btn{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.34);color:#fff;border-radius:10px;padding:9px 12px;font-family:var(--fb);font-size:.82rem;font-weight:900;cursor:pointer}.global-notify-btn:hover{background:#fff;color:var(--p)}
+@media(max-width:680px){.assign-grid{grid-template-columns:1fr}.summary-collapse-meta{display:none}}
 </style>
 </head>
 <body>
@@ -390,6 +397,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
     </div>
     <div class="tb-actions">
       <button class="btn-export" id="btnExportExcel" type="button">📊 Descargar todo en Excel</button>
+      <button class="global-notify-btn" id="btnGlobalNotifyConfig" type="button">✉ Profesionales y avisos</button>
       <div class="tb-status" id="connStatus">
         <span class="tb-dot"></span>
         <span id="connLabel">Sincronizado con Firebase</span>
@@ -441,7 +449,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
   <!-- CASOS ESPECÍFICOS -->
   <section id="moduleCases" class="module">
     <div class="section-head"><div><h2>Casos Específicos</h2><p>Registro y seguimiento operativo de intervenciones focalizadas.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
-    <div class="case-kpis" id="caseKpis"></div>
+    <details class="summary-collapse" open><summary><span class="summary-collapse-title">📊 Resumen de casos</span><span class="summary-collapse-meta">Indicadores generales</span><span class="summary-collapse-chevron">⌄</span></summary><div class="summary-collapse-body"><div class="case-kpis" id="caseKpis"></div></div></details>
     <div class="case-toolbar">
       <div class="seg" id="caseStatusSeg"><button class="active" data-case-status="ALL">Todos</button><button data-case-status="activo">Activos</button><button data-case-status="cerrado">Cerrados</button></div>
       <select class="filter-select" id="caseCareerFilter"><option value="ALL">Todas las carreras</option></select>
@@ -456,7 +464,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
   <!-- AJUSTES RAZONABLES -->
   <section id="moduleAdjustments" class="module">
     <div class="section-head"><div><h2>Ajustes Razonables <span style="font-family:var(--fm);font-size:.62rem;color:var(--p);vertical-align:middle">v11 · DRIVE AUTO</span></h2><p>La carpeta de Google Drive es el repositorio principal: el panel lee las cartas directamente desde allí y crea o actualiza las fichas.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
-    <div class="case-kpis" id="arKpis"></div>
+    <details class="summary-collapse" open><summary><span class="summary-collapse-title">📊 Resumen de ajustes razonables</span><span class="summary-collapse-meta">Estado de las cartas</span><span class="summary-collapse-chevron">⌄</span></summary><div class="summary-collapse-body"><div class="case-kpis" id="arKpis"></div></div></details>
     <details class="ar-import drive-primary-panel drive-collapsible">
       <summary class="drive-collapse-summary">
         <div><div class="drive-kicker">GOOGLE DRIVE · REPOSITORIO AUTOMÁTICO</div><h3>📁 Sincronizar automáticamente la carpeta de cartas</h3><p>Las cartas permanecen en Google Drive y el panel actualiza las fichas desde la carpeta vinculada.</p></div>
@@ -478,7 +486,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
   <!-- ORGANIZACIÓN Y TAREAS -->
   <section id="moduleTasks" class="module">
     <div class="section-head"><div><h2>Organización y tareas</h2><p>Accesos para ordenar el trabajo cotidiano sin perder una vista transversal de pendientes y fechas.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
-    <div class="task-kpis" id="taskKpis"></div>
+    <details class="summary-collapse" open><summary><span class="summary-collapse-title">📊 Resumen de tareas</span><span class="summary-collapse-meta">Pendientes, vencidas y realizadas</span><span class="summary-collapse-chevron">⌄</span></summary><div class="summary-collapse-body"><div class="task-kpis" id="taskKpis"></div></div></details>
     <details class="task-collapse" id="taskAccessCollapse">
       <summary><span class="task-collapse-title">🗂️ Vistas de organización</span><span class="task-collapse-meta" id="taskAccessSummary">Todo</span><span class="task-collapse-chevron">⌄</span></summary>
       <div class="task-collapse-body"><div class="task-access-grid" id="taskAccessGrid"></div></div>
@@ -513,10 +521,10 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
   <!-- TALLERES -->
   <section id="moduleWorkshops" class="module">
     <div class="section-head"><div><h2>Talleres</h2><p>Planificación y seguimiento de la oferta grupal.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
-    <div class="family-grid" id="familyGrid"></div>
+    <details class="summary-collapse" open><summary><span class="summary-collapse-title">🗂️ Tipos de talleres</span><span class="summary-collapse-meta">Accesos por categoría</span><span class="summary-collapse-chevron">⌄</span></summary><div class="summary-collapse-body"><div class="family-grid" id="familyGrid"></div></div></details>
 
   <!-- KPIS -->
-  <div class="kpis" id="kpiStrip"></div>
+  <details class="summary-collapse" open><summary><span class="summary-collapse-title">📊 Resumen de talleres</span><span class="summary-collapse-meta">Indicadores de implementación</span><span class="summary-collapse-chevron">⌄</span></summary><div class="summary-collapse-body"><div class="kpis" id="kpiStrip"></div></div></details>
 
   <!-- TOOLBAR -->
   <div class="toolbar">
@@ -612,7 +620,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
       </div>
     </div>
     <div class="fg"><label for="fSala">Sala / lugar</label><input type="text" id="fSala" placeholder="Ej: Sala E31 o Online"></div>
-    <div class="fg"><label for="fResp">Responsable</label><input type="text" id="fResp" placeholder="Ej: Claudio Espinoza"></div>
+    <div class="assign-box"><div class="assign-grid"><div class="fg"><label for="fResp">Profesional asignado</label><select id="fResp"><option value="">Sin asignar</option></select></div><div class="fg"><label for="fRespEmail">Correo del profesional</label><input type="email" id="fRespEmail" readonly></div></div><label class="assign-check"><input id="fNotifyEmail" type="checkbox" checked><span>Enviar notificación por correo al profesional al guardar</span></label><div class="assign-hint">Al editar, solo se activa automáticamente si cambias el profesional.</div></div>
 
     <div class="fg">
       <label>Estado</label>
@@ -642,7 +650,8 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
   <div class="md" style="max-width:620px">
     <button class="md-close" id="caseClose">✕</button><h3 id="caseModalTitle">Nuevo caso específico</h3><p class="md-info" id="caseId"></p>
     <div class="fg-row"><div class="fg"><label for="cEstudiante">Estudiante</label><input id="cEstudiante" type="text"></div><div class="fg"><label for="cRut">RUT / identificador</label><input id="cRut" type="text"></div></div>
-    <div class="fg-row"><div class="fg"><label for="cCarrera">Carrera</label><input id="cCarrera" type="text"></div><div class="fg"><label for="cResponsable">Responsable</label><input id="cResponsable" type="text"></div></div>
+    <div class="fg"><label for="cCarrera">Carrera</label><input id="cCarrera" type="text"></div>
+    <div class="assign-box"><div class="assign-grid"><div class="fg"><label for="cResponsable">Profesional asignado</label><select id="cResponsable"><option value="">Sin asignar</option></select></div><div class="fg"><label for="cResponsableEmail">Correo del profesional</label><input id="cResponsableEmail" type="email" readonly></div></div><label class="assign-check"><input id="cNotifyEmail" type="checkbox" checked><span>Enviar notificación por correo al profesional al guardar</span></label><div class="assign-hint">En casos nuevos viene activado. Si cambias de profesional, se activa nuevamente.</div></div>
     <div class="fg-row"><div class="fg"><label for="cDispositivo">Tipo de intervención</label><select id="cDispositivo"><option>Plan específico</option><option>Apoyo focalizado</option><option>Causal de eliminación</option><option>Articulación interdisciplinaria</option><option>Otro</option></select></div><div class="fg"><label for="cPrioridad">Prioridad</label><select id="cPrioridad"><option value="alta">Alta</option><option value="media" selected>Media</option><option value="baja">Baja</option></select></div></div>
     <div class="fg-row"><div class="fg"><label for="cEstado">Estado</label><select id="cEstado"><option value="nuevo">Nuevo</option><option value="indagacion">En indagación</option><option value="implementacion">En implementación</option><option value="seguimiento">En seguimiento</option><option value="cerrado">Cerrado</option></select></div><div class="fg"><label for="cFechaIngreso">Fecha de ingreso</label><input id="cFechaIngreso" type="date"></div></div>
     <div class="fg"><label for="cMotivo">Necesidad / motivo</label><textarea id="cMotivo" placeholder="Síntesis breve de la necesidad que origina el caso"></textarea></div>
@@ -660,6 +669,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 <div class="fg-row"><div class="fg"><label for="aTelefono">Teléfono</label><input id="aTelefono"></div><div class="fg"><label for="aFechaCarta">Fecha carta</label><input id="aFechaCarta"></div></div>
 <div class="fg"><label for="aAntecedentes">Antecedentes entregados</label><textarea id="aAntecedentes" style="min-height:100px"></textarea></div>
 <div class="fg"><label for="aEvaluativas">1. Adecuaciones en situaciones evaluativas</label><textarea id="aEvaluativas"></textarea></div><div class="fg"><label for="aAcceso">2. Adecuación de acceso a la información</label><textarea id="aAcceso"></textarea></div><div class="fg"><label for="aParticipacion">3. Adecuaciones para la participación</label><textarea id="aParticipacion"></textarea></div><div class="fg"><label for="aInfraestructura">4. Adecuaciones de infraestructura</label><textarea id="aInfraestructura"></textarea></div>
+<div class="assign-box"><div class="assign-grid"><div class="fg"><label for="aResponsable">Profesional asignado</label><select id="aResponsable"><option value="">Sin asignar</option></select></div><div class="fg"><label for="aResponsableEmail">Correo del profesional</label><input id="aResponsableEmail" type="email" readonly></div></div><label class="assign-check"><input id="aNotifyEmail" type="checkbox"><span>Enviar notificación por correo al profesional al guardar</span></label><div class="assign-hint">Las cartas importadas desde Drive no notifican automáticamente: el aviso se envía cuando asignas un profesional.</div></div>
 <div class="fg-row"><div class="fg"><label for="aRevision">Estado</label><select id="aRevision"><option value="pendiente">Pendiente</option><option value="emitida">Emitida</option></select></div><div class="fg"><label for="aObservaciones">Observaciones</label><textarea id="aObservaciones"></textarea></div></div><div class="fg"><label for="aCartaLink">Link de la carta</label><input type="url" id="aCartaLink" placeholder="https://drive.google.com/... o enlace directo al archivo"></div>
 <div id="arCartaActual"></div><button class="btn-sub" id="btnGuardarAR">Guardar ficha</button><button class="btn-danger-link" id="btnEliminarAR" style="display:none">Eliminar estudiante de Ajustes Razonables</button></div></div>
 
@@ -684,8 +694,8 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 <!-- MODAL CONFIGURACIÓN NOTIFICACIONES DE TAREAS -->
 <div class="mo" id="moTaskNotifyConfig" role="dialog" aria-modal="true">
   <div class="md" style="max-width:720px">
-    <button class="md-close" id="taskNotifyClose">✕</button><h3>Profesionales y avisos de tareas</h3><p class="md-info">Configura una vez los correos del equipo y la URL pública que abrirá el botón del correo.</p>
-    <div class="fg"><label for="taskPanelPublicUrl">URL pública del Panel UTE</label><input id="taskPanelPublicUrl" type="url" placeholder="https://.../panel.html"><div class="task-notify-hint" style="margin-left:0">Debe ser una dirección accesible desde el computador del profesional. El correo agregará automáticamente ?modulo=tareas&tarea=ID.</div></div>
+    <button class="md-close" id="taskNotifyClose">✕</button><h3>Profesionales y avisos del Panel UTE</h3><p class="md-info">Configura una vez los correos del equipo y la URL pública que abrirá el botón del correo.</p>
+    <div class="fg"><label for="taskPanelPublicUrl">URL pública del Panel UTE</label><input id="taskPanelPublicUrl" type="url" placeholder="https://.../panel.html"><div class="task-notify-hint" style="margin-left:0">Debe ser una dirección accesible desde el computador del profesional. El panel agregará automáticamente el módulo y el ID correspondiente para abrir directamente la tarea, caso, carta o taller.</div></div>
     <div class="fg"><label>Directorio de profesionales</label><div class="prof-list" id="taskProfessionalsList"></div><button class="prof-add" id="btnAddProfessional" type="button">+ Agregar profesional</button></div>
     <div class="notify-status warn" id="taskNotifyConfigStatus">Los correos se enviarán usando el mismo Apps Script configurado en Ajustes Razonables.</div>
     <button class="btn-sub" id="btnSaveTaskNotifyConfig" type="button">Guardar configuración</button>
@@ -861,7 +871,7 @@ async function loadData(){
     setConn(false,'Sin conexión · usando datos locales');
   }
   renderAll();
-  setTimeout(applyTaskDeepLink,120);
+  setTimeout(applyPanelDeepLink,120);
 }
 
 async function saveData(toast=true){
@@ -1136,20 +1146,25 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-case-edit]
 function openCase(id=''){
   const c=id?CASOS.find(x=>x.id===id):null; editingCaseId=c?c.id:null;
   document.getElementById('caseModalTitle').textContent=c?'Editar caso específico':'Nuevo caso específico'; document.getElementById('caseId').textContent=c?'ID '+c.id:'';
-  document.getElementById('cEstudiante').value=c?.estudiante||'';document.getElementById('cRut').value=c?.rut||'';document.getElementById('cCarrera').value=c?.carrera||'';document.getElementById('cResponsable').value=c?.responsable||'';
+  document.getElementById('cEstudiante').value=c?.estudiante||'';document.getElementById('cRut').value=c?.rut||'';document.getElementById('cCarrera').value=c?.carrera||'';fillProfessionalSelect('cResponsable','cResponsableEmail',c?.responsable||'');
   document.getElementById('cDispositivo').value=c?.dispositivo||'Plan específico';document.getElementById('cPrioridad').value=c?.prioridad||'media';document.getElementById('cEstado').value=c?.estado||'nuevo';document.getElementById('cFechaIngreso').value=c?.fechaIngreso||new Date().toISOString().slice(0,10);
-  document.getElementById('cMotivo').value=c?.motivo||'';document.getElementById('cProxima').value=c?.proxima||'';document.getElementById('cFechaProxima').value=c?.fechaProxima||'';document.getElementById('cNotas').value=c?.notas||'';
+  document.getElementById('cMotivo').value=c?.motivo||'';document.getElementById('cProxima').value=c?.proxima||'';document.getElementById('cFechaProxima').value=c?.fechaProxima||'';document.getElementById('cNotas').value=c?.notas||'';document.getElementById('cNotifyEmail').checked=!c;
   document.getElementById('btnEliminarCaso').style.display=c?'block':'none'; document.getElementById('moCaso').classList.add('open');document.body.style.overflow='hidden';
 }
 function closeCase(){document.getElementById('moCaso').classList.remove('open');document.body.style.overflow='';editingCaseId=null;}
 document.getElementById('btnNuevoCaso').onclick=()=>openCase();document.getElementById('caseClose').onclick=closeCase;document.getElementById('moCaso').addEventListener('click',e=>{if(e.target.id==='moCaso')closeCase();});
+document.getElementById('cResponsable').addEventListener('change',()=>{syncProfessionalEmail('cResponsable','cResponsableEmail');document.getElementById('cNotifyEmail').checked=true;});
 document.getElementById('btnGuardarCaso').onclick=async()=>{
   const estudiante=document.getElementById('cEstudiante').value.trim(); if(!estudiante){showToast('Ingresa el nombre del estudiante','bad');return;}
-  const data={estudiante,rut:document.getElementById('cRut').value.trim(),carrera:document.getElementById('cCarrera').value.trim(),responsable:document.getElementById('cResponsable').value.trim(),dispositivo:document.getElementById('cDispositivo').value,prioridad:document.getElementById('cPrioridad').value,estado:document.getElementById('cEstado').value,fechaIngreso:document.getElementById('cFechaIngreso').value,motivo:document.getElementById('cMotivo').value.trim(),proxima:document.getElementById('cProxima').value.trim(),fechaProxima:document.getElementById('cFechaProxima').value,notas:document.getElementById('cNotas').value.trim()};
-  if(editingCaseId){const i=CASOS.findIndex(x=>x.id===editingCaseId);if(i>-1)CASOS[i]={...CASOS[i],...data};}else CASOS.push({id:'c'+Date.now().toString(36),documentos:[],...data});
-  closeCase();renderAll();await saveData(true);
+  const old=editingCaseId?CASOS.find(x=>x.id===editingCaseId):null;
+  const responsable=document.getElementById('cResponsable').value,responsableEmail=document.getElementById('cResponsableEmail').value.trim();
+  const data={estudiante,rut:document.getElementById('cRut').value.trim(),carrera:document.getElementById('cCarrera').value.trim(),responsable,responsableEmail,dispositivo:document.getElementById('cDispositivo').value,prioridad:document.getElementById('cPrioridad').value,estado:document.getElementById('cEstado').value,fechaIngreso:document.getElementById('cFechaIngreso').value,motivo:document.getElementById('cMotivo').value.trim(),proxima:document.getElementById('cProxima').value.trim(),fechaProxima:document.getElementById('cFechaProxima').value,notas:document.getElementById('cNotas').value.trim()};
+  let item;if(editingCaseId){const i=CASOS.findIndex(x=>x.id===editingCaseId);if(i>-1){CASOS[i]={...CASOS[i],...data};item=CASOS[i];}}else{item={id:'c'+Date.now().toString(36),documentos:[],...data};CASOS.push(item);}
+  const notify=document.getElementById('cNotifyEmail').checked;closeCase();renderAll();await saveData(false);
+  if(notify&&responsable){try{await sendEntityNotification({module:'cases',param:'caso',id:item.id,type:'Caso específico',title:item.estudiante,to:responsableEmail,responsable,date:item.fechaProxima||item.fechaIngreso,status:item.estado,priority:item.prioridad,detail:item.proxima||item.motivo});showToast('Caso guardado y profesional notificado ✓','ok');}catch(e){showToast('Caso guardado · no se pudo enviar el correo: '+e.message,'bad');}}else showToast('Caso guardado ✓','ok');
 };
 document.getElementById('btnEliminarCaso').onclick=async()=>{if(!editingCaseId)return;if(!confirm('¿Eliminar este caso? Esta acción no se puede deshacer.'))return;CASOS=CASOS.filter(c=>c.id!==editingCaseId);closeCase();renderAll();await saveData(true);};
+
 
 // ══════════════════════════════════════════════════════════════
 // DOCUMENTOS DE CASOS · FIREBASE STORAGE
@@ -1326,9 +1341,18 @@ async function saveARInline(el){const id=el.dataset.arId,field=el.dataset.arInli
 async function toggleARSection(el){const a=AJUSTES.find(x=>x.id===el.dataset.arId),key=el.dataset.arSection;if(!a||!key)return;a.secciones=a.secciones||{};if(el.checked&&!a.secciones[key])a.secciones[key]='Ajuste registrado. Revisar detalle en la carta.';if(!el.checked)a.secciones[key]='';a.updatedAt=new Date().toISOString();await saveData(false);renderHome();showToast('Ficha actualizada ✓','ok');}
 function rememberDeletedDrive(a){/* v14: no bloquear archivos de Drive al eliminar una ficha */}
 async function deleteARRecords(ids){const set=new Set(ids);AJUSTES.filter(a=>set.has(a.id)).forEach(rememberDeletedDrive);AJUSTES=AJUSTES.filter(a=>!set.has(a.id));ids.forEach(id=>AR_SELECTED.delete(id));await saveData(false);renderAll();showToast(`${ids.length} registro${ids.length===1?'':'s'} eliminado${ids.length===1?'':'s'}`,'ok');}
-function openAR(id=''){const a=AJUSTES.find(x=>x.id===id)||null;editingARId=a?.id||null;document.getElementById('arModalTitle').textContent=a?'Editar ficha de Ajustes Razonables':'Agregar estudiante manualmente';document.getElementById('arId').textContent=a?'ID '+a.id:'';document.getElementById('aEstudiante').value=a?.estudiante||'';document.getElementById('aRut').value=a?.rut||'';document.getElementById('aCarrera').value=a?.carrera||'';document.getElementById('aCorreo').value=a?.correo||'';document.getElementById('aTelefono').value=a?.telefono||'';document.getElementById('aFechaCarta').value=a?.fechaCarta||'';document.getElementById('aAntecedentes').value=a?.antecedentes||'';document.getElementById('aEvaluativas').value=a?.secciones?.evaluativas||'';document.getElementById('aAcceso').value=a?.secciones?.acceso||'';document.getElementById('aParticipacion').value=a?.secciones?.participacion||'';document.getElementById('aInfraestructura').value=a?.secciones?.infraestructura||'';document.getElementById('aRevision').value=a?.revision==='validado'?'emitida':(a?.revision||'pendiente');document.getElementById('aObservaciones').value=a?.observaciones||'';document.getElementById('aCartaLink').value=a?.cartaLink||a?.carta?.downloadURL||'';document.getElementById('arCartaActual').innerHTML=a&&cartaURL(a)?`<div class="fg"><label>Carta vinculada</label><a class="ar-doc-pill" href="${arEsc(cartaURL(a))}" target="_blank">📄 ${arEsc(a.carta?.fileName||'Abrir carta')}</a><div class="drive-link-visible">${arEsc(cartaURL(a))}</div></div>`:'';document.getElementById('btnEliminarAR').style.display=a?'block':'none';document.getElementById('moAR').classList.add('open');document.body.style.overflow='hidden';}
+function openAR(id=''){
+  const a=AJUSTES.find(x=>x.id===id)||null;editingARId=a?.id||null;document.getElementById('arModalTitle').textContent=a?'Editar ficha de Ajustes Razonables':'Agregar estudiante manualmente';document.getElementById('arId').textContent=a?'ID '+a.id:'';
+  document.getElementById('aEstudiante').value=a?.estudiante||'';document.getElementById('aRut').value=a?.rut||'';document.getElementById('aCarrera').value=a?.carrera||'';document.getElementById('aCorreo').value=a?.correo||'';document.getElementById('aTelefono').value=a?.telefono||'';document.getElementById('aFechaCarta').value=a?.fechaCarta||'';document.getElementById('aAntecedentes').value=a?.antecedentes||'';document.getElementById('aEvaluativas').value=a?.secciones?.evaluativas||'';document.getElementById('aAcceso').value=a?.secciones?.acceso||'';document.getElementById('aParticipacion').value=a?.secciones?.participacion||'';document.getElementById('aInfraestructura').value=a?.secciones?.infraestructura||'';fillProfessionalSelect('aResponsable','aResponsableEmail',a?.responsable||'');document.getElementById('aNotifyEmail').checked=false;document.getElementById('aRevision').value=a?.revision==='validado'?'emitida':(a?.revision||'pendiente');document.getElementById('aObservaciones').value=a?.observaciones||'';document.getElementById('aCartaLink').value=a?.cartaLink||a?.carta?.downloadURL||'';document.getElementById('arCartaActual').innerHTML=a&&cartaURL(a)?`<div class="fg"><label>Carta vinculada</label><a class="ar-doc-pill" href="${arEsc(cartaURL(a))}" target="_blank">📄 ${arEsc(a.carta?.fileName||'Abrir carta')}</a><div class="drive-link-visible">${arEsc(cartaURL(a))}</div></div>`:'';document.getElementById('btnEliminarAR').style.display=a?'block':'none';document.getElementById('moAR').classList.add('open');document.body.style.overflow='hidden';
+}
 function closeAR(){document.getElementById('moAR').classList.remove('open');document.body.style.overflow='';editingARId=null;}
-async function saveARFicha(){const data={estudiante:document.getElementById('aEstudiante').value.trim(),rut:document.getElementById('aRut').value.trim(),carrera:document.getElementById('aCarrera').value.trim(),correo:document.getElementById('aCorreo').value.trim(),telefono:document.getElementById('aTelefono').value.trim(),fechaCarta:document.getElementById('aFechaCarta').value.trim(),antecedentes:document.getElementById('aAntecedentes').value.trim(),secciones:{evaluativas:document.getElementById('aEvaluativas').value.trim(),acceso:document.getElementById('aAcceso').value.trim(),participacion:document.getElementById('aParticipacion').value.trim(),infraestructura:document.getElementById('aInfraestructura').value.trim()},revision:document.getElementById('aRevision').value,cartaLink:document.getElementById('aCartaLink').value.trim(),observaciones:document.getElementById('aObservaciones').value.trim(),updatedAt:new Date().toISOString()};if(!data.estudiante){showToast('Ingresa el nombre del estudiante','bad');return}if(editingARId){const a=AJUSTES.find(x=>x.id===editingARId);Object.assign(a,data);}else AJUSTES.push({id:'ar'+Date.now().toString(36),createdAt:new Date().toISOString(),carta:null,...data});await saveData(false);closeAR();renderAll();showToast('Ficha guardada ✓','ok');}
+document.getElementById('aResponsable').addEventListener('change',()=>{syncProfessionalEmail('aResponsable','aResponsableEmail');document.getElementById('aNotifyEmail').checked=true;});
+async function saveARFicha(){
+  const old=editingARId?AJUSTES.find(x=>x.id===editingARId):null;const responsable=document.getElementById('aResponsable').value,responsableEmail=document.getElementById('aResponsableEmail').value.trim();
+  const data={estudiante:document.getElementById('aEstudiante').value.trim(),rut:document.getElementById('aRut').value.trim(),carrera:document.getElementById('aCarrera').value.trim(),correo:document.getElementById('aCorreo').value.trim(),telefono:document.getElementById('aTelefono').value.trim(),fechaCarta:document.getElementById('aFechaCarta').value.trim(),antecedentes:document.getElementById('aAntecedentes').value.trim(),secciones:{evaluativas:document.getElementById('aEvaluativas').value.trim(),acceso:document.getElementById('aAcceso').value.trim(),participacion:document.getElementById('aParticipacion').value.trim(),infraestructura:document.getElementById('aInfraestructura').value.trim()},responsable,responsableEmail,revision:document.getElementById('aRevision').value,cartaLink:document.getElementById('aCartaLink').value.trim(),observaciones:document.getElementById('aObservaciones').value.trim(),updatedAt:new Date().toISOString()};
+  if(!data.estudiante){showToast('Ingresa el nombre del estudiante','bad');return;}let item;if(editingARId){item=AJUSTES.find(x=>x.id===editingARId);Object.assign(item,data);}else{item={id:'ar'+Date.now().toString(36),createdAt:new Date().toISOString(),carta:null,...data};AJUSTES.push(item);}const notify=document.getElementById('aNotifyEmail').checked;await saveData(false);closeAR();renderAll();
+  if(notify&&responsable){try{await sendEntityNotification({module:'adjustments',param:'ajuste',id:item.id,type:'Ajustes Razonables',title:item.estudiante,to:responsableEmail,responsable,date:item.fechaCarta,status:item.revision,detail:item.observaciones||item.antecedentes});showToast('Ficha guardada y profesional notificado ✓','ok');}catch(e){showToast('Ficha guardada · no se pudo enviar el correo: '+e.message,'bad');}}else showToast('Ficha guardada ✓','ok');
+}
 async function deleteARFicha(){if(!editingARId)return;const a=AJUSTES.find(x=>x.id===editingARId);if(!confirm(`¿Eliminar a ${a?.estudiante||'este estudiante'} de Ajustes Razonables?`))return;try{if(a?.carta?.storagePath&&docsStorage&&docsUser)await docsStorage.ref(a.carta.storagePath).delete();}catch(e){console.warn(e)}rememberDeletedDrive(a);AJUSTES=AJUSTES.filter(x=>x.id!==editingARId);await saveData(false);closeAR();renderAll();showToast('Registro eliminado','ok');}
 document.getElementById('btnImportAR').onclick=importarAR;document.getElementById('btnNuevoAR').onclick=()=>openAR();document.getElementById('arSearch').addEventListener('input',e=>{arSearch=e.target.value;renderAR()});document.getElementById('arCareerFilter').addEventListener('change',e=>{arCareer=e.target.value;renderAR()});document.getElementById('arYearFilter').addEventListener('change',e=>{arYear=e.target.value;renderAR()});document.getElementById('arReviewSeg').addEventListener('click',e=>{const b=e.target.closest('[data-ar-review]');if(!b)return;arReview=b.dataset.arReview;document.querySelectorAll('[data-ar-review]').forEach(x=>x.classList.toggle('active',x===b));renderAR()});document.addEventListener('click',e=>{const t=e.target.closest('[data-ar-toggle-state]');if(t){toggleARState(t.dataset.arToggleState);return;}const b=e.target.closest('[data-ar-edit]');if(b){openAR(b.dataset.arEdit);return;}});document.addEventListener('change',e=>{const cb=e.target.closest('[data-ar-select]');if(cb){if(cb.checked)AR_SELECTED.add(cb.dataset.arSelect);else AR_SELECTED.delete(cb.dataset.arSelect);const row=cb.closest('.ar-row');if(row)row.classList.toggle('selected',cb.checked);updateARBulkUI();return;}const sec=e.target.closest('[data-ar-section]');if(sec){toggleARSection(sec);return;}const f=e.target.closest('[data-ar-inline-field]');if(f)saveARInline(f);});document.getElementById('arSelectVisible').addEventListener('change',e=>{filteredAR().forEach(a=>e.target.checked?AR_SELECTED.add(a.id):AR_SELECTED.delete(a.id));renderAR();});document.getElementById('arSelectAll').onclick=()=>{AJUSTES.forEach(a=>AR_SELECTED.add(a.id));renderAR();};document.getElementById('arDeleteSelected').onclick=async()=>{const ids=[...AR_SELECTED];if(!ids.length)return;if(!confirm(`¿Eliminar ${ids.length} ficha${ids.length===1?'':'s'} seleccionada${ids.length===1?'':'s'}? Los archivos originales de Drive NO se borrarán. Si vuelves a sincronizar, podrán importarse nuevamente.`))return;await deleteARRecords(ids);};document.getElementById('arDeleteAll').onclick=async()=>{if(!AJUSTES.length)return;if(!confirm(`¿Eliminar TODAS las ${AJUSTES.length} fichas de Ajustes Razonables del panel? Los archivos originales de Drive NO se borrarán. Si vuelves a sincronizar, estas fichas podrán importarse nuevamente desde Drive.`))return;if(!confirm('Esta acción eliminará toda la lista del panel. ¿Confirmas nuevamente?'))return;await deleteARRecords(AJUSTES.map(a=>a.id));};document.getElementById('arClose').onclick=closeAR;document.getElementById('moAR').addEventListener('click',e=>{if(e.target.id==='moAR')closeAR()});document.getElementById('btnGuardarAR').onclick=saveARFicha;document.getElementById('btnEliminarAR').onclick=deleteARFicha;
 
@@ -1562,40 +1586,34 @@ function renderTasks(){
 }
 function escapeHTML(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function normalizedEmail(v=''){return String(v||'').trim().toLowerCase();}
-function fillTaskProfessionalSelect(selected=''){
-  const el=document.getElementById('tResponsable');if(!el)return;
-  const opts=PROFESIONALES.filter(p=>p&&p.nombre).map(p=>`<option value="${escapeHTML(p.nombre)}">${escapeHTML(p.nombre)}</option>`).join('');
-  el.innerHTML='<option value="">Sin asignar</option>'+opts;
-  if(selected && !PROFESIONALES.some(p=>p.nombre===selected))el.insertAdjacentHTML('beforeend',`<option value="${escapeHTML(selected)}">${escapeHTML(selected)}</option>`);
-  el.value=selected||'';syncTaskResponsibleEmail();
+function fillProfessionalSelect(selectId,emailId,selected=''){
+  const el=document.getElementById(selectId);if(!el)return;const opts=PROFESIONALES.filter(p=>p&&p.nombre).map(p=>`<option value="${escapeHTML(p.nombre)}">${escapeHTML(p.nombre)}</option>`).join('');el.innerHTML='<option value="">Sin asignar</option>'+opts;if(selected&&!PROFESIONALES.some(p=>p.nombre===selected))el.insertAdjacentHTML('beforeend',`<option value="${escapeHTML(selected)}">${escapeHTML(selected)}</option>`);el.value=selected||'';syncProfessionalEmail(selectId,emailId);
 }
-function syncTaskResponsibleEmail(){const name=document.getElementById('tResponsable')?.value||'';const p=PROFESIONALES.find(x=>x.nombre===name);const em=document.getElementById('tResponsableEmail');if(em)em.value=p?.correo||'';}
-function taskDeepLink(taskId){
-  let base=String(TASK_NOTIFY_CONFIG?.panelUrl||'').trim();
-  if(!base && /^https?:$/.test(location.protocol))base=location.origin+location.pathname;
-  if(!base)return '';
-  try{const u=new URL(base);u.searchParams.set('modulo','tareas');u.searchParams.set('tarea',taskId);return u.toString();}catch{return '';}
-}
-async function sendTaskNotification(task){
-  if(!task?.responsableEmail)throw new Error('El profesional asignado no tiene correo configurado');
-  const panelUrl=taskDeepLink(task.id);if(!panelUrl)throw new Error('Configura la URL pública del panel en “Profesionales y avisos”');
-  const r=await jsonpDrive({mode:'notifyTask',to:task.responsableEmail,responsable:task.responsable||'',taskId:task.id,titulo:(task.titulo||'').slice(0,180),fecha:task.fecha||'',prioridad:task.prioridad||'media',detalle:(task.detalle||'').slice(0,700),panelUrl},45000);
-  return r;
-}
+function syncProfessionalEmail(selectId,emailId){const name=document.getElementById(selectId)?.value||'';const p=PROFESIONALES.find(x=>x.nombre===name);const em=document.getElementById(emailId);if(em)em.value=p?.correo||'';}
+function entityDeepLink(module,param,id){let base=String(TASK_NOTIFY_CONFIG?.panelUrl||'').trim();if(!base&&/^https?:$/.test(location.protocol))base=location.origin+location.pathname;if(!base)return '';try{const u=new URL(base);u.searchParams.set('modulo',module);u.searchParams.set(param,id);return u.toString();}catch{return '';}}
+async function sendEntityNotification(o){if(!o?.to)throw new Error('El profesional asignado no tiene correo configurado');const panelUrl=entityDeepLink(o.module,o.param,o.id);if(!panelUrl)throw new Error('Configura la URL pública del panel en “Profesionales y avisos”');return jsonpDrive({mode:'notifyItem',to:o.to,responsable:o.responsable||'',entityType:o.type||'Registro',entityId:o.id||'',titulo:(o.title||'').slice(0,180),fecha:o.date||'',prioridad:o.priority||'',estado:o.status||'',detalle:(o.detail||'').slice(0,700),panelUrl},45000);}
+function fillTaskProfessionalSelect(selected=''){fillProfessionalSelect('tResponsable','tResponsableEmail',selected);}
+function syncTaskResponsibleEmail(){syncProfessionalEmail('tResponsable','tResponsableEmail');}
+function taskDeepLink(taskId){return entityDeepLink('tareas','tarea',taskId);}
+async function sendTaskNotification(task){return sendEntityNotification({module:'tareas',param:'tarea',id:task.id,type:'Tarea',title:task.titulo,to:task.responsableEmail,responsable:task.responsable,date:task.fecha,priority:task.prioridad,status:task.estado,detail:task.detalle});}
 function renderProfessionalsConfig(){
   const box=document.getElementById('taskProfessionalsList');if(!box)return;
   box.innerHTML=PROFESIONALES.map((p,i)=>`<div class="prof-row" data-prof-row="${i}"><input data-prof-name value="${escapeHTML(p.nombre||'')}" placeholder="Nombre"><input data-prof-email type="email" value="${escapeHTML(p.correo||'')}" placeholder="correo@uahurtado.cl"><button type="button" data-prof-delete="${i}" title="Eliminar">✕</button></div>`).join('');
 }
-function openTaskNotifyConfig(){document.getElementById('taskPanelPublicUrl').value=TASK_NOTIFY_CONFIG?.panelUrl||'';renderProfessionalsConfig();const st=document.getElementById('taskNotifyConfigStatus');const bridge=(localStorage.getItem(DRIVE_BRIDGE_KEY)||'').trim(),key=(localStorage.getItem(DRIVE_SECRET_KEY)||'').trim();st.className='notify-status '+(bridge&&key?'ok':'warn');st.textContent=bridge&&key?'Conector Apps Script configurado ✓ · listo para enviar correos':'Falta configurar el Apps Script o su clave en Ajustes Razonables.';document.getElementById('moTaskNotifyConfig').classList.add('open');document.body.style.overflow='hidden';}
+function openTaskNotifyConfig(){document.getElementById('taskPanelPublicUrl').value=TASK_NOTIFY_CONFIG?.panelUrl||'';renderProfessionalsConfig();const st=document.getElementById('taskNotifyConfigStatus');const bridge=(localStorage.getItem(DRIVE_BRIDGE_KEY)||'').trim(),key=(localStorage.getItem(DRIVE_SECRET_KEY)||'').trim();st.className='notify-status '+(bridge&&key?'ok':'warn');st.textContent=bridge&&key?'Conector Apps Script configurado ✓ · listo para enviar correos del panel':'Falta configurar el Apps Script o su clave en Ajustes Razonables.';document.getElementById('moTaskNotifyConfig').classList.add('open');document.body.style.overflow='hidden';}
 function closeTaskNotifyConfig(){document.getElementById('moTaskNotifyConfig').classList.remove('open');document.body.style.overflow='';}
 async function saveTaskNotifyConfig(){
   const rows=[...document.querySelectorAll('#taskProfessionalsList [data-prof-row]')];
   const profs=rows.map(r=>({nombre:r.querySelector('[data-prof-name]').value.trim(),correo:r.querySelector('[data-prof-email]').value.trim()})).filter(p=>p.nombre);
   const bad=profs.find(p=>p.correo&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.correo));if(bad){showToast('Revisa el correo de '+bad.nombre,'bad');return;}
-  PROFESIONALES=profs;TASK_NOTIFY_CONFIG={panelUrl:document.getElementById('taskPanelPublicUrl').value.trim()};await saveData(false);closeTaskNotifyConfig();renderTasks();showToast('Profesionales y avisos guardados ✓','ok');
+  PROFESIONALES=profs;TASK_NOTIFY_CONFIG={panelUrl:document.getElementById('taskPanelPublicUrl').value.trim()};await saveData(false);closeTaskNotifyConfig();renderTasks();showToast('Profesionales y avisos del panel guardados ✓','ok');
 }
-function applyTaskDeepLink(){
-  const q=new URLSearchParams(location.search);if(q.get('modulo')!=='tareas')return;switchModule('tasks');const id=q.get('tarea');if(id&&TAREAS.some(t=>t.id===id))setTimeout(()=>openTask(id),120);
+function applyPanelDeepLink(){
+  const q=new URLSearchParams(location.search),m=q.get('modulo');if(!m)return;
+  if(m==='tareas'){switchModule('tasks');const id=q.get('tarea');if(id&&TAREAS.some(t=>t.id===id))setTimeout(()=>openTask(id),120);return;}
+  if(m==='cases'){switchModule('cases');const id=q.get('caso');if(id&&CASOS.some(x=>x.id===id))setTimeout(()=>openCase(id),120);return;}
+  if(m==='adjustments'){switchModule('adjustments');const id=q.get('ajuste');if(id&&AJUSTES.some(x=>x.id===id))setTimeout(()=>openAR(id),120);return;}
+  if(m==='workshops'){switchModule('workshops');const id=q.get('taller');if(id&&TALLERES.some(x=>x.id===id))setTimeout(()=>openEdit(id),120);return;}
 }
 function fillTaskAccessSelect(){const el=document.getElementById('tAcceso');el.innerHTML=TASK_ACCESOS.map(([n,i])=>`<option value="${n}">${i} ${n}</option>`).join('');}
 function openTask(id=''){
@@ -1607,7 +1625,7 @@ function openTask(id=''){
 function closeTask(){document.getElementById('moTarea').classList.remove('open');document.body.style.overflow='';editingTaskId=null;}
 document.getElementById('btnNuevaTarea').onclick=()=>openTask();document.getElementById('taskClose').onclick=closeTask;document.getElementById('moTarea').addEventListener('click',e=>{if(e.target.id==='moTarea')closeTask();});
 document.getElementById('tResponsable').addEventListener('change',()=>{syncTaskResponsibleEmail();document.getElementById('tNotifyEmail').checked=true;});
-document.getElementById('btnTaskNotifyConfig').onclick=openTaskNotifyConfig;document.getElementById('taskNotifyClose').onclick=closeTaskNotifyConfig;document.getElementById('moTaskNotifyConfig').addEventListener('click',e=>{if(e.target.id==='moTaskNotifyConfig')closeTaskNotifyConfig();});document.getElementById('btnAddProfessional').onclick=()=>{PROFESIONALES.push({nombre:'',correo:''});renderProfessionalsConfig();};document.getElementById('taskProfessionalsList').addEventListener('click',e=>{const b=e.target.closest('[data-prof-delete]');if(!b)return;PROFESIONALES.splice(Number(b.dataset.profDelete),1);renderProfessionalsConfig();});document.getElementById('btnSaveTaskNotifyConfig').onclick=saveTaskNotifyConfig;
+document.getElementById('btnTaskNotifyConfig').onclick=openTaskNotifyConfig;document.getElementById('btnGlobalNotifyConfig').onclick=openTaskNotifyConfig;document.getElementById('taskNotifyClose').onclick=closeTaskNotifyConfig;document.getElementById('moTaskNotifyConfig').addEventListener('click',e=>{if(e.target.id==='moTaskNotifyConfig')closeTaskNotifyConfig();});document.getElementById('btnAddProfessional').onclick=()=>{PROFESIONALES.push({nombre:'',correo:''});renderProfessionalsConfig();};document.getElementById('taskProfessionalsList').addEventListener('click',e=>{const b=e.target.closest('[data-prof-delete]');if(!b)return;PROFESIONALES.splice(Number(b.dataset.profDelete),1);renderProfessionalsConfig();});document.getElementById('btnSaveTaskNotifyConfig').onclick=saveTaskNotifyConfig;
 document.getElementById('taskSearch').addEventListener('input',e=>{taskSearch=e.target.value;renderTasks();});
 document.getElementById('taskStatusSeg').addEventListener('click',e=>{const b=e.target.closest('[data-task-status]');if(!b)return;taskStatus=b.dataset.taskStatus;document.querySelectorAll('[data-task-status]').forEach(x=>x.classList.toggle('active',x===b));renderTasks();});
 document.getElementById('taskPriorityFilter').addEventListener('change',e=>{taskPriority=e.target.value;renderTasks();});
@@ -1794,6 +1812,7 @@ function setStatusRadio(val){
 document.querySelectorAll('.status-opt').forEach(o=>{
   o.addEventListener('click',()=>setStatusRadio(o.dataset.st));
 });
+document.getElementById('fResp').addEventListener('change',()=>{syncProfessionalEmail('fResp','fRespEmail');document.getElementById('fNotifyEmail').checked=true;});
 
 function openNew(){
   editingId=null;
@@ -1807,7 +1826,7 @@ function openNew(){
   document.getElementById('fLinea').value='LEA+';
   document.getElementById('fModalidad').value='presencial';
   document.getElementById('fSala').value='';
-  document.getElementById('fResp').value='';
+  fillProfessionalSelect('fResp','fRespEmail','');document.getElementById('fNotifyEmail').checked=true;
   setStatusRadio('pendiente');
   document.getElementById('fInscritos').value='';
   document.getElementById('fAsistentes').value='';
@@ -1831,7 +1850,7 @@ function openEdit(id){
   document.getElementById('fLinea').value=t.linea;
   document.getElementById('fModalidad').value=t.modalidad;
   document.getElementById('fSala').value=t.sala;
-  document.getElementById('fResp').value=t.resp||'';
+  fillProfessionalSelect('fResp','fRespEmail',t.resp||'');document.getElementById('fNotifyEmail').checked=false;
   setStatusRadio(t.estado);
   document.getElementById('fInscritos').value=t.inscritos||'';
   document.getElementById('fAsistentes').value=t.asistentes||'';
@@ -1852,34 +1871,11 @@ document.getElementById('moTaller').addEventListener('click',e=>{
 });
 
 document.getElementById('btnGuardar').onclick=async()=>{
-  const titulo=document.getElementById('fTitulo').value.trim();
-  const fecha=document.getElementById('fFecha').value;
-  const hora=document.getElementById('fHora').value.trim();
-  if(!titulo||!fecha||!hora){showToast('Completa al menos fecha, hora y nombre del taller','bad');return;}
-  const estadoSel=document.querySelector('input[name="fEstado"]:checked');
-  const data={
-    fecha, hora, titulo,
-    carrera:document.getElementById('fCarrera').value.trim(),
-    categoria:document.getElementById('fCategoria').value,
-    linea:document.getElementById('fLinea').value,
-    modalidad:document.getElementById('fModalidad').value,
-    sala:document.getElementById('fSala').value.trim()||'Por confirmar',
-    resp:document.getElementById('fResp').value.trim(),
-    estado:estadoSel?estadoSel.value:'pendiente',
-    inscritos:Number(document.getElementById('fInscritos').value)||0,
-    asistentes:Number(document.getElementById('fAsistentes').value)||0,
-    notas:document.getElementById('fNotas').value.trim(),
-  };
-  if(editingId){
-    const idx=TALLERES.findIndex(x=>x.id===editingId);
-    if(idx>-1) TALLERES[idx]={...TALLERES[idx],...data};
-  } else {
-    data.id='t'+Date.now().toString(36);
-    TALLERES.push(data);
-  }
-  closeModal();
-  renderAll();
-  await saveData(true);
+  const titulo=document.getElementById('fTitulo').value.trim(),fecha=document.getElementById('fFecha').value,hora=document.getElementById('fHora').value.trim();if(!titulo||!fecha||!hora){showToast('Completa al menos fecha, hora y nombre del taller','bad');return;}
+  const estadoSel=document.querySelector('input[name="fEstado"]:checked'),old=editingId?TALLERES.find(x=>x.id===editingId):null,responsable=document.getElementById('fResp').value,responsableEmail=document.getElementById('fRespEmail').value.trim();
+  const data={fecha,hora,titulo,carrera:document.getElementById('fCarrera').value.trim(),categoria:document.getElementById('fCategoria').value,linea:document.getElementById('fLinea').value,modalidad:document.getElementById('fModalidad').value,sala:document.getElementById('fSala').value.trim()||'Por confirmar',resp:responsable,respEmail:responsableEmail,estado:estadoSel?estadoSel.value:'pendiente',inscritos:Number(document.getElementById('fInscritos').value)||0,asistentes:Number(document.getElementById('fAsistentes').value)||0,notas:document.getElementById('fNotas').value.trim()};
+  let item;if(editingId){const idx=TALLERES.findIndex(x=>x.id===editingId);if(idx>-1){TALLERES[idx]={...TALLERES[idx],...data};item=TALLERES[idx];}}else{item={id:'t'+Date.now().toString(36),...data};TALLERES.push(item);}const notify=document.getElementById('fNotifyEmail').checked;closeModal();renderAll();await saveData(false);
+  if(notify&&responsable){try{await sendEntityNotification({module:'workshops',param:'taller',id:item.id,type:'Taller',title:item.titulo,to:responsableEmail,responsable,date:`${item.fecha} ${item.hora}`,status:item.estado,detail:item.notas||item.carrera});showToast('Taller guardado y profesional notificado ✓','ok');}catch(e){showToast('Taller guardado · no se pudo enviar el correo: '+e.message,'bad');}}else showToast('Taller guardado ✓','ok');
 };
 
 document.getElementById('btnEliminar').onclick=async()=>{
