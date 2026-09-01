@@ -384,6 +384,36 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 .summary-collapse>summary::-webkit-details-marker{display:none}.summary-collapse-title{flex:1}.summary-collapse-meta{font-size:.75rem;color:var(--txt2);font-weight:800}.summary-collapse-chevron{width:28px;height:28px;border:1px solid var(--line2);border-radius:8px;display:grid;place-items:center;color:var(--p);transition:transform .18s}.summary-collapse[open] .summary-collapse-chevron{transform:rotate(180deg)}.summary-collapse-body{padding:14px 14px 2px}
 .assign-box{border:1px solid var(--line2);background:var(--p-bg);border-radius:12px;padding:12px 14px;margin:6px 0 14px}.assign-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:10px}.assign-grid .fg{margin-bottom:0}.assign-check{display:flex;align-items:flex-start;gap:9px;font-size:.84rem;font-weight:800;color:var(--p-dk);margin-top:10px}.assign-check input{width:17px;height:17px;margin-top:2px;accent-color:var(--p)}.assign-hint{font-size:.74rem;color:var(--txt2);margin:5px 0 0 26px}.global-notify-btn{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.34);color:#fff;border-radius:10px;padding:9px 12px;font-family:var(--fb);font-size:.82rem;font-weight:900;cursor:pointer}.global-notify-btn:hover{background:#fff;color:var(--p)}
 @media(max-width:680px){.assign-grid{grid-template-columns:1fr}.summary-collapse-meta{display:none}}
+
+/* ══════════════════════════════════════════════════════════════
+   PRESENTACIONES · v22
+   ══════════════════════════════════════════════════════════════ */
+.presentation-toolbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:14px 0 16px}
+.presentation-groups{display:flex;flex-direction:column;gap:12px}
+.presentation-project{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 4px 14px rgba(23,18,37,.04)}
+.presentation-project>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:14px 16px;font-weight:900;color:var(--txt);user-select:none}
+.presentation-project>summary::-webkit-details-marker{display:none}
+.presentation-project>summary:after{content:'⌄';margin-left:auto;color:var(--mut);font-size:1.05rem;transition:.15s}
+.presentation-project[open]>summary:after{transform:rotate(180deg)}
+.presentation-project-title{flex:1;min-width:0}
+.presentation-project-count{font-family:var(--fm);font-size:.72rem;color:var(--p);background:var(--p-lt);padding:4px 8px;border-radius:999px;white-space:nowrap}
+.presentation-list{border-top:1px solid var(--line)}
+.presentation-row{display:grid;grid-template-columns:minmax(220px,1.6fr) 135px 140px 150px 84px;gap:12px;align-items:center;padding:13px 16px;border-bottom:1px solid var(--line);font-size:.84rem}
+.presentation-row:last-child{border-bottom:0}
+.presentation-title{font-weight:900;color:var(--txt);line-height:1.25}
+.presentation-sub{font-size:.75rem;color:var(--mut);margin-top:4px;line-height:1.35}
+.presentation-pill{display:inline-flex;align-items:center;justify-content:center;padding:5px 8px;border-radius:999px;background:var(--surface2);font-size:.72rem;font-weight:850;color:var(--txt2);white-space:nowrap}
+.presentation-state{font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:.03em}
+.presentation-state.borrador{color:var(--warn)}
+.presentation-state.revision{color:var(--p)}
+.presentation-state.finalizada,.presentation-state.presentada{color:var(--ok)}
+.presentation-actions{display:flex;justify-content:flex-end;gap:5px}
+.presentation-icon-btn{border:1px solid var(--line);background:#fff;border-radius:8px;width:34px;height:34px;cursor:pointer;font-weight:900;color:var(--txt2)}
+.presentation-icon-btn:hover{border-color:var(--p);color:var(--p);background:var(--p-lt)}
+.presentation-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media(max-width:920px){.presentation-row{grid-template-columns:1fr 110px 80px}.presentation-row .pres-hide-md{display:none}.presentation-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.presentation-row{grid-template-columns:1fr 72px}.presentation-row .pres-hide-sm{display:none}}
+
 </style>
 </head>
 <body>
@@ -409,6 +439,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
     <button class="module-btn" data-module="cases">👤 Casos Específicos</button>
     <button class="module-btn" data-module="adjustments">♿ Ajustes Razonables</button>
     <button class="module-btn" data-module="workshops">▦ Talleres</button>
+    <button class="module-btn" data-module="presentations">▣ Presentaciones</button>
     <button class="module-btn" data-module="tasks">✓ Organización y tareas</button>
   </nav>
 </header>
@@ -437,6 +468,11 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
         <div class="area-icon">▦</div><h3>Talleres</h3>
         <p>Planificación, implementación y seguimiento de la oferta grupal, organizada por tipo de taller.</p>
         <div class="area-metrics" id="homeWorkshopMetrics"></div>
+      </button>
+      <button class="area-card" data-go="presentations">
+        <div class="area-icon">▣</div><h3>Presentaciones</h3>
+        <p>Repositorio de presentaciones, organizado por proyecto, estado, responsable y fecha.</p>
+        <div class="area-metrics" id="homePresentationMetrics"></div>
       </button>
       <button class="area-card" data-go="tasks">
         <div class="area-icon">✓</div><h3>Organización y tareas</h3>
@@ -481,6 +517,22 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
     <div class="case-toolbar"><div class="seg" id="arReviewSeg"><button class="active" data-ar-review="ALL">Todos</button><button data-ar-review="emitida">Emitidas</button><button data-ar-review="pendiente">Pendientes</button></div><select class="filter-select" id="arCareerFilter"><option value="ALL">Todas las carreras</option></select><select class="filter-select" id="arYearFilter"><option value="ALL">Todos los años</option></select><div class="search-box"><input type="text" id="arSearch" list="arStudentNames" autocomplete="off" placeholder="Buscar estudiante por nombre..."><datalist id="arStudentNames"></datalist></div><button class="btn-primary" id="btnNuevoAR">+ Agregar manualmente</button></div>
     <div class="ar-bulk-bar"><label style="display:flex;align-items:center;gap:7px;font-size:.8rem;font-weight:900;color:var(--txt2)"><input class="ar-select-box" type="checkbox" id="arSelectVisible"> Seleccionar visibles</label><button class="btn-bulk" type="button" id="arSelectAll">Seleccionar todas</button><span class="bulk-count" id="arBulkCount">0 seleccionadas</span><button class="btn-bulk-danger" type="button" id="arDeleteSelected" disabled>Eliminar seleccionadas</button><button class="btn-bulk-danger" type="button" id="arDeleteAll">Eliminar todas</button></div>
     <div class="ar-list" id="arList"></div><div class="case-empty" id="arEmpty" style="display:none">No hay estudiantes con este filtro.</div>
+  </section>
+
+
+  <!-- PRESENTACIONES -->
+  <section id="modulePresentations" class="module">
+    <div class="section-head"><div><h2>Presentaciones</h2><p>Repositorio transversal para organizar y recuperar presentaciones según proyecto, estado, responsable y fecha.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
+    <details class="summary-collapse" open><summary><span class="summary-collapse-title">📊 Resumen de presentaciones</span><span class="summary-collapse-meta">Proyectos, estados y actividad</span><span class="summary-collapse-chevron">⌄</span></summary><div class="summary-collapse-body"><div class="presentation-kpis" id="presentationKpis"></div></div></details>
+    <div class="presentation-toolbar">
+      <div class="search-box"><input id="presentationSearch" type="text" placeholder="Buscar presentación, proyecto o responsable…"></div>
+      <select class="filter-select" id="presentationProjectFilter"><option value="ALL">Todos los proyectos</option></select>
+      <select class="filter-select" id="presentationStatusFilter"><option value="ALL">Todos los estados</option><option value="borrador">Borrador</option><option value="revision">En revisión</option><option value="finalizada">Finalizada</option><option value="presentada">Presentada</option></select>
+      <select class="filter-select" id="presentationYearFilter"><option value="ALL">Todos los años</option></select>
+      <button class="btn-primary" id="btnNuevaPresentacion">+ Nueva presentación</button>
+    </div>
+    <div class="presentation-groups" id="presentationGroups"></div>
+    <div class="case-empty" id="presentationEmpty" style="display:none">No hay presentaciones con estos filtros.</div>
   </section>
 
   <!-- ORGANIZACIÓN Y TAREAS -->
@@ -673,6 +725,22 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 <div class="fg-row"><div class="fg"><label for="aRevision">Estado</label><select id="aRevision"><option value="pendiente">Pendiente</option><option value="emitida">Emitida</option></select></div><div class="fg"><label for="aObservaciones">Observaciones</label><textarea id="aObservaciones"></textarea></div></div><div class="fg"><label for="aCartaLink">Link de la carta</label><input type="url" id="aCartaLink" placeholder="https://drive.google.com/... o enlace directo al archivo"></div>
 <div id="arCartaActual"></div><button class="btn-sub" id="btnGuardarAR">Guardar ficha</button><button class="btn-danger-link" id="btnEliminarAR" style="display:none">Eliminar estudiante de Ajustes Razonables</button></div></div>
 
+
+<!-- MODAL PRESENTACIÓN -->
+<div class="mo" id="moPresentacion" role="dialog" aria-modal="true">
+  <div class="md" style="max-width:680px">
+    <button class="md-close" id="presentationClose">✕</button><h3 id="presentationModalTitle">Nueva presentación</h3><p class="md-info" id="presentationId"></p>
+    <div class="fg"><label for="pTitulo">Título</label><input id="pTitulo" type="text" placeholder="Ej: Resultados de Fortalecimiento Académico · Primer semestre"></div>
+    <div class="fg"><label for="pProyecto">Proyecto</label><input id="pProyecto" type="text" list="presentationProjectNames" placeholder="Selecciona un proyecto existente o escribe uno nuevo"><datalist id="presentationProjectNames"></datalist></div>
+    <div class="fg-row"><div class="fg"><label for="pTipo">Tipo de presentación</label><select id="pTipo"><option value="interna">Interna</option><option value="equipo">Equipo</option><option value="jefatura">Jefatura</option><option value="direccion">Dirección</option><option value="externa">Externa</option><option value="academica">Académica</option></select></div><div class="fg"><label for="pEstado">Estado</label><select id="pEstado"><option value="borrador">Borrador</option><option value="revision">En revisión</option><option value="finalizada">Finalizada</option><option value="presentada">Presentada</option></select></div></div>
+    <div class="fg-row"><div class="fg"><label for="pFecha">Fecha</label><input id="pFecha" type="date"></div><div class="fg"><label for="pResponsable">Responsable</label><input id="pResponsable" type="text" list="presentationResponsibleNames" placeholder="Nombre"><datalist id="presentationResponsibleNames"></datalist></div></div>
+    <div class="fg"><label for="pLink">Enlace al archivo</label><input id="pLink" type="url" placeholder="https://..."></div>
+    <div class="fg"><label for="pDescripcion">Descripción breve / propósito</label><textarea id="pDescripcion" placeholder="Qué contiene, para qué reunión se preparó o qué decisión apoya."></textarea></div>
+    <div class="fg"><label for="pObservaciones">Observaciones</label><textarea id="pObservaciones" placeholder="Notas, ajustes pendientes o acuerdos posteriores."></textarea></div>
+    <button class="btn-sub" id="btnGuardarPresentacion">Guardar presentación</button><button class="btn-danger-link" id="btnEliminarPresentacion" style="display:none">Eliminar esta presentación</button>
+  </div>
+</div>
+
 <!-- MODAL TAREA -->
 <div class="mo" id="moTarea" role="dialog" aria-modal="true">
   <div class="md" style="max-width:650px">
@@ -801,6 +869,7 @@ const SEED=[
 let TALLERES=[];
 let CASOS=[];
 let TAREAS=[];
+let PRESENTACIONES=[];
 let PROFESIONALES=[];
 let TASK_NOTIFY_CONFIG={panelUrl:''};
 let AJUSTES=[];
@@ -813,6 +882,7 @@ let AR_SELECTED=new Set();
 let AR_DELETED_DRIVE_IDS=[];
 const TASK_ACCESOS=[['Mis tareas','📌'],['Proyectos','🗃️'],['Carreras','🎓'],['Equipo','👥'],['Reuniones y acuerdos','📅'],['Próximos hitos','⏰'],['Notas rápidas','📝']];
 const DEFAULT_PROFESIONALES=[{nombre:'Fabián Pulgar',correo:''},{nombre:'Diego Jiménez',correo:''},{nombre:'Claudio Espinoza',correo:''},{nombre:'Sandra Rivera',correo:''}];
+let presentationSearch='', presentationProject='ALL', presentationStatus='ALL', presentationYear='ALL', editingPresentationId=null;
 let taskAccess='ALL', taskStatus='ALL', taskSearch='', taskPriority='ALL', taskDate='ALL', taskProject='ALL', taskCareer='ALL', taskPerson='ALL', taskMeeting='ALL', editingTaskId=null;
 let calM=2, calY=2026;
 let editingId=null;
@@ -842,6 +912,7 @@ async function loadData(){
       TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
       CASOS=[];
       TAREAS=[];
+      PRESENTACIONES=[];
       PROFESIONALES=DEFAULT_PROFESIONALES.map(x=>({...x}));
       TASK_NOTIFY_CONFIG={panelUrl:''};
       AJUSTES=[];
@@ -854,6 +925,7 @@ async function loadData(){
       TALLERES=Array.isArray(j.talleres)?j.talleres:[];
       CASOS=(Array.isArray(j.casos)?j.casos:[]).map(c=>({...c,documentos:Array.isArray(c.documentos)?c.documentos:[]}));
       TAREAS=Array.isArray(j.tareas)?j.tareas:[];
+      PRESENTACIONES=Array.isArray(j.presentaciones)?j.presentaciones:[];
       PROFESIONALES=Array.isArray(j.profesionales)&&j.profesionales.length?j.profesionales:DEFAULT_PROFESIONALES.map(x=>({...x}));
       TASK_NOTIFY_CONFIG=(j.taskNotifyConfig&&typeof j.taskNotifyConfig==='object')?j.taskNotifyConfig:{panelUrl:''};
       AJUSTES=(Array.isArray(j.ajustesRazonables)?j.ajustesRazonables:[]).map(a=>({...a,secciones:a.secciones||{},carta:a.carta||null}));
@@ -866,6 +938,7 @@ async function loadData(){
     TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
     CASOS=[];
     TAREAS=[];
+    PRESENTACIONES=[];
     PROFESIONALES=DEFAULT_PROFESIONALES.map(x=>({...x}));
     TASK_NOTIFY_CONFIG={panelUrl:''};
     setConn(false,'Sin conexión · usando datos locales');
@@ -876,7 +949,7 @@ async function loadData(){
 
 async function saveData(toast=true){
   try{
-    const r=await fetch(FB_PATH,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,tareas:TAREAS,profesionales:PROFESIONALES,taskNotifyConfig:TASK_NOTIFY_CONFIG,ajustesRazonables:AJUSTES,ajustesDriveEliminados:AR_DELETED_DRIVE_IDS,ts:Date.now()})});
+    const r=await fetch(FB_PATH,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,tareas:TAREAS,presentaciones:PRESENTACIONES,profesionales:PROFESIONALES,taskNotifyConfig:TASK_NOTIFY_CONFIG,ajustesRazonables:AJUSTES,ajustesDriveEliminados:AR_DELETED_DRIVE_IDS,ts:Date.now()})});
     const j=await r.json().catch(()=>null);
     if(!r.ok || (j && j.error)){
       throw new Error((j && j.error) ? j.error : `HTTP ${r.status}`);
@@ -1065,7 +1138,7 @@ function renderCal(){
 function switchModule(name){
   curModule=name;
   document.querySelectorAll('.module').forEach(x=>x.classList.remove('active'));
-  const map={home:'moduleHome',cases:'moduleCases',adjustments:'moduleAdjustments',workshops:'moduleWorkshops',tasks:'moduleTasks'};
+  const map={home:'moduleHome',cases:'moduleCases',adjustments:'moduleAdjustments',workshops:'moduleWorkshops',presentations:'modulePresentations',tasks:'moduleTasks'};
   document.getElementById(map[name]||map.home).classList.add('active');
   document.querySelectorAll('.module-btn').forEach(b=>b.classList.toggle('active',b.dataset.module===name));
   window.scrollTo({top:0,behavior:'smooth'});
@@ -1083,6 +1156,10 @@ function renderHome(){
   const realizados=TALLERES.filter(t=>t.estado==='realizado').length;
   const pendientes=TALLERES.filter(t=>t.estado==='pendiente').length;
   document.getElementById('homeWorkshopMetrics').innerHTML=`<span class="metric-mini">${TALLERES.length} talleres</span><span class="metric-mini">${realizados} realizados</span><span class="metric-mini">${pendientes} pendientes</span>`;
+  const presProjects=new Set(PRESENTACIONES.map(p=>String(p.proyecto||'Sin proyecto').trim()||'Sin proyecto')).size;
+  const presDraft=PRESENTACIONES.filter(p=>['borrador','revision'].includes(p.estado)).length;
+  const presFinal=PRESENTACIONES.filter(p=>['finalizada','presentada'].includes(p.estado)).length;
+  const homePres=document.getElementById('homePresentationMetrics');if(homePres)homePres.innerHTML=`<span class="metric-mini">${PRESENTACIONES.length} presentaciones</span><span class="metric-mini">${presProjects} proyectos</span><span class="metric-mini">${presDraft} en trabajo</span>`;
   const taskPend=TAREAS.filter(t=>t.estado!=='realizada').length;
   const taskOver=TAREAS.filter(t=>t.estado!=='realizada'&&isTaskOverdue(t)).length;
   const taskWeek=TAREAS.filter(t=>t.estado!=='realizada'&&isTaskThisWeek(t)).length;
@@ -1499,6 +1576,68 @@ document.getElementById('btnRebuildDrive').onclick=async()=>{if(!confirm('¿Reco
 document.addEventListener('click',e=>{const b=e.target.closest('[data-module="adjustments"]');if(b)setTimeout(()=>{if(localStorage.getItem(DRIVE_FOLDER_KEY)&&localStorage.getItem(DRIVE_BRIDGE_KEY)&&localStorage.getItem(DRIVE_SECRET_KEY))syncDriveFolder({silent:true});},250);});
 refreshDriveFolder();
 
+
+// ══════════════════════════════════════════════════════════════
+// PRESENTACIONES
+// ══════════════════════════════════════════════════════════════
+const PRESENTATION_STATUS_LABEL={borrador:'Borrador',revision:'En revisión',finalizada:'Finalizada',presentada:'Presentada'};
+const PRESENTATION_TYPE_LABEL={interna:'Interna',equipo:'Equipo',jefatura:'Jefatura',direccion:'Dirección',externa:'Externa',academica:'Académica'};
+function allProjectNames(){
+  return [...new Set([...TAREAS.map(t=>String(t.proyecto||'').trim()),...PRESENTACIONES.map(p=>String(p.proyecto||'').trim())].filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
+}
+function presentationYearOf(p){return String(p.fecha||'').slice(0,4)||'';}
+function filteredPresentations(){
+  return PRESENTACIONES.filter(p=>{
+    if(presentationProject!=='ALL'&&(p.proyecto||'Sin proyecto')!==presentationProject)return false;
+    if(presentationStatus!=='ALL'&&p.estado!==presentationStatus)return false;
+    if(presentationYear!=='ALL'&&presentationYearOf(p)!==presentationYear)return false;
+    if(presentationSearch){const h=[p.titulo,p.proyecto,p.tipo,p.estado,p.responsable,p.descripcion,p.observaciones].join(' ').toLowerCase();if(!h.includes(presentationSearch.toLowerCase()))return false;}
+    return true;
+  }).sort((a,b)=>String(b.fecha||'').localeCompare(String(a.fecha||''))||String(a.titulo||'').localeCompare(String(b.titulo||''),'es'));
+}
+function refreshPresentationFilters(){
+  const proj=document.getElementById('presentationProjectFilter');
+  if(proj){const cur=presentationProject;proj.innerHTML='<option value="ALL">Todos los proyectos</option>'+allProjectNames().map(x=>`<option value="${escapeHTML(x)}">${escapeHTML(x)}</option>`).join('');proj.value=[...proj.options].some(o=>o.value===cur)?cur:'ALL';presentationProject=proj.value;}
+  const years=[...new Set(PRESENTACIONES.map(p=>presentationYearOf(p)).filter(Boolean))].sort((a,b)=>b.localeCompare(a));
+  const yr=document.getElementById('presentationYearFilter');if(yr){const cur=presentationYear;yr.innerHTML='<option value="ALL">Todos los años</option>'+years.map(y=>`<option value="${y}">${y}</option>`).join('');yr.value=years.includes(cur)?cur:'ALL';presentationYear=yr.value;}
+  const dl=document.getElementById('presentationProjectNames');if(dl)dl.innerHTML=allProjectNames().map(x=>`<option value="${escapeHTML(x)}"></option>`).join('');
+  const rdl=document.getElementById('presentationResponsibleNames');if(rdl)rdl.innerHTML=[...new Set([...PROFESIONALES.map(x=>x.nombre),...PRESENTACIONES.map(x=>x.responsable)].filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es')).map(x=>`<option value="${escapeHTML(x)}"></option>`).join('');
+}
+function renderPresentationKpis(){
+  const el=document.getElementById('presentationKpis');if(!el)return;
+  const projects=new Set(PRESENTACIONES.map(p=>String(p.proyecto||'Sin proyecto').trim()||'Sin proyecto')).size;
+  const working=PRESENTACIONES.filter(p=>['borrador','revision'].includes(p.estado)).length;
+  const done=PRESENTACIONES.filter(p=>['finalizada','presentada'].includes(p.estado)).length;
+  el.innerHTML=`<div class="kpi"><div class="kn">${PRESENTACIONES.length}</div><div class="kl">Presentaciones</div></div><div class="kpi"><div class="kn">${projects}</div><div class="kl">Proyectos</div></div><div class="kpi"><div class="kn">${working}</div><div class="kl">En trabajo</div></div><div class="kpi"><div class="kn">${done}</div><div class="kl">Finalizadas / presentadas</div></div>`;
+}
+function renderPresentations(){
+  const wrap=document.getElementById('presentationGroups');if(!wrap)return;
+  refreshPresentationFilters();renderPresentationKpis();
+  const list=filteredPresentations();
+  const empty=document.getElementById('presentationEmpty');if(empty)empty.style.display=list.length?'none':'block';
+  if(!list.length){wrap.innerHTML='';return;}
+  const grouped={};list.forEach(p=>{const k=String(p.proyecto||'Sin proyecto').trim()||'Sin proyecto';(grouped[k]||(grouped[k]=[])).push(p)});
+  wrap.innerHTML=Object.keys(grouped).sort((a,b)=>a.localeCompare(b,'es')).map((project,i)=>{
+    const items=grouped[project];
+    return `<details class="presentation-project" ${i===0?'open':''}><summary><span class="presentation-project-title">🗃️ ${escapeHTML(project)}</span><span class="presentation-project-count">${items.length} presentación${items.length===1?'':'es'}</span></summary><div class="presentation-list">${items.map(p=>`<div class="presentation-row"><div><div class="presentation-title">${escapeHTML(p.titulo||'Sin título')}</div><div class="presentation-sub">${escapeHTML(p.descripcion||'')}${p.observaciones?`${p.descripcion?' · ':''}${escapeHTML(p.observaciones)}`:''}</div></div><div class="pres-hide-sm"><span class="presentation-pill">${escapeHTML(PRESENTATION_TYPE_LABEL[p.tipo]||p.tipo||'—')}</span></div><div class="pres-hide-md"><span class="presentation-state ${escapeHTML(p.estado||'')}">${escapeHTML(PRESENTATION_STATUS_LABEL[p.estado]||p.estado||'—')}</span></div><div class="pres-hide-md"><strong>${p.fecha?escapeHTML(p.fecha):'—'}</strong><div class="presentation-sub">${escapeHTML(p.responsable||'Sin responsable')}</div></div><div class="presentation-actions">${p.link?`<a class="presentation-icon-btn" href="${escapeAttr(p.link)}" target="_blank" rel="noopener" title="Abrir archivo" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none">↗</a>`:''}<button class="presentation-icon-btn" type="button" data-presentation-edit="${p.id}" title="Editar">✎</button></div></div>`).join('')}</div></details>`;
+  }).join('');
+}
+function openPresentation(id=null){
+  const p=id?PRESENTACIONES.find(x=>x.id===id):null;editingPresentationId=p?.id||null;refreshPresentationFilters();
+  document.getElementById('presentationModalTitle').textContent=p?'Editar presentación':'Nueva presentación';document.getElementById('presentationId').textContent=p?'ID '+p.id:'';
+  document.getElementById('pTitulo').value=p?.titulo||'';document.getElementById('pProyecto').value=p?.proyecto||'';document.getElementById('pTipo').value=p?.tipo||'interna';document.getElementById('pEstado').value=p?.estado||'borrador';document.getElementById('pFecha').value=p?.fecha||'';document.getElementById('pResponsable').value=p?.responsable||'';document.getElementById('pLink').value=p?.link||'';document.getElementById('pDescripcion').value=p?.descripcion||'';document.getElementById('pObservaciones').value=p?.observaciones||'';document.getElementById('btnEliminarPresentacion').style.display=p?'block':'none';document.getElementById('moPresentacion').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>document.getElementById('pTitulo').focus(),50);
+}
+function closePresentation(){document.getElementById('moPresentacion')?.classList.remove('open');document.body.style.overflow='';editingPresentationId=null;}
+async function savePresentation(){
+  const titulo=document.getElementById('pTitulo').value.trim();if(!titulo){showToast('Escribe un título para la presentación','bad');return;}
+  const data={titulo,proyecto:document.getElementById('pProyecto').value.trim(),tipo:document.getElementById('pTipo').value,estado:document.getElementById('pEstado').value,fecha:document.getElementById('pFecha').value,responsable:document.getElementById('pResponsable').value.trim(),link:document.getElementById('pLink').value.trim(),descripcion:document.getElementById('pDescripcion').value.trim(),observaciones:document.getElementById('pObservaciones').value.trim(),actualizado:Date.now()};
+  if(editingPresentationId){const idx=PRESENTACIONES.findIndex(x=>x.id===editingPresentationId);if(idx>=0)PRESENTACIONES[idx]={...PRESENTACIONES[idx],...data};}
+  else PRESENTACIONES.push({id:'pr'+Date.now().toString(36),...data,creado:Date.now()});
+  closePresentation();renderAll();await saveData(true);
+}
+async function deletePresentation(){if(!editingPresentationId)return;const p=PRESENTACIONES.find(x=>x.id===editingPresentationId);if(!confirm(`¿Eliminar la presentación “${p?.titulo||''}”?`))return;PRESENTACIONES=PRESENTACIONES.filter(x=>x.id!==editingPresentationId);closePresentation();renderAll();await saveData(true);}
+document.getElementById('btnNuevaPresentacion').onclick=()=>openPresentation();document.getElementById('presentationClose').onclick=closePresentation;document.getElementById('moPresentacion').addEventListener('click',e=>{if(e.target.id==='moPresentacion')closePresentation()});document.getElementById('btnGuardarPresentacion').onclick=savePresentation;document.getElementById('btnEliminarPresentacion').onclick=deletePresentation;document.getElementById('presentationSearch').addEventListener('input',e=>{presentationSearch=e.target.value;renderPresentations()});document.getElementById('presentationProjectFilter').addEventListener('change',e=>{presentationProject=e.target.value;renderPresentations()});document.getElementById('presentationStatusFilter').addEventListener('change',e=>{presentationStatus=e.target.value;renderPresentations()});document.getElementById('presentationYearFilter').addEventListener('change',e=>{presentationYear=e.target.value;renderPresentations()});document.addEventListener('click',e=>{const b=e.target.closest('[data-presentation-edit]');if(b){openPresentation(b.dataset.presentationEdit);return;}});
+
 // ══════════════════════════════════════════════════════════════
 // ORGANIZACIÓN Y TAREAS
 // ══════════════════════════════════════════════════════════════
@@ -1667,6 +1806,7 @@ function renderAll(){
   renderFamilyGrid();
   renderCases();
   renderAR();
+  renderPresentations();
   renderTasks();
   renderKPIs();
   renderCarreraChips();
@@ -2092,6 +2232,8 @@ function exportarTodoExcel(){
     ['Casos cerrados',CASOS.filter(c=>c.estado==='cerrado').length],
     ['Casos prioridad alta activos',CASOS.filter(c=>c.estado!=='cerrado'&&c.prioridad==='alta').length],
     ['Tareas totales',TAREAS.length],
+    ['Presentaciones totales',PRESENTACIONES.length],
+    ['Proyectos con presentaciones',new Set(PRESENTACIONES.map(p=>p.proyecto||'Sin proyecto')).size],
     ['Tareas pendientes',TAREAS.filter(t=>t.estado!=='realizada').length],
     ['Tareas vencidas',TAREAS.filter(t=>t.estado!=='realizada'&&isTaskOverdue(t)).length],
     ['Tareas realizadas',TAREAS.filter(t=>t.estado==='realizada').length],
@@ -2137,6 +2279,16 @@ function exportarTodoExcel(){
   wsTareas['!cols']=[{wch:16},{wch:42},{wch:24},{wch:16},{wch:12},{wch:18},{wch:28},{wch:28},{wch:24},{wch:28},{wch:45},{wch:40}];
   if(!tareas.length) XLSX.utils.sheet_add_aoa(wsTareas,[headersTareas],{origin:'A1'});
   XLSX.utils.book_append_sheet(wb,wsTareas,'Tareas');
+
+
+  const presentaciones=[...PRESENTACIONES].map(p=>({
+    'ID':p.id||'', 'Título':p.titulo||'', 'Proyecto':p.proyecto||'', 'Tipo':PRESENTATION_TYPE_LABEL[p.tipo]||p.tipo||'', 'Estado':PRESENTATION_STATUS_LABEL[p.estado]||p.estado||'', 'Fecha':p.fecha||'', 'Responsable':p.responsable||'', 'Descripción':p.descripcion||'', 'Observaciones':p.observaciones||'', 'Enlace':p.link||''
+  }));
+  const headersPresentaciones=['ID','Título','Proyecto','Tipo','Estado','Fecha','Responsable','Descripción','Observaciones','Enlace'];
+  const wsPresentaciones=XLSX.utils.json_to_sheet(presentaciones,{header:headersPresentaciones});
+  wsPresentaciones['!cols']=[{wch:16},{wch:44},{wch:30},{wch:16},{wch:16},{wch:14},{wch:24},{wch:50},{wch:50},{wch:60}];
+  if(!presentaciones.length) XLSX.utils.sheet_add_aoa(wsPresentaciones,[headersPresentaciones],{origin:'A1'});
+  XLSX.utils.book_append_sheet(wb,wsPresentaciones,'Presentaciones');
 
   const documentos=[];
   CASOS.forEach(c=>(c.documentos||[]).forEach(d=>documentos.push({
@@ -2186,7 +2338,7 @@ document.getElementById('btnExportExcel').addEventListener('click',exportarTodoE
 // ══════════════════════════════════════════════════════════════
 // ESC
 // ══════════════════════════════════════════════════════════════
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeCase();closeTask();closeImport();closeDocUpload();closeAR();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeCase();closeTask();closePresentation();closeImport();closeDocUpload();closeAR();}});
 
 // ══════════════════════════════════════════════════════════════
 // INIT
