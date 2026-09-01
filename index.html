@@ -369,6 +369,14 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 .drive-collapsible{padding:0!important;overflow:hidden}.drive-collapsible>summary{list-style:none}.drive-collapsible>summary::-webkit-details-marker{display:none}.drive-collapse-summary{cursor:pointer;display:flex;justify-content:space-between;gap:20px;align-items:center;padding:16px 18px}.drive-collapse-summary h3{margin:2px 0 4px}.drive-collapse-summary p{margin:0;color:var(--txt2);font-size:.82rem}.drive-summary-right{display:flex;align-items:center;gap:10px;flex:0 0 auto}.drive-chevron{width:28px;height:28px;border:1px solid var(--line2);border-radius:8px;display:grid;place-items:center;color:var(--p);font-weight:900;transition:transform .2s}.drive-collapsible[open] .drive-chevron{transform:rotate(180deg)}.drive-collapse-body{padding:0 18px 16px;border-top:1px solid var(--line)}
 @media(max-width:1050px){.ar-card-main{grid-template-columns:22px 1.2fr .6fr .7fr 1fr 42px;gap:12px}.ar-card-antecedentes .case-value{font-size:.78rem}}
 @media(max-width:820px){.ar-card-main{grid-template-columns:22px 1fr 42px}.ar-card-field{grid-column:2/3}.ar-card-antecedentes{grid-column:2/4}.ar-card-doc{padding-left:30px}.drive-collapse-summary{align-items:flex-start}.drive-collapse-summary p{display:none}}
+
+/* v20 · Asignación de tareas + notificaciones por correo */
+.task-notify-btn{border:2px solid var(--line2);background:var(--surface);color:var(--p-dk);border-radius:12px;padding:10px 14px;font-family:var(--fb);font-weight:900;font-size:.84rem;cursor:pointer;white-space:nowrap}.task-notify-btn:hover{background:var(--p-bg);border-color:var(--p)}
+.task-assignee{display:inline-flex;align-items:center;gap:5px;margin-top:5px;padding:3px 8px;border-radius:999px;background:var(--p-bg);color:var(--p-dk);font-size:.72rem;font-weight:900;border:1px solid var(--line2)}
+.task-notify-box{border:1px solid var(--line2);background:var(--p-bg);border-radius:12px;padding:12px 14px;margin:4px 0 14px}.task-notify-box label{display:flex;align-items:flex-start;gap:9px;font-size:.84rem;font-weight:800;color:var(--p-dk);text-transform:none;letter-spacing:0;margin:0}.task-notify-box input{width:17px;height:17px;margin-top:2px;accent-color:var(--p)}.task-notify-hint{font-size:.75rem;color:var(--txt2);margin:5px 0 0 26px}
+.prof-list{display:flex;flex-direction:column;gap:8px;margin:10px 0 14px}.prof-row{display:grid;grid-template-columns:1fr 1.25fr 38px;gap:8px;align-items:center}.prof-row input{width:100%;padding:9px 10px;border:2px solid var(--line);border-radius:9px;font-family:var(--fb);font-size:.88rem;background:var(--bg)}.prof-row button{height:38px;border:1px solid var(--bad-line);background:var(--bad-bg);color:var(--bad);border-radius:9px;font-weight:900;cursor:pointer}.prof-add{border:1px solid var(--line2);background:var(--surface2);color:var(--p-dk);border-radius:9px;padding:8px 11px;font-family:var(--fb);font-weight:900;cursor:pointer}.notify-status{font-size:.76rem;color:var(--txt2);padding:8px 10px;background:var(--surface2);border-radius:9px;margin-top:8px}.notify-status.ok{background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-line)}.notify-status.warn{background:var(--warn-bg);color:var(--warn);border:1px solid var(--warn-line)}
+@media(max-width:620px){.prof-row{grid-template-columns:1fr 38px}.prof-row input:nth-child(2){grid-column:1/2}.task-toolbar .task-notify-btn{width:100%}}
+
 </style>
 </head>
 <body>
@@ -479,6 +487,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
     <div class="task-toolbar">
       <div class="seg" id="taskStatusSeg"><button class="active" data-task-status="ALL">Todas</button><button data-task-status="pendiente">Pendientes</button><button data-task-status="en-curso">En curso</button><button data-task-status="realizada">Realizadas</button></div>
       <div class="search-box"><input id="taskSearch" type="text" placeholder="Buscar tarea, proyecto, carrera, persona…"></div>
+      <button class="task-notify-btn" id="btnTaskNotifyConfig" type="button">✉ Profesionales y avisos</button>
       <button class="btn-primary" id="btnNuevaTarea">+ Nueva tarea</button>
     </div>
     <details class="task-collapse" id="taskFiltersCollapse">
@@ -662,13 +671,26 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
     <div class="fg-row"><div class="fg"><label for="tAcceso">Acceso</label><select id="tAcceso"></select></div><div class="fg"><label for="tEstado">Estado</label><select id="tEstado"><option value="pendiente">Pendiente</option><option value="en-curso">En curso</option><option value="realizada">Realizada</option></select></div></div>
     <div class="fg-row"><div class="fg"><label for="tPrioridad">Prioridad</label><select id="tPrioridad"><option value="alta">Alta</option><option value="media" selected>Media</option><option value="baja">Baja</option></select></div><div class="fg"><label for="tFecha">Fecha límite / hito</label><input id="tFecha" type="date"></div></div>
     <div class="fg-row"><div class="fg"><label for="tProyecto">Proyecto</label><input id="tProyecto" type="text" placeholder="Opcional"></div><div class="fg"><label for="tCarrera">Carrera</label><input id="tCarrera" type="text" placeholder="Opcional"></div></div>
-    <div class="fg-row"><div class="fg"><label for="tPersona">Persona / equipo</label><input id="tPersona" type="text" placeholder="Opcional"></div><div class="fg"><label for="tReunion">Reunión / acuerdo</label><input id="tReunion" type="text" placeholder="Opcional"></div></div>
+    <div class="fg-row"><div class="fg"><label for="tResponsable">Profesional asignado</label><select id="tResponsable"><option value="">Sin asignar</option></select></div><div class="fg"><label for="tResponsableEmail">Correo del profesional</label><input id="tResponsableEmail" type="email" readonly placeholder="Se completa desde Profesionales y avisos"></div></div>
+    <div class="task-notify-box"><label><input id="tNotifyEmail" type="checkbox" checked><span>Enviar notificación por correo al profesional al guardar</span></label><div class="task-notify-hint">En una tarea nueva viene activado. Al editar, se activa automáticamente si cambias de profesional; también puedes marcarlo para reenviar.</div></div>
+    <div class="fg-row"><div class="fg"><label for="tPersona">Persona / equipo relacionado</label><input id="tPersona" type="text" placeholder="Opcional"></div><div class="fg"><label for="tReunion">Reunión / acuerdo</label><input id="tReunion" type="text" placeholder="Opcional"></div></div>
     <div class="fg"><label for="tDetalle">Detalle / próximo paso</label><textarea id="tDetalle"></textarea></div>
     <div class="fg"><label for="tLink">Enlace</label><input id="tLink" type="url" placeholder="https://..."></div>
     <button class="btn-sub" id="btnGuardarTarea">Guardar tarea</button><button class="btn-danger-link" id="btnEliminarTarea" style="display:none">Eliminar esta tarea</button>
   </div>
 </div>
 
+
+<!-- MODAL CONFIGURACIÓN NOTIFICACIONES DE TAREAS -->
+<div class="mo" id="moTaskNotifyConfig" role="dialog" aria-modal="true">
+  <div class="md" style="max-width:720px">
+    <button class="md-close" id="taskNotifyClose">✕</button><h3>Profesionales y avisos de tareas</h3><p class="md-info">Configura una vez los correos del equipo y la URL pública que abrirá el botón del correo.</p>
+    <div class="fg"><label for="taskPanelPublicUrl">URL pública del Panel UTE</label><input id="taskPanelPublicUrl" type="url" placeholder="https://.../panel.html"><div class="task-notify-hint" style="margin-left:0">Debe ser una dirección accesible desde el computador del profesional. El correo agregará automáticamente ?modulo=tareas&tarea=ID.</div></div>
+    <div class="fg"><label>Directorio de profesionales</label><div class="prof-list" id="taskProfessionalsList"></div><button class="prof-add" id="btnAddProfessional" type="button">+ Agregar profesional</button></div>
+    <div class="notify-status warn" id="taskNotifyConfigStatus">Los correos se enviarán usando el mismo Apps Script configurado en Ajustes Razonables.</div>
+    <button class="btn-sub" id="btnSaveTaskNotifyConfig" type="button">Guardar configuración</button>
+  </div>
+</div>
 
 <!-- MODAL DOCUMENTO DE CASO -->
 <div class="mo" id="moDocumento" role="dialog" aria-modal="true">
@@ -769,6 +791,8 @@ const SEED=[
 let TALLERES=[];
 let CASOS=[];
 let TAREAS=[];
+let PROFESIONALES=[];
+let TASK_NOTIFY_CONFIG={panelUrl:''};
 let AJUSTES=[];
 const CATEGORIAS_TALLER=['Ciclo de Inserción','Ciclo de Fortalecimiento','Talleres Catálogo','Talleres solicitados por carrera','Colaboraciones'];
 let curCategoria='ALL';
@@ -778,6 +802,7 @@ let arSearch='', arReview='ALL', arCareer='ALL', arYear='ALL', editingARId=null;
 let AR_SELECTED=new Set();
 let AR_DELETED_DRIVE_IDS=[];
 const TASK_ACCESOS=[['Mis tareas','📌'],['Proyectos','🗃️'],['Carreras','🎓'],['Equipo','👥'],['Reuniones y acuerdos','📅'],['Próximos hitos','⏰'],['Notas rápidas','📝']];
+const DEFAULT_PROFESIONALES=[{nombre:'Fabián Pulgar',correo:''},{nombre:'Diego Jiménez',correo:''},{nombre:'Claudio Espinoza',correo:''},{nombre:'Sandra Rivera',correo:''}];
 let taskAccess='ALL', taskStatus='ALL', taskSearch='', taskPriority='ALL', taskDate='ALL', taskProject='ALL', taskCareer='ALL', taskPerson='ALL', taskMeeting='ALL', editingTaskId=null;
 let calM=2, calY=2026;
 let editingId=null;
@@ -807,6 +832,8 @@ async function loadData(){
       TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
       CASOS=[];
       TAREAS=[];
+      PROFESIONALES=DEFAULT_PROFESIONALES.map(x=>({...x}));
+      TASK_NOTIFY_CONFIG={panelUrl:''};
       AJUSTES=[];
       AR_DELETED_DRIVE_IDS=[];
       setConn(true,'Sincronizado · datos de ejemplo cargados');
@@ -817,6 +844,8 @@ async function loadData(){
       TALLERES=Array.isArray(j.talleres)?j.talleres:[];
       CASOS=(Array.isArray(j.casos)?j.casos:[]).map(c=>({...c,documentos:Array.isArray(c.documentos)?c.documentos:[]}));
       TAREAS=Array.isArray(j.tareas)?j.tareas:[];
+      PROFESIONALES=Array.isArray(j.profesionales)&&j.profesionales.length?j.profesionales:DEFAULT_PROFESIONALES.map(x=>({...x}));
+      TASK_NOTIFY_CONFIG=(j.taskNotifyConfig&&typeof j.taskNotifyConfig==='object')?j.taskNotifyConfig:{panelUrl:''};
       AJUSTES=(Array.isArray(j.ajustesRazonables)?j.ajustesRazonables:[]).map(a=>({...a,secciones:a.secciones||{},carta:a.carta||null}));
       AR_DELETED_DRIVE_IDS=[]; // v14: eliminar del panel no bloquea futuras resincronizaciones
       TALLERES=TALLERES.map(t=>({...t,categoria:t.categoria||'Ciclo de Inserción'}));
@@ -827,14 +856,17 @@ async function loadData(){
     TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
     CASOS=[];
     TAREAS=[];
+    PROFESIONALES=DEFAULT_PROFESIONALES.map(x=>({...x}));
+    TASK_NOTIFY_CONFIG={panelUrl:''};
     setConn(false,'Sin conexión · usando datos locales');
   }
   renderAll();
+  setTimeout(applyTaskDeepLink,120);
 }
 
 async function saveData(toast=true){
   try{
-    const r=await fetch(FB_PATH,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,tareas:TAREAS,ajustesRazonables:AJUSTES,ajustesDriveEliminados:AR_DELETED_DRIVE_IDS,ts:Date.now()})});
+    const r=await fetch(FB_PATH,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,tareas:TAREAS,profesionales:PROFESIONALES,taskNotifyConfig:TASK_NOTIFY_CONFIG,ajustesRazonables:AJUSTES,ajustesDriveEliminados:AR_DELETED_DRIVE_IDS,ts:Date.now()})});
     const j=await r.json().catch(()=>null);
     if(!r.ok || (j && j.error)){
       throw new Error((j && j.error) ? j.error : `HTTP ${r.status}`);
@@ -1501,7 +1533,7 @@ function filteredTasks(){
     if(taskCareer!=='ALL'&&(t.carrera||'')!==taskCareer)return false;
     if(taskPerson!=='ALL'&&(t.persona||'')!==taskPerson)return false;
     if(taskMeeting!=='ALL'&&(t.reunion||'')!==taskMeeting)return false;
-    if(taskSearch){const h=[t.titulo,t.acceso,t.proyecto,t.carrera,t.persona,t.reunion,t.detalle].join(' ').toLowerCase();if(!h.includes(taskSearch.toLowerCase()))return false;}
+    if(taskSearch){const h=[t.titulo,t.acceso,t.proyecto,t.carrera,t.responsable,t.responsableEmail,t.persona,t.reunion,t.detalle].join(' ').toLowerCase();if(!h.includes(taskSearch.toLowerCase()))return false;}
     return true;
   }).sort((a,b)=>{
     if(a.estado==='realizada'&&b.estado!=='realizada')return 1;if(a.estado!=='realizada'&&b.estado==='realizada')return -1;
@@ -1520,7 +1552,7 @@ function renderTasks(){
     const tags=[t.proyecto&&`🗃️ ${t.proyecto}`,t.carrera&&`🎓 ${t.carrera}`,t.persona&&`👤 ${t.persona}`].filter(Boolean).join(' · ');
     return `<div class="task-row ${t.estado==='realizada'?'done':''} ${overdue?'overdue':''} ${todayTask?'today':''}">
       <input class="task-check" type="checkbox" data-task-toggle="${t.id}" ${t.estado==='realizada'?'checked':''} aria-label="Marcar tarea como realizada">
-      <div><div class="task-title ${t.estado==='realizada'?'done':''}">${escapeHTML(t.titulo||'Sin título')}</div><div class="task-sub">${escapeHTML(t.acceso||'Mis tareas')}${tags?' · '+escapeHTML(tags):''}${t.detalle?' · '+escapeHTML(t.detalle):''}</div></div>
+      <div><div class="task-title ${t.estado==='realizada'?'done':''}">${escapeHTML(t.titulo||'Sin título')}</div><div class="task-sub">${escapeHTML(t.acceso||'Mis tareas')}${tags?' · '+escapeHTML(tags):''}${t.detalle?' · '+escapeHTML(t.detalle):''}</div>${t.responsable?`<span class="task-assignee">✉ ${escapeHTML(t.responsable)}</span>`:''}</div>
       <div class="task-col-secondary"><div class="task-label">Estado</div><div class="task-value">${TASK_STATUS_LABEL[t.estado]||t.estado}</div></div>
       <div class="task-col-secondary"><div class="task-label">Prioridad</div><span class="task-priority ${t.prioridad||'media'}">${(t.prioridad||'media').toUpperCase()}</span></div>
       <div class="task-date-col"><div class="task-label">Fecha</div><div class="task-date ${overdue?'bad':todayTask?'warn':''}">${t.fecha||'—'}</div></div>
@@ -1529,15 +1561,53 @@ function renderTasks(){
   }).join('');
 }
 function escapeHTML(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function normalizedEmail(v=''){return String(v||'').trim().toLowerCase();}
+function fillTaskProfessionalSelect(selected=''){
+  const el=document.getElementById('tResponsable');if(!el)return;
+  const opts=PROFESIONALES.filter(p=>p&&p.nombre).map(p=>`<option value="${escapeHTML(p.nombre)}">${escapeHTML(p.nombre)}</option>`).join('');
+  el.innerHTML='<option value="">Sin asignar</option>'+opts;
+  if(selected && !PROFESIONALES.some(p=>p.nombre===selected))el.insertAdjacentHTML('beforeend',`<option value="${escapeHTML(selected)}">${escapeHTML(selected)}</option>`);
+  el.value=selected||'';syncTaskResponsibleEmail();
+}
+function syncTaskResponsibleEmail(){const name=document.getElementById('tResponsable')?.value||'';const p=PROFESIONALES.find(x=>x.nombre===name);const em=document.getElementById('tResponsableEmail');if(em)em.value=p?.correo||'';}
+function taskDeepLink(taskId){
+  let base=String(TASK_NOTIFY_CONFIG?.panelUrl||'').trim();
+  if(!base && /^https?:$/.test(location.protocol))base=location.origin+location.pathname;
+  if(!base)return '';
+  try{const u=new URL(base);u.searchParams.set('modulo','tareas');u.searchParams.set('tarea',taskId);return u.toString();}catch{return '';}
+}
+async function sendTaskNotification(task){
+  if(!task?.responsableEmail)throw new Error('El profesional asignado no tiene correo configurado');
+  const panelUrl=taskDeepLink(task.id);if(!panelUrl)throw new Error('Configura la URL pública del panel en “Profesionales y avisos”');
+  const r=await jsonpDrive({mode:'notifyTask',to:task.responsableEmail,responsable:task.responsable||'',taskId:task.id,titulo:(task.titulo||'').slice(0,180),fecha:task.fecha||'',prioridad:task.prioridad||'media',detalle:(task.detalle||'').slice(0,700),panelUrl},45000);
+  return r;
+}
+function renderProfessionalsConfig(){
+  const box=document.getElementById('taskProfessionalsList');if(!box)return;
+  box.innerHTML=PROFESIONALES.map((p,i)=>`<div class="prof-row" data-prof-row="${i}"><input data-prof-name value="${escapeHTML(p.nombre||'')}" placeholder="Nombre"><input data-prof-email type="email" value="${escapeHTML(p.correo||'')}" placeholder="correo@uahurtado.cl"><button type="button" data-prof-delete="${i}" title="Eliminar">✕</button></div>`).join('');
+}
+function openTaskNotifyConfig(){document.getElementById('taskPanelPublicUrl').value=TASK_NOTIFY_CONFIG?.panelUrl||'';renderProfessionalsConfig();const st=document.getElementById('taskNotifyConfigStatus');const bridge=(localStorage.getItem(DRIVE_BRIDGE_KEY)||'').trim(),key=(localStorage.getItem(DRIVE_SECRET_KEY)||'').trim();st.className='notify-status '+(bridge&&key?'ok':'warn');st.textContent=bridge&&key?'Conector Apps Script configurado ✓ · listo para enviar correos':'Falta configurar el Apps Script o su clave en Ajustes Razonables.';document.getElementById('moTaskNotifyConfig').classList.add('open');document.body.style.overflow='hidden';}
+function closeTaskNotifyConfig(){document.getElementById('moTaskNotifyConfig').classList.remove('open');document.body.style.overflow='';}
+async function saveTaskNotifyConfig(){
+  const rows=[...document.querySelectorAll('#taskProfessionalsList [data-prof-row]')];
+  const profs=rows.map(r=>({nombre:r.querySelector('[data-prof-name]').value.trim(),correo:r.querySelector('[data-prof-email]').value.trim()})).filter(p=>p.nombre);
+  const bad=profs.find(p=>p.correo&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.correo));if(bad){showToast('Revisa el correo de '+bad.nombre,'bad');return;}
+  PROFESIONALES=profs;TASK_NOTIFY_CONFIG={panelUrl:document.getElementById('taskPanelPublicUrl').value.trim()};await saveData(false);closeTaskNotifyConfig();renderTasks();showToast('Profesionales y avisos guardados ✓','ok');
+}
+function applyTaskDeepLink(){
+  const q=new URLSearchParams(location.search);if(q.get('modulo')!=='tareas')return;switchModule('tasks');const id=q.get('tarea');if(id&&TAREAS.some(t=>t.id===id))setTimeout(()=>openTask(id),120);
+}
 function fillTaskAccessSelect(){const el=document.getElementById('tAcceso');el.innerHTML=TASK_ACCESOS.map(([n,i])=>`<option value="${n}">${i} ${n}</option>`).join('');}
 function openTask(id=''){
-  fillTaskAccessSelect();const t=id?TAREAS.find(x=>x.id===id):null;editingTaskId=t?t.id:null;
+  fillTaskAccessSelect();const t=id?TAREAS.find(x=>x.id===id):null;editingTaskId=t?t.id:null;fillTaskProfessionalSelect(t?.responsable||'');
   document.getElementById('taskModalTitle').textContent=t?'Editar tarea':'Nueva tarea';document.getElementById('taskId').textContent=t?'ID '+t.id:'';
-  document.getElementById('tTitulo').value=t?.titulo||'';document.getElementById('tAcceso').value=t?.acceso||'Mis tareas';document.getElementById('tEstado').value=t?.estado||'pendiente';document.getElementById('tPrioridad').value=t?.prioridad||'media';document.getElementById('tFecha').value=t?.fecha||'';document.getElementById('tProyecto').value=t?.proyecto||'';document.getElementById('tCarrera').value=t?.carrera||'';document.getElementById('tPersona').value=t?.persona||'';document.getElementById('tReunion').value=t?.reunion||'';document.getElementById('tDetalle').value=t?.detalle||'';document.getElementById('tLink').value=t?.link||'';
+  document.getElementById('tTitulo').value=t?.titulo||'';document.getElementById('tAcceso').value=t?.acceso||'Mis tareas';document.getElementById('tEstado').value=t?.estado||'pendiente';document.getElementById('tPrioridad').value=t?.prioridad||'media';document.getElementById('tFecha').value=t?.fecha||'';document.getElementById('tProyecto').value=t?.proyecto||'';document.getElementById('tCarrera').value=t?.carrera||'';document.getElementById('tPersona').value=t?.persona||'';document.getElementById('tReunion').value=t?.reunion||'';document.getElementById('tDetalle').value=t?.detalle||'';document.getElementById('tLink').value=t?.link||'';document.getElementById('tNotifyEmail').checked=!t;syncTaskResponsibleEmail();
   document.getElementById('btnEliminarTarea').style.display=t?'block':'none';document.getElementById('moTarea').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>document.getElementById('tTitulo').focus(),80);
 }
 function closeTask(){document.getElementById('moTarea').classList.remove('open');document.body.style.overflow='';editingTaskId=null;}
 document.getElementById('btnNuevaTarea').onclick=()=>openTask();document.getElementById('taskClose').onclick=closeTask;document.getElementById('moTarea').addEventListener('click',e=>{if(e.target.id==='moTarea')closeTask();});
+document.getElementById('tResponsable').addEventListener('change',()=>{syncTaskResponsibleEmail();document.getElementById('tNotifyEmail').checked=true;});
+document.getElementById('btnTaskNotifyConfig').onclick=openTaskNotifyConfig;document.getElementById('taskNotifyClose').onclick=closeTaskNotifyConfig;document.getElementById('moTaskNotifyConfig').addEventListener('click',e=>{if(e.target.id==='moTaskNotifyConfig')closeTaskNotifyConfig();});document.getElementById('btnAddProfessional').onclick=()=>{PROFESIONALES.push({nombre:'',correo:''});renderProfessionalsConfig();};document.getElementById('taskProfessionalsList').addEventListener('click',e=>{const b=e.target.closest('[data-prof-delete]');if(!b)return;PROFESIONALES.splice(Number(b.dataset.profDelete),1);renderProfessionalsConfig();});document.getElementById('btnSaveTaskNotifyConfig').onclick=saveTaskNotifyConfig;
 document.getElementById('taskSearch').addEventListener('input',e=>{taskSearch=e.target.value;renderTasks();});
 document.getElementById('taskStatusSeg').addEventListener('click',e=>{const b=e.target.closest('[data-task-status]');if(!b)return;taskStatus=b.dataset.taskStatus;document.querySelectorAll('[data-task-status]').forEach(x=>x.classList.toggle('active',x===b));renderTasks();});
 document.getElementById('taskPriorityFilter').addEventListener('change',e=>{taskPriority=e.target.value;renderTasks();});
@@ -1549,9 +1619,26 @@ document.getElementById('taskMeetingFilter').addEventListener('change',e=>{taskM
 document.getElementById('taskClearFilters').addEventListener('click',()=>{taskPriority='ALL';taskDate='ALL';taskProject='ALL';taskCareer='ALL';taskPerson='ALL';taskMeeting='ALL';['taskPriorityFilter','taskDateFilter','taskProjectFilter','taskCareerFilter','taskPersonFilter','taskMeetingFilter'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='ALL';});renderTasks();});
 document.addEventListener('click',e=>{const a=e.target.closest('[data-task-access]');if(a){taskAccess=a.dataset.taskAccess;renderTasks();return;}const b=e.target.closest('[data-task-edit]');if(b){openTask(b.dataset.taskEdit);return;}});
 document.addEventListener('change',async e=>{const cb=e.target.closest('[data-task-toggle]');if(!cb)return;const t=TAREAS.find(x=>x.id===cb.dataset.taskToggle);if(!t)return;t.estado=cb.checked?'realizada':'pendiente';renderAll();await saveData(false);});
-document.getElementById('btnGuardarTarea').onclick=async()=>{const titulo=document.getElementById('tTitulo').value.trim();if(!titulo){showToast('Escribe la tarea','bad');return;}const data={titulo,acceso:document.getElementById('tAcceso').value,estado:document.getElementById('tEstado').value,prioridad:document.getElementById('tPrioridad').value,fecha:document.getElementById('tFecha').value,proyecto:document.getElementById('tProyecto').value.trim(),carrera:document.getElementById('tCarrera').value.trim(),persona:document.getElementById('tPersona').value.trim(),reunion:document.getElementById('tReunion').value.trim(),detalle:document.getElementById('tDetalle').value.trim(),link:document.getElementById('tLink').value.trim(),actualizado:Date.now()};if(editingTaskId){const i=TAREAS.findIndex(x=>x.id===editingTaskId);if(i>-1)TAREAS[i]={...TAREAS[i],...data};}else TAREAS.push({id:'ta'+Date.now().toString(36),creado:Date.now(),...data});closeTask();renderAll();await saveData(true);};
+document.getElementById('btnGuardarTarea').onclick=async()=>{
+  const titulo=document.getElementById('tTitulo').value.trim();if(!titulo){showToast('Escribe la tarea','bad');return;}
+  const oldTask=editingTaskId?TAREAS.find(x=>x.id===editingTaskId):null;
+  const responsable=document.getElementById('tResponsable').value;
+  const responsableEmail=document.getElementById('tResponsableEmail').value.trim();
+  const data={titulo,acceso:document.getElementById('tAcceso').value,estado:document.getElementById('tEstado').value,prioridad:document.getElementById('tPrioridad').value,fecha:document.getElementById('tFecha').value,proyecto:document.getElementById('tProyecto').value.trim(),carrera:document.getElementById('tCarrera').value.trim(),responsable,responsableEmail,persona:document.getElementById('tPersona').value.trim(),reunion:document.getElementById('tReunion').value.trim(),detalle:document.getElementById('tDetalle').value.trim(),link:document.getElementById('tLink').value.trim(),actualizado:Date.now()};
+  let task;
+  if(editingTaskId){const i=TAREAS.findIndex(x=>x.id===editingTaskId);if(i>-1){TAREAS[i]={...TAREAS[i],...data};task=TAREAS[i];}}
+  else{task={id:'ta'+Date.now().toString(36),creado:Date.now(),...data};TAREAS.push(task);}
+  const wantsNotify=document.getElementById('tNotifyEmail').checked;
+  const assignmentChanged=!oldTask || oldTask.responsable!==responsable || normalizedEmail(oldTask.responsableEmail)!==normalizedEmail(responsableEmail);
+  closeTask();renderAll();await saveData(false);
+  if(wantsNotify&&responsable){
+    if(!responsableEmail){showToast('Tarea guardada, pero falta el correo del profesional','bad');return;}
+    try{await sendTaskNotification(task);showToast(assignmentChanged?'Tarea guardada y profesional notificado ✓':'Tarea guardada y correo reenviado ✓','ok');}
+    catch(e){console.warn('Task notify error',e);showToast('Tarea guardada · no se pudo enviar el correo: '+e.message,'bad');}
+  }else showToast('Tarea guardada ✓','ok');
+};
 document.getElementById('btnEliminarTarea').onclick=async()=>{if(!editingTaskId)return;if(!confirm('¿Eliminar esta tarea?'))return;TAREAS=TAREAS.filter(t=>t.id!==editingTaskId);closeTask();renderAll();await saveData(true);};
-async function quickAddTask(){const inp=document.getElementById('taskQuickInput');const titulo=inp.value.trim();if(!titulo)return;TAREAS.push({id:'ta'+Date.now().toString(36),titulo,acceso:'Mis tareas',estado:'pendiente',prioridad:'media',fecha:'',proyecto:'',carrera:'',persona:'',reunion:'',detalle:'',link:'',creado:Date.now(),actualizado:Date.now()});inp.value='';renderAll();await saveData(false);showToast('Pendiente agregado ✓','ok');}
+async function quickAddTask(){const inp=document.getElementById('taskQuickInput');const titulo=inp.value.trim();if(!titulo)return;TAREAS.push({id:'ta'+Date.now().toString(36),titulo,acceso:'Mis tareas',estado:'pendiente',prioridad:'media',fecha:'',proyecto:'',carrera:'',responsable:'',responsableEmail:'',persona:'',reunion:'',detalle:'',link:'',creado:Date.now(),actualizado:Date.now()});inp.value='';renderAll();await saveData(false);showToast('Pendiente agregado ✓','ok');}
 document.getElementById('taskQuickAdd').onclick=quickAddTask;document.getElementById('taskQuickInput').addEventListener('keydown',e=>{if(e.key==='Enter')quickAddTask();});
 
 // ══════════════════════════════════════════════════════════════
@@ -2047,9 +2134,9 @@ function exportarTodoExcel(){
   XLSX.utils.book_append_sheet(wb,wsCasos,'Casos Específicos');
 
   const tareas=[...TAREAS].map(t=>({
-    'ID':t.id||'', 'Tarea':t.titulo||'', 'Acceso':t.acceso||'Mis tareas', 'Estado':TASK_STATUS_LABEL[t.estado]||t.estado||'', 'Prioridad':t.prioridad||'', 'Fecha límite / hito':t.fecha||'', 'Proyecto':t.proyecto||'', 'Carrera':t.carrera||'', 'Persona / equipo':t.persona||'', 'Reunión / acuerdo':t.reunion||'', 'Detalle / próximo paso':t.detalle||'', 'Enlace':t.link||''
+    'ID':t.id||'', 'Tarea':t.titulo||'', 'Acceso':t.acceso||'Mis tareas', 'Estado':TASK_STATUS_LABEL[t.estado]||t.estado||'', 'Prioridad':t.prioridad||'', 'Fecha límite / hito':t.fecha||'', 'Proyecto':t.proyecto||'', 'Carrera':t.carrera||'', 'Profesional asignado':t.responsable||'', 'Correo profesional':t.responsableEmail||'', 'Persona / equipo':t.persona||'', 'Reunión / acuerdo':t.reunion||'', 'Detalle / próximo paso':t.detalle||'', 'Enlace':t.link||''
   }));
-  const headersTareas=['ID','Tarea','Acceso','Estado','Prioridad','Fecha límite / hito','Proyecto','Carrera','Persona / equipo','Reunión / acuerdo','Detalle / próximo paso','Enlace'];
+  const headersTareas=['ID','Tarea','Acceso','Estado','Prioridad','Fecha límite / hito','Proyecto','Carrera','Profesional asignado','Correo profesional','Persona / equipo','Reunión / acuerdo','Detalle / próximo paso','Enlace'];
   const wsTareas=XLSX.utils.json_to_sheet(tareas,{header:headersTareas});
   wsTareas['!cols']=[{wch:16},{wch:42},{wch:24},{wch:16},{wch:12},{wch:18},{wch:28},{wch:28},{wch:24},{wch:28},{wch:45},{wch:40}];
   if(!tareas.length) XLSX.utils.sheet_add_aoa(wsTareas,[headersTareas],{origin:'A1'});
