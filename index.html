@@ -432,6 +432,28 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 .monitor-history{display:flex;flex-direction:column;gap:8px;margin-top:8px}.monitor-history-item{border-left:3px solid var(--line2);padding:7px 10px;background:var(--surface2);border-radius:0 9px 9px 0}.monitor-history-date{font-family:var(--fm);font-size:.68rem;color:var(--p);font-weight:900}.monitor-history-text{font-size:.82rem;color:var(--txt2);margin-top:2px}.monitor-actions-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.monitor-linked{margin-top:8px;font-size:.76rem;font-weight:800;color:var(--p)}
 @media(max-width:980px){.monitor-main{grid-template-columns:1fr 1fr 44px}.monitor-main>div:first-child{grid-column:1/3}.monitor-main .monitor-hide{display:none}}@media(max-width:620px){.monitor-main{grid-template-columns:1fr 44px}.monitor-main>div:first-child{grid-column:1}.monitor-main>div:not(:first-child):not(:last-child){grid-column:1}.monitor-sync-row input{min-width:100%}}
 
+
+.bitacora-panel{border:2px solid var(--line);border-radius:14px;background:var(--surface);margin:16px 0;overflow:hidden}
+.bitacora-panel>summary{list-style:none;cursor:pointer;padding:13px 15px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-weight:900;color:var(--p-dk)}
+.bitacora-panel>summary::-webkit-details-marker{display:none}
+.bitacora-body{padding:0 14px 14px}
+.bitacora-config{display:grid;grid-template-columns:1.2fr .9fr .8fr auto auto;gap:8px;align-items:center}
+.bitacora-config input{min-width:0}
+.bitacora-help{font-size:.78rem;line-height:1.45;color:var(--txt2);margin:9px 0}
+.bitacora-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:12px 0}
+.bitacora-kpi{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--surface2)}
+.bitacora-kpi strong{display:block;font-size:1.45rem;color:var(--p)}
+.bitacora-kpi span{font-size:.72rem;color:var(--txt2);font-weight:800}
+.bitacora-map{font-size:.75rem;color:var(--txt2);line-height:1.45;border-top:1px solid var(--line);padding-top:9px;margin-top:9px}
+.bitacora-recent{display:grid;gap:7px;margin-top:10px}
+.bitacora-row{border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:#fff;font-size:.78rem;line-height:1.4}
+.bitacora-row strong{color:var(--p-dk)}
+.monitor-activity-box{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--surface2);margin-bottom:14px}
+.monitor-activity-title{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:900;color:var(--p-dk);margin-bottom:8px}
+.monitor-activity-list{display:grid;gap:7px}
+.monitor-activity-item{background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:.78rem;line-height:1.4}
+@media(max-width:900px){.bitacora-config{grid-template-columns:1fr}.bitacora-kpis{grid-template-columns:repeat(2,1fr)}}
+
 </style>
 </head>
 <body>
@@ -595,6 +617,25 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
     <details class="summary-collapse" open>
       <summary><span class="summary-collapse-title">📊 Resumen de avance</span><span class="summary-collapse-meta" id="goalSummaryMeta">Línea base y metas 2S2026</span><span class="summary-collapse-chevron">⌄</span></summary>
       <div class="summary-collapse-body"><div class="goal-kpis" id="goalKpis"></div></div>
+    </details>
+
+    <details class="bitacora-panel" id="bitacoraPanel">
+      <summary><span>📘 Bitácora Trayectoria 2026 · fuente de actividad</span><span class="summary-collapse-meta" id="bitacoraSummaryMeta">Sin conectar</span><span class="summary-collapse-chevron">⌄</span></summary>
+      <div class="bitacora-body">
+        <div class="bitacora-config">
+          <input type="url" id="bitacoraBridge" placeholder="URL Web App · Conector Bitácora">
+          <input type="password" id="bitacoraBridgeKey" placeholder="Clave del conector">
+          <input type="url" id="bitacoraSheetUrl" value="https://docs.google.com/spreadsheets/d/1GxqxxbjnwfrwKas7Q8jBSUWQISj2AQqDtC6AW7bQAFQ/edit?gid=630616984#gid=630616984" placeholder="Google Sheet Bitácora">
+          <input type="number" id="bitacoraGid" value="630616984" placeholder="gid">
+          <button class="btn-primary" id="btnSaveBitacora" type="button">Guardar y sincronizar</button>
+          <button class="btn-doc" id="btnSyncBitacora" type="button">↻ Sincronizar</button>
+        </div>
+        <label style="display:flex;align-items:center;gap:8px;margin-top:9px;font-size:.8rem;font-weight:800;color:var(--txt2)"><input type="checkbox" id="bitacoraAuto" checked> Sincronizar automáticamente al abrir el panel</label>
+        <div class="bitacora-help">Modo lectura. La Bitácora sigue siendo el registro oficial de las atenciones de los profesionales; el panel la usa para seguimiento, cruce con alertas e indicadores observados.</div>
+        <div class="bitacora-kpis" id="bitacoraKpis"></div>
+        <div class="bitacora-map" id="bitacoraMap">Aún no se han leído los encabezados reales de la hoja.</div>
+        <div class="bitacora-recent" id="bitacoraRecent"></div>
+      </div>
     </details>
 
     <details class="summary-collapse" open>
@@ -781,6 +822,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
     <div class="fg"><label>Síntesis institucional para SAT</label><textarea id="mSatSummary" maxlength="900" placeholder="Ej.: Estudiante contactado. Se agenda mentoría para el 08/09. Continúa seguimiento con Alfabetización Académica."></textarea><div class="monitor-sync-help" style="margin-top:5px">Esta síntesis se escribe en “Observaciones Acompañamiento Unidad de Trayectoria/profesional a cargo”. La bitácora completa permanece solo en el panel.</div></div>
     <label style="display:flex;gap:8px;align-items:center;font-size:.82rem;font-weight:800;color:var(--txt2);margin:-2px 0 8px"><input type="checkbox" id="mSyncSat" checked> Actualizar también la fila correspondiente en SAT al guardar</label>
     <label style="display:flex;gap:8px;align-items:center;font-size:.82rem;font-weight:800;color:var(--txt2);margin:-2px 0 14px"><input type="checkbox" id="mNotify"> Notificar por correo al profesional al guardar</label>
+    <div class="monitor-activity-box"><div class="monitor-activity-title"><span>📘 Actividad UTE registrada en Bitácora</span><span id="monitorActivityCount">0 registros</span></div><div class="monitor-activity-list" id="monitorActivityList"><div class="monitor-activity-item">Bitácora no sincronizada o sin coincidencias.</div></div></div>
     <div class="fg"><label>Bitácora de seguimiento</label><div class="monitor-history" id="monitorHistory"></div><textarea id="mLogText" placeholder="Agregar un nuevo registro a la bitácora…" style="margin-top:9px"></textarea></div>
     <div class="monitor-actions-row"><button class="btn-doc" id="btnMonitorCreateCase" type="button">👤 Crear Caso Específico</button><button class="btn-doc" id="btnMonitorCreateTask" type="button">✓ Crear tarea</button></div>
     <button class="btn-sub" id="btnSaveMonitor" type="button">Guardar seguimiento</button><button class="btn-danger-link" id="btnDeleteMonitor" type="button">Eliminar alerta del panel</button>
@@ -1045,6 +1087,7 @@ let EARLY_COURSES=[];
 let EARLY_PROJECTS=[];
 let EARLY_RESOURCES=[];
 let MONITOR_ALERTS=[];
+let BITACORA_ROWS=[], BITACORA_HEADERS=[], BITACORA_MAPPING={}, BITACORA_META={};
 let monitorStatus='ALL', monitorLevel='ALL', monitorType='ALL', monitorCareer='ALL', monitorResponsible='ALL', monitorSearch='', editingMonitorId=null;
 let earlyView='courses', earlyProjectStatus='ALL', earlyProjectSearch='', earlyResourceCourse='ALL', earlyResourceType='ALL', earlyResourceSearch='', editingEarlyCourseId=null, editingEarlyProjectId=null, editingEarlyResourceId=null;
 let managementView='goals', managementProjectStatus='ALL', managementProjectSearch='', managementPresentationProject='ALL', managementPresentationType='ALL', managementPresentationSearch='', editingManagementProjectId=null, editingManagementPresentationId=null;
@@ -1357,6 +1400,83 @@ function renderHome(){
 // MONITOREO Y SEGUIMIENTO · GOOGLE SHEETS
 // ══════════════════════════════════════════════════════════════
 const MONITOR_SHEET_URL_KEY='ute_monitor_sheet_url_v2',MONITOR_SHEET_NAME_KEY='ute_monitor_sheet_name_v2',MONITOR_AUTO_KEY='ute_monitor_auto_v2',MONITOR_SAT_BRIDGE_KEY='ute_monitor_sat_bridge_v1',MONITOR_SAT_SECRET_KEY='ute_monitor_sat_secret_v1';
+
+// ══════════════════════════════════════════════════════════════
+// BITÁCORA TRAYECTORIA · CONECTOR DE SOLO LECTURA
+// ══════════════════════════════════════════════════════════════
+const BIT_BRIDGE_KEY='ute_bit_bridge_v1',BIT_SECRET_KEY='ute_bit_secret_v1',BIT_SHEET_URL_KEY='ute_bit_sheet_url_v1',BIT_GID_KEY='ute_bit_gid_v1',BIT_AUTO_KEY='ute_bit_auto_v1';
+const BIT_DEFAULT_URL='https://docs.google.com/spreadsheets/d/1GxqxxbjnwfrwKas7Q8jBSUWQISj2AQqDtC6AW7bQAFQ/edit?gid=630616984#gid=630616984';
+function bitNorm(v=''){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim().replace(/\s+/g,' ');}
+function bitHeader(candidates=[]){
+ const hs=BITACORA_HEADERS.map((h,i)=>({h,n:bitNorm(h),i}));
+ for(const c of candidates){const n=bitNorm(c);let x=hs.find(o=>o.n===n);if(x)return x.h;}
+ for(const c of candidates){const toks=bitNorm(c).split(' ').filter(x=>x.length>2);let x=hs.find(o=>toks.every(t=>o.n.includes(t)));if(x)return x.h;}
+ return '';
+}
+function detectBitMapping(){
+ BITACORA_MAPPING={
+  date:bitHeader(['Fecha','Fecha atención','Fecha de atención','Fecha registro']),
+  professional:bitHeader(['Profesional','Profesional a cargo','Responsable']),
+  category:bitHeader(['Tipología','Tipo de registro','Categoría','Tipo registro','Tipo de atención','Tipo atención']),
+  student:bitHeader(['Estudiante','Nombre estudiante','Nombre del estudiante']),
+  rut:bitHeader(['RUT estudiante','Rut estudiante','RUT','Rut']),
+  career:bitHeader(['Carrera']),
+  service:bitHeader(['Servicio','Línea','Dispositivo','Tipo de apoyo','Atención']),
+  modality:bitHeader(['Modalidad']),
+  detail:bitHeader(['Observaciones','Detalle','Descripción','Acuerdos'])
+ };
+ return BITACORA_MAPPING;
+}
+function bitVal(row,key){const h=BITACORA_MAPPING[key];return h?String(row?.[h]??'').trim():'';}
+function bitRut(v=''){return String(v||'').replace(/[^0-9kK]/g,'').toLowerCase();}
+function bitType(row){return bitNorm(bitVal(row,'category')||bitVal(row,'service'));}
+function bitIsDirect(row){const t=bitType(row);return t.includes('atencion directa')||t.includes('mentoria')||t.includes('atencion')&&!t.includes('monitoreo')&&!t.includes('coordinacion');}
+function bitIsMonitor(row){return bitType(row).includes('monitoreo');}
+function bitIsCoord(row){const t=bitType(row);return t.includes('coordinacion')||t.includes('tercer');}
+function jsonpBit(params,timeout=60000){
+ const base=(document.getElementById('bitacoraBridge')?.value||localStorage.getItem(BIT_BRIDGE_KEY)||'').trim(),secret=(document.getElementById('bitacoraBridgeKey')?.value||localStorage.getItem(BIT_SECRET_KEY)||'').trim();
+ if(!base)return Promise.reject(new Error('Falta la URL del conector Bitácora'));if(!secret)return Promise.reject(new Error('Falta la clave del conector Bitácora'));
+ return new Promise((resolve,reject)=>{const cb='__uteBitCb_'+Date.now()+'_'+Math.random().toString(36).slice(2),u=new URL(base);Object.entries({...params,key:secret,callback:cb}).forEach(([a,v])=>u.searchParams.set(a,String(v??'')));const sc=document.createElement('script');let done=false;const clean=()=>{if(done)return;done=true;clearTimeout(timer);try{delete window[cb]}catch{};sc.remove();};window[cb]=data=>{clean();if(data&&data.ok===false)reject(new Error(data.error||'Error del conector Bitácora'));else resolve(data)};sc.onerror=()=>{clean();reject(new Error('No se pudo cargar el conector Bitácora'))};const timer=setTimeout(()=>{clean();reject(new Error('El conector Bitácora tardó demasiado en responder'))},timeout);sc.src=u.toString();document.head.appendChild(sc);});
+}
+function refreshBitConfig(){
+ const b=document.getElementById('bitacoraBridge'),k=document.getElementById('bitacoraBridgeKey'),u=document.getElementById('bitacoraSheetUrl'),g=document.getElementById('bitacoraGid'),a=document.getElementById('bitacoraAuto');
+ if(!b)return;b.value=localStorage.getItem(BIT_BRIDGE_KEY)||'';k.value=localStorage.getItem(BIT_SECRET_KEY)||'';u.value=localStorage.getItem(BIT_SHEET_URL_KEY)||BIT_DEFAULT_URL;g.value=localStorage.getItem(BIT_GID_KEY)||'630616984';a.checked=(localStorage.getItem(BIT_AUTO_KEY)||'1')!=='0';
+}
+function renderBitacora(){
+ const k=document.getElementById('bitacoraKpis'),map=document.getElementById('bitacoraMap'),recent=document.getElementById('bitacoraRecent'),meta=document.getElementById('bitacoraSummaryMeta');
+ if(!k)return;
+ const directs=BITACORA_ROWS.filter(bitIsDirect),mons=BITACORA_ROWS.filter(bitIsMonitor),coords=BITACORA_ROWS.filter(bitIsCoord);
+ const unique=new Set(directs.map(r=>bitRut(bitVal(r,'rut'))).filter(Boolean)).size;
+ const pros=new Set(BITACORA_ROWS.map(r=>bitVal(r,'professional')).filter(Boolean)).size;
+ k.innerHTML=`<div class="bitacora-kpi"><strong>${BITACORA_ROWS.length}</strong><span>registros leídos</span></div><div class="bitacora-kpi"><strong>${directs.length}</strong><span>atenciones directas</span></div><div class="bitacora-kpi"><strong>${mons.length}</strong><span>monitoreos</span></div><div class="bitacora-kpi"><strong>${coords.length}</strong><span>coordinaciones</span></div><div class="bitacora-kpi"><strong>${unique||pros}</strong><span>${unique?'estudiantes únicos':'profesionales detectados'}</span></div>`;
+ if(meta)meta.textContent=BITACORA_ROWS.length?`${BITACORA_ROWS.length} registros · ${BITACORA_META.sheetName||'hoja conectada'}`:'Sin conectar';
+ const labels={date:'fecha',professional:'profesional',category:'tipología',student:'estudiante',rut:'RUT',career:'carrera',service:'servicio'};
+ const detected=Object.entries(BITACORA_MAPPING).filter(([,h])=>h).map(([k,h])=>`${labels[k]||k}: “${h}”`);
+ if(map)map.innerHTML=BITACORA_HEADERS.length?`<strong>Encabezados detectados automáticamente:</strong> ${detected.length?escapeHTML(detected.join(' · ')):'no fue posible mapear campos clave todavía.'}<br><span>Columnas reales leídas: ${BITACORA_HEADERS.length}. El conector no exige nombres inventados.</span>`:'Aún no se han leído los encabezados reales de la hoja.';
+ const rows=[...BITACORA_ROWS].slice(-8).reverse();
+ if(recent)recent.innerHTML=rows.length?`<div style="font-size:.78rem;font-weight:900;color:var(--txt2);margin-top:8px">Últimos registros leídos</div>`+rows.map(r=>`<div class="bitacora-row"><strong>${escapeHTML(bitVal(r,'student')||bitVal(r,'professional')||'Registro')}</strong> · ${escapeHTML(bitVal(r,'date')||'sin fecha')}<br>${escapeHTML(bitVal(r,'category')||bitVal(r,'service')||'Sin tipología')}${bitVal(r,'career')?' · '+escapeHTML(bitVal(r,'career')):''}</div>`).join(''):'';
+}
+async function syncBitacora(){
+ const url=(document.getElementById('bitacoraSheetUrl')?.value||localStorage.getItem(BIT_SHEET_URL_KEY)||BIT_DEFAULT_URL).trim(),id=extractSheetId(url),gid=(document.getElementById('bitacoraGid')?.value||localStorage.getItem(BIT_GID_KEY)||'630616984').trim();
+ if(!id){showToast('La URL de la Bitácora no es válida','bad');return;}
+ try{
+  const meta=document.getElementById('bitacoraSummaryMeta');if(meta)meta.textContent='Sincronizando…';
+  const r=await jsonpBit({mode:'read',spreadsheetId:id,gid},60000);
+  BITACORA_HEADERS=Array.isArray(r.headers)?r.headers:[];BITACORA_ROWS=Array.isArray(r.rows)?r.rows:[];BITACORA_META={sheetName:r.sheetName||'',spreadsheetName:r.spreadsheetName||'',syncedAt:new Date().toISOString()};
+  detectBitMapping();renderBitacora();renderMonitoring();
+  showToast(`Bitácora sincronizada: ${BITACORA_ROWS.length} registros`,'ok');
+ }catch(e){const meta=document.getElementById('bitacoraSummaryMeta');if(meta)meta.textContent='Error de conexión';showToast('Bitácora: '+(e.message||e),'bad');}
+}
+function bitActivityForAlert(a){
+ const arut=bitRut(a?.rutCompleto||a?.rut||''),aname=bitNorm(a?.estudiante||'');
+ return BITACORA_ROWS.filter(r=>{const rr=bitRut(bitVal(r,'rut')),rn=bitNorm(bitVal(r,'student'));if(arut&&rr)return arut===rr;if(aname&&rn)return aname===rn;return false;});
+}
+function renderMonitorActivity(a){
+ const list=document.getElementById('monitorActivityList'),count=document.getElementById('monitorActivityCount');if(!list||!count)return;
+ const rows=bitActivityForAlert(a).slice(-10).reverse();count.textContent=`${rows.length} registro${rows.length===1?'':'s'}`;
+ list.innerHTML=rows.length?rows.map(r=>`<div class="monitor-activity-item"><strong>${escapeHTML(bitVal(r,'date')||'Sin fecha')} · ${escapeHTML(bitVal(r,'category')||bitVal(r,'service')||'Registro')}</strong><br>${escapeHTML(bitVal(r,'professional')||'Profesional no identificado')}${bitVal(r,'detail')?`<br>${escapeHTML(bitVal(r,'detail'))}`:''}</div>`).join(''):`<div class="monitor-activity-item">${BITACORA_ROWS.length?'No hay atenciones de esta persona en la Bitácora sincronizada.':'Bitácora no sincronizada todavía.'}</div>`;
+}
+
 const MONITOR_STATUS_LABEL={'nueva':'Nueva','en-revision':'En revisión','contactado':'Estudiante contactado','acompanamiento':'Acompañamiento activado','derivada':'Derivada / articulada','monitoreo':'Solo monitoreo','cerrada':'Cerrada'};
 const SAT_REQUIRED_HEADERS=['RUT TUTOR','DV TUTOR','Correo Tutor','Facultad','Carrera','TIVU ORIGEN','Nombre estudiante','Rut estudiante','DV estudiante','Temática','Descripción','Respuestas de la bitácora','Clasificación Alerta','Tipo Alerta','Estado Alerta','Observaciones','Observaciones Resolución','Estado Alerta Unidad Trayectoria','Observaciones Acompañamiento Unidad de Trayectoria/profesional a cargo'];
 function normKey(v=''){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase().replace(/\s+/g,' ');}
@@ -1427,12 +1547,16 @@ function renderMonitoring(){const k=document.getElementById('monitorKpis');if(!k
  const types=[...new Set(MONITOR_ALERTS.map(a=>a.tematica||a.tipo||'Sin temática'))].sort((a,b)=>a.localeCompare(b,'es')),careers=[...new Set(MONITOR_ALERTS.map(a=>a.carrera||'Sin carrera'))].sort((a,b)=>a.localeCompare(b,'es')),resps=[...new Set(MONITOR_ALERTS.map(a=>a.responsable||'Sin asignar'))].sort((a,b)=>a.localeCompare(b,'es'));const fill=(id,all,vals,cur)=>{const e=document.getElementById(id);if(e)e.innerHTML=`<option value="ALL">${all}</option>`+vals.map(v=>`<option value="${escapeAttr(v)}" ${cur===v?'selected':''}>${escapeHTML(v)}</option>`).join('');};fill('monitorTypeFilter','Todas las temáticas',types,monitorType);fill('monitorCareerFilter','Todas las carreras',careers,monitorCareer);fill('monitorResponsibleFilter','Todos los responsables',resps,monitorResponsible);
  const rows=filteredMonitoring();document.getElementById('monitorEmpty').style.display=rows.length?'none':'block';document.getElementById('monitorList').innerHTML=rows.map(a=>{const lvl=String(a.nivel||'Sin nivel'),lc=lvl.toLowerCase(),status=a.uteStatus||'nueva';const linked=[a.caseId&&'Caso específico',a.taskId&&'Tarea'].filter(Boolean).join(' · ');return `<div class="monitor-card level-${lc}"><div class="monitor-main"><div><div class="monitor-name">${escapeHTML(a.estudiante||'Estudiante sin identificar')}</div><div class="monitor-sub">${escapeHTML(a.rutCompleto||a.rut||'Sin RUT')} · ${escapeHTML(a.carrera||'Sin carrera')} · ${escapeHTML(a.grupo||'Sin TIVU')}</div></div><div><div class="monitor-label">Clasificación / tipo</div><div class="monitor-value"><span class="monitor-pill ${lc}">${escapeHTML(lvl)}</span> · ${escapeHTML(a.tipo||'—')}</div></div><div class="monitor-hide"><div class="monitor-label">Estado UTE</div><div class="monitor-value"><span class="monitor-status ${status}">${MONITOR_STATUS_LABEL[status]||status}</span></div></div><div class="monitor-hide"><div class="monitor-label">Responsable</div><div class="monitor-value">${escapeHTML(a.responsable||'Sin asignar')}</div></div><button class="btn-edit" data-monitor-edit="${a.id}" aria-label="Abrir alerta">✎</button></div><div class="monitor-origin"><strong>${escapeHTML(a.tematica||'Temática')}:</strong> ${escapeHTML(a.descripcion||'—')}${a.observacionesOrigen?`<br><strong>Observaciones SAT:</strong> ${escapeHTML(a.observacionesOrigen)}`:''}${linked?`<div class="monitor-linked">↗ ${linked}</div>`:''}</div></div>`;}).join('');}
 function renderMonitorHistory(a){const el=document.getElementById('monitorHistory');const h=Array.isArray(a?.bitacora)?[...a.bitacora].reverse():[];el.innerHTML=h.length?h.map(x=>`<div class="monitor-history-item"><div class="monitor-history-date">${new Date(x.date).toLocaleString('es-CL')}</div><div class="monitor-history-text">${escapeHTML(x.text||'')}</div></div>`).join(''):'<div class="doc-empty">Aún no hay registros de seguimiento.</div>';}
-function openMonitor(id){const a=MONITOR_ALERTS.find(x=>x.id===id);if(!a)return;editingMonitorId=id;document.getElementById('monitorModalTitle').textContent=a.estudiante||'Alerta';document.getElementById('monitorModalId').textContent=`${a.id} · ${a.fuente||'Sin fuente'}`;document.getElementById('monitorOriginBox').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;font-size:.8rem"><div><strong>Estudiante:</strong> ${escapeHTML(a.estudiante||'—')}</div><div><strong>RUT:</strong> ${escapeHTML(a.rutCompleto||a.rut||'—')}</div><div><strong>Facultad:</strong> ${escapeHTML(a.facultad||'—')}</div><div><strong>Carrera:</strong> ${escapeHTML(a.carrera||'—')}</div><div><strong>TIVU origen:</strong> ${escapeHTML(a.grupo||'—')}</div><div><strong>Correo tutor:</strong> ${escapeHTML(a.correoTutor||'—')}</div><div><strong>Temática:</strong> ${escapeHTML(a.tematica||'—')}</div><div><strong>Tipo alerta:</strong> ${escapeHTML(a.tipo||'—')}</div><div><strong>Clasificación:</strong> ${escapeHTML(a.nivel||'—')}</div><div><strong>Estado SAT:</strong> ${escapeHTML(a.estadoOrigen||'—')}</div></div><div style="margin-top:10px;font-size:.82rem;line-height:1.45"><strong>Descripción</strong><br>${escapeHTML(a.descripcion||'—')}${a.respuestasBitacora?`<div style="margin-top:8px"><strong>Respuestas de la bitácora</strong><br>${escapeHTML(a.respuestasBitacora)}</div>`:''}${a.observacionesOrigen?`<div style="margin-top:8px"><strong>Observaciones</strong><br>${escapeHTML(a.observacionesOrigen)}</div>`:''}${a.observacionesResolucion?`<div style="margin-top:8px"><strong>Observaciones Resolución</strong><br>${escapeHTML(a.observacionesResolucion)}</div>`:''}${a.estadoUteOrigen?`<div style="margin-top:8px"><strong>Estado Alerta Unidad Trayectoria (origen)</strong><br>${escapeHTML(a.estadoUteOrigen)}</div>`:''}${a.observacionesUteOrigen?`<div style="margin-top:8px"><strong>Observaciones Acompañamiento UTE (origen)</strong><br>${escapeHTML(a.observacionesUteOrigen)}</div>`:''}</div>`;document.getElementById('mStatus').value=a.uteStatus||'nueva';fillProfessionalSelect('mResponsible','mResponsibleEmail',a.responsable||'');document.getElementById('mResponsibleEmail').value=a.responsableEmail||document.getElementById('mResponsibleEmail').value||'';document.getElementById('mDecision').value=a.decision||'';document.getElementById('mNextAction').value=a.nextAction||'';document.getElementById('mNextDate').value=a.nextDate||'';document.getElementById('mSatSummary').value=a.satSummary||a.observacionesUteOrigen||'';document.getElementById('mSyncSat').checked=true;document.getElementById('mLogText').value='';document.getElementById('mNotify').checked=false;renderMonitorHistory(a);document.getElementById('moMonitor').classList.add('open');document.body.style.overflow='hidden';}
+function openMonitor(id){const a=MONITOR_ALERTS.find(x=>x.id===id);if(!a)return;editingMonitorId=id;document.getElementById('monitorModalTitle').textContent=a.estudiante||'Alerta';document.getElementById('monitorModalId').textContent=`${a.id} · ${a.fuente||'Sin fuente'}`;document.getElementById('monitorOriginBox').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;font-size:.8rem"><div><strong>Estudiante:</strong> ${escapeHTML(a.estudiante||'—')}</div><div><strong>RUT:</strong> ${escapeHTML(a.rutCompleto||a.rut||'—')}</div><div><strong>Facultad:</strong> ${escapeHTML(a.facultad||'—')}</div><div><strong>Carrera:</strong> ${escapeHTML(a.carrera||'—')}</div><div><strong>TIVU origen:</strong> ${escapeHTML(a.grupo||'—')}</div><div><strong>Correo tutor:</strong> ${escapeHTML(a.correoTutor||'—')}</div><div><strong>Temática:</strong> ${escapeHTML(a.tematica||'—')}</div><div><strong>Tipo alerta:</strong> ${escapeHTML(a.tipo||'—')}</div><div><strong>Clasificación:</strong> ${escapeHTML(a.nivel||'—')}</div><div><strong>Estado SAT:</strong> ${escapeHTML(a.estadoOrigen||'—')}</div></div><div style="margin-top:10px;font-size:.82rem;line-height:1.45"><strong>Descripción</strong><br>${escapeHTML(a.descripcion||'—')}${a.respuestasBitacora?`<div style="margin-top:8px"><strong>Respuestas de la bitácora</strong><br>${escapeHTML(a.respuestasBitacora)}</div>`:''}${a.observacionesOrigen?`<div style="margin-top:8px"><strong>Observaciones</strong><br>${escapeHTML(a.observacionesOrigen)}</div>`:''}${a.observacionesResolucion?`<div style="margin-top:8px"><strong>Observaciones Resolución</strong><br>${escapeHTML(a.observacionesResolucion)}</div>`:''}${a.estadoUteOrigen?`<div style="margin-top:8px"><strong>Estado Alerta Unidad Trayectoria (origen)</strong><br>${escapeHTML(a.estadoUteOrigen)}</div>`:''}${a.observacionesUteOrigen?`<div style="margin-top:8px"><strong>Observaciones Acompañamiento UTE (origen)</strong><br>${escapeHTML(a.observacionesUteOrigen)}</div>`:''}</div>`;document.getElementById('mStatus').value=a.uteStatus||'nueva';fillProfessionalSelect('mResponsible','mResponsibleEmail',a.responsable||'');document.getElementById('mResponsibleEmail').value=a.responsableEmail||document.getElementById('mResponsibleEmail').value||'';document.getElementById('mDecision').value=a.decision||'';document.getElementById('mNextAction').value=a.nextAction||'';document.getElementById('mNextDate').value=a.nextDate||'';document.getElementById('mSatSummary').value=a.satSummary||a.observacionesUteOrigen||'';document.getElementById('mSyncSat').checked=true;document.getElementById('mLogText').value='';document.getElementById('mNotify').checked=false;renderMonitorHistory(a);renderMonitorActivity(a);document.getElementById('moMonitor').classList.add('open');document.body.style.overflow='hidden';}
 function closeMonitor(){document.getElementById('moMonitor').classList.remove('open');document.body.style.overflow='';editingMonitorId=null;}
 async function saveMonitor(){const a=MONITOR_ALERTS.find(x=>x.id===editingMonitorId);if(!a)return;const oldResp=a.responsable||'',resp=document.getElementById('mResponsible').value,email=document.getElementById('mResponsibleEmail').value.trim();a.uteStatus=document.getElementById('mStatus').value;a.responsable=resp;a.responsableEmail=email;a.decision=document.getElementById('mDecision').value;a.nextAction=document.getElementById('mNextAction').value.trim();a.nextDate=document.getElementById('mNextDate').value;a.satSummary=document.getElementById('mSatSummary').value.trim();a.bitacora=Array.isArray(a.bitacora)?a.bitacora:[];const log=document.getElementById('mLogText').value.trim();if(log)a.bitacora.push({date:new Date().toISOString(),text:log});a.updatedAt=new Date().toISOString();const notify=document.getElementById('mNotify').checked||(!oldResp&&resp),syncSat=document.getElementById('mSyncSat').checked;await saveData(false);let satOk=false,satErr='';if(syncSat){try{const rr=await pushMonitorToSat(a,a.satSummary);satOk=true;if(rr&&rr.rowNumber)a.sheetRow=Number(rr.rowNumber)||a.sheetRow;a.lastSatPushAt=new Date().toISOString();await saveData(false);}catch(e){satErr=e.message||String(e);}}closeMonitor();renderAll();let mailOk=false,mailErr='';if(notify&&resp){try{await sendEntityNotification({module:'monitoring',param:'alerta',id:a.id,type:'Alerta de monitoreo',title:a.estudiante||'Estudiante',to:email,responsable:resp,date:a.nextDate||a.fechaRecepcion,status:MONITOR_STATUS_LABEL[a.uteStatus]||a.uteStatus,priority:a.nivel,detail:a.nextAction||a.descripcion});mailOk=true;}catch(e){mailErr=e.message||String(e);}}if(syncSat&&!satOk){showToast('Seguimiento guardado · SAT no actualizado: '+satErr,'bad');return;}if(notify&&resp&&!mailOk){showToast('Seguimiento guardado'+(satOk?' y SAT actualizado':'')+' · correo no enviado: '+mailErr,'bad');return;}showToast('Seguimiento guardado'+(satOk?' · SAT actualizado ✓':'')+(mailOk?' · correo enviado ✓':''),'ok');}
 async function monitorCreateCase(){const a=MONITOR_ALERTS.find(x=>x.id===editingMonitorId);if(!a)return;if(a.caseId&&CASOS.some(c=>c.id===a.caseId)){closeMonitor();switchModule('cases');setTimeout(()=>openCase(a.caseId),100);return;}const c={id:'c'+Date.now().toString(36),documentos:[],estudiante:a.estudiante||'',rut:a.rutCompleto||a.rut||'',carrera:a.carrera||'',responsable:a.responsable||'',responsableEmail:a.responsableEmail||'',dispositivo:a.decision==='Mentoría'?'Mentoría':'Plan específico',prioridad:String(a.nivel||'media').toLowerCase(),estado:'nuevo',fechaIngreso:new Date().toISOString().slice(0,10),motivo:a.descripcion||'',proxima:a.nextAction||'',fechaProxima:a.nextDate||'',notas:`Origen: alerta ${a.id}${a.fuente?' · '+a.fuente:''}`};CASOS.push(c);a.caseId=c.id;a.uteStatus='acompanamiento';a.bitacora=Array.isArray(a.bitacora)?a.bitacora:[];a.bitacora.push({date:new Date().toISOString(),text:'Se creó Caso Específico '+c.id});await saveData(false);closeMonitor();renderAll();switchModule('cases');setTimeout(()=>openCase(c.id),100);showToast('Caso específico creado desde la alerta ✓','ok');}
 async function monitorCreateTask(){const a=MONITOR_ALERTS.find(x=>x.id===editingMonitorId);if(!a)return;if(a.taskId&&TAREAS.some(t=>t.id===a.taskId)){closeMonitor();switchModule('tasks');setTimeout(()=>openTask(a.taskId),100);return;}const t={id:'ta'+Date.now().toString(36),titulo:a.nextAction||`Revisar alerta de ${a.estudiante||'estudiante'}`,acceso:'Mis tareas',estado:'pendiente',prioridad:String(a.nivel||'media').toLowerCase(),fecha:a.nextDate||'',proyecto:'Monitoreo y seguimiento',carrera:a.carrera||'',responsable:a.responsable||'',responsableEmail:a.responsableEmail||'',persona:a.estudiante||'',reunion:'',detalle:[a.descripcion,a.observacionesOrigen].filter(Boolean).join('\n\n'),link:'',creado:Date.now(),actualizado:Date.now()};TAREAS.push(t);a.taskId=t.id;a.bitacora=Array.isArray(a.bitacora)?a.bitacora:[];a.bitacora.push({date:new Date().toISOString(),text:'Se creó tarea '+t.id});await saveData(false);closeMonitor();renderAll();switchModule('tasks');setTimeout(()=>openTask(t.id),100);showToast('Tarea creada desde la alerta ✓','ok');}
 document.getElementById('monitorStatusSeg').addEventListener('click',e=>{const b=e.target.closest('[data-monitor-status]');if(!b)return;monitorStatus=b.dataset.monitorStatus;document.querySelectorAll('[data-monitor-status]').forEach(x=>x.classList.toggle('active',x===b));renderMonitoring();});document.getElementById('monitorLevelFilter').addEventListener('change',e=>{monitorLevel=e.target.value;renderMonitoring()});document.getElementById('monitorTypeFilter').addEventListener('change',e=>{monitorType=e.target.value;renderMonitoring()});document.getElementById('monitorCareerFilter').addEventListener('change',e=>{monitorCareer=e.target.value;renderMonitoring()});document.getElementById('monitorResponsibleFilter').addEventListener('change',e=>{monitorResponsible=e.target.value;renderMonitoring()});document.getElementById('monitorSearch').addEventListener('input',e=>{monitorSearch=e.target.value;renderMonitoring()});document.addEventListener('click',e=>{const b=e.target.closest('[data-monitor-edit]');if(b)openMonitor(b.dataset.monitorEdit);});document.getElementById('monitorClose').onclick=closeMonitor;document.getElementById('moMonitor').addEventListener('click',e=>{if(e.target.id==='moMonitor')closeMonitor();});document.getElementById('mResponsible').addEventListener('change',()=>{syncProfessionalEmail('mResponsible','mResponsibleEmail');document.getElementById('mNotify').checked=true;});document.getElementById('btnSaveMonitor').onclick=saveMonitor;document.getElementById('btnMonitorCreateCase').onclick=monitorCreateCase;document.getElementById('btnMonitorCreateTask').onclick=monitorCreateTask;document.getElementById('btnDeleteMonitor').onclick=async()=>{const a=MONITOR_ALERTS.find(x=>x.id===editingMonitorId);if(!a||!confirm('¿Eliminar esta alerta del panel? Si sigue en la hoja maestra, volverá a aparecer en una futura sincronización.'))return;MONITOR_ALERTS=MONITOR_ALERTS.filter(x=>x.id!==a.id);await saveData(false);closeMonitor();renderAll();showToast('Alerta eliminada del panel','ok');};document.getElementById('btnSaveMonitorSheet').onclick=async()=>{const u=document.getElementById('monitorSheetUrl').value.trim(),n=document.getElementById('monitorSheetName').value.trim()||'SATT',b=document.getElementById('monitorSatBridge').value.trim(),k=document.getElementById('monitorSatBridgeKey').value.trim();if(!extractSheetId(u)){showToast('Pega una URL válida de Google Sheets','bad');return;}if(!/^https:\/\/script\.google\.com\//i.test(b)){showToast('Pega la URL Web App del conector SAT','bad');return;}if(!k){showToast('Ingresa la clave del conector SAT','bad');return;}localStorage.setItem(MONITOR_SHEET_URL_KEY,u);localStorage.setItem(MONITOR_SHEET_NAME_KEY,n);localStorage.setItem(MONITOR_SAT_BRIDGE_KEY,b);localStorage.setItem(MONITOR_SAT_SECRET_KEY,k);localStorage.setItem(MONITOR_AUTO_KEY,document.getElementById('monitorAutoSync').checked?'1':'0');await syncMonitorSheet();};document.getElementById('btnSyncMonitor').onclick=syncMonitorSheet;document.getElementById('monitorAutoSync').addEventListener('change',e=>localStorage.setItem(MONITOR_AUTO_KEY,e.target.checked?'1':'0'));
+document.getElementById('btnSaveBitacora').onclick=async()=>{const b=document.getElementById('bitacoraBridge').value.trim(),k=document.getElementById('bitacoraBridgeKey').value.trim(),u=document.getElementById('bitacoraSheetUrl').value.trim(),g=document.getElementById('bitacoraGid').value.trim()||'630616984';if(!/^https:\/\/script\.google\.com\//i.test(b)){showToast('Pega la URL Web App del conector Bitácora','bad');return;}if(!k){showToast('Ingresa la clave del conector Bitácora','bad');return;}if(!extractSheetId(u)){showToast('La URL de la Bitácora no es válida','bad');return;}localStorage.setItem(BIT_BRIDGE_KEY,b);localStorage.setItem(BIT_SECRET_KEY,k);localStorage.setItem(BIT_SHEET_URL_KEY,u);localStorage.setItem(BIT_GID_KEY,g);localStorage.setItem(BIT_AUTO_KEY,document.getElementById('bitacoraAuto').checked?'1':'0');await syncBitacora();};
+document.getElementById('btnSyncBitacora').onclick=syncBitacora;
+document.getElementById('bitacoraAuto').addEventListener('change',e=>localStorage.setItem(BIT_AUTO_KEY,e.target.checked?'1':'0'));
+
 
 // ══════════════════════════════════════════════════════════════
 // FAMILIAS DE TALLERES
@@ -1838,8 +1962,8 @@ document.getElementById('btnSaveDriveFolder').onclick=async()=>{
   if(!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:\?.*)?$/.test(bridge)){showToast('Pega la URL /exec del Apps Script desplegado','bad');return;}
   if(!secret){showToast('Ingresa la clave del conector','bad');return;}
   localStorage.setItem(DRIVE_FOLDER_KEY,folder);localStorage.setItem(DRIVE_BRIDGE_KEY,bridge);localStorage.setItem(DRIVE_SECRET_KEY,secret);refreshDriveFolder();
-refreshMonitorConfig();
-setTimeout(()=>{if((localStorage.getItem(MONITOR_AUTO_KEY)||'1')!=='0' && localStorage.getItem(MONITOR_SHEET_URL_KEY) && localStorage.getItem(MONITOR_SAT_BRIDGE_KEY) && localStorage.getItem(MONITOR_SAT_SECRET_KEY))syncMonitorSheet();},900);await syncDriveFolder();
+refreshMonitorConfig();refreshBitConfig();
+setTimeout(()=>{if((localStorage.getItem(MONITOR_AUTO_KEY)||'1')!=='0' && localStorage.getItem(MONITOR_SHEET_URL_KEY) && localStorage.getItem(MONITOR_SAT_BRIDGE_KEY) && localStorage.getItem(MONITOR_SAT_SECRET_KEY))syncMonitorSheet();},900);setTimeout(()=>{if((localStorage.getItem(BIT_AUTO_KEY)||'1')!=='0' && localStorage.getItem(BIT_BRIDGE_KEY) && localStorage.getItem(BIT_SECRET_KEY))syncBitacora();},1300);await syncDriveFolder();
 };
 document.getElementById('btnSyncDrive').onclick=()=>syncDriveFolder();
 document.getElementById('btnRebuildDrive').onclick=async()=>{if(!confirm('¿Reconstruir toda la lista desde Google Drive? Se eliminarán las fichas actuales del panel y se volverán a leer todas las cartas. Los archivos de Drive NO se borrarán.'))return;await syncDriveFolder({force:true});};
@@ -2095,6 +2219,7 @@ function renderAll(){
   renderAR();
   renderTasks();
   renderGoals();
+  renderBitacora();
   renderManagement();
   renderEarly();
   renderKPIs();
