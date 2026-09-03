@@ -1401,6 +1401,28 @@ async function syncMonitorSheet(){
   await saveData(false);renderAll();setMonitorSyncStatus(`✓ ${rows.length} alertas · ${news} nuevas · ${upd} actualizadas`,'ok');monitorLog(`✓ Estructura SAT original reconocida\nPestaña: ${sheetName}\nFilas leídas: ${rows.length}\nNuevas: ${news}\nActualizadas: ${upd}\nSin cambios: ${same}`);showToast(`SAT sincronizado: ${news} nuevas, ${upd} actualizadas`,'ok');
  }catch(err){setMonitorSyncStatus('Error de sincronización','bad');monitorLog('✕ '+(err.message||err));showToast('No se pudo sincronizar SAT: '+(err.message||err),'bad');}
 }
+function filteredMonitoring(){
+ return MONITOR_ALERTS.filter(a=>{
+  if(monitorStatus!=='ALL'&&(a.uteStatus||'nueva')!==monitorStatus)return false;
+  if(monitorLevel!=='ALL'&&String(a.nivel||'')!==monitorLevel)return false;
+  if(monitorType!=='ALL'&&(a.tematica||a.tipo||'Sin temática')!==monitorType)return false;
+  if(monitorCareer!=='ALL'&&(a.carrera||'Sin carrera')!==monitorCareer)return false;
+  if(monitorResponsible!=='ALL'&&(a.responsable||'Sin asignar')!==monitorResponsible)return false;
+  if(monitorSearch){
+   const q=monitorSearch.toLowerCase();
+   const h=[a.estudiante,a.rutCompleto,a.rut,a.correoTutor,a.informante,a.descripcion,a.respuestasBitacora,a.tematica,a.tipo,a.carrera,a.facultad,a.grupo,a.observacionesOrigen,a.observacionesResolucion,a.estadoUteOrigen,a.observacionesUteOrigen,a.responsable].join(' ').toLowerCase();
+   if(!h.includes(q))return false;
+  }
+  return true;
+ }).sort((a,b)=>{
+  const p={alta:0,media:1,baja:2};
+  const pa=p[String(a.nivel||'').toLowerCase()]??3,pb=p[String(b.nivel||'').toLowerCase()]??3;
+  if(pa!==pb)return pa-pb;
+  const sa=(a.uteStatus||'nueva')==='cerrada'?1:0,sb=(b.uteStatus||'nueva')==='cerrada'?1:0;
+  if(sa!==sb)return sa-sb;
+  return Number(b.sheetRow||0)-Number(a.sheetRow||0);
+ });
+}
 function renderMonitoring(){const k=document.getElementById('monitorKpis');if(!k)return;const active=MONITOR_ALERTS.filter(a=>(a.uteStatus||'nueva')!=='cerrada').length,news=MONITOR_ALERTS.filter(a=>(a.uteStatus||'nueva')==='nueva').length,high=MONITOR_ALERTS.filter(a=>String(a.nivel||'').toLowerCase()==='alta'&&(a.uteStatus||'nueva')!=='cerrada').length,closed=MONITOR_ALERTS.filter(a=>(a.uteStatus||'nueva')==='cerrada').length;k.innerHTML=`<div class="kpi"><div class="kn">${MONITOR_ALERTS.length}</div><div class="kl">Alertas recibidas</div></div><div class="kpi warn"><div class="kn">${news}</div><div class="kl">Nuevas</div></div><div class="kpi bad"><div class="kn">${high}</div><div class="kl">Altas activas</div></div><div class="kpi ok"><div class="kn">${closed}</div><div class="kl">Cerradas</div></div>`;
  const types=[...new Set(MONITOR_ALERTS.map(a=>a.tematica||a.tipo||'Sin temática'))].sort((a,b)=>a.localeCompare(b,'es')),careers=[...new Set(MONITOR_ALERTS.map(a=>a.carrera||'Sin carrera'))].sort((a,b)=>a.localeCompare(b,'es')),resps=[...new Set(MONITOR_ALERTS.map(a=>a.responsable||'Sin asignar'))].sort((a,b)=>a.localeCompare(b,'es'));const fill=(id,all,vals,cur)=>{const e=document.getElementById(id);if(e)e.innerHTML=`<option value="ALL">${all}</option>`+vals.map(v=>`<option value="${escapeAttr(v)}" ${cur===v?'selected':''}>${escapeHTML(v)}</option>`).join('');};fill('monitorTypeFilter','Todas las temáticas',types,monitorType);fill('monitorCareerFilter','Todas las carreras',careers,monitorCareer);fill('monitorResponsibleFilter','Todos los responsables',resps,monitorResponsible);
  const rows=filteredMonitoring();document.getElementById('monitorEmpty').style.display=rows.length?'none':'block';document.getElementById('monitorList').innerHTML=rows.map(a=>{const lvl=String(a.nivel||'Sin nivel'),lc=lvl.toLowerCase(),status=a.uteStatus||'nueva';const linked=[a.caseId&&'Caso específico',a.taskId&&'Tarea'].filter(Boolean).join(' · ');return `<div class="monitor-card level-${lc}"><div class="monitor-main"><div><div class="monitor-name">${escapeHTML(a.estudiante||'Estudiante sin identificar')}</div><div class="monitor-sub">${escapeHTML(a.rutCompleto||a.rut||'Sin RUT')} · ${escapeHTML(a.carrera||'Sin carrera')} · ${escapeHTML(a.grupo||'Sin TIVU')}</div></div><div><div class="monitor-label">Clasificación / tipo</div><div class="monitor-value"><span class="monitor-pill ${lc}">${escapeHTML(lvl)}</span> · ${escapeHTML(a.tipo||'—')}</div></div><div class="monitor-hide"><div class="monitor-label">Estado UTE</div><div class="monitor-value"><span class="monitor-status ${status}">${MONITOR_STATUS_LABEL[status]||status}</span></div></div><div class="monitor-hide"><div class="monitor-label">Responsable</div><div class="monitor-value">${escapeHTML(a.responsable||'Sin asignar')}</div></div><button class="btn-edit" data-monitor-edit="${a.id}" aria-label="Abrir alerta">✎</button></div><div class="monitor-origin"><strong>${escapeHTML(a.tematica||'Temática')}:</strong> ${escapeHTML(a.descripcion||'—')}${a.observacionesOrigen?`<br><strong>Observaciones SAT:</strong> ${escapeHTML(a.observacionesOrigen)}`:''}${linked?`<div class="monitor-linked">↗ ${linked}</div>`:''}</div></div>`;}).join('');}
