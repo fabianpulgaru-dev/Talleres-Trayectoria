@@ -419,6 +419,19 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
 .early-access{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.early-card{background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:16px;text-align:left;cursor:pointer;font-family:var(--fb);transition:.15s}.early-card:hover{border-color:var(--line2);transform:translateY(-1px)}.early-card.active{border-color:var(--p);background:var(--p-bg)}.early-card span{font-size:1.35rem;display:block;margin-bottom:6px}.early-card strong{display:block;color:var(--p-dk);font-size:.96rem}.early-card small{display:block;color:var(--txt2);font-size:.76rem;line-height:1.35;margin-top:4px}.early-view{display:none}.early-view.active{display:block}.early-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.early-list{display:grid;gap:11px}.early-item{background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:15px 16px;position:relative}.early-item:hover{border-color:var(--line2);box-shadow:0 4px 14px rgba(110,70,180,.06)}.early-item-top{display:grid;grid-template-columns:minmax(240px,1.2fr) minmax(130px,.55fr) minmax(170px,.7fr) 42px;gap:14px;align-items:center}.early-name{font-weight:900;color:var(--txt);font-size:1rem}.early-sub{font-size:.78rem;color:var(--txt2);margin-top:4px}.early-badges{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.early-badge{display:inline-flex;padding:4px 8px;border-radius:999px;background:var(--p-bg);border:1px solid var(--line2);color:var(--p-dk);font-size:.7rem;font-weight:900}.early-link{display:inline-flex;margin-top:10px;text-decoration:none;color:var(--p);font-weight:900;font-size:.78rem}.early-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}.early-toolbar .search-box{flex:1;min-width:220px}.early-toolbar .search-box input{width:100%}.early-status{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:.72rem;font-weight:900;background:var(--surface2);color:var(--txt2)}.early-status.activo,.early-status.en-curso{background:var(--ok-bg);color:var(--ok)}.early-status.planificacion{background:var(--warn-bg);color:var(--warn)}.early-status.completado,.early-status.cerrado{background:var(--p-bg);color:var(--p)}.early-status.pausado{background:var(--off-bg);color:var(--off)}
 @media(max-width:900px){.early-access{grid-template-columns:1fr}.early-kpis{grid-template-columns:repeat(2,1fr)}.early-item-top{grid-template-columns:1fr 42px}.early-item-top>div:nth-child(2),.early-item-top>div:nth-child(3){grid-column:1}.early-item-top>button{grid-column:2;grid-row:1}}
 
+
+/* ══ MONITOREO Y SEGUIMIENTO · v25 ══ */
+.monitor-sync{background:linear-gradient(135deg,var(--p-bg),#fff);border:2px solid var(--line2);border-radius:16px;padding:0;overflow:hidden;margin-bottom:18px}
+.monitor-sync summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px}.monitor-sync summary::-webkit-details-marker{display:none}.monitor-sync[open] .summary-collapse-chevron{transform:rotate(180deg)}
+.monitor-sync-body{border-top:1px solid var(--line);padding:16px 18px}.monitor-sync-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.monitor-sync-row input{flex:1;min-width:260px;border:2px solid var(--line);border-radius:10px;padding:10px 12px;font-family:var(--fb);background:#fff;color:var(--txt)}
+.monitor-sync-row .sheet-name{max-width:190px;min-width:150px}.monitor-sync-help{font-size:.8rem;color:var(--txt2);margin-top:10px}.monitor-sync-log{font-family:var(--fm);font-size:.74rem;color:var(--txt2);margin-top:10px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:9px 11px;display:none;white-space:pre-wrap}
+.monitor-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px}.monitor-toolbar .search-box{flex:1;min-width:240px}.monitor-toolbar .search-box input{width:100%}.monitor-list{display:flex;flex-direction:column;gap:11px}
+.monitor-card{background:var(--surface);border:2px solid var(--line);border-left:5px solid var(--line2);border-radius:13px;padding:15px 16px;transition:.15s}.monitor-card:hover{border-color:var(--line2);box-shadow:0 5px 16px rgba(110,70,180,.07)}.monitor-card.level-alta{border-left-color:var(--bad)}.monitor-card.level-media{border-left-color:var(--warn)}.monitor-card.level-baja{border-left-color:var(--ok)}
+.monitor-main{display:grid;grid-template-columns:minmax(260px,1.35fr) minmax(160px,.65fr) minmax(160px,.7fr) minmax(170px,.75fr) 44px;gap:15px;align-items:center}.monitor-name{font-weight:900;color:var(--txt);font-size:1rem}.monitor-sub{font-size:.78rem;color:var(--txt2);margin-top:3px}.monitor-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);font-weight:900}.monitor-value{font-size:.83rem;color:var(--txt2);font-weight:750;margin-top:2px}.monitor-origin{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:.82rem;color:var(--txt2);line-height:1.5}.monitor-pill{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:.72rem;font-weight:900}.monitor-pill.alta{background:var(--bad-bg);color:var(--bad)}.monitor-pill.media{background:var(--warn-bg);color:var(--warn)}.monitor-pill.baja{background:var(--ok-bg);color:var(--ok)}
+.monitor-status{display:inline-flex;padding:5px 9px;border-radius:999px;background:var(--surface2);color:var(--txt2);font-size:.72rem;font-weight:900}.monitor-status.nueva{background:var(--warn-bg);color:var(--warn)}.monitor-status.acompanamiento,.monitor-status.monitoreo{background:var(--p-bg);color:var(--p)}.monitor-status.cerrada{background:var(--ok-bg);color:var(--ok)}
+.monitor-history{display:flex;flex-direction:column;gap:8px;margin-top:8px}.monitor-history-item{border-left:3px solid var(--line2);padding:7px 10px;background:var(--surface2);border-radius:0 9px 9px 0}.monitor-history-date{font-family:var(--fm);font-size:.68rem;color:var(--p);font-weight:900}.monitor-history-text{font-size:.82rem;color:var(--txt2);margin-top:2px}.monitor-actions-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.monitor-linked{margin-top:8px;font-size:.76rem;font-weight:800;color:var(--p)}
+@media(max-width:980px){.monitor-main{grid-template-columns:1fr 1fr 44px}.monitor-main>div:first-child{grid-column:1/3}.monitor-main .monitor-hide{display:none}}@media(max-width:620px){.monitor-main{grid-template-columns:1fr 44px}.monitor-main>div:first-child{grid-column:1}.monitor-main>div:not(:first-child):not(:last-child){grid-column:1}.monitor-sync-row input{min-width:100%}}
+
 </style>
 </head>
 <body>
@@ -441,6 +454,7 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
   </div>
   <nav class="module-nav" aria-label="Áreas del panel">
     <button class="module-btn active" data-module="home">⌂ Resumen</button>
+    <button class="module-btn" data-module="monitoring">◉ Monitoreo y seguimiento</button>
     <button class="module-btn" data-module="cases">👤 Casos Específicos</button>
     <button class="module-btn" data-module="adjustments">♿ Ajustes Razonables</button>
     <button class="module-btn" data-module="workshops">▦ Talleres</button>
@@ -459,6 +473,12 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
       <p>Vista general para organizar las intervenciones de Fortalecimiento Académico, distinguiendo el seguimiento de casos específicos de la gestión de talleres.</p>
     </div>
     <div class="area-grid">
+
+      <button class="area-card" data-go="monitoring">
+        <div class="area-icon">◉</div><h3>Monitoreo y seguimiento</h3>
+        <p>Bandeja única de alertas recibidas desde tutorías, carreras y otras fuentes, con activación y seguimiento de apoyos.</p>
+        <div class="area-metrics" id="homeMonitoringMetrics"></div>
+      </button>
       <button class="area-card" data-go="cases">
         <div class="area-icon">👤</div><h3>Casos Específicos</h3>
         <p>Seguimiento de estudiantes que requieren una intervención focalizada, sostenida o articulada.</p>
@@ -491,6 +511,31 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
         <div class="area-metrics" id="homeEarlyMetrics"></div>
       </button>
     </div>
+  </section>
+
+
+  <!-- MONITOREO Y SEGUIMIENTO -->
+  <section id="moduleMonitoring" class="module">
+    <div class="section-head"><div><h2>Monitoreo y seguimiento</h2><p>Bandeja de alertas de estudiantes y registro de decisiones, activaciones y seguimiento UTE.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
+    <details class="summary-collapse" open><summary><span class="summary-collapse-title">📊 Resumen de alertas</span><span class="summary-collapse-meta">Estado de la bandeja</span><span class="summary-collapse-chevron">⌄</span></summary><div class="summary-collapse-body"><div class="case-kpis" id="monitorKpis"></div></div></details>
+    <details class="monitor-sync">
+      <summary><div><div class="drive-kicker">GOOGLE SHEETS · BANDEJA MAESTRA</div><strong>↻ Sincronización automática de alertas</strong><div style="font-size:.78rem;color:var(--txt2);margin-top:3px">La hoja aporta los datos de origen; el seguimiento UTE permanece en el panel.</div></div><span class="summary-collapse-chevron">⌄</span></summary>
+      <div class="monitor-sync-body">
+        <div class="monitor-sync-row"><input type="url" id="monitorSheetUrl" placeholder="https://docs.google.com/spreadsheets/d/..."><input class="sheet-name" id="monitorSheetName" value="SATT" placeholder="Nombre de pestaña"><button class="btn-primary" id="btnSaveMonitorSheet" type="button">Guardar y sincronizar</button><button class="btn-doc" id="btnSyncMonitor" type="button">↻ Sincronizar ahora</button><span class="drive-sync-status warn" id="monitorSyncStatus">Hoja no configurada</span></div>
+        <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size:.82rem;color:var(--txt2);font-weight:800"><input type="checkbox" id="monitorAutoSync" checked> Sincronizar automáticamente al abrir el panel</label>
+        <div class="monitor-sync-help">Usa la misma URL y clave del Apps Script configuradas en Ajustes Razonables. La plataforma lee directamente la estructura original del SAT. Usa la pestaña <strong>SATT</strong> y conserva los encabezados del archivo recibido; no necesitas agregar ni transformar columnas.</div>
+        <div class="monitor-sync-log" id="monitorSyncLog"></div>
+      </div>
+    </details>
+    <div class="monitor-toolbar">
+      <div class="seg" id="monitorStatusSeg"><button class="active" data-monitor-status="ALL">Todas</button><button data-monitor-status="nueva">Nuevas</button><button data-monitor-status="en-revision">En revisión</button><button data-monitor-status="acompanamiento">En acompañamiento</button><button data-monitor-status="monitoreo">Monitoreo</button><button data-monitor-status="cerrada">Cerradas</button></div>
+      <select class="filter-select" id="monitorLevelFilter"><option value="ALL">Todos los niveles</option><option value="Alta">Alta</option><option value="Media">Media</option><option value="Baja">Baja</option></select>
+      <select class="filter-select" id="monitorTypeFilter"><option value="ALL">Todas las temáticas</option></select>
+      <select class="filter-select" id="monitorCareerFilter"><option value="ALL">Todas las carreras</option></select>
+      <select class="filter-select" id="monitorResponsibleFilter"><option value="ALL">Todos los responsables</option></select>
+      <div class="search-box"><input id="monitorSearch" type="text" placeholder="Buscar estudiante, RUT, tutor, temática, descripción…"></div>
+    </div>
+    <div class="monitor-list" id="monitorList"></div><div class="task-empty" id="monitorEmpty" style="display:none">No hay alertas con este filtro.</div>
   </section>
 
   <!-- CASOS ESPECÍFICOS -->
@@ -721,6 +766,22 @@ body{margin:0;font-family:var(--fb);background:var(--bg);color:var(--txt);line-h
   </div>
   </section>
 
+</div>
+
+
+<!-- MODAL ALERTA DE MONITOREO -->
+<div class="mo" id="moMonitor" role="dialog" aria-modal="true">
+  <div class="md" style="max-width:760px">
+    <button class="md-close" id="monitorClose">✕</button><h3 id="monitorModalTitle">Alerta</h3><p class="md-info" id="monitorModalId"></p>
+    <div id="monitorOriginBox" style="background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:16px"></div>
+    <div class="fg-row"><div class="fg"><label>Estado UTE</label><select id="mStatus"><option value="nueva">Nueva</option><option value="en-revision">En revisión</option><option value="acompanamiento">Acompañamiento activado</option><option value="derivada">Derivada / articulada</option><option value="monitoreo">Solo monitoreo</option><option value="cerrada">Cerrada</option></select></div><div class="fg"><label>Responsable</label><select id="mResponsible"></select><input id="mResponsibleEmail" type="email" placeholder="correo" style="margin-top:6px"></div></div>
+    <div class="fg-row"><div class="fg"><label>Decisión / dispositivo</label><select id="mDecision"><option value="">Sin definir</option><option>Mentoría</option><option>Consejería</option><option>Caso específico</option><option>Articulación</option><option>Derivación</option><option>Solo monitoreo</option><option>Sin acción requerida</option></select></div><div class="fg"><label>Próxima fecha</label><input id="mNextDate" type="date"></div></div>
+    <div class="fg"><label>Próxima acción</label><input id="mNextAction" type="text" placeholder="Contacto, mentoría, consulta a carrera…"></div>
+    <label style="display:flex;gap:8px;align-items:center;font-size:.82rem;font-weight:800;color:var(--txt2);margin:-2px 0 14px"><input type="checkbox" id="mNotify"> Notificar por correo al profesional al guardar</label>
+    <div class="fg"><label>Bitácora de seguimiento</label><div class="monitor-history" id="monitorHistory"></div><textarea id="mLogText" placeholder="Agregar un nuevo registro a la bitácora…" style="margin-top:9px"></textarea></div>
+    <div class="monitor-actions-row"><button class="btn-doc" id="btnMonitorCreateCase" type="button">👤 Crear Caso Específico</button><button class="btn-doc" id="btnMonitorCreateTask" type="button">✓ Crear tarea</button></div>
+    <button class="btn-sub" id="btnSaveMonitor" type="button">Guardar seguimiento</button><button class="btn-danger-link" id="btnDeleteMonitor" type="button">Eliminar alerta del panel</button>
+  </div>
 </div>
 
 <!-- MODAL TALLER -->
@@ -980,6 +1041,8 @@ let MANAGEMENT_PRESENTATIONS=[];
 let EARLY_COURSES=[];
 let EARLY_PROJECTS=[];
 let EARLY_RESOURCES=[];
+let MONITOR_ALERTS=[];
+let monitorStatus='ALL', monitorLevel='ALL', monitorType='ALL', monitorCareer='ALL', monitorResponsible='ALL', monitorSearch='', editingMonitorId=null;
 let earlyView='courses', earlyProjectStatus='ALL', earlyProjectSearch='', earlyResourceCourse='ALL', earlyResourceType='ALL', earlyResourceSearch='', editingEarlyCourseId=null, editingEarlyProjectId=null, editingEarlyResourceId=null;
 let managementView='goals', managementProjectStatus='ALL', managementProjectSearch='', managementPresentationProject='ALL', managementPresentationType='ALL', managementPresentationSearch='', editingManagementProjectId=null, editingManagementPresentationId=null;
 let AJUSTES=[];
@@ -1027,6 +1090,7 @@ async function loadData(){
       METAS_2S=JSON.parse(JSON.stringify(DEFAULT_METAS_2S));
       MANAGEMENT_PROJECTS=[]; MANAGEMENT_PRESENTATIONS=[];
       EARLY_COURSES=[]; EARLY_PROJECTS=[]; EARLY_RESOURCES=[];
+      MONITOR_ALERTS=[];
       AJUSTES=[];
       AR_DELETED_DRIVE_IDS=[];
       setConn(true,'Sincronizado · datos de ejemplo cargados');
@@ -1042,6 +1106,7 @@ async function loadData(){
       METAS_2S=(j.metas2s&&typeof j.metas2s==='object')?{...JSON.parse(JSON.stringify(DEFAULT_METAS_2S)),...j.metas2s}:JSON.parse(JSON.stringify(DEFAULT_METAS_2S));
       MANAGEMENT_PROJECTS=Array.isArray(j.managementProjects)?j.managementProjects:[]; MANAGEMENT_PRESENTATIONS=Array.isArray(j.managementPresentations)?j.managementPresentations:[];
       EARLY_COURSES=Array.isArray(j.earlyCourses)?j.earlyCourses:[]; EARLY_PROJECTS=Array.isArray(j.earlyProjects)?j.earlyProjects:[]; EARLY_RESOURCES=Array.isArray(j.earlyResources)?j.earlyResources:[];
+      MONITOR_ALERTS=Array.isArray(j.monitorAlerts)?j.monitorAlerts:[];
       AJUSTES=(Array.isArray(j.ajustesRazonables)?j.ajustesRazonables:[]).map(a=>({...a,secciones:a.secciones||{},carta:a.carta||null}));
       AR_DELETED_DRIVE_IDS=[]; // v14: eliminar del panel no bloquea futuras resincronizaciones
       TALLERES=TALLERES.map(t=>({...t,categoria:t.categoria||'Ciclo de Inserción'}));
@@ -1057,6 +1122,7 @@ async function loadData(){
     METAS_2S=JSON.parse(JSON.stringify(DEFAULT_METAS_2S));
     MANAGEMENT_PROJECTS=[]; MANAGEMENT_PRESENTATIONS=[];
     EARLY_COURSES=[]; EARLY_PROJECTS=[]; EARLY_RESOURCES=[];
+    MONITOR_ALERTS=[];
     setConn(false,'Sin conexión · usando datos locales');
   }
   renderAll();
@@ -1065,7 +1131,7 @@ async function loadData(){
 
 async function saveData(toast=true){
   try{
-    const r=await fetch(FB_PATH,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,tareas:TAREAS,profesionales:PROFESIONALES,taskNotifyConfig:TASK_NOTIFY_CONFIG,metas2s:METAS_2S,managementProjects:MANAGEMENT_PROJECTS,managementPresentations:MANAGEMENT_PRESENTATIONS,earlyCourses:EARLY_COURSES,earlyProjects:EARLY_PROJECTS,earlyResources:EARLY_RESOURCES,ajustesRazonables:AJUSTES,ajustesDriveEliminados:AR_DELETED_DRIVE_IDS,ts:Date.now()})});
+    const r=await fetch(FB_PATH,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,tareas:TAREAS,profesionales:PROFESIONALES,taskNotifyConfig:TASK_NOTIFY_CONFIG,metas2s:METAS_2S,managementProjects:MANAGEMENT_PROJECTS,managementPresentations:MANAGEMENT_PRESENTATIONS,earlyCourses:EARLY_COURSES,earlyProjects:EARLY_PROJECTS,earlyResources:EARLY_RESOURCES,monitorAlerts:MONITOR_ALERTS,ajustesRazonables:AJUSTES,ajustesDriveEliminados:AR_DELETED_DRIVE_IDS,ts:Date.now()})});
     const j=await r.json().catch(()=>null);
     if(!r.ok || (j && j.error)){
       throw new Error((j && j.error) ? j.error : `HTTP ${r.status}`);
@@ -1256,7 +1322,7 @@ function switchModule(name){
   if(name==='management') renderManagementAccess();
   if(name==='early') renderEarlyAccess();
   document.querySelectorAll('.module').forEach(x=>x.classList.remove('active'));
-  const map={home:'moduleHome',cases:'moduleCases',adjustments:'moduleAdjustments',workshops:'moduleWorkshops',tasks:'moduleTasks',management:'moduleManagement',early:'moduleEarly'};
+  const map={home:'moduleHome',monitoring:'moduleMonitoring',cases:'moduleCases',adjustments:'moduleAdjustments',workshops:'moduleWorkshops',tasks:'moduleTasks',management:'moduleManagement',early:'moduleEarly'};
   document.getElementById(map[name]||map.home).classList.add('active');
   document.querySelectorAll('.module-btn').forEach(b=>b.classList.toggle('active',b.dataset.module===name));
   window.scrollTo({top:0,behavior:'smooth'});
@@ -1266,6 +1332,7 @@ document.addEventListener('click',e=>{
   const mb=e.target.closest('.module-btn[data-module]'); if(mb){switchModule(mb.dataset.module);return;}
 });
 function renderHome(){
+  const monNew=MONITOR_ALERTS.filter(a=>(a.uteStatus||'nueva')==='nueva').length, monHigh=MONITOR_ALERTS.filter(a=>String(a.nivel||'').toLowerCase()==='alta'&&(a.uteStatus||'nueva')!=='cerrada').length, monActive=MONITOR_ALERTS.filter(a=>!['nueva','cerrada'].includes(a.uteStatus||'nueva')).length; const hm=document.getElementById('homeMonitoringMetrics'); if(hm)hm.innerHTML=`<span class="metric-mini">${MONITOR_ALERTS.length} alertas</span><span class="metric-mini">${monNew} nuevas</span><span class="metric-mini">${monHigh} altas activas</span>`;
   const activeCases=CASOS.filter(c=>c.estado!=='cerrado').length;
   const nextCases=CASOS.filter(c=>c.fechaProxima && c.estado!=='cerrado').length;
   document.getElementById('homeCaseMetrics').innerHTML=`<span class="metric-mini">${CASOS.length} casos</span><span class="metric-mini">${activeCases} activos</span><span class="metric-mini">${nextCases} con próxima acción</span>`;
@@ -1281,6 +1348,59 @@ function renderHome(){
   const gm=METAS_2S||DEFAULT_METAS_2S; const conc=Number(gm.concretion?.actual??59.2); const ses=Number(gm.sessions?.actual??282); const car=Number(gm.careers?.actual??26); document.getElementById('homeGoalMetrics').innerHTML=`<span class="metric-mini">${MANAGEMENT_PROJECTS.length} proyectos</span><span class="metric-mini">${MANAGEMENT_PRESENTATIONS.length} presentaciones</span><span class="metric-mini">${String(conc).replace('.',',')}% concreción</span>`;
   const activeEarly=EARLY_COURSES.filter(c=>c.status==='activo').length; const activeEarlyProjects=EARLY_PROJECTS.filter(p=>p.status==='en-curso').length; document.getElementById('homeEarlyMetrics').innerHTML=`<span class="metric-mini">${EARLY_COURSES.length} cursos</span><span class="metric-mini">${activeEarlyProjects} proyectos en curso</span><span class="metric-mini">${EARLY_RESOURCES.length} materiales</span>`;
 }
+
+
+// ══════════════════════════════════════════════════════════════
+// MONITOREO Y SEGUIMIENTO · GOOGLE SHEETS
+// ══════════════════════════════════════════════════════════════
+const MONITOR_SHEET_URL_KEY='ute_monitor_sheet_url_v2',MONITOR_SHEET_NAME_KEY='ute_monitor_sheet_name_v2',MONITOR_AUTO_KEY='ute_monitor_auto_v2';
+const MONITOR_STATUS_LABEL={'nueva':'Nueva','en-revision':'En revisión','acompanamiento':'Acompañamiento','derivada':'Derivada / articulada','monitoreo':'Monitoreo','cerrada':'Cerrada'};
+const SAT_REQUIRED_HEADERS=['RUT TUTOR','DV TUTOR','Correo Tutor','Facultad','Carrera','TIVU ORIGEN','Nombre estudiante','Rut estudiante','DV estudiante','Temática','Descripción','Respuestas de la bitácora','Clasificación Alerta','Tipo Alerta','Estado Alerta','Observaciones','Observaciones Resolución','Estado Alerta Unidad Trayectoria','Observaciones Acompañamiento Unidad de Trayectoria/profesional a cargo'];
+function normKey(v=''){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase().replace(/\s+/g,' ');}
+function objVal(obj,keys=[]){const map={};Object.keys(obj||{}).forEach(k=>map[normKey(k)]=obj[k]);for(const k of keys){const v=map[normKey(k)];if(v!==undefined&&String(v).trim()!=='')return String(v).trim();}return '';}
+function simpleHash(v=''){let h=2166136261;for(let i=0;i<String(v).length;i++){h^=String(v).charCodeAt(i);h=Math.imul(h,16777619);}return (h>>>0).toString(36);}
+function extractSheetId(v=''){const s=String(v||'').trim();const m=s.match(/\/spreadsheets\/d\/([A-Za-z0-9_-]+)/);if(m)return m[1];if(/^[A-Za-z0-9_-]{20,}$/.test(s))return s;return '';}
+function setMonitorSyncStatus(msg,kind='warn'){const el=document.getElementById('monitorSyncStatus');if(!el)return;el.textContent=msg;el.className='drive-sync-status '+kind;}
+function monitorLog(msg,show=true){const el=document.getElementById('monitorSyncLog');if(!el)return;el.textContent=msg;el.style.display=show?'block':'none';}
+function refreshMonitorConfig(){const u=document.getElementById('monitorSheetUrl'),n=document.getElementById('monitorSheetName'),a=document.getElementById('monitorAutoSync');if(!u)return;u.value=localStorage.getItem(MONITOR_SHEET_URL_KEY)||'';n.value=localStorage.getItem(MONITOR_SHEET_NAME_KEY)||'SATT';a.checked=(localStorage.getItem(MONITOR_AUTO_KEY)||'1')!=='0';setMonitorSyncStatus(u.value?'Hoja SAT configurada':'Hoja no configurada',u.value?'ok':'warn');}
+function mapSatUteStatus(v=''){const x=normKey(v);if(!x)return 'nueva';if(x.includes('cerr'))return 'cerrada';if(x.includes('deriv')||x.includes('articul'))return 'derivada';if(x.includes('monitor'))return 'monitoreo';if(x.includes('acompan')||x.includes('activ'))return 'acompanamiento';if(x.includes('revision')||x.includes('revis'))return 'en-revision';return 'nueva';}
+function normalizeMonitorRow(row,rowNumber=0,spreadsheetId=''){
+ const rutTutor=objVal(row,['RUT TUTOR']),dvTutor=objVal(row,['DV TUTOR']),rutEst=objVal(row,['Rut estudiante']),dvEst=objVal(row,['DV estudiante ','DV estudiante']);
+ const estudiante=objVal(row,['Nombre estudiante']),tematica=objVal(row,['Temática']),descripcion=objVal(row,['Descripción']),grupo=objVal(row,['TIVU ORIGEN']);
+ const stableSeed=[rutEst,dvEst,grupo,tematica,descripcion].map(normKey).join('|');
+ const id='sat-'+simpleHash(stableSeed||(`${spreadsheetId}|${rowNumber}`));
+ const estadoUteOrigen=objVal(row,['Estado Alerta Unidad Trayectoria']);
+ const obsUteOrigen=objVal(row,['Observaciones Acompañamiento Unidad de Trayectoria/profesional a cargo']);
+ return {id,sourceId:id,satRow:rowNumber,
+   rutTutor,dvTutor,correoTutor:objVal(row,['Correo Tutor']),facultad:objVal(row,['Facultad']),carrera:objVal(row,['Carrera']),grupo,
+   estudiante,rut:rutEst,dvEstudiante:dvEst,rutCompleto:rutEst?(rutEst+(dvEst?'-'+dvEst:'')):'',
+   tematica,descripcion,respuestasBitacora:objVal(row,['Respuestas de la bitácora ','Respuestas de la bitácora']),
+   nivel:objVal(row,['Clasificación Alerta']),tipo:objVal(row,['Tipo Alerta']),estadoOrigen:objVal(row,['Estado Alerta']),
+   observacionesOrigen:objVal(row,['Observaciones ','Observaciones']),observacionesResolucion:objVal(row,['Observaciones Resolución']),
+   estadoUteOrigen,observacionesUteOrigen:obsUteOrigen,
+   fuente:'Tutorías PRES / SAT',informante:objVal(row,['Correo Tutor'])||((rutTutor||dvTutor)?`${rutTutor}${dvTutor?'-'+dvTutor:''}`:''),
+   uteStatusSuggested:mapSatUteStatus(estadoUteOrigen),sheetRow:rowNumber};
+}
+function monitorOriginSignature(o){return JSON.stringify([o.rutTutor,o.dvTutor,o.correoTutor,o.facultad,o.carrera,o.grupo,o.estudiante,o.rut,o.dvEstudiante,o.tematica,o.descripcion,o.respuestasBitacora,o.nivel,o.tipo,o.estadoOrigen,o.observacionesOrigen,o.observacionesResolucion,o.estadoUteOrigen,o.observacionesUteOrigen]);}
+function validateSatHeaders(headers=[]){const hs=headers.map(normKey);return SAT_REQUIRED_HEADERS.filter(h=>!hs.includes(normKey(h)));}
+async function syncMonitorSheet(){
+ const url=(document.getElementById('monitorSheetUrl')?.value||localStorage.getItem(MONITOR_SHEET_URL_KEY)||'').trim(), sheetName=(document.getElementById('monitorSheetName')?.value||localStorage.getItem(MONITOR_SHEET_NAME_KEY)||'SATT').trim()||'SATT', spreadsheetId=extractSheetId(url);
+ if(!spreadsheetId){showToast('Pega la URL de una Google Sheet válida','bad');return;} setMonitorSyncStatus('Sincronizando…','warn');monitorLog('Leyendo SAT · pestaña '+sheetName+'…',true);
+ try{const r=await jsonpDrive({mode:'sheet',spreadsheetId,sheetName},45000),rows=Array.isArray(r.rows)?r.rows:[],headers=Array.isArray(r.headers)?r.headers:[];const missing=validateSatHeaders(headers);if(missing.length){throw new Error('La hoja no coincide con la estructura SAT original. Faltan: '+missing.join(', '));}let news=0,upd=0,same=0;
+  rows.forEach((row,i)=>{const origin=normalizeMonitorRow(row,Number(row.__rowNumber)||i+2,spreadsheetId);let a=MONITOR_ALERTS.find(x=>x.sourceId===origin.sourceId||x.id===origin.id);if(!a){const initialLog=[];if(origin.observacionesUteOrigen)initialLog.push({date:new Date().toISOString(),text:'Registro importado desde SAT: '+origin.observacionesUteOrigen});initialLog.push({date:new Date().toISOString(),text:'Alerta recibida desde SAT · fila '+origin.sheetRow});a={...origin,uteStatus:origin.uteStatusSuggested||'nueva',responsable:'',responsableEmail:'',decision:'',nextAction:'',nextDate:'',bitacora:initialLog,createdAt:new Date().toISOString(),originSignature:monitorOriginSignature(origin)};MONITOR_ALERTS.push(a);news++;}else{const sig=monitorOriginSignature(origin);if(sig!==a.originSignature){const prevObs=a.observacionesUteOrigen||'';Object.assign(a,origin,{id:a.id,sourceId:a.sourceId||origin.sourceId,uteStatus:a.uteStatus||origin.uteStatusSuggested||'nueva',originSignature:sig,originUpdatedAt:new Date().toISOString()});if(origin.observacionesUteOrigen&&origin.observacionesUteOrigen!==prevObs){a.bitacora=Array.isArray(a.bitacora)?a.bitacora:[];a.bitacora.push({date:new Date().toISOString(),text:'Actualización recibida desde SAT: '+origin.observacionesUteOrigen});}upd++;}else same++;}});
+  await saveData(false);renderAll();setMonitorSyncStatus(`✓ ${rows.length} alertas · ${news} nuevas · ${upd} actualizadas`,'ok');monitorLog(`✓ Estructura SAT original reconocida\nPestaña: ${sheetName}\nFilas leídas: ${rows.length}\nNuevas: ${news}\nActualizadas: ${upd}\nSin cambios: ${same}`);showToast(`SAT sincronizado: ${news} nuevas, ${upd} actualizadas`,'ok');
+ }catch(err){setMonitorSyncStatus('Error de sincronización','bad');monitorLog('✕ '+(err.message||err));showToast('No se pudo sincronizar SAT: '+(err.message||err),'bad');}
+}
+function renderMonitoring(){const k=document.getElementById('monitorKpis');if(!k)return;const active=MONITOR_ALERTS.filter(a=>(a.uteStatus||'nueva')!=='cerrada').length,news=MONITOR_ALERTS.filter(a=>(a.uteStatus||'nueva')==='nueva').length,high=MONITOR_ALERTS.filter(a=>String(a.nivel||'').toLowerCase()==='alta'&&(a.uteStatus||'nueva')!=='cerrada').length,closed=MONITOR_ALERTS.filter(a=>(a.uteStatus||'nueva')==='cerrada').length;k.innerHTML=`<div class="kpi"><div class="kn">${MONITOR_ALERTS.length}</div><div class="kl">Alertas recibidas</div></div><div class="kpi warn"><div class="kn">${news}</div><div class="kl">Nuevas</div></div><div class="kpi bad"><div class="kn">${high}</div><div class="kl">Altas activas</div></div><div class="kpi ok"><div class="kn">${closed}</div><div class="kl">Cerradas</div></div>`;
+ const types=[...new Set(MONITOR_ALERTS.map(a=>a.tematica||a.tipo||'Sin temática'))].sort((a,b)=>a.localeCompare(b,'es')),careers=[...new Set(MONITOR_ALERTS.map(a=>a.carrera||'Sin carrera'))].sort((a,b)=>a.localeCompare(b,'es')),resps=[...new Set(MONITOR_ALERTS.map(a=>a.responsable||'Sin asignar'))].sort((a,b)=>a.localeCompare(b,'es'));const fill=(id,all,vals,cur)=>{const e=document.getElementById(id);if(e)e.innerHTML=`<option value="ALL">${all}</option>`+vals.map(v=>`<option value="${escapeAttr(v)}" ${cur===v?'selected':''}>${escapeHTML(v)}</option>`).join('');};fill('monitorTypeFilter','Todas las temáticas',types,monitorType);fill('monitorCareerFilter','Todas las carreras',careers,monitorCareer);fill('monitorResponsibleFilter','Todos los responsables',resps,monitorResponsible);
+ const rows=filteredMonitoring();document.getElementById('monitorEmpty').style.display=rows.length?'none':'block';document.getElementById('monitorList').innerHTML=rows.map(a=>{const lvl=String(a.nivel||'Sin nivel'),lc=lvl.toLowerCase(),status=a.uteStatus||'nueva';const linked=[a.caseId&&'Caso específico',a.taskId&&'Tarea'].filter(Boolean).join(' · ');return `<div class="monitor-card level-${lc}"><div class="monitor-main"><div><div class="monitor-name">${escapeHTML(a.estudiante||'Estudiante sin identificar')}</div><div class="monitor-sub">${escapeHTML(a.rutCompleto||a.rut||'Sin RUT')} · ${escapeHTML(a.carrera||'Sin carrera')} · ${escapeHTML(a.grupo||'Sin TIVU')}</div></div><div><div class="monitor-label">Clasificación / tipo</div><div class="monitor-value"><span class="monitor-pill ${lc}">${escapeHTML(lvl)}</span> · ${escapeHTML(a.tipo||'—')}</div></div><div class="monitor-hide"><div class="monitor-label">Estado UTE</div><div class="monitor-value"><span class="monitor-status ${status}">${MONITOR_STATUS_LABEL[status]||status}</span></div></div><div class="monitor-hide"><div class="monitor-label">Responsable</div><div class="monitor-value">${escapeHTML(a.responsable||'Sin asignar')}</div></div><button class="btn-edit" data-monitor-edit="${a.id}" aria-label="Abrir alerta">✎</button></div><div class="monitor-origin"><strong>${escapeHTML(a.tematica||'Temática')}:</strong> ${escapeHTML(a.descripcion||'—')}${a.observacionesOrigen?`<br><strong>Observaciones SAT:</strong> ${escapeHTML(a.observacionesOrigen)}`:''}${linked?`<div class="monitor-linked">↗ ${linked}</div>`:''}</div></div>`;}).join('');}
+function renderMonitorHistory(a){const el=document.getElementById('monitorHistory');const h=Array.isArray(a?.bitacora)?[...a.bitacora].reverse():[];el.innerHTML=h.length?h.map(x=>`<div class="monitor-history-item"><div class="monitor-history-date">${new Date(x.date).toLocaleString('es-CL')}</div><div class="monitor-history-text">${escapeHTML(x.text||'')}</div></div>`).join(''):'<div class="doc-empty">Aún no hay registros de seguimiento.</div>';}
+function openMonitor(id){const a=MONITOR_ALERTS.find(x=>x.id===id);if(!a)return;editingMonitorId=id;document.getElementById('monitorModalTitle').textContent=a.estudiante||'Alerta';document.getElementById('monitorModalId').textContent=`${a.id} · ${a.fuente||'Sin fuente'}`;document.getElementById('monitorOriginBox').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;font-size:.8rem"><div><strong>Estudiante:</strong> ${escapeHTML(a.estudiante||'—')}</div><div><strong>RUT:</strong> ${escapeHTML(a.rutCompleto||a.rut||'—')}</div><div><strong>Facultad:</strong> ${escapeHTML(a.facultad||'—')}</div><div><strong>Carrera:</strong> ${escapeHTML(a.carrera||'—')}</div><div><strong>TIVU origen:</strong> ${escapeHTML(a.grupo||'—')}</div><div><strong>Correo tutor:</strong> ${escapeHTML(a.correoTutor||'—')}</div><div><strong>Temática:</strong> ${escapeHTML(a.tematica||'—')}</div><div><strong>Tipo alerta:</strong> ${escapeHTML(a.tipo||'—')}</div><div><strong>Clasificación:</strong> ${escapeHTML(a.nivel||'—')}</div><div><strong>Estado SAT:</strong> ${escapeHTML(a.estadoOrigen||'—')}</div></div><div style="margin-top:10px;font-size:.82rem;line-height:1.45"><strong>Descripción</strong><br>${escapeHTML(a.descripcion||'—')}${a.respuestasBitacora?`<div style="margin-top:8px"><strong>Respuestas de la bitácora</strong><br>${escapeHTML(a.respuestasBitacora)}</div>`:''}${a.observacionesOrigen?`<div style="margin-top:8px"><strong>Observaciones</strong><br>${escapeHTML(a.observacionesOrigen)}</div>`:''}${a.observacionesResolucion?`<div style="margin-top:8px"><strong>Observaciones Resolución</strong><br>${escapeHTML(a.observacionesResolucion)}</div>`:''}${a.estadoUteOrigen?`<div style="margin-top:8px"><strong>Estado Alerta Unidad Trayectoria (origen)</strong><br>${escapeHTML(a.estadoUteOrigen)}</div>`:''}${a.observacionesUteOrigen?`<div style="margin-top:8px"><strong>Observaciones Acompañamiento UTE (origen)</strong><br>${escapeHTML(a.observacionesUteOrigen)}</div>`:''}</div>`;document.getElementById('mStatus').value=a.uteStatus||'nueva';fillProfessionalSelect('mResponsible','mResponsibleEmail',a.responsable||'');document.getElementById('mResponsibleEmail').value=a.responsableEmail||document.getElementById('mResponsibleEmail').value||'';document.getElementById('mDecision').value=a.decision||'';document.getElementById('mNextAction').value=a.nextAction||'';document.getElementById('mNextDate').value=a.nextDate||'';document.getElementById('mLogText').value='';document.getElementById('mNotify').checked=false;renderMonitorHistory(a);document.getElementById('moMonitor').classList.add('open');document.body.style.overflow='hidden';}
+function closeMonitor(){document.getElementById('moMonitor').classList.remove('open');document.body.style.overflow='';editingMonitorId=null;}
+async function saveMonitor(){const a=MONITOR_ALERTS.find(x=>x.id===editingMonitorId);if(!a)return;const oldResp=a.responsable||'',resp=document.getElementById('mResponsible').value,email=document.getElementById('mResponsibleEmail').value.trim();a.uteStatus=document.getElementById('mStatus').value;a.responsable=resp;a.responsableEmail=email;a.decision=document.getElementById('mDecision').value;a.nextAction=document.getElementById('mNextAction').value.trim();a.nextDate=document.getElementById('mNextDate').value;a.bitacora=Array.isArray(a.bitacora)?a.bitacora:[];const log=document.getElementById('mLogText').value.trim();if(log)a.bitacora.push({date:new Date().toISOString(),text:log});a.updatedAt=new Date().toISOString();const notify=document.getElementById('mNotify').checked||(!oldResp&&resp);await saveData(false);closeMonitor();renderAll();if(notify&&resp){try{await sendEntityNotification({module:'monitoring',param:'alerta',id:a.id,type:'Alerta de monitoreo',title:a.estudiante||'Estudiante',to:email,responsable:resp,date:a.nextDate||a.fechaRecepcion,status:MONITOR_STATUS_LABEL[a.uteStatus]||a.uteStatus,priority:a.nivel,detail:a.nextAction||a.descripcion});showToast('Seguimiento guardado y profesional notificado ✓','ok');}catch(e){showToast('Seguimiento guardado · correo no enviado: '+e.message,'bad');}}else showToast('Seguimiento guardado ✓','ok');}
+async function monitorCreateCase(){const a=MONITOR_ALERTS.find(x=>x.id===editingMonitorId);if(!a)return;if(a.caseId&&CASOS.some(c=>c.id===a.caseId)){closeMonitor();switchModule('cases');setTimeout(()=>openCase(a.caseId),100);return;}const c={id:'c'+Date.now().toString(36),documentos:[],estudiante:a.estudiante||'',rut:a.rutCompleto||a.rut||'',carrera:a.carrera||'',responsable:a.responsable||'',responsableEmail:a.responsableEmail||'',dispositivo:a.decision==='Mentoría'?'Mentoría':'Plan específico',prioridad:String(a.nivel||'media').toLowerCase(),estado:'nuevo',fechaIngreso:new Date().toISOString().slice(0,10),motivo:a.descripcion||'',proxima:a.nextAction||'',fechaProxima:a.nextDate||'',notas:`Origen: alerta ${a.id}${a.fuente?' · '+a.fuente:''}`};CASOS.push(c);a.caseId=c.id;a.uteStatus='acompanamiento';a.bitacora=Array.isArray(a.bitacora)?a.bitacora:[];a.bitacora.push({date:new Date().toISOString(),text:'Se creó Caso Específico '+c.id});await saveData(false);closeMonitor();renderAll();switchModule('cases');setTimeout(()=>openCase(c.id),100);showToast('Caso específico creado desde la alerta ✓','ok');}
+async function monitorCreateTask(){const a=MONITOR_ALERTS.find(x=>x.id===editingMonitorId);if(!a)return;if(a.taskId&&TAREAS.some(t=>t.id===a.taskId)){closeMonitor();switchModule('tasks');setTimeout(()=>openTask(a.taskId),100);return;}const t={id:'ta'+Date.now().toString(36),titulo:a.nextAction||`Revisar alerta de ${a.estudiante||'estudiante'}`,acceso:'Mis tareas',estado:'pendiente',prioridad:String(a.nivel||'media').toLowerCase(),fecha:a.nextDate||'',proyecto:'Monitoreo y seguimiento',carrera:a.carrera||'',responsable:a.responsable||'',responsableEmail:a.responsableEmail||'',persona:a.estudiante||'',reunion:'',detalle:[a.descripcion,a.observacionesOrigen].filter(Boolean).join('\n\n'),link:'',creado:Date.now(),actualizado:Date.now()};TAREAS.push(t);a.taskId=t.id;a.bitacora=Array.isArray(a.bitacora)?a.bitacora:[];a.bitacora.push({date:new Date().toISOString(),text:'Se creó tarea '+t.id});await saveData(false);closeMonitor();renderAll();switchModule('tasks');setTimeout(()=>openTask(t.id),100);showToast('Tarea creada desde la alerta ✓','ok');}
+document.getElementById('monitorStatusSeg').addEventListener('click',e=>{const b=e.target.closest('[data-monitor-status]');if(!b)return;monitorStatus=b.dataset.monitorStatus;document.querySelectorAll('[data-monitor-status]').forEach(x=>x.classList.toggle('active',x===b));renderMonitoring();});document.getElementById('monitorLevelFilter').addEventListener('change',e=>{monitorLevel=e.target.value;renderMonitoring()});document.getElementById('monitorTypeFilter').addEventListener('change',e=>{monitorType=e.target.value;renderMonitoring()});document.getElementById('monitorCareerFilter').addEventListener('change',e=>{monitorCareer=e.target.value;renderMonitoring()});document.getElementById('monitorResponsibleFilter').addEventListener('change',e=>{monitorResponsible=e.target.value;renderMonitoring()});document.getElementById('monitorSearch').addEventListener('input',e=>{monitorSearch=e.target.value;renderMonitoring()});document.addEventListener('click',e=>{const b=e.target.closest('[data-monitor-edit]');if(b)openMonitor(b.dataset.monitorEdit);});document.getElementById('monitorClose').onclick=closeMonitor;document.getElementById('moMonitor').addEventListener('click',e=>{if(e.target.id==='moMonitor')closeMonitor();});document.getElementById('mResponsible').addEventListener('change',()=>{syncProfessionalEmail('mResponsible','mResponsibleEmail');document.getElementById('mNotify').checked=true;});document.getElementById('btnSaveMonitor').onclick=saveMonitor;document.getElementById('btnMonitorCreateCase').onclick=monitorCreateCase;document.getElementById('btnMonitorCreateTask').onclick=monitorCreateTask;document.getElementById('btnDeleteMonitor').onclick=async()=>{const a=MONITOR_ALERTS.find(x=>x.id===editingMonitorId);if(!a||!confirm('¿Eliminar esta alerta del panel? Si sigue en la hoja maestra, volverá a aparecer en una futura sincronización.'))return;MONITOR_ALERTS=MONITOR_ALERTS.filter(x=>x.id!==a.id);await saveData(false);closeMonitor();renderAll();showToast('Alerta eliminada del panel','ok');};document.getElementById('btnSaveMonitorSheet').onclick=async()=>{const u=document.getElementById('monitorSheetUrl').value.trim(),n=document.getElementById('monitorSheetName').value.trim()||'SATT';if(!extractSheetId(u)){showToast('Pega una URL válida de Google Sheets','bad');return;}localStorage.setItem(MONITOR_SHEET_URL_KEY,u);localStorage.setItem(MONITOR_SHEET_NAME_KEY,n);localStorage.setItem(MONITOR_AUTO_KEY,document.getElementById('monitorAutoSync').checked?'1':'0');await syncMonitorSheet();};document.getElementById('btnSyncMonitor').onclick=syncMonitorSheet;document.getElementById('monitorAutoSync').addEventListener('change',e=>localStorage.setItem(MONITOR_AUTO_KEY,e.target.checked?'1':'0'));
 
 // ══════════════════════════════════════════════════════════════
 // FAMILIAS DE TALLERES
@@ -1685,7 +1805,9 @@ document.getElementById('btnSaveDriveFolder').onclick=async()=>{
   if(!folder||!extractDriveFolderId(folder)){showToast('Pega un enlace válido de carpeta de Google Drive','bad');return;}
   if(!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:\?.*)?$/.test(bridge)){showToast('Pega la URL /exec del Apps Script desplegado','bad');return;}
   if(!secret){showToast('Ingresa la clave del conector','bad');return;}
-  localStorage.setItem(DRIVE_FOLDER_KEY,folder);localStorage.setItem(DRIVE_BRIDGE_KEY,bridge);localStorage.setItem(DRIVE_SECRET_KEY,secret);refreshDriveFolder();await syncDriveFolder();
+  localStorage.setItem(DRIVE_FOLDER_KEY,folder);localStorage.setItem(DRIVE_BRIDGE_KEY,bridge);localStorage.setItem(DRIVE_SECRET_KEY,secret);refreshDriveFolder();
+refreshMonitorConfig();
+setTimeout(()=>{if((localStorage.getItem(MONITOR_AUTO_KEY)||'1')!=='0' && localStorage.getItem(MONITOR_SHEET_URL_KEY))syncMonitorSheet();},900);await syncDriveFolder();
 };
 document.getElementById('btnSyncDrive').onclick=()=>syncDriveFolder();
 document.getElementById('btnRebuildDrive').onclick=async()=>{if(!confirm('¿Reconstruir toda la lista desde Google Drive? Se eliminarán las fichas actuales del panel y se volverán a leer todas las cartas. Los archivos de Drive NO se borrarán.'))return;await syncDriveFolder({force:true});};
@@ -1803,6 +1925,7 @@ async function saveTaskNotifyConfig(){
 }
 function applyPanelDeepLink(){
   const q=new URLSearchParams(location.search),m=q.get('modulo');if(!m)return;
+  if(m==='monitoring'){switchModule('monitoring');const id=q.get('alerta');if(id&&MONITOR_ALERTS.some(x=>x.id===id))setTimeout(()=>openMonitor(id),120);return;}
   if(m==='tareas'){switchModule('tasks');const id=q.get('tarea');if(id&&TAREAS.some(t=>t.id===id))setTimeout(()=>openTask(id),120);return;}
   if(m==='cases'){switchModule('cases');const id=q.get('caso');if(id&&CASOS.some(x=>x.id===id))setTimeout(()=>openCase(id),120);return;}
   if(m==='adjustments'){switchModule('adjustments');const id=q.get('ajuste');if(id&&AJUSTES.some(x=>x.id===id))setTimeout(()=>openAR(id),120);return;}
@@ -1935,6 +2058,7 @@ document.getElementById('btnDeleteEarlyResource').onclick=async()=>{if(!editingE
 function renderAll(){
   renderHome();
   renderFamilyGrid();
+  renderMonitoring();
   renderCases();
   renderAR();
   renderTasks();
