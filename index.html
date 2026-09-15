@@ -897,7 +897,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 
 
 <style id="sat-v29-styles">
-/* v29.1 · SAT + OneDrive */
+/* v29.2 · SAT + OneDrive */
 .ref-source-switch,.config-section-tabs{
   display:inline-flex;gap:4px;padding:4px;margin:0 0 14px;
   border:1px solid rgba(84,92,120,.09);border-radius:12px;background:rgba(246,247,251,.72);
@@ -1029,7 +1029,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
   <div class="topbar-inner">
     <div class="tb-id">
       <span class="mono">UTE · Panel interno · v28</span>
-      <h1>Panel UTE v29.1</h1>
+      <h1>Panel UTE v29.2</h1>
     </div>
     <div class="tb-actions">
       <button class="btn-export" id="btnExportExcel" type="button">📊 Descargar todo en Excel</button>
@@ -2101,7 +2101,21 @@ async function loadData(){
   try{
     try{
       const sc=JSON.parse(localStorage.getItem('ute_sat_config_v1')||'null');
-      if(sc&&typeof sc==='object') SAT_CONFIG={...SAT_CONFIG,...sc};
+      if(sc&&typeof sc==='object'){
+        const cleaned={};
+        Object.entries(sc).forEach(([k,v])=>{
+          if(v!==''&&v!==null&&v!==undefined) cleaned[k]=v;
+        });
+        SAT_CONFIG={...SAT_CONFIG,...cleaned};
+      }
+      // Migración automática desde v29: nunca permitir que una configuración antigua vacía
+      // borre los identificadores reales de Microsoft Entra.
+      if(!SAT_CONFIG.clientId) SAT_CONFIG.clientId='154b7ffc-a630-414a-b1c2-505e40e03a6c';
+      if(!SAT_CONFIG.authority||SAT_CONFIG.authority==='organizations') SAT_CONFIG.authority='e049a386-0d1c-4632-b31d-c627c8cd07e9';
+      if(!SAT_CONFIG.redirectUri) SAT_CONFIG.redirectUri='https://fabianpulgaru-dev.github.io/Talleres-Trayectoria/';
+      if(!SAT_CONFIG.fileUrl) SAT_CONFIG.fileUrl=SAT_DEFAULT_FILE_URL;
+      if(!SAT_CONFIG.sheetName) SAT_CONFIG.sheetName='SATT';
+      try{localStorage.setItem('ute_sat_config_v1',JSON.stringify(SAT_CONFIG))}catch(_e){}
       SAT_ROWS=JSON.parse(localStorage.getItem('ute_sat_rows_v1')||'[]');
       SAT_SYNC_META=JSON.parse(localStorage.getItem('ute_sat_meta_v1')||'{}');
     }catch(_){}
@@ -3758,6 +3772,10 @@ function satAuthConfig(){
   return {auth:{clientId:SAT_CONFIG.clientId,authority:`https://login.microsoftonline.com/${authority}`,redirectUri:SAT_CONFIG.redirectUri},cache:{cacheLocation:'sessionStorage',storeAuthStateInCookie:false}}
 }
 function renderSatConfigUI(){
+  // Protección adicional por si quedan datos antiguos guardados en el navegador.
+  if(!SAT_CONFIG.clientId) SAT_CONFIG.clientId='154b7ffc-a630-414a-b1c2-505e40e03a6c';
+  if(!SAT_CONFIG.authority||SAT_CONFIG.authority==='organizations') SAT_CONFIG.authority='e049a386-0d1c-4632-b31d-c627c8cd07e9';
+  if(!SAT_CONFIG.redirectUri) SAT_CONFIG.redirectUri='https://fabianpulgaru-dev.github.io/Talleres-Trayectoria/';
   const set=(id,val)=>{const e=document.getElementById(id);if(e&&document.activeElement!==e)e.value=val||''};
   set('satFileUrl',SAT_CONFIG.fileUrl||SAT_DEFAULT_FILE_URL);set('satSheetName',SAT_CONFIG.sheetName||'SATT');set('satClientId',SAT_CONFIG.clientId);set('satAuthority',SAT_CONFIG.authority||'organizations');
   if(!SAT_CONFIG.redirectUri&&TASK_NOTIFY_CONFIG?.panelUrl)SAT_CONFIG.redirectUri=TASK_NOTIFY_CONFIG.panelUrl;
@@ -3768,7 +3786,13 @@ function renderSatConfigUI(){
 }
 function readSatConfigForm(){
   const get=id=>document.getElementById(id)?.value.trim()||'';
-  SAT_CONFIG={...SAT_CONFIG,fileUrl:get('satFileUrl')||SAT_DEFAULT_FILE_URL,sheetName:get('satSheetName')||'SATT',clientId:get('satClientId'),authority:get('satAuthority')||'organizations',redirectUri:get('satRedirectUri')};
+  SAT_CONFIG={...SAT_CONFIG,
+    fileUrl:get('satFileUrl')||SAT_DEFAULT_FILE_URL,
+    sheetName:get('satSheetName')||'SATT',
+    clientId:get('satClientId')||'154b7ffc-a630-414a-b1c2-505e40e03a6c',
+    authority:get('satAuthority')||'e049a386-0d1c-4632-b31d-c627c8cd07e9',
+    redirectUri:get('satRedirectUri')||'https://fabianpulgaru-dev.github.io/Talleres-Trayectoria/'
+  };
   saveSatCache();renderSatConfigUI();showToast('Configuración Microsoft 365 guardada ✓','ok')
 }
 async function buildSatMsal(){
@@ -3800,6 +3824,11 @@ async function graphJson(url,token){
 }
 async function syncSatMicrosoft(){
   if(!SAT_CONFIG.fileUrl){showToast('Configura la URL del archivo SAT','bad');return}
+  if(location.protocol==='file:'){
+    showToast('Para iniciar sesión con Microsoft, abre el Panel desde la URL pública de GitHub Pages','bad');
+    setSatStatus('warn','Abrir desde GitHub Pages');
+    return;
+  }
   const btns=[document.getElementById('btnSatSync'),document.getElementById('btnSyncMicrosoftConfig')].filter(Boolean);btns.forEach(b=>b.disabled=true);
   setSatStatus('warn','Sincronizando…');
   try{
