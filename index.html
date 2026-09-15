@@ -388,7 +388,7 @@ body.dock-auto .tool-dock{transform:translateX(-50%) translateY(54px);opacity:.4
 
 
 /* ══ METAS E INDICADORES · 2S2026 ══ */
-.goal-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:4px}
+.goal-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:4px}
 .goal-card{background:var(--surface);border:2px solid var(--line);border-radius:15px;padding:17px 18px;position:relative;overflow:hidden}
 .goal-card::after{content:'';position:absolute;width:76px;height:76px;border-radius:50%;right:-25px;top:-26px;background:var(--p-bg);opacity:.85}
 .goal-card.ok::after{background:var(--ok-bg)}.goal-card.warn::after{background:var(--warn-bg)}
@@ -675,6 +675,226 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 
 </style>
 
+
+<style id="referrals-v287-compact">
+/* v28.7 · Derivaciones en una sola línea, compactas */
+#moduleReferrals .ref-list{
+  display:grid;
+  gap:9px;
+}
+
+#moduleReferrals .ref-row.ref-row-compact{
+  display:grid !important;
+  grid-template-columns:
+    minmax(0,1.62fr)
+    minmax(0,.76fr)
+    minmax(0,.72fr)
+    minmax(0,.58fr)
+    minmax(0,.78fr)
+    minmax(0,1.28fr)
+    32px !important;
+  gap:8px !important;
+  align-items:center !important;
+  padding:12px 12px 12px 14px !important;
+  min-height:104px;
+  background:rgba(255,255,255,.88);
+  border:1px solid rgba(82,91,119,.10);
+  border-radius:16px;
+  box-shadow:0 7px 20px rgba(34,43,70,.045);
+  overflow:hidden;
+}
+
+#moduleReferrals .ref-row.ref-row-compact:hover{
+  border-color:rgba(var(--desk-accent-rgb),.18);
+  box-shadow:0 10px 25px rgba(34,43,70,.065);
+}
+
+#moduleReferrals .ref-row.ref-row-compact::before{
+  top:12px;
+  bottom:12px;
+  width:3px;
+}
+
+#moduleReferrals .ref-col{
+  min-width:0;
+  padding:0 3px;
+}
+
+#moduleReferrals .ref-person{
+  padding-left:0;
+}
+
+#moduleReferrals .ref-name{
+  font-size:.91rem;
+  font-weight:720;
+  letter-spacing:-.012em;
+  line-height:1.25;
+  color:var(--txt);
+  overflow-wrap:break-word;
+}
+
+#moduleReferrals .ref-sub{
+  margin-top:4px;
+  font-size:.69rem;
+  line-height:1.35;
+  color:var(--txt2);
+}
+
+#moduleReferrals .ref-status-under{
+  margin-top:7px;
+}
+
+#moduleReferrals .ref-label{
+  margin-bottom:4px;
+  color:#918eaa;
+  font-size:.56rem;
+  font-weight:760;
+  letter-spacing:.065em;
+  line-height:1.2;
+  text-transform:uppercase;
+}
+
+#moduleReferrals .ref-value{
+  margin:0;
+  color:var(--txt);
+  font-size:.76rem;
+  font-weight:610;
+  line-height:1.35;
+  white-space:normal;
+  word-break:normal;
+  overflow-wrap:break-word;
+}
+
+#moduleReferrals .ref-pill{
+  padding:4px 8px;
+  font-size:.65rem;
+  font-weight:680;
+}
+
+#moduleReferrals .ref-destination{
+  display:inline-block;
+  margin-top:5px;
+  padding:3px 6px;
+  border-radius:999px;
+  background:rgba(95,108,148,.07);
+  color:var(--txt2);
+  font-size:.64rem;
+}
+
+#moduleReferrals .ref-reason-col{
+  display:flex;
+  min-width:0;
+  flex-direction:column;
+  align-items:flex-start;
+}
+
+#moduleReferrals .ref-reason-chip{
+  appearance:none;
+  -webkit-appearance:none;
+  max-width:100%;
+  border:0;
+  border-radius:10px;
+  padding:7px 10px;
+  background:rgba(246,247,251,.92);
+  color:var(--p);
+  font:inherit;
+  font-size:.69rem;
+  font-weight:660;
+  line-height:1.15;
+  white-space:nowrap;
+  cursor:pointer;
+  box-shadow:0 1px 2px rgba(31,38,61,.035), inset 0 1px 0 rgba(255,255,255,.78);
+  transition:.14s ease;
+}
+
+#moduleReferrals .ref-reason-chip:hover{
+  background:#fff;
+  color:var(--p-dk);
+  transform:translateY(-1px);
+  box-shadow:0 5px 13px rgba(31,38,61,.065);
+}
+
+#moduleReferrals .ref-reason-chip.empty,
+#moduleReferrals .ref-reason-chip:disabled{
+  color:var(--mut);
+  cursor:default;
+  transform:none;
+  box-shadow:none;
+}
+
+#moduleReferrals .ref-next-col{
+  min-width:0;
+  padding-right:2px;
+}
+
+#moduleReferrals .ref-next{
+  font-size:.75rem;
+  line-height:1.35;
+  overflow-wrap:break-word;
+  word-break:normal;
+}
+
+#moduleReferrals .ref-edit-btn{
+  appearance:none;
+  -webkit-appearance:none;
+  width:30px;
+  height:30px;
+  border:0;
+  border-radius:9px;
+  background:rgba(246,247,251,.86);
+  color:var(--txt2);
+  font:inherit;
+  font-size:.76rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:.14s ease;
+}
+
+#moduleReferrals .ref-edit-btn:hover{
+  background:#fff;
+  color:var(--p);
+  transform:translateY(-1px);
+  box-shadow:0 5px 13px rgba(31,38,61,.065);
+}
+
+/* En pantallas razonablemente anchas sigue siendo una sola línea. */
+@media(min-width:900px) and (max-width:1180px){
+  #moduleReferrals .ref-row.ref-row-compact{
+    grid-template-columns:
+      minmax(0,1.55fr)
+      minmax(0,.70fr)
+      minmax(0,.68fr)
+      minmax(0,.54fr)
+      minmax(0,.72fr)
+      minmax(0,1.20fr)
+      30px !important;
+    gap:6px !important;
+  }
+  #moduleReferrals .ref-name{font-size:.86rem}
+  #moduleReferrals .ref-value{font-size:.72rem}
+  #moduleReferrals .ref-reason-chip{font-size:.65rem;padding:6px 8px}
+  #moduleReferrals .ref-next{font-size:.71rem}
+}
+
+@media(max-width:899px){
+  #moduleReferrals .ref-row.ref-row-compact{
+    grid-template-columns:1fr 1fr !important;
+    gap:10px !important;
+  }
+  #moduleReferrals .ref-person,
+  #moduleReferrals .ref-next-col{
+    grid-column:1/-1;
+  }
+  #moduleReferrals .ref-edit-btn{
+    position:absolute;
+    top:12px;
+    right:12px;
+  }
+}
+</style>
+
 </head>
 <body class="v25-loading">
 
@@ -683,7 +903,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
   <div class="topbar-inner">
     <div class="tb-id">
       <span class="mono">UTE · Panel interno · v28</span>
-      <h1>Panel UTE v28.1</h1>
+      <h1>Panel UTE v28.7</h1>
     </div>
     <div class="tb-actions">
       <button class="btn-export" id="btnExportExcel" type="button">📊 Descargar todo en Excel</button>
@@ -2737,7 +2957,55 @@ function renderEarlyAccess(){document.querySelectorAll('[data-early-view]').forE
 function fillEarlyOptions(){const courseOpts=EARLY_COURSES.map(c=>`<option value="${escapeHTML(c.id)}">${escapeHTML(c.name)}</option>`).join('');['epCourse','erCourse'].forEach(id=>{const el=document.getElementById(id);if(!el)return;const cur=el.value;el.innerHTML=`<option value="">${id==='epCourse'?'Sin curso asociado':'Sin curso'}</option>`+courseOpts;if([...el.options].some(o=>o.value===cur))el.value=cur;});const cf=document.getElementById('earlyResourceCourseFilter');if(cf){const cur=earlyResourceCourse;cf.innerHTML='<option value="ALL">Todos los cursos</option>'+courseOpts;cf.value=cur;}const projectOpts=EARLY_PROJECTS.map(p=>`<option value="${escapeHTML(p.id)}">${escapeHTML(p.name)}</option>`).join('');const pr=document.getElementById('erProject');if(pr){const cur=pr.value;pr.innerHTML='<option value="">Sin proyecto</option>'+projectOpts;if([...pr.options].some(o=>o.value===cur))pr.value=cur;}}
 function renderEarlyCourses(){const active=EARLY_COURSES.filter(c=>c.status==='activo').length,students=EARLY_COURSES.filter(c=>c.status==='activo').reduce((n,c)=>n+(Number(c.students)||0),0),closed=EARLY_COURSES.filter(c=>c.status==='cerrado').length;const k=document.getElementById('earlyCourseKpis');if(k)k.innerHTML=`<div class="kpi"><div class="kn">${EARLY_COURSES.length}</div><div class="kl">Cursos</div></div><div class="kpi ok"><div class="kn">${active}</div><div class="kl">Activos</div></div><div class="kpi"><div class="kn">${students}</div><div class="kl">Estudiantes</div></div><div class="kpi"><div class="kn">${closed}</div><div class="kl">Cerrados</div></div>`;const sm=document.getElementById('earlyCourseSummary');if(sm)sm.textContent=`${EARLY_COURSES.length} cursos · ${active} activos`;const list=document.getElementById('earlyCourseList'),empty=document.getElementById('earlyCourseEmpty');if(empty)empty.style.display=EARLY_COURSES.length?'none':'block';if(list)list.innerHTML=EARLY_COURSES.map(c=>{const projects=EARLY_PROJECTS.filter(p=>p.courseId===c.id).length,resources=EARLY_RESOURCES.filter(r=>r.courseId===c.id).length;return `<div class="early-item"><div class="early-item-top"><div><div class="early-name">${escapeHTML(c.name||'Sin nombre')}</div><div class="early-sub">${escapeHTML(c.semester||'Período sin definir')} · ${escapeHTML(c.year||'')}</div></div><div><span class="early-status ${c.status||'activo'}">${EARLY_STATUS_LABEL[c.status]||c.status}</span></div><div><div class="case-label">Estudiantes</div><div class="case-value">${Number(c.students)||0}</div></div><button class="btn-edit" data-early-course-edit="${c.id}">✎</button></div><div class="early-badges"><span class="early-badge">🧩 ${projects} proyectos</span><span class="early-badge">🗂️ ${resources} materiales</span></div>${c.link?`<a class="early-link" href="${escapeHTML(c.link)}" target="_blank" rel="noopener">Abrir espacio del curso ↗</a>`:''}</div>`}).join('');}
 function renderEarlyProjects(){const active=EARLY_PROJECTS.filter(p=>p.status==='en-curso').length,done=EARLY_PROJECTS.filter(p=>p.status==='completado').length,linked=EARLY_PROJECTS.filter(p=>p.courseId).length;const k=document.getElementById('earlyProjectKpis');if(k)k.innerHTML=`<div class="kpi"><div class="kn">${EARLY_PROJECTS.length}</div><div class="kl">Proyectos</div></div><div class="kpi ok"><div class="kn">${active}</div><div class="kl">En curso</div></div><div class="kpi"><div class="kn">${linked}</div><div class="kl">Vinculados a curso</div></div><div class="kpi"><div class="kn">${done}</div><div class="kl">Completados</div></div>`;const sm=document.getElementById('earlyProjectSummary');if(sm)sm.textContent=`${EARLY_PROJECTS.length} proyectos · ${active} en curso`;const rows=EARLY_PROJECTS.filter(p=>(earlyProjectStatus==='ALL'||p.status===earlyProjectStatus)&&(!earlyProjectSearch||[p.name,p.purpose,p.responsible,earlyCourseById(p.courseId)?.name,p.notes].join(' ').toLowerCase().includes(earlyProjectSearch.toLowerCase())));const list=document.getElementById('earlyProjectList'),empty=document.getElementById('earlyProjectEmpty');if(empty)empty.style.display=rows.length?'none':'block';if(list)list.innerHTML=rows.map(p=>{const c=earlyCourseById(p.courseId),resources=EARLY_RESOURCES.filter(r=>r.projectId===p.id).length,tasks=TAREAS.filter(t=>(t.proyecto||'').trim().toLowerCase()===(p.name||'').trim().toLowerCase()).length;return `<div class="early-item"><div class="early-item-top"><div><div class="early-name">${escapeHTML(p.name||'Sin nombre')}</div><div class="early-sub">${escapeHTML(c?.name||'Sin curso asociado')}${p.responsible?' · '+escapeHTML(p.responsible):''}</div></div><div><span class="early-status ${p.status||'planificacion'}">${EARLY_STATUS_LABEL[p.status]||p.status}</span></div><div><div class="case-label">Fecha objetivo</div><div class="case-value">${escapeHTML(p.end||'—')}</div></div><button class="btn-edit" data-early-project-edit="${p.id}">✎</button></div>${p.purpose?`<div class="early-sub" style="margin-top:10px">${escapeHTML(p.purpose)}</div>`:''}<div class="early-badges"><span class="early-badge">✓ ${tasks} tareas</span><span class="early-badge">🗂️ ${resources} materiales</span></div>${p.link?`<a class="early-link" href="${escapeHTML(p.link)}" target="_blank" rel="noopener">Abrir proyecto ↗</a>`:''}</div>`}).join('');}
-function renderEarlyResources(){fillEarlyOptions();const types=new Set(EARLY_RESOURCES.map(r=>r.type).filter(Boolean));const linked=EARLY_RESOURCES.filter(r=>r.courseId||r.projectId).length;const k=document.getElementById('earlyResourceKpis');if(k)k.innerHTML=`<div class="kpi"><div class="kn">${EARLY_RESOURCES.length}</div><div class="kl">Materiales</div></div><div class="kpi"><div class="kn">${types.size}</div><div class="kl">Tipos</div></div><div class="kpi ok"><div class="kn">${linked}</div><div class="kl">Vinculados</div></div><div class="kpi"><div class="kn">${EARLY_RESOURCES.filter(r=>r.link).length}</div><div class="kl">Con enlace</div></div>`;const sm=document.getElementById('earlyResourceSummary');if(sm)sm.textContent=`${EARLY_RESOURCES.length} registros`;const rows=EARLY_RESOURCES.filter(r=>(earlyResourceCourse==='ALL'||r.courseId===earlyResourceCourse)&&(earlyResourceType==='ALL'||r.type===earlyResourceType)&&(!earlyResourceSearch||[r.title,r.type,earlyCourseById(r.courseId)?.name,earlyProjectById(r.projectId)?.name,r.notes].join(' ').toLowerCase().includes(earlyResourceSearch.toLowerCase()))).sort((a,b)=>(b.date||'').localeCompare(a.date||''));const list=document.getElementById('earlyResourceList'),empty=document.getElementById('earlyResourceEmpty');if(empty)empty.style.display=rows.length?'none':'block';if(list)list.innerHTML=rows.map(r=>{const c=earlyCourseById(r.courseId),p=earlyProjectById(r.projectId);return `<div class="early-item"><div class="early-item-top"><div><div class="early-name">${escapeHTML(r.title||'Sin título')}</div><div class="early-sub">${escapeHTML(r.type||'Material')}${r.date?' · '+escapeHTML(r.date):''}</div></div><div><div class="case-label">Curso</div><div class="case-value">${escapeHTML(c?.name||'—')}</div></div><div><div class="case-label">Proyecto</div><div class="case-value">${escapeHTML(p?.name||'—')}</div></div><button class="btn-edit" data-early-resource-edit="${r.id}">✎</button></div>${r.link?`<a class="early-link" href="${escapeHTML(r.link)}" target="_blank" rel="noopener">Abrir recurso ↗</a>`:''}</div>`}).join('');}
+function renderEarlyResources(){fillEarlyOptions();const types=new Set(EARLY_RESOURCES.map(r=>r.type).filter(Boolean));const linked=EARLY_RESOURCES.filter(r=>r.courseId||r.projectId).length;const k=document.getElementById('earlyResourceKpis');if(k)k.innerHTML=`<div class="kpi"><div class="kn">${EARLY_RESOURCES.length}</div><div class="kl">Materiales</div></div><div class="kpi"><div class="kn">${types.size}</div><div class="kl">Tipos</div></div><div class="kpi ok"><div class="kn">${linked}</div><div class="kl">Vinculados</div></div><div class="kpi"><div class="kn">${EARLY_RESOURCES.filter(r=>r.link).length}</div><div class="kl">Con enlace</div></div>`;const sm=document.getElementById('earlyResourceSummary');if(sm)sm.textContent=`${EARLY_RESOURCES.length} registros`;const rows=EARLY_RESOURCES.filter(r=>(earlyResourceCourse==='ALL'||r.courseId===earlyResourceCourse)&&(earlyResourceType==='ALL'||r.type===earlyResourceType)&&(!earlyResourceSearch||[r.title,r.type,earlyCourseById(r.courseId)?.name,earlyProjectById(r.projectId)?.name,r.notes].join(' ').toLowerCase().includes(earlyResourceSearch.toLowerCase()))).sort((a,b)=>(b.date||'').localeCompare(a.date||''));const list=document.getElementById('earlyResourceList'),empty=document.getElementById('earlyResourceEmpty');if(empty)empty.style.display=rows.length?'none':'block';if(list)list.innerHTML=rows.map(r=>{
+    const st=normRefStatus(r.estado),over=isReferralOverdue(r),days=referralDaysOpen(r);
+    const next=r.proximaAccion||'Sin próxima acción';
+    const nextDate=r.fechaProxima?` · ${r.fechaProxima}`:'';
+    const hasReason=!!String(r.motivo||'').trim();
+    const destination=r.unidadDestino?`<span class="ref-inline-dest">↗ ${esc(r.unidadDestino)}</span>`:'';
+    return `<div class="ref-row ${over?'ref-overdue':st==='nueva'?'ref-new':st==='cerrada'?'ref-closed':'ref-active'}" data-ref-id="${esc(r.id)}">
+      <div class="ref-card-top">
+        <div class="ref-ident">
+          <div class="ref-name-row">
+            <div>
+              <div class="ref-name">${esc(r.estudiante||'Sin nombre')}</div>
+              <div class="ref-sub">${esc(r.carrera||'Sin carrera')} · ${esc(r.rut||'Sin RUT')} · ${days} días abierta</div>
+            </div>
+            <div class="ref-head-actions">
+              <span class="ref-pill ${st}">${esc(r.estado||'Nueva')}</span>
+              <button class="ref-edit-btn" title="Editar derivación" aria-label="Editar derivación" data-ref-edit="${esc(r.id)}">✎</button>
+            </div>
+          </div>
+        </div>
+        <div class="ref-meta-grid">
+          <div class="ref-meta-card">
+            <div class="ref-label">Origen</div>
+            <div class="ref-value">${esc(r.unidadOrigen||'Sin registrar')}</div>
+          </div>
+          <div class="ref-meta-card">
+            <div class="ref-label">Responsable</div>
+            <div class="ref-value">${esc(r.responsable||'Sin asignar')}</div>
+          </div>
+          <div class="ref-meta-card">
+            <div class="ref-label">Estado</div>
+            <div class="ref-value">${esc(r.estado||'Nueva')}</div>
+            ${destination}
+          </div>
+        </div>
+        <div class="ref-reason-panel">
+          <div>
+            <div class="ref-label">Motivo de derivación</div>
+            <div class="ref-reason-helper">${hasReason?'Motivo registrado en la ficha del caso.':'Aún no se ha registrado un motivo de derivación.'}</div>
+          </div>
+          <button type="button" class="ref-reason-chip ${hasReason?'':'empty'}" data-ref-reason="${esc(r.id)}">${hasReason?'◉ Ver motivo':'Sin motivo registrado'}</button>
+        </div>
+      </div>
+      <div class="ref-next-panel ${over?'is-overdue':''}">
+        <div class="ref-next-label">Próxima acción</div>
+        <div class="ref-next-text">${esc(next)}${esc(nextDate)}</div>
+      </div>
+    </div>`;
+  }).join('');}
 function renderEarly(){renderEarlyAccess();fillEarlyOptions();renderEarlyCourses();renderEarlyProjects();renderEarlyResources();}
 function fillEarlyProfessionals(){const el=document.getElementById('epResponsible');if(!el)return;const cur=el.value;el.innerHTML='<option value="">Sin responsable</option>'+PROFESIONALES.map(p=>`<option value="${escapeHTML(p.nombre)}">${escapeHTML(p.nombre)}</option>`).join('');if([...el.options].some(o=>o.value===cur))el.value=cur;}
 function openEarlyCourse(id=''){editingEarlyCourseId=id||null;const c=id?earlyCourseById(id):null;document.getElementById('earlyCourseModalTitle').textContent=c?'Editar curso':'Nuevo curso';document.getElementById('ecName').value=c?.name||'';document.getElementById('ecYear').value=c?.year||2026;document.getElementById('ecSemester').value=c?.semester||'';document.getElementById('ecStatus').value=c?.status||'activo';document.getElementById('ecStudents').value=c?.students??'';document.getElementById('ecLink').value=c?.link||'';document.getElementById('ecNotes').value=c?.notes||'';document.getElementById('btnDeleteEarlyCourse').style.display=c?'block':'none';document.getElementById('moEarlyCourse').classList.add('open');document.body.style.overflow='hidden';}
@@ -2882,12 +3150,79 @@ function esc(s=''){return escapeHTML(String(s??''))}
 function referralDaysOpen(r){const d=r.fechaRecepcion?new Date(r.fechaRecepcion+'T00:00:00'):null;if(!d||isNaN(d))return 0;return Math.max(0,Math.floor((today-d)/864e5))}
 function isReferralOverdue(r){if(normRefStatus(r.estado)==='cerrada')return false;if(r.fechaProxima){const d=new Date(r.fechaProxima+'T00:00:00');return !isNaN(d)&&d<today}const tl=Array.isArray(r.timeline)?r.timeline:[];const dates=tl.map(x=>new Date((x.date||'')+'T00:00:00')).filter(x=>!isNaN(x));const last=dates.length?new Date(Math.max(...dates)):r.fechaRecepcion?new Date(r.fechaRecepcion+'T00:00:00'):null;return last?((today-last)/864e5)>10:false}
 function renderReferrals(){
-  populateReferralFilters(); const all=REFERRALS||[]; const active=all.filter(r=>normRefStatus(r.estado)!=='cerrada');
-  const counts={new:all.filter(r=>normRefStatus(r.estado)==='nueva').length,contact:all.filter(r=>normRefStatus(r.estado)==='contacto').length,active:active.length,over:all.filter(isReferralOverdue).length,closed:all.filter(r=>normRefStatus(r.estado)==='cerrada').length};
-  const kp=document.getElementById('refKpis');if(kp)kp.innerHTML=`<div class="ref-kpi"><strong>${counts.active}</strong><span>Activas</span></div><div class="ref-kpi"><strong>${counts.new}</strong><span>Nuevas</span></div><div class="ref-kpi"><strong>${counts.contact}</strong><span>Pendientes / en contacto</span></div><div class="ref-kpi"><strong>${counts.over}</strong><span>Sin movimiento / vencidas</span></div><div class="ref-kpi"><strong>${counts.closed}</strong><span>Cerradas</span></div>`;
-  let rows=all.filter(r=>{if(refStatus!=='ALL'&&normRefStatus(r.estado)!==refStatus)return false;if(refOrigin!=='ALL'&&(r.unidadOrigen||'')!==refOrigin)return false;if(refResponsible!=='ALL'&&(r.responsable||'')!==refResponsible)return false;if(refSearch){const q=refSearch.toLowerCase();const hay=[r.estudiante,r.rut,r.carrera,r.unidadOrigen,r.profesionalOrigen,r.motivo,r.responsable,r.unidadDestino].join(' ').toLowerCase();if(!hay.includes(q))return false}return true}).sort((a,b)=>(b.fechaRecepcion||'').localeCompare(a.fechaRecepcion||''));
-  const list=document.getElementById('refList'),empty=document.getElementById('refEmpty');if(!list)return;empty.style.display=rows.length?'none':'block';
-  list.innerHTML=rows.map(r=>{const st=normRefStatus(r.estado),over=isReferralOverdue(r),days=referralDaysOpen(r);const next=r.proximaAccion||'Sin próxima acción';const nextDate=r.fechaProxima?` · ${r.fechaProxima}`:'';const hasReason=!!String(r.motivo||'').trim();return `<div class="ref-row ${over?'ref-overdue':st==='nueva'?'ref-new':st==='cerrada'?'ref-closed':'ref-active'}" data-ref-id="${esc(r.id)}"><div><div class="ref-name">${esc(r.estudiante||'Sin nombre')}</div><div class="ref-sub">${esc(r.carrera||'Sin carrera')} · ${esc(r.rut||'Sin RUT')} · ${days} días abierta</div><div style="margin-top:5px"><span class="ref-pill ${st}">${esc(r.estado||'Nueva')}</span></div></div><div class="ref-hide-tablet"><div class="ref-label">Origen</div><div class="ref-value">${esc(r.unidadOrigen||'Sin registrar')}</div></div><div class="ref-hide-tablet"><div class="ref-label">Motivo</div><button type="button" class="ref-reason-btn ${hasReason?'':'empty'}" data-ref-reason="${esc(r.id)}">${hasReason?'Ver motivo':'Sin motivo'}</button></div><div class="ref-hide-tablet"><div class="ref-label">Responsable</div><div class="ref-value">${esc(r.responsable||'Sin asignar')}</div></div><div><div class="ref-label">Estado</div><div class="ref-value">${esc(r.estado||'Nueva')}</div>${r.unidadDestino?`<div class="ref-sub">↗ ${esc(r.unidadDestino)}</div>`:''}</div><div><div class="ref-label">Próxima acción</div><div class="ref-value ref-next ${over?'bad':''}">${esc(next)}${esc(nextDate)}</div></div><button class="btn-edit" data-ref-edit="${esc(r.id)}">✎</button></div>`}).join('');
+  populateReferralFilters();
+  const all=REFERRALS||[];
+  const active=all.filter(r=>normRefStatus(r.estado)!=='cerrada');
+  const counts={
+    new:all.filter(r=>normRefStatus(r.estado)==='nueva').length,
+    contact:all.filter(r=>normRefStatus(r.estado)==='contacto').length,
+    active:active.length,
+    over:all.filter(isReferralOverdue).length,
+    closed:all.filter(r=>normRefStatus(r.estado)==='cerrada').length
+  };
+  const kp=document.getElementById('refKpis');
+  if(kp)kp.innerHTML=`<div class="ref-kpi"><strong>${counts.active}</strong><span>Activas</span></div><div class="ref-kpi"><strong>${counts.new}</strong><span>Nuevas</span></div><div class="ref-kpi"><strong>${counts.contact}</strong><span>Pendientes / en contacto</span></div><div class="ref-kpi"><strong>${counts.over}</strong><span>Sin movimiento / vencidas</span></div><div class="ref-kpi"><strong>${counts.closed}</strong><span>Cerradas</span></div>`;
+
+  let rows=all.filter(r=>{
+    if(refStatus!=='ALL'&&normRefStatus(r.estado)!==refStatus)return false;
+    if(refOrigin!=='ALL'&&(r.unidadOrigen||'')!==refOrigin)return false;
+    if(refResponsible!=='ALL'&&(r.responsable||'')!==refResponsible)return false;
+    if(refSearch){
+      const q=refSearch.toLowerCase();
+      const hay=[r.estudiante,r.rut,r.carrera,r.unidadOrigen,r.profesionalOrigen,r.motivo,r.responsable,r.unidadDestino].join(' ').toLowerCase();
+      if(!hay.includes(q))return false;
+    }
+    return true;
+  }).sort((a,b)=>(b.fechaRecepcion||'').localeCompare(a.fechaRecepcion||''));
+
+  const list=document.getElementById('refList'),empty=document.getElementById('refEmpty');
+  if(!list)return;
+  empty.style.display=rows.length?'none':'block';
+
+  list.innerHTML=rows.map(r=>{
+    const st=normRefStatus(r.estado);
+    const over=isReferralOverdue(r);
+    const days=referralDaysOpen(r);
+    const next=r.proximaAccion||'Sin próxima acción';
+    const nextDate=r.fechaProxima?` · ${r.fechaProxima}`:'';
+    const hasReason=!!String(r.motivo||'').trim();
+
+    return `<div class="ref-row ref-row-compact ${over?'ref-overdue':st==='nueva'?'ref-new':st==='cerrada'?'ref-closed':'ref-active'}" data-ref-id="${esc(r.id)}">
+      <div class="ref-col ref-person">
+        <div class="ref-name">${esc(r.estudiante||'Sin nombre')}</div>
+        <div class="ref-sub">${esc(r.carrera||'Sin carrera')} · ${esc(r.rut||'Sin RUT')} · ${days} días abierta</div>
+        <div class="ref-status-under"><span class="ref-pill ${st}">${esc(r.estado||'Nueva')}</span></div>
+      </div>
+
+      <div class="ref-col">
+        <div class="ref-label">Origen</div>
+        <div class="ref-value">${esc(r.unidadOrigen||'Sin registrar')}</div>
+      </div>
+
+      <div class="ref-col">
+        <div class="ref-label">Responsable</div>
+        <div class="ref-value">${esc(r.responsable||'Sin asignar')}</div>
+      </div>
+
+      <div class="ref-col">
+        <div class="ref-label">Estado</div>
+        <div class="ref-value">${esc(r.estado||'Nueva')}</div>
+        ${r.unidadDestino?`<div class="ref-destination">↗ ${esc(r.unidadDestino)}</div>`:''}
+      </div>
+
+      <div class="ref-col ref-reason-col">
+        <div class="ref-label">Motivo de derivación</div>
+        <button type="button" class="ref-reason-chip ${hasReason?'':'empty'}" data-ref-reason="${esc(r.id)}" ${hasReason?'':'disabled'}>${hasReason?'Ver motivo':'Sin motivo'}</button>
+      </div>
+
+      <div class="ref-col ref-next-col">
+        <div class="ref-label">Próxima acción</div>
+        <div class="ref-value ref-next ${over?'bad':''}">${esc(next)}${esc(nextDate)}</div>
+      </div>
+
+      <button class="ref-edit-btn" title="Editar derivación" aria-label="Editar derivación" data-ref-edit="${esc(r.id)}">✎</button>
+    </div>`;
+  }).join('');
 }
 function populateReferralFilters(){
  const set=(id,vals,allLabel,current)=>{const el=document.getElementById(id);if(!el)return;const uniq=[...new Set(vals.filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));el.innerHTML=`<option value="ALL">${allLabel}</option>`+uniq.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');el.value=uniq.includes(current)?current:'ALL'};
@@ -3648,6 +3983,284 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 .ref-reason-modal .md-info{margin-bottom:14px}
 .ref-reason-full{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--surface2);border:1px solid var(--hairline);border-radius:12px;padding:18px 20px;font-size:.94rem;line-height:1.7;color:var(--txt);min-height:120px;max-height:55vh;overflow:auto}
 @media(max-width:1050px){.ref-row{grid-template-columns:1.2fr .72fr .72fr 40px}}
+
+
+/* v28.2 · Derivaciones: estética mac refinada */
+.ref-list{display:grid;gap:12px}
+.ref-row{
+  display:block !important;
+  background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.78));
+  border:1px solid rgba(80,94,124,.11);
+  border-radius:18px;
+  padding:16px 18px 14px 18px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 10px 26px rgba(34,43,70,.05), inset 0 1px 0 rgba(255,255,255,.45);
+}
+.ref-row:hover{border-color:rgba(var(--desk-accent-rgb),.20);box-shadow:0 16px 34px rgba(34,43,70,.08), inset 0 1px 0 rgba(255,255,255,.52)}
+.ref-row::before{top:14px;bottom:14px;width:4px;border-radius:0 5px 5px 0}
+.ref-card-top{display:flex;flex-direction:column;gap:14px}
+.ref-name-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.ref-name{font-size:1.08rem;font-weight:730;letter-spacing:-.015em;color:var(--txt)}
+.ref-sub{font-size:.78rem;color:var(--txt2);margin-top:5px;line-height:1.45}
+.ref-head-actions{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.ref-pill{padding:6px 10px;border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.01em}
+.ref-edit-btn{
+  width:34px;height:34px;border-radius:11px;border:1px solid rgba(80,94,124,.12);
+  background:rgba(255,255,255,.72);color:var(--txt2);font:inherit;font-size:.9rem;font-weight:700;
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:.16s;
+  box-shadow:0 4px 10px rgba(40,49,77,.06);
+}
+.ref-edit-btn:hover{transform:translateY(-1px);border-color:rgba(var(--desk-accent-rgb),.22);color:var(--p);background:rgba(255,255,255,.92)}
+.ref-meta-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+}
+.ref-meta-card{
+  min-width:0;
+  background:rgba(250,251,255,.78);
+  border:1px solid rgba(80,94,124,.09);
+  border-radius:14px;
+  padding:12px 13px;
+}
+.ref-label{font-size:.62rem;letter-spacing:.075em;text-transform:uppercase;color:#8e8ca7;font-weight:760;margin-bottom:6px}
+.ref-value{
+  font-size:.9rem;
+  line-height:1.45;
+  color:var(--txt);
+  font-weight:620;
+  word-break:break-word;
+  overflow-wrap:anywhere;
+}
+.ref-inline-dest{display:inline-flex;margin-top:7px;font-size:.73rem;color:var(--txt2);background:rgba(93,112,153,.07);padding:4px 8px;border-radius:999px}
+.ref-meta-reason{display:flex;flex-direction:column;justify-content:space-between}
+.ref-reason-chip{
+  align-self:flex-start;
+  display:inline-flex;align-items:center;gap:6px;
+  border:1px solid rgba(var(--desk-accent-rgb),.14);
+  background:rgba(var(--desk-accent-rgb),.07);
+  color:var(--p);
+  border-radius:999px;
+  padding:8px 12px;
+  font:inherit;
+  font-size:.78rem;
+  font-weight:650;
+  cursor:pointer;
+  transition:.15s ease;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+}
+.ref-reason-chip::before{content:'◦';font-size:1rem;line-height:1}
+.ref-reason-chip:hover{background:rgba(var(--desk-accent-rgb),.12);border-color:rgba(var(--desk-accent-rgb),.22);transform:translateY(-1px)}
+.ref-reason-chip.empty{
+  color:var(--mut);
+  background:rgba(130,140,166,.07);
+  border-color:rgba(130,140,166,.10);
+  cursor:default;
+}
+.ref-reason-chip.empty::before{content:'–';font-size:.95rem}
+.ref-next-panel{
+  margin-top:14px;
+  border-radius:14px;
+  padding:12px 14px;
+  background:linear-gradient(180deg, rgba(var(--desk-accent-rgb),.06), rgba(var(--desk-accent-rgb),.03));
+  border:1px solid rgba(var(--desk-accent-rgb),.11);
+}
+.ref-next-panel.is-overdue{
+  background:linear-gradient(180deg, rgba(232,85,99,.08), rgba(232,85,99,.03));
+  border-color:rgba(232,85,99,.18);
+}
+.ref-next-label{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:#8e8ca7;font-weight:760;margin-bottom:6px}
+.ref-next-text{
+  font-size:.89rem;
+  line-height:1.5;
+  color:var(--txt);
+  font-weight:610;
+  overflow-wrap:anywhere;
+}
+@media(max-width:1200px){
+  .ref-meta-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:760px){
+  .ref-row{padding:14px}
+  .ref-name-row{flex-direction:column;align-items:flex-start}
+  .ref-head-actions{width:100%;justify-content:space-between}
+  .ref-meta-grid{grid-template-columns:1fr}
+}
+
+
+/* v28.3 · Motivo de derivación visible en resumen */
+.ref-reason-panel{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:12px 14px;
+  border-radius:14px;
+  background:rgba(var(--desk-accent-rgb),.045);
+  border:1px solid rgba(var(--desk-accent-rgb),.10);
+}
+.ref-reason-helper{
+  margin-top:4px;
+  font-size:.78rem;
+  line-height:1.4;
+  color:var(--txt2);
+}
+.ref-reason-panel .ref-reason-chip{
+  flex-shrink:0;
+  margin:0;
+}
+@media(max-width:760px){
+  .ref-reason-panel{align-items:flex-start;flex-direction:column}
+  .ref-reason-panel .ref-reason-chip{width:100%;justify-content:center}
+}
+
+
+/* v28.4 · Derivaciones: resumen corregido y motivo visible */
+.ref-list{display:grid;gap:12px}
+.ref-row{
+  display:block!important;
+  background:rgba(255,255,255,.86);
+  border:1px solid rgba(80,94,124,.11);
+  border-radius:18px;
+  padding:16px 18px 14px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 10px 28px rgba(34,43,70,.055);
+}
+.ref-row:hover{
+  border-color:rgba(var(--desk-accent-rgb),.20);
+  box-shadow:0 14px 32px rgba(34,43,70,.075);
+}
+.ref-row::before{top:14px;bottom:14px;width:4px;border-radius:0 5px 5px 0}
+.ref-name-row{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+.ref-ident{min-width:0}
+.ref-name{font-size:1.05rem;font-weight:720;letter-spacing:-.015em;color:var(--txt);line-height:1.25}
+.ref-sub{font-size:.78rem;color:var(--txt2);margin-top:5px;line-height:1.45}
+.ref-head-actions{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.ref-pill{padding:6px 10px;border-radius:999px;font-size:.71rem;font-weight:700}
+.ref-edit-btn{
+  width:34px;height:34px;border-radius:11px;
+  border:1px solid rgba(80,94,124,.11);
+  background:rgba(255,255,255,.72);
+  color:var(--txt2);font:inherit;font-size:.88rem;font-weight:700;
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:.15s ease;
+}
+.ref-edit-btn:hover{transform:translateY(-1px);color:var(--p);border-color:rgba(var(--desk-accent-rgb),.22);background:#fff}
+.ref-meta-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:11px;
+  margin-top:14px;
+}
+.ref-meta-card{
+  min-width:0;
+  background:rgba(247,248,252,.72);
+  border:1px solid rgba(80,94,124,.08);
+  border-radius:13px;
+  padding:11px 12px;
+}
+.ref-label{font-size:.61rem;letter-spacing:.075em;text-transform:uppercase;color:#918eaa;font-weight:760;margin-bottom:5px}
+.ref-value{font-size:.86rem;line-height:1.45;color:var(--txt);font-weight:610;overflow-wrap:anywhere}
+.ref-inline-dest{display:inline-flex;margin-top:7px;padding:4px 8px;border-radius:999px;background:rgba(93,112,153,.07);font-size:.71rem;color:var(--txt2)}
+.ref-reason-panel{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  margin-top:12px;
+  padding:12px 13px;
+  border-radius:14px;
+  background:rgba(var(--desk-accent-rgb),.05);
+  border:1px solid rgba(var(--desk-accent-rgb),.10);
+}
+.ref-reason-copy{min-width:0}
+.ref-reason-helper{margin-top:3px;font-size:.77rem;line-height:1.4;color:var(--txt2)}
+.ref-reason-chip{
+  flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid rgba(var(--desk-accent-rgb),.14);
+  background:rgba(var(--desk-accent-rgb),.075);
+  color:var(--p);
+  border-radius:999px;
+  padding:8px 13px;
+  font:inherit;font-size:.77rem;font-weight:670;
+  cursor:pointer;transition:.15s ease;
+}
+.ref-reason-chip:hover{background:rgba(var(--desk-accent-rgb),.12);border-color:rgba(var(--desk-accent-rgb),.22);transform:translateY(-1px)}
+.ref-reason-chip.empty,.ref-reason-chip:disabled{color:var(--mut);background:rgba(130,140,166,.06);border-color:rgba(130,140,166,.10);cursor:default;transform:none}
+.ref-next-panel{
+  margin-top:12px;
+  border-radius:14px;
+  padding:11px 13px;
+  background:rgba(var(--desk-accent-rgb),.035);
+  border:1px solid rgba(var(--desk-accent-rgb),.08);
+}
+.ref-next-panel.is-overdue{background:rgba(232,85,99,.055);border-color:rgba(232,85,99,.16)}
+.ref-next-label{font-size:.61rem;letter-spacing:.075em;text-transform:uppercase;color:#918eaa;font-weight:760;margin-bottom:5px}
+.ref-next-text{font-size:.86rem;line-height:1.45;color:var(--txt);font-weight:610;overflow-wrap:anywhere}
+
+@media(max-width:1050px){
+  .ref-meta-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:760px){
+  .ref-row{padding:14px}
+  .ref-name-row{flex-direction:column}
+  .ref-head-actions{width:100%;justify-content:space-between}
+  .ref-meta-grid{grid-template-columns:1fr}
+  .ref-reason-panel{align-items:flex-start;flex-direction:column}
+  .ref-reason-chip{width:100%}
+}
+
+
+/* v28.5 · Motivo derivación: botón macOS refinado */
+.ref-reason-panel{
+  background:linear-gradient(180deg, rgba(255,255,255,.66), rgba(248,249,253,.54));
+  border:1px solid rgba(80,94,124,.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
+}
+.ref-reason-helper:empty{display:none}
+.ref-reason-chip{
+  appearance:none;
+  -webkit-appearance:none;
+  border:none;
+  background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(246,247,251,.82));
+  color:var(--p);
+  border-radius:12px;
+  padding:8px 13px;
+  font:inherit;
+  font-size:.76rem;
+  font-weight:680;
+  letter-spacing:-.005em;
+  cursor:pointer;
+  box-shadow:
+    0 1px 2px rgba(28,35,57,.06),
+    0 6px 16px rgba(44,52,80,.06),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  transition:transform .14s ease, box-shadow .14s ease, background .14s ease, color .14s ease;
+}
+.ref-reason-chip:hover{
+  transform:translateY(-1px);
+  background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(var(--desk-accent-rgb),.055));
+  color:var(--p-dk);
+  box-shadow:
+    0 2px 5px rgba(28,35,57,.07),
+    0 9px 20px rgba(44,52,80,.08),
+    inset 0 1px 0 rgba(255,255,255,.95);
+}
+.ref-reason-chip:active{
+  transform:translateY(0);
+  box-shadow:
+    0 1px 2px rgba(28,35,57,.05),
+    inset 0 1px 1px rgba(44,52,80,.05);
+}
+.ref-reason-chip.empty,.ref-reason-chip:disabled{
+  background:rgba(245,246,249,.68);
+  color:var(--mut);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+  cursor:default;
+}
 
 </style>
 
