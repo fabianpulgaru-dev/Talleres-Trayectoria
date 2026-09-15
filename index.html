@@ -897,7 +897,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 
 
 <style id="sat-v29-styles">
-/* v29.2 · SAT + OneDrive */
+/* v29.3 · SAT + OneDrive */
 .ref-source-switch,.config-section-tabs{
   display:inline-flex;gap:4px;padding:4px;margin:0 0 14px;
   border:1px solid rgba(84,92,120,.09);border-radius:12px;background:rgba(246,247,251,.72);
@@ -1029,7 +1029,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
   <div class="topbar-inner">
     <div class="tb-id">
       <span class="mono">UTE · Panel interno · v28</span>
-      <h1>Panel UTE v29.2</h1>
+      <h1>Panel UTE v29.3</h1>
     </div>
     <div class="tb-actions">
       <button class="btn-export" id="btnExportExcel" type="button">📊 Descargar todo en Excel</button>
@@ -1969,7 +1969,30 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 <!-- + rápido -->
 <div class="fab-wrap" id="deskFab"><div class="fab-menu"><button data-fab-action="task">✓ Nueva tarea</button><button data-fab-action="case">👤 Nuevo caso</button><button data-fab-action="workshop">▦ Nuevo taller</button><button data-fab-action="adjustment">♿ Nuevo ajuste</button><button data-fab-action="note">🗒️ Nota flotante</button></div><button class="fab-main" id="deskFabMain" type="button" aria-label="Acciones rápidas">＋</button></div>
 
-<script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js"></script>
+<script>
+window.__loadMSAL = async function(){
+  if(window.msal) return window.msal;
+  const sources = [
+    'https://cdn.jsdelivr.net/npm/@azure/msal-browser@5.17.3/lib/msal-browser.min.js',
+    'https://unpkg.com/@azure/msal-browser@5.17.3/lib/msal-browser.min.js'
+  ];
+  for(const src of sources){
+    try{
+      await new Promise((resolve,reject)=>{
+        const s=document.createElement('script');
+        s.src=src;
+        s.async=true;
+        s.crossOrigin='anonymous';
+        s.onload=()=>resolve();
+        s.onerror=()=>{s.remove();reject(new Error('No se pudo cargar '+src))};
+        document.head.appendChild(s);
+      });
+      if(window.msal) return window.msal;
+    }catch(e){ console.warn('MSAL fallback',e); }
+  }
+  throw new Error('No se pudo cargar Microsoft Authentication Library');
+};
+</script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
 <!-- Firebase Storage para documentos de Casos Específicos -->
@@ -3798,8 +3821,11 @@ function readSatConfigForm(){
 async function buildSatMsal(){
   if(!SAT_CONFIG.clientId)throw new Error('Falta el Client ID de Microsoft Entra');
   if(!SAT_CONFIG.redirectUri)throw new Error('Falta la Redirect URI registrada');
-  if(typeof msal==='undefined')throw new Error('No se pudo cargar Microsoft Authentication Library');
-  SAT_MSAL_APP=new msal.PublicClientApplication(satAuthConfig());
+  if(typeof window.msal==='undefined'){
+    if(typeof window.__loadMSAL!=='function')throw new Error('No se encontró el cargador de Microsoft Authentication Library');
+    await window.__loadMSAL();
+  }
+  SAT_MSAL_APP=new window.msal.PublicClientApplication(satAuthConfig());
   if(SAT_MSAL_APP.initialize)await SAT_MSAL_APP.initialize();
   return SAT_MSAL_APP;
 }
@@ -3809,7 +3835,11 @@ async function connectMicrosoftSat(){
     const app=await buildSatMsal();
     const result=await app.loginPopup({scopes:['User.Read','Files.Read'],prompt:'select_account'});
     SAT_ACCOUNT=result.account;setSatStatus('ok','Conectado');renderSatConfigUI();showToast('Microsoft 365 conectado ✓','ok');
-  }catch(e){setSatStatus('bad','Error de conexión');showToast('Microsoft 365: '+e.message,'bad')}
+  }catch(e){
+    console.error('Microsoft 365 auth',e);
+    setSatStatus('bad','Error de conexión');
+    showToast('Microsoft 365: '+(e?.message||'No se pudo iniciar sesión'),'bad');
+  }
 }
 async function satAccessToken(){
   const app=SAT_MSAL_APP||await buildSatMsal();
