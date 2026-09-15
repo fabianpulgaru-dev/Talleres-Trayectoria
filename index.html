@@ -677,7 +677,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 
 
 <style id="referrals-v287-compact">
-/* v28.7 · Derivaciones en una sola línea, compactas */
+/* v29 · Derivaciones en una sola línea, compactas */
 #moduleReferrals .ref-list{
   display:grid;
   gap:9px;
@@ -895,6 +895,132 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 }
 </style>
 
+
+<style id="sat-v29-styles">
+/* v29.1 · SAT + OneDrive */
+.ref-source-switch,.config-section-tabs{
+  display:inline-flex;gap:4px;padding:4px;margin:0 0 14px;
+  border:1px solid rgba(84,92,120,.09);border-radius:12px;background:rgba(246,247,251,.72);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7)
+}
+.ref-source-switch button,.config-section-tabs button{
+  appearance:none;-webkit-appearance:none;border:0;background:transparent;color:var(--txt2);
+  border-radius:9px;padding:8px 12px;font:inherit;font-size:.75rem;font-weight:680;cursor:pointer;
+  transition:.14s ease;display:inline-flex;align-items:center;gap:7px
+}
+.ref-source-switch button:hover,.config-section-tabs button:hover{color:var(--txt);background:rgba(255,255,255,.58)}
+.ref-source-switch button.active,.config-section-tabs button.active{
+  color:var(--p);background:#fff;box-shadow:0 2px 8px rgba(35,43,70,.07),inset 0 1px 0 rgba(255,255,255,.9)
+}
+.ref-source-switch small{min-width:18px;padding:2px 5px;border-radius:999px;background:rgba(var(--desk-accent-rgb),.08);font-size:.62rem;text-align:center}
+
+.sat-inbox-view{animation:none}
+.sat-source-card{
+  display:grid;grid-template-columns:46px minmax(0,1fr) auto;gap:13px;align-items:center;
+  padding:14px 16px;margin-bottom:13px;border:1px solid rgba(82,91,119,.09);border-radius:16px;
+  background:rgba(255,255,255,.84);box-shadow:0 8px 24px rgba(34,43,70,.045)
+}
+.sat-source-icon{
+  width:42px;height:42px;display:grid;place-items:center;border-radius:13px;
+  background:linear-gradient(145deg,#eef5ff,#e4edff);color:#4776c7;font-size:1.15rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.85)
+}
+.sat-source-copy h3{margin:1px 0 2px;font-family:var(--fb);font-size:.92rem;font-weight:720;color:var(--txt)}
+.sat-source-copy p{margin:0;font-size:.72rem;color:var(--txt2)}
+.sat-kicker,.integration-kicker,.sat-modal-source{font-size:.58rem;letter-spacing:.105em;text-transform:uppercase;font-weight:800;color:#8d8aa6}
+.sat-source-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap}
+.sat-connection-status,.integration-state{
+  display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;font-size:.65rem;font-weight:720;
+  background:var(--surface2);color:var(--txt2)
+}
+.sat-connection-status.ok,.integration-state.ok{background:var(--ok-bg);color:var(--ok)}
+.sat-connection-status.warn,.integration-state.warn{background:var(--warn-bg);color:var(--warn)}
+.sat-connection-status.bad,.integration-state.bad{background:var(--bad-bg);color:var(--bad)}
+.sat-soft-btn{
+  appearance:none;-webkit-appearance:none;border:0;border-radius:10px;padding:7px 10px;
+  background:rgba(246,247,251,.9);color:var(--txt2);font:inherit;font-size:.69rem;font-weight:680;cursor:pointer;
+  box-shadow:0 1px 2px rgba(30,38,62,.04),inset 0 1px 0 rgba(255,255,255,.75);transition:.14s ease
+}
+.sat-soft-btn:hover{background:#fff;color:var(--p);transform:translateY(-1px);box-shadow:0 5px 14px rgba(31,38,61,.065)}
+.sat-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.sat-kpi{padding:11px 12px;border:1px solid rgba(82,91,119,.08);border-radius:13px;background:rgba(255,255,255,.78)}
+.sat-kpi strong{display:block;font-size:1.25rem;font-weight:570;color:var(--p);line-height:1.05}
+.sat-kpi span{display:block;margin-top:4px;font-size:.64rem;color:var(--txt2);font-weight:680}
+.sat-toolbar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.sat-toolbar .search-box{flex:1;min-width:230px}
+.sat-toolbar .search-box input{width:100%}
+.sat-sync-note{font-size:.69rem;color:var(--txt2);margin:0 2px 9px}
+.sat-list{display:grid;gap:8px}
+.sat-row{
+  display:grid;grid-template-columns:minmax(210px,1.35fr) minmax(105px,.65fr) minmax(95px,.55fr) minmax(125px,.75fr) minmax(125px,.72fr) auto;
+  gap:8px;align-items:center;padding:11px 12px;border:1px solid rgba(82,91,119,.085);border-radius:14px;background:rgba(255,255,255,.86);
+  box-shadow:0 6px 18px rgba(34,43,70,.035)
+}
+.sat-row.imported{opacity:.68;background:rgba(248,249,252,.75)}
+.sat-student{min-width:0}
+.sat-name{font-size:.84rem;font-weight:720;color:var(--txt);line-height:1.3}
+.sat-sub{margin-top:3px;font-size:.67rem;line-height:1.35;color:var(--txt2)}
+.sat-cell{min-width:0}
+.sat-label{font-size:.55rem;letter-spacing:.07em;text-transform:uppercase;color:#918eaa;font-weight:760;margin-bottom:4px}
+.sat-value{font-size:.72rem;line-height:1.35;color:var(--txt);font-weight:610;overflow-wrap:break-word}
+.sat-tags{display:flex;gap:5px;flex-wrap:wrap}
+.sat-tag{display:inline-flex;padding:4px 7px;border-radius:999px;background:var(--surface2);font-size:.62rem;font-weight:680;color:var(--txt2)}
+.sat-tag.high{background:var(--bad-bg);color:var(--bad)}.sat-tag.medium{background:var(--warn-bg);color:var(--warn)}.sat-tag.low{background:var(--ok-bg);color:var(--ok)}
+.sat-row-actions{display:flex;gap:5px;align-items:center}
+.sat-row-actions button{white-space:nowrap}
+.sat-review-btn{
+  appearance:none;border:0;border-radius:9px;padding:7px 9px;background:rgba(var(--desk-accent-rgb),.06);color:var(--p);
+  font:inherit;font-size:.67rem;font-weight:700;cursor:pointer
+}
+.sat-review-btn:hover{background:rgba(var(--desk-accent-rgb),.11)}
+.sat-imported-label{font-size:.65rem;font-weight:720;color:var(--ok)}
+
+.integration-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:12px}
+.integration-card{
+  padding:17px;border:1px solid rgba(82,91,119,.09);border-radius:16px;background:rgba(255,255,255,.82);
+  box-shadow:0 8px 24px rgba(34,43,70,.045)
+}
+.integration-card-featured{background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(249,250,254,.84))}
+.integration-head{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:12px;align-items:start;margin-bottom:14px}
+.integration-head h3{margin:1px 0 3px;font-family:var(--fb);font-size:.95rem;font-weight:730}
+.integration-head p{margin:0;color:var(--txt2);font-size:.72rem;line-height:1.45}
+.integration-app-icon{
+  width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:var(--surface2);font-weight:800;color:var(--p)
+}
+.integration-app-icon.ms{background:linear-gradient(145deg,#eef4ff,#e4eeff);color:#376fc2}
+.integration-fields{display:grid;gap:8px}
+.integration-fields .fg,.integration-fields .fg-row{margin:0}
+.integration-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.integration-status-line{margin-top:9px;padding:8px 10px;border-radius:10px;background:rgba(246,247,251,.68);font-size:.68rem;color:var(--txt2);line-height:1.45}
+.integration-help{margin-top:10px;border-top:1px solid rgba(82,91,119,.07);padding-top:8px}
+.integration-help summary{cursor:pointer;font-size:.7rem;font-weight:700;color:var(--txt2)}
+.integration-help p{font-size:.69rem;color:var(--txt2);line-height:1.5}
+.integration-file-input{width:100%;margin-top:5px;font-size:.72rem}
+
+.sat-record-modal{padding-bottom:18px}
+.sat-modal-head h3{margin:4px 0 2px;font-family:var(--fd);font-weight:500}
+.sat-record-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0}
+.sat-summary-cell{padding:10px;border-radius:12px;background:var(--surface2);border:1px solid rgba(82,91,119,.07)}
+.sat-summary-cell strong{display:block;font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-bottom:4px}
+.sat-summary-cell span{font-size:.76rem;font-weight:650;color:var(--txt);line-height:1.35}
+.sat-record-sections{display:grid;gap:8px}
+.sat-long-block{padding:12px 13px;border:1px solid rgba(82,91,119,.08);border-radius:13px;background:rgba(250,251,253,.72)}
+.sat-long-block strong{display:block;margin-bottom:5px;font-size:.62rem;text-transform:uppercase;letter-spacing:.07em;color:#918eaa}
+.sat-long-block div{white-space:pre-wrap;font-size:.78rem;line-height:1.55;color:var(--txt)}
+.sat-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+
+@media(max-width:1080px){
+  .sat-row{grid-template-columns:minmax(210px,1.3fr) minmax(100px,.65fr) minmax(110px,.7fr) minmax(120px,.75fr) auto}
+  .sat-row .sat-hide-md{display:none}
+  .integration-grid{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .sat-source-card{grid-template-columns:40px 1fr}.sat-source-actions{grid-column:1/-1;justify-content:flex-start}
+  .sat-kpis{grid-template-columns:repeat(2,1fr)}
+  .sat-row{grid-template-columns:1fr}.sat-row-actions{justify-content:flex-start}
+  .sat-record-summary{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+
 </head>
 <body class="v25-loading">
 
@@ -903,7 +1029,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
   <div class="topbar-inner">
     <div class="tb-id">
       <span class="mono">UTE · Panel interno · v28</span>
-      <h1>Panel UTE v28.7</h1>
+      <h1>Panel UTE v29.1</h1>
     </div>
     <div class="tb-actions">
       <button class="btn-export" id="btnExportExcel" type="button">📊 Descargar todo en Excel</button>
@@ -1023,15 +1149,58 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
   <!-- DERIVACIONES -->
   <section id="moduleReferrals" class="module">
     <div class="section-head"><div><h2>Derivaciones</h2><p>Recepción, abordaje y seguimiento de casos transferidos desde otras áreas o unidades.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
-    <div class="ref-kpis" id="refKpis"></div>
-    <div class="ref-toolbar">
-      <div class="seg" id="refStatusSeg"><button class="active" data-ref-status="ALL">Todas</button><button data-ref-status="nueva">Nuevas</button><button data-ref-status="contacto">Contacto</button><button data-ref-status="acompanamiento">Acompañamiento</button><button data-ref-status="derivada">Derivadas</button><button data-ref-status="cerrada">Cerradas</button></div>
-      <select class="filter-select" id="refOriginFilter"><option value="ALL">Todas las unidades</option></select>
-      <select class="filter-select" id="refResponsibleFilter"><option value="ALL">Todos los responsables</option></select>
-      <div class="search-box"><input id="refSearch" type="text" placeholder="Buscar estudiante, RUT, unidad, motivo…"></div>
-      <button class="btn-primary" id="btnNuevaDerivacion">+ Nueva derivación</button>
+
+    <div class="ref-source-switch" id="refSourceSwitch">
+      <button class="active" data-ref-view="managed"><span>↗</span> Derivaciones gestionadas</button>
+      <button data-ref-view="sat"><span>☁</span> SAT · OneDrive <small id="satInboxBadge"></small></button>
     </div>
-    <div class="ref-list" id="refList"></div><div class="task-empty" id="refEmpty" style="display:none">No hay derivaciones con este filtro.</div>
+
+    <div id="refManagedView">
+      <div class="ref-kpis" id="refKpis"></div>
+      <div class="ref-toolbar">
+        <div class="seg" id="refStatusSeg"><button class="active" data-ref-status="ALL">Todas</button><button data-ref-status="nueva">Nuevas</button><button data-ref-status="contacto">Contacto</button><button data-ref-status="acompanamiento">Acompañamiento</button><button data-ref-status="derivada">Derivadas</button><button data-ref-status="cerrada">Cerradas</button></div>
+        <select class="filter-select" id="refOriginFilter"><option value="ALL">Todas las unidades</option></select>
+        <select class="filter-select" id="refResponsibleFilter"><option value="ALL">Todos los responsables</option></select>
+        <div class="search-box"><input id="refSearch" type="text" placeholder="Buscar estudiante, RUT, unidad, motivo…"></div>
+        <button class="btn-primary" id="btnNuevaDerivacion">+ Nueva derivación</button>
+      </div>
+      <div class="ref-list" id="refList"></div><div class="task-empty" id="refEmpty" style="display:none">No hay derivaciones con este filtro.</div>
+    </div>
+
+    <div id="satInboxView" class="sat-inbox-view" style="display:none">
+      <div class="sat-source-card">
+        <div class="sat-source-icon">☁</div>
+        <div class="sat-source-copy">
+          <div class="sat-kicker">MICROSOFT 365 · ONEDRIVE</div>
+          <h3>SAT 2° Semestre Rev_CEF_15-09.xlsx</h3>
+          <p>Fuente externa en modo lectura. Los registros solo pasan a Derivaciones cuando tú los incorporas.</p>
+        </div>
+        <div class="sat-source-actions">
+          <span class="sat-connection-status warn" id="satConnectionStatus">Sin sincronizar</span>
+          <button class="sat-soft-btn" id="btnSatOpenSource" type="button">Abrir Excel ↗</button>
+          <button class="sat-soft-btn" id="btnSatConfigure" type="button">Configurar</button>
+          <button class="btn-primary" id="btnSatSync" type="button">↻ Sincronizar</button>
+        </div>
+      </div>
+
+      <div class="sat-kpis" id="satKpis"></div>
+
+      <div class="sat-toolbar">
+        <div class="seg sat-seg" id="satImportSeg">
+          <button class="active" data-sat-import="ALL">Todas</button>
+          <button data-sat-import="pending">Por revisar</button>
+          <button data-sat-import="imported">Incorporadas</button>
+        </div>
+        <select class="filter-select" id="satTypeFilter"><option value="ALL">Todos los tipos</option></select>
+        <select class="filter-select" id="satPriorityFilter"><option value="ALL">Todas las prioridades</option></select>
+        <select class="filter-select" id="satProfessionalFilter"><option value="ALL">Todos los profesionales</option></select>
+        <div class="search-box"><input id="satSearch" type="text" placeholder="Buscar estudiante, RUT, carrera, temática…"></div>
+      </div>
+
+      <div class="sat-sync-note" id="satSyncNote">Conecta Microsoft 365 desde Configuración → Integraciones o usa el archivo Excel como respaldo.</div>
+      <div class="sat-list" id="satList"></div>
+      <div class="task-empty" id="satEmpty" style="display:none">No hay registros SAT con este filtro.</div>
+    </div>
   </section>
 
   <!-- CASOS ESPECÍFICOS -->
@@ -1171,19 +1340,77 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 
   <!-- CONFIGURACIÓN TRANSVERSAL -->
   <section id="moduleConfiguration" class="module">
-    <div class="section-head"><div><h2>Configuración</h2><p>Administra los catálogos que alimentan los menús desplegables de la plataforma sin tocar el código.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
-    <div class="config-layout">
-      <aside class="catalog-sidebar">
-        <div class="catalog-side-head"><strong>Catálogos</strong><button class="catalog-btn" id="btnNewCatalog">+ Nuevo</button></div>
-        <div class="catalog-new-box" id="catalogNewBox"><input id="catalogNewName" placeholder="Nombre del catálogo"><div class="catalog-new-actions"><button class="catalog-btn" id="catalogNewCancel">Cancelar</button><button class="catalog-btn" id="catalogNewSave">Crear</button></div></div>
-        <div class="catalog-tabs" id="catalogTabs"></div>
-      </aside>
-      <main class="catalog-main">
-        <div class="catalog-main-head"><div><h3 id="catalogTitle">Catálogos</h3><p id="catalogDescription">Selecciona un catálogo para editar sus opciones.</p></div></div>
-        <div class="catalog-add"><input id="catalogItemInput" placeholder="Agregar nueva opción…"><button class="btn-primary" id="catalogItemAdd">Agregar</button></div>
-        <div class="catalog-items" id="catalogItems"></div>
-        <div class="catalog-help">Las opciones inactivas dejan de aparecer en nuevos registros, pero permanecen en los datos históricos. Puedes subir o bajar elementos para definir el orden de los menús.</div>
-      </main>
+    <div class="section-head"><div><h2>Configuración</h2><p>Administra catálogos, integraciones y opciones transversales de la plataforma.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
+
+    <div class="config-section-tabs">
+      <button class="active" data-config-view="catalogs">Catálogos</button>
+      <button data-config-view="integrations">Integraciones</button>
+    </div>
+
+    <div id="configCatalogsView">
+      <div class="config-layout">
+        <aside class="catalog-sidebar">
+          <div class="catalog-side-head"><strong>Catálogos</strong><button class="catalog-btn" id="btnNewCatalog">+ Nuevo</button></div>
+          <div class="catalog-new-box" id="catalogNewBox"><input id="catalogNewName" placeholder="Nombre del catálogo"><div class="catalog-new-actions"><button class="catalog-btn" id="catalogNewCancel">Cancelar</button><button class="catalog-btn" id="catalogNewSave">Crear</button></div></div>
+          <div class="catalog-tabs" id="catalogTabs"></div>
+        </aside>
+        <main class="catalog-main">
+          <div class="catalog-main-head"><div><h3 id="catalogTitle">Catálogos</h3><p id="catalogDescription">Selecciona un catálogo para editar sus opciones.</p></div></div>
+          <div class="catalog-add"><input id="catalogItemInput" placeholder="Agregar nueva opción…"><button class="btn-primary" id="catalogItemAdd">Agregar</button></div>
+          <div class="catalog-items" id="catalogItems"></div>
+          <div class="catalog-help">Las opciones inactivas dejan de aparecer en nuevos registros, pero permanecen en los datos históricos. Puedes subir o bajar elementos para definir el orden de los menús.</div>
+        </main>
+      </div>
+    </div>
+
+    <div id="configIntegrationsView" style="display:none">
+      <div class="integration-grid">
+        <section class="integration-card integration-card-featured">
+          <div class="integration-head">
+            <div class="integration-app-icon ms">M</div>
+            <div><span class="integration-kicker">MICROSOFT 365</span><h3>OneDrive · SAT</h3><p>Sincroniza la planilla SAT directamente desde tu OneDrive institucional.</p></div>
+            <span class="integration-state" id="satConfigState">No conectado</span>
+          </div>
+
+          <div class="integration-fields">
+            <div class="fg"><label for="satFileUrl">Archivo de OneDrive / SharePoint</label><input id="satFileUrl" type="url"></div>
+            <div class="fg-row">
+              <div class="fg"><label for="satSheetName">Hoja que alimenta la bandeja</label><input id="satSheetName" value="SATT"></div>
+              <div class="fg"><label for="satClientId">Client ID · Microsoft Entra</label><input id="satClientId" value="154b7ffc-a630-414a-b1c2-505e40e03a6c" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"></div>
+            </div>
+            <div class="fg-row">
+              <div class="fg"><label for="satAuthority">Tenant / autoridad</label><input id="satAuthority" value="e049a386-0d1c-4632-b31d-c627c8cd07e9"></div>
+              <div class="fg"><label for="satRedirectUri">Redirect URI registrada</label><input id="satRedirectUri" type="url" value="https://fabianpulgaru-dev.github.io/Talleres-Trayectoria/" placeholder="https://tu-sitio.github.io/panel.html"></div>
+            </div>
+          </div>
+
+          <div class="integration-actions">
+            <button class="sat-soft-btn" id="btnSaveSatConfig" type="button">Guardar configuración</button>
+            <button class="btn-primary" id="btnConnectMicrosoft" type="button">Conectar Microsoft 365</button>
+            <button class="sat-soft-btn" id="btnSyncMicrosoftConfig" type="button">↻ Sincronizar ahora</button>
+            <button class="sat-soft-btn" id="btnDisconnectMicrosoft" type="button">Desconectar</button>
+          </div>
+          <div class="integration-status-line" id="satConfigMessage">El panel solo leerá la planilla; no modificará el archivo original.</div>
+
+          <details class="integration-help">
+            <summary>Configuración inicial de Microsoft Entra</summary>
+            <div>
+              <p>La aplicación web necesita un <strong>Client ID</strong> de Microsoft Entra y la URL pública del panel registrada como <strong>Single-page application (SPA) Redirect URI</strong>.</p>
+              <p>Permisos delegados necesarios: <strong>User.Read</strong> y <strong>Files.Read</strong>. No se guarda tu contraseña ni un secreto dentro del HTML.</p>
+            </div>
+          </details>
+        </section>
+
+        <section class="integration-card">
+          <div class="integration-head">
+            <div class="integration-app-icon">X</div>
+            <div><span class="integration-kicker">RESPALDO</span><h3>Importar Excel local</h3><p>Úsalo solo si Microsoft 365 no está disponible temporalmente.</p></div>
+          </div>
+          <input id="satLocalFile" type="file" accept=".xlsx,.xls" class="integration-file-input">
+          <div class="integration-actions"><button class="sat-soft-btn" id="btnImportSatLocal" type="button">Leer archivo</button></div>
+          <div class="integration-status-line">No agrega registros manualmente: lee la misma hoja SATT desde el Excel que selecciones.</div>
+        </section>
+      </div>
     </div>
   </section>
 
@@ -1500,6 +1727,24 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
   </div>
 </div>
 
+<!-- MODAL REGISTRO SAT -->
+<div class="mo" id="moSatRecord" role="dialog" aria-modal="true">
+  <div class="md sat-record-modal" style="max-width:820px">
+    <button class="md-close" id="satRecordClose">✕</button>
+    <div class="sat-modal-head">
+      <span class="sat-modal-source">SAT · ONEDRIVE</span>
+      <h3 id="satRecordTitle">Registro SAT</h3>
+      <p class="md-info" id="satRecordMeta"></p>
+    </div>
+    <div class="sat-record-summary" id="satRecordSummary"></div>
+    <div class="sat-record-sections" id="satRecordSections"></div>
+    <div class="sat-modal-actions">
+      <button class="sat-soft-btn" id="btnSatModalOpenExcel" type="button">Abrir archivo original ↗</button>
+      <button class="btn-primary" id="btnSatImportReferral" type="button">Incorporar como derivación</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL MOTIVO DE DERIVACIÓN -->
 <div class="mo" id="moReferralReason" role="dialog" aria-modal="true">
   <div class="md ref-reason-modal" style="max-width:680px">
@@ -1724,6 +1969,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 <!-- + rápido -->
 <div class="fab-wrap" id="deskFab"><div class="fab-menu"><button data-fab-action="task">✓ Nueva tarea</button><button data-fab-action="case">👤 Nuevo caso</button><button data-fab-action="workshop">▦ Nuevo taller</button><button data-fab-action="adjustment">♿ Nuevo ajuste</button><button data-fab-action="note">🗒️ Nota flotante</button></div><button class="fab-main" id="deskFabMain" type="button" aria-label="Acciones rápidas">＋</button></div>
 
+<script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
 <!-- Firebase Storage para documentos de Casos Específicos -->
@@ -1797,6 +2043,13 @@ let ACTIVE_WRITING_DOC=null;
 let BITACORA_ROWS=[], BITACORA_HEADERS=[], BITACORA_MAPPING={}, BITACORA_META={};
 
 let REFERRALS=[];
+let REFERRAL_VIEW='managed';
+let SAT_ROWS=[], SAT_HEADERS=[], SAT_SELECTED_KEY=null;
+let SAT_IMPORT_FILTER='ALL', SAT_TYPE_FILTER='ALL', SAT_PRIORITY_FILTER='ALL', SAT_PRO_FILTER='ALL', SAT_SEARCH='';
+const SAT_DEFAULT_FILE_URL='https://uahurtadocl-my.sharepoint.com/:x:/r/personal/fpulgar_uahurtado_cl/_layouts/15/Doc.aspx?sourcedoc=%7B103773C5-C5E3-4C35-BDCD-A5FC797F81E1%7D&file=SAT%202%25u00b0%20Semestre%20Rev_CEF_15-09.xlsx&action=default&mobileredirect=true';
+let SAT_CONFIG={fileUrl:SAT_DEFAULT_FILE_URL,sheetName:'SATT',clientId:'154b7ffc-a630-414a-b1c2-505e40e03a6c',authority:'e049a386-0d1c-4632-b31d-c627c8cd07e9',redirectUri:'https://fabianpulgaru-dev.github.io/Talleres-Trayectoria/'};
+let SAT_MSAL_APP=null, SAT_ACCOUNT=null, SAT_SYNC_META={};
+
 const DEFAULT_CATALOGS={
   unidades:{name:'Áreas y unidades',description:'Origen, articulación y destino de casos.',items:[]},
   carreras:{name:'Carreras',description:'Carreras disponibles para registros y derivaciones.',items:[]},
@@ -1846,6 +2099,13 @@ function setConn(ok,label){
 
 async function loadData(){
   try{
+    try{
+      const sc=JSON.parse(localStorage.getItem('ute_sat_config_v1')||'null');
+      if(sc&&typeof sc==='object') SAT_CONFIG={...SAT_CONFIG,...sc};
+      SAT_ROWS=JSON.parse(localStorage.getItem('ute_sat_rows_v1')||'[]');
+      SAT_SYNC_META=JSON.parse(localStorage.getItem('ute_sat_meta_v1')||'{}');
+    }catch(_){}
+
     const r=await fetch(FB_PATH);
     const j=await r.json();
     if(!r.ok || (j && j.error)){
@@ -2100,7 +2360,7 @@ function renderCal(){
 function renderCurrentModule(){
   if(curModule==='home'){ renderHome(); renderDeskSummary(); }
   else if(curModule==='monitoring') renderMonitoring();
-  else if(curModule==='referrals') renderReferrals();
+  else if(curModule==='referrals'){renderReferrals();renderSatInbox();}
   else if(curModule==='cases') renderCases();
   else if(curModule==='adjustments') renderAR();
   else if(curModule==='tasks') renderTasks();
@@ -2126,6 +2386,10 @@ function switchModule(name){
   window.scrollTo({top:0,behavior:'auto'});
 }
 document.addEventListener('click',e=>{
+ const rv=e.target.closest('[data-ref-view]');if(rv){switchReferralView(rv.dataset.refView);return}
+ const cv=e.target.closest('[data-config-view]');if(cv){switchConfigView(cv.dataset.configView);return}
+ const sr=e.target.closest('[data-sat-review]');if(sr){openSatRecord(sr.dataset.satReview);return}
+ const si=e.target.closest('[data-sat-incorporate]');if(si){importSatReferral(si.dataset.satIncorporate);return}
   const go=e.target.closest('[data-go]'); if(go){switchModule(go.dataset.go);return;}
   const mb=e.target.closest('.module-btn[data-module]'); if(mb){switchModule(mb.dataset.module);return;}
 });
@@ -3267,7 +3531,307 @@ function openReferralReason(id){
 }
 function closeReferralReason(){document.getElementById('moReferralReason')?.classList.remove('open');document.body.style.overflow='';}
 
-function renderConfiguration(){if(!CATALOGS||!Object.keys(CATALOGS).length)CATALOGS=initCatalogs(null);if(!CATALOGS[activeCatalogKey])activeCatalogKey=Object.keys(CATALOGS)[0];const tabs=document.getElementById('catalogTabs');if(!tabs)return;tabs.innerHTML=Object.entries(CATALOGS).map(([k,c])=>`<button class="catalog-tab ${k===activeCatalogKey?'active':''}" data-catalog-key="${esc(k)}"><span>${esc(c.name)}</span><small>${(c.items||[]).filter(x=>x.active!==false).length}</small></button>`).join('');const cat=CATALOGS[activeCatalogKey];document.getElementById('catalogTitle').textContent=cat?.name||'Catálogo';document.getElementById('catalogDescription').textContent=cat?.description||'Opciones disponibles';const list=document.getElementById('catalogItems');list.innerHTML=(cat?.items||[]).map((x,i)=>`<div class="catalog-item ${x.active===false?'inactive':''}" data-cat-item="${esc(x.id)}"><div class="catalog-order">${i+1}</div><div><div class="catalog-name">${esc(x.label)}</div><div class="catalog-meta">${x.active===false?'Inactiva · se conserva en registros históricos':'Activa'}</div></div><div><button class="catalog-btn" data-cat-move="up" data-cat-id="${esc(x.id)}">↑</button><button class="catalog-btn" data-cat-move="down" data-cat-id="${esc(x.id)}">↓</button></div><button class="catalog-btn" data-cat-toggle="${esc(x.id)}">${x.active===false?'Activar':'Desactivar'}</button></div>`).join('')||'<div class="task-empty">Este catálogo todavía no tiene opciones.</div>';applyCatalogsToPlatform()}
+
+function satNorm(v=''){return String(v??'').trim()}
+function satFold(v=''){return satNorm(v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()}
+function satGet(row,...aliases){
+  if(!row)return'';
+  const keys=Object.keys(row);
+  for(const a of aliases){
+    const target=satFold(a);
+    const k=keys.find(x=>satFold(x)===target);
+    if(k!==undefined&&row[k]!==undefined&&row[k]!==null)return satNorm(row[k]);
+  }
+  return'';
+}
+function satHash(s=''){
+  let h=2166136261;
+  for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}
+  return (h>>>0).toString(36)
+}
+function satSourceKey(row){
+  const rut=satGet(row,'Rut estudiante','RUT estudiante');
+  const dv=satGet(row,'DV estudiante','DV estudiante ');
+  const tema=satGet(row,'Temática','Tematica');
+  const tivu=satGet(row,'TIVU ORIGEN');
+  return `sat_${satHash([rut,dv,tema,tivu].map(satFold).join('|'))}`;
+}
+function satIsImported(row){const key=satSourceKey(row);return REFERRALS.some(r=>r.sourceSatKey===key)}
+function satPriorityClass(v=''){const n=satFold(v);return n.includes('alta')?'high':n.includes('media')?'medium':n.includes('baja')?'low':''}
+function satRUT(row){const r=satGet(row,'Rut estudiante','RUT estudiante'),dv=satGet(row,'DV estudiante','DV estudiante ');return [r,dv].filter(Boolean).join('-')}
+function satStudent(row){return satGet(row,'Nombre estudiante','Estudiante')||'Sin nombre'}
+function satType(row){return satGet(row,'Tipo Alerta','Tipo alerta')||'Sin tipo'}
+function satPriority(row){return satGet(row,'Clasificación Alerta','Clasificacion Alerta')||'Sin clasificación'}
+function satProfessional(row){return satGet(row,'Profesional académico','Profesional academico')||''}
+
+function saveSatCache(){
+  try{
+    localStorage.setItem('ute_sat_config_v1',JSON.stringify(SAT_CONFIG));
+    localStorage.setItem('ute_sat_rows_v1',JSON.stringify(SAT_ROWS));
+    localStorage.setItem('ute_sat_meta_v1',JSON.stringify(SAT_SYNC_META));
+  }catch(e){console.warn('SAT cache',e)}
+}
+function populateSelectSimple(id,values,allLabel,current){
+  const el=document.getElementById(id);if(!el)return;
+  const vals=[...new Set(values.filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
+  el.innerHTML=`<option value="ALL">${allLabel}</option>`+vals.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
+  el.value=vals.includes(current)?current:'ALL';
+}
+function setSatStatus(kind,msg){
+  const el=document.getElementById('satConnectionStatus');if(el){el.className='sat-connection-status '+kind;el.textContent=msg}
+  const cs=document.getElementById('satConfigState');if(cs){cs.className='integration-state '+kind;cs.textContent=msg}
+}
+function satLastSyncLabel(){
+  if(!SAT_SYNC_META?.syncedAt)return'Sin sincronizar';
+  try{return 'Actualizado '+new Date(SAT_SYNC_META.syncedAt).toLocaleString('es-CL',{dateStyle:'short',timeStyle:'short'})}catch(_){return'Actualizado'}
+}
+function renderSatInbox(){
+  const view=document.getElementById('satInboxView');if(!view)return;
+  const badge=document.getElementById('satInboxBadge');
+  const pending=SAT_ROWS.filter(r=>!satIsImported(r)).length;
+  if(badge)badge.textContent=SAT_ROWS.length?String(pending):'';
+  setSatStatus(SAT_ROWS.length?'ok':'warn',SAT_ROWS.length?satLastSyncLabel():'Sin sincronizar');
+
+  const total=SAT_ROWS.length;
+  const acad=SAT_ROWS.filter(r=>satFold(satType(r)).includes('academ')).length;
+  const assigned=SAT_ROWS.filter(r=>!!satProfessional(r)).length;
+  const imported=SAT_ROWS.filter(satIsImported).length;
+  const high=SAT_ROWS.filter(r=>satFold(satPriority(r)).includes('alta')).length;
+  const k=document.getElementById('satKpis');
+  if(k)k.innerHTML=`<div class="sat-kpi"><strong>${total}</strong><span>Registros SAT</span></div><div class="sat-kpi"><strong>${pending}</strong><span>Por revisar</span></div><div class="sat-kpi"><strong>${acad}</strong><span>Alertas académicas</span></div><div class="sat-kpi"><strong>${assigned}</strong><span>Con profesional</span></div><div class="sat-kpi"><strong>${high}</strong><span>Prioridad alta</span></div>`;
+
+  populateSelectSimple('satTypeFilter',SAT_ROWS.map(satType),'Todos los tipos',SAT_TYPE_FILTER);
+  populateSelectSimple('satPriorityFilter',SAT_ROWS.map(satPriority),'Todas las prioridades',SAT_PRIORITY_FILTER);
+  populateSelectSimple('satProfessionalFilter',SAT_ROWS.map(satProfessional),'Todos los profesionales',SAT_PRO_FILTER);
+
+  const q=satFold(SAT_SEARCH);
+  let rows=SAT_ROWS.filter(r=>{
+    const imp=satIsImported(r);
+    if(SAT_IMPORT_FILTER==='pending'&&imp)return false;
+    if(SAT_IMPORT_FILTER==='imported'&&!imp)return false;
+    if(SAT_TYPE_FILTER!=='ALL'&&satType(r)!==SAT_TYPE_FILTER)return false;
+    if(SAT_PRIORITY_FILTER!=='ALL'&&satPriority(r)!==SAT_PRIORITY_FILTER)return false;
+    if(SAT_PRO_FILTER!=='ALL'&&satProfessional(r)!==SAT_PRO_FILTER)return false;
+    if(q){
+      const hay=[satStudent(r),satRUT(r),satGet(r,'Carrera'),satGet(r,'Temática','Tematica'),satGet(r,'Descripción','Descripcion'),satType(r),satProfessional(r)].join(' ');
+      if(!satFold(hay).includes(q))return false;
+    }
+    return true;
+  });
+  const list=document.getElementById('satList'),empty=document.getElementById('satEmpty');
+  if(!list)return;
+  empty.style.display=rows.length?'none':'block';
+  list.innerHTML=rows.map(r=>{
+    const imp=satIsImported(r),key=satSourceKey(r),pro=satProfessional(r);
+    return `<div class="sat-row ${imp?'imported':''}" data-sat-key="${esc(key)}">
+      <div class="sat-student"><div class="sat-name">${esc(satStudent(r))}</div><div class="sat-sub">${esc(satGet(r,'Carrera')||'Sin carrera')} · ${esc(satRUT(r)||'Sin RUT')}</div></div>
+      <div class="sat-cell"><div class="sat-label">Tipo</div><div class="sat-value">${esc(satType(r))}</div></div>
+      <div class="sat-cell"><div class="sat-label">Prioridad</div><div class="sat-tags"><span class="sat-tag ${satPriorityClass(satPriority(r))}">${esc(satPriority(r))}</span></div></div>
+      <div class="sat-cell sat-hide-md"><div class="sat-label">Temática</div><div class="sat-value">${esc(satGet(r,'Temática','Tematica')||'Sin temática')}</div></div>
+      <div class="sat-cell"><div class="sat-label">Profesional</div><div class="sat-value">${esc(pro||'Sin asignar')}</div></div>
+      <div class="sat-row-actions">
+        <button class="sat-review-btn" data-sat-review="${esc(key)}">Revisar</button>
+        ${imp?'<span class="sat-imported-label">✓ Incorporada</span>':`<button class="sat-soft-btn" data-sat-incorporate="${esc(key)}">Incorporar</button>`}
+      </div>
+    </div>`;
+  }).join('');
+  const note=document.getElementById('satSyncNote');
+  if(note)note.textContent=SAT_ROWS.length?`${SAT_ROWS.length} registros cargados desde ${SAT_SYNC_META.source||'SAT'}. La planilla original permanece intacta.`:'Conecta Microsoft 365 desde Configuración → Integraciones o usa el archivo Excel como respaldo.';
+  renderSatConfigUI();
+}
+function switchReferralView(view){
+  REFERRAL_VIEW=view==='sat'?'sat':'managed';
+  document.querySelectorAll('[data-ref-view]').forEach(b=>b.classList.toggle('active',b.dataset.refView===REFERRAL_VIEW));
+  const a=document.getElementById('refManagedView'),b=document.getElementById('satInboxView');
+  if(a)a.style.display=REFERRAL_VIEW==='managed'?'block':'none';
+  if(b)b.style.display=REFERRAL_VIEW==='sat'?'block':'none';
+  if(REFERRAL_VIEW==='sat')renderSatInbox();else renderReferrals();
+}
+function satRecordByKey(key){return SAT_ROWS.find(r=>satSourceKey(r)===key)}
+function openSatRecord(key){
+  const r=satRecordByKey(key);if(!r)return;SAT_SELECTED_KEY=key;
+  document.getElementById('satRecordTitle').textContent=satStudent(r);
+  document.getElementById('satRecordMeta').textContent=[satGet(r,'Carrera'),satRUT(r),satGet(r,'TIVU ORIGEN')].filter(Boolean).join(' · ');
+  document.getElementById('satRecordSummary').innerHTML=[
+    ['Tipo de alerta',satType(r)],['Prioridad',satPriority(r)],['Estado origen',satGet(r,'Estado Alerta')||'Sin registrar'],['Profesional',satProfessional(r)||'Sin asignar']
+  ].map(x=>`<div class="sat-summary-cell"><strong>${esc(x[0])}</strong><span>${esc(x[1])}</span></div>`).join('');
+  const blocks=[
+    ['Temática',satGet(r,'Temática','Tematica')],
+    ['Descripción / motivo',satGet(r,'Descripción','Descripcion')],
+    ['Respuestas de la bitácora',satGet(r,'Respuestas de la bitácora','Respuestas de la bitacora')],
+    ['Observaciones',satGet(r,'Observaciones','Observaciones ')],
+    ['Resolución de origen',satGet(r,'Observaciones Resolución','Observaciones Resolucion')],
+    ['Estado UTE',satGet(r,'Estado Alerta Unidad Trayectoria')],
+    ['Acompañamiento UTE',satGet(r,'Observaciones Acompañamiento Unidad de Trayectoria/profesional a cargo','Observaciones Acompanamiento Unidad de Trayectoria/profesional a cargo')]
+  ].filter(x=>satNorm(x[1]));
+  document.getElementById('satRecordSections').innerHTML=blocks.map(x=>`<div class="sat-long-block"><strong>${esc(x[0])}</strong><div>${esc(x[1])}</div></div>`).join('');
+  const imp=satIsImported(r),btn=document.getElementById('btnSatImportReferral');
+  btn.disabled=imp;btn.textContent=imp?'✓ Ya incorporada':'Incorporar como derivación';
+  document.getElementById('moSatRecord').classList.add('open');document.body.style.overflow='hidden';
+}
+function closeSatRecord(){document.getElementById('moSatRecord')?.classList.remove('open');document.body.style.overflow=''}
+function ensureCatalogLabel(key,label){
+  if(!label)return;
+  if(!CATALOGS[key])return;
+  if(!CATALOGS[key].items.some(x=>satFold(x.label)===satFold(label))){
+    CATALOGS[key].items.push({id:key+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),label,active:true});
+  }
+}
+function satSourceToReferral(row){
+  const sourceKey=satSourceKey(row);
+  const pro=satProfessional(row);
+  const prof=PROFESIONALES.find(p=>satFold(p.nombre)===satFold(pro));
+  const estadoUTE=satFold(satGet(row,'Estado Alerta Unidad Trayectoria'));
+  let estado='Nueva';
+  if(estadoUTE.includes('seguimiento')||estadoUTE.includes('acompan'))estado='Acompañamiento';
+  else if(estadoUTE.includes('cerr'))estado='Cerrada';
+  const observaciones=[
+    satGet(row,'Temática','Tematica')&&`Temática: ${satGet(row,'Temática','Tematica')}`,
+    satGet(row,'Respuestas de la bitácora','Respuestas de la bitacora')&&`Respuestas de bitácora: ${satGet(row,'Respuestas de la bitácora','Respuestas de la bitacora')}`,
+    satGet(row,'Observaciones','Observaciones ')&&`Observaciones de origen: ${satGet(row,'Observaciones','Observaciones ')}`
+  ].filter(Boolean).join('\n\n');
+  const notes=[
+    satGet(row,'Observaciones Resolución','Observaciones Resolucion'),
+    satGet(row,'Observaciones Acompañamiento Unidad de Trayectoria/profesional a cargo','Observaciones Acompanamiento Unidad de Trayectoria/profesional a cargo')
+  ].filter(Boolean).join('\n\n');
+  ensureCatalogLabel('unidades','Tutorías / SAT');
+  ensureCatalogLabel('carreras',satGet(row,'Carrera'));
+  ensureCatalogLabel('viasIngreso',satGet(row,'Ingreso'));
+  if(satGet(row,'Tipo apoyo'))ensureCatalogLabel('dispositivos',satGet(row,'Tipo apoyo'));
+  return {
+    id:'der'+Date.now().toString(36),
+    estudiante:satStudent(row),rut:satRUT(row),carrera:satGet(row,'Carrera'),viaIngreso:satGet(row,'Ingreso'),
+    fechaRecepcion:new Date().toISOString().slice(0,10),unidadOrigen:'Tutorías / SAT',
+    profesionalOrigen:satGet(row,'Correo Tutor'),canal:'Derivación interna',
+    motivo:satGet(row,'Descripción','Descripcion')||satGet(row,'Temática','Tematica'),
+    antecedentes:observaciones,responsable:pro,responsableEmail:prof?.correo||'',
+    dispositivo:satGet(row,'Tipo apoyo'),estado,prioridad:satPriority(row)||'Media',
+    articulaciones:[],proximaAccion:'Revisar antecedentes y definir contacto',fechaProxima:'',
+    unidadDestino:'',contactoDestino:'',fechaDestino:'',estadoDestino:'',motivoDestino:'',
+    notas:notes,
+    timeline:[{id:'rt'+Date.now().toString(36),date:new Date().toISOString().slice(0,10),type:'Recepción',text:`Registro incorporado desde SAT · ${satGet(row,'TIVU ORIGEN')||'fuente OneDrive'}.`}],
+    updatedAt:Date.now(),sourceSatKey:sourceKey,sourceSat:{...row}
+  }
+}
+async function importSatReferral(key,{open=true}={}){
+  const row=satRecordByKey(key);if(!row)return;
+  const existing=REFERRALS.find(r=>r.sourceSatKey===key);
+  if(existing){showToast('Este registro SAT ya fue incorporado','bad');if(open)openReferral(existing.id);return}
+  const ref=satSourceToReferral(row);REFERRALS.unshift(ref);saveCatalogsLocal();await saveData(false);renderReferrals();renderSatInbox();renderHome();
+  showToast('Registro SAT incorporado como derivación ✓','ok');
+  closeSatRecord();
+  if(open){openReferral(ref.id);const cb=document.getElementById('rNotifyEmail');if(cb&&ref.responsable)cb.checked=true}
+}
+function satAoAToRows(values){
+  if(!Array.isArray(values)||!values.length)return[];
+  let headerIndex=values.findIndex(row=>Array.isArray(row)&&row.some(v=>satFold(v)==='nombre estudiante')&&row.some(v=>satFold(v).includes('rut estudiante')));
+  if(headerIndex<0)headerIndex=0;
+  const raw=(values[headerIndex]||[]).map((h,i)=>satNorm(h)||`Columna ${i+1}`);
+  const seen={};
+  const headers=raw.map(h=>{seen[h]=(seen[h]||0)+1;return seen[h]===1?h:`${h} (${seen[h]})`});
+  SAT_HEADERS=headers;
+  return values.slice(headerIndex+1).filter(row=>Array.isArray(row)&&row.some(v=>satNorm(v)!=='')).map(row=>{
+    const obj={};headers.forEach((h,i)=>obj[h]=row[i]??'');return obj
+  });
+}
+function parseSatWorkbook(buffer,source='Excel local'){
+  if(typeof XLSX==='undefined')throw new Error('No se cargó el lector de Excel');
+  const wb=XLSX.read(buffer,{type:'array'});
+  const sheetName=SAT_CONFIG.sheetName||'SATT';
+  const ws=wb.Sheets[sheetName]||wb.Sheets[wb.SheetNames.find(n=>satFold(n)===satFold(sheetName))];
+  if(!ws)throw new Error(`No se encontró la hoja "${sheetName}"`);
+  const values=XLSX.utils.sheet_to_json(ws,{header:1,defval:'',raw:false});
+  SAT_ROWS=satAoAToRows(values);
+  SAT_SYNC_META={source,syncedAt:new Date().toISOString(),sheetName:ws['!ref']?sheetName:sheetName,total:SAT_ROWS.length};
+  saveSatCache();renderSatInbox();showToast(`SAT sincronizado · ${SAT_ROWS.length} registros`,'ok');
+}
+async function importSatLocal(){
+  const f=document.getElementById('satLocalFile')?.files?.[0];if(!f){showToast('Selecciona el archivo Excel','bad');return}
+  try{parseSatWorkbook(await f.arrayBuffer(),f.name)}catch(e){showToast('No se pudo leer SAT: '+e.message,'bad')}
+}
+function satEncodeShareUrl(url){
+  const bytes=new TextEncoder().encode(url);let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));
+  return 'u!'+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+function satAuthConfig(){
+  const authority=SAT_CONFIG.authority||'organizations';
+  return {auth:{clientId:SAT_CONFIG.clientId,authority:`https://login.microsoftonline.com/${authority}`,redirectUri:SAT_CONFIG.redirectUri},cache:{cacheLocation:'sessionStorage',storeAuthStateInCookie:false}}
+}
+function renderSatConfigUI(){
+  const set=(id,val)=>{const e=document.getElementById(id);if(e&&document.activeElement!==e)e.value=val||''};
+  set('satFileUrl',SAT_CONFIG.fileUrl||SAT_DEFAULT_FILE_URL);set('satSheetName',SAT_CONFIG.sheetName||'SATT');set('satClientId',SAT_CONFIG.clientId);set('satAuthority',SAT_CONFIG.authority||'organizations');
+  if(!SAT_CONFIG.redirectUri&&TASK_NOTIFY_CONFIG?.panelUrl)SAT_CONFIG.redirectUri=TASK_NOTIFY_CONFIG.panelUrl;
+  set('satRedirectUri',SAT_CONFIG.redirectUri||'');
+  const msg=document.getElementById('satConfigMessage');
+  if(msg)msg.textContent=SAT_ACCOUNT?`Conectado como ${SAT_ACCOUNT.username||SAT_ACCOUNT.name||'cuenta Microsoft'}. El panel solo lee la planilla.`:'El panel solo leerá la planilla; no modificará el archivo original.';
+  if(SAT_ACCOUNT)setSatStatus('ok','Conectado');else if(SAT_ROWS.length)setSatStatus('ok',satLastSyncLabel());else setSatStatus('warn','No conectado');
+}
+function readSatConfigForm(){
+  const get=id=>document.getElementById(id)?.value.trim()||'';
+  SAT_CONFIG={...SAT_CONFIG,fileUrl:get('satFileUrl')||SAT_DEFAULT_FILE_URL,sheetName:get('satSheetName')||'SATT',clientId:get('satClientId'),authority:get('satAuthority')||'organizations',redirectUri:get('satRedirectUri')};
+  saveSatCache();renderSatConfigUI();showToast('Configuración Microsoft 365 guardada ✓','ok')
+}
+async function buildSatMsal(){
+  if(!SAT_CONFIG.clientId)throw new Error('Falta el Client ID de Microsoft Entra');
+  if(!SAT_CONFIG.redirectUri)throw new Error('Falta la Redirect URI registrada');
+  if(typeof msal==='undefined')throw new Error('No se pudo cargar Microsoft Authentication Library');
+  SAT_MSAL_APP=new msal.PublicClientApplication(satAuthConfig());
+  if(SAT_MSAL_APP.initialize)await SAT_MSAL_APP.initialize();
+  return SAT_MSAL_APP;
+}
+async function connectMicrosoftSat(){
+  try{
+    readSatConfigForm();
+    const app=await buildSatMsal();
+    const result=await app.loginPopup({scopes:['User.Read','Files.Read'],prompt:'select_account'});
+    SAT_ACCOUNT=result.account;setSatStatus('ok','Conectado');renderSatConfigUI();showToast('Microsoft 365 conectado ✓','ok');
+  }catch(e){setSatStatus('bad','Error de conexión');showToast('Microsoft 365: '+e.message,'bad')}
+}
+async function satAccessToken(){
+  const app=SAT_MSAL_APP||await buildSatMsal();
+  let account=SAT_ACCOUNT||app.getAllAccounts?.()[0];if(!account){const r=await app.loginPopup({scopes:['User.Read','Files.Read']});account=r.account}
+  SAT_ACCOUNT=account;
+  try{return (await app.acquireTokenSilent({account,scopes:['Files.Read']})).accessToken}
+  catch(_){return (await app.acquireTokenPopup({account,scopes:['Files.Read']})).accessToken}
+}
+async function graphJson(url,token){
+  const r=await fetch(url,{headers:{Authorization:`Bearer ${token}`}});const j=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(j?.error?.message||`Microsoft Graph ${r.status}`);return j
+}
+async function syncSatMicrosoft(){
+  if(!SAT_CONFIG.fileUrl){showToast('Configura la URL del archivo SAT','bad');return}
+  const btns=[document.getElementById('btnSatSync'),document.getElementById('btnSyncMicrosoftConfig')].filter(Boolean);btns.forEach(b=>b.disabled=true);
+  setSatStatus('warn','Sincronizando…');
+  try{
+    const token=await satAccessToken();
+    const share=satEncodeShareUrl(SAT_CONFIG.fileUrl);
+    const item=await graphJson(`https://graph.microsoft.com/v1.0/shares/${share}/driveItem?$select=id,name,parentReference,@microsoft.graph.downloadUrl`,token);
+    let dl=item['@microsoft.graph.downloadUrl'];
+    if(!dl&&item.parentReference?.driveId&&item.id){
+      const meta=await graphJson(`https://graph.microsoft.com/v1.0/drives/${encodeURIComponent(item.parentReference.driveId)}/items/${encodeURIComponent(item.id)}?$select=@microsoft.graph.downloadUrl`,token);
+      dl=meta['@microsoft.graph.downloadUrl'];
+    }
+    if(!dl)throw new Error('Microsoft no entregó una URL de descarga para el archivo');
+    const rf=await fetch(dl);if(!rf.ok)throw new Error('No se pudo descargar el Excel desde OneDrive');
+    parseSatWorkbook(await rf.arrayBuffer(),item.name||'OneDrive');
+    SAT_SYNC_META={...SAT_SYNC_META,driveId:item.parentReference?.driveId||'',itemId:item.id||'',source:item.name||'OneDrive'};
+    saveSatCache();setSatStatus('ok',satLastSyncLabel());renderSatConfigUI();
+  }catch(e){console.error(e);setSatStatus('bad','Error de sincronización');showToast('SAT · OneDrive: '+e.message,'bad')}
+  finally{btns.forEach(b=>b.disabled=false)}
+}
+async function disconnectMicrosoftSat(){
+  try{if(SAT_MSAL_APP&&SAT_ACCOUNT)await SAT_MSAL_APP.logoutPopup({account:SAT_ACCOUNT,postLogoutRedirectUri:SAT_CONFIG.redirectUri||undefined})}catch(_){}
+  SAT_ACCOUNT=null;SAT_MSAL_APP=null;setSatStatus(SAT_ROWS.length?'ok':'warn',SAT_ROWS.length?satLastSyncLabel():'No conectado');renderSatConfigUI()
+}
+function switchConfigView(view){
+  const v=view==='integrations'?'integrations':'catalogs';
+  document.querySelectorAll('[data-config-view]').forEach(b=>b.classList.toggle('active',b.dataset.configView===v));
+  const a=document.getElementById('configCatalogsView'),b=document.getElementById('configIntegrationsView');
+  if(a)a.style.display=v==='catalogs'?'block':'none';if(b)b.style.display=v==='integrations'?'block':'none';
+  if(v==='integrations')renderSatConfigUI();else renderConfiguration();
+}
+
+function renderConfiguration(){renderSatConfigUI();if(!CATALOGS||!Object.keys(CATALOGS).length)CATALOGS=initCatalogs(null);if(!CATALOGS[activeCatalogKey])activeCatalogKey=Object.keys(CATALOGS)[0];const tabs=document.getElementById('catalogTabs');if(!tabs)return;tabs.innerHTML=Object.entries(CATALOGS).map(([k,c])=>`<button class="catalog-tab ${k===activeCatalogKey?'active':''}" data-catalog-key="${esc(k)}"><span>${esc(c.name)}</span><small>${(c.items||[]).filter(x=>x.active!==false).length}</small></button>`).join('');const cat=CATALOGS[activeCatalogKey];document.getElementById('catalogTitle').textContent=cat?.name||'Catálogo';document.getElementById('catalogDescription').textContent=cat?.description||'Opciones disponibles';const list=document.getElementById('catalogItems');list.innerHTML=(cat?.items||[]).map((x,i)=>`<div class="catalog-item ${x.active===false?'inactive':''}" data-cat-item="${esc(x.id)}"><div class="catalog-order">${i+1}</div><div><div class="catalog-name">${esc(x.label)}</div><div class="catalog-meta">${x.active===false?'Inactiva · se conserva en registros históricos':'Activa'}</div></div><div><button class="catalog-btn" data-cat-move="up" data-cat-id="${esc(x.id)}">↑</button><button class="catalog-btn" data-cat-move="down" data-cat-id="${esc(x.id)}">↓</button></div><button class="catalog-btn" data-cat-toggle="${esc(x.id)}">${x.active===false?'Activar':'Desactivar'}</button></div>`).join('')||'<div class="task-empty">Este catálogo todavía no tiene opciones.</div>';applyCatalogsToPlatform()}
 function addCatalogItem(){const i=document.getElementById('catalogItemInput'),label=i?.value.trim();if(!label||!CATALOGS[activeCatalogKey])return;const arr=CATALOGS[activeCatalogKey].items;if(arr.some(x=>x.label.toLowerCase()===label.toLowerCase())){showToast('Esa opción ya existe','bad');return}arr.push({id:activeCatalogKey+'_'+Date.now().toString(36),label,active:true});i.value='';persistCatalogChange()}
 function persistCatalogChange(){saveCatalogsLocal();renderConfiguration();renderReferrals();debounceSave()}
 function applyCatalogsToPlatform(){
@@ -3286,6 +3850,25 @@ document.addEventListener('click',e=>{
  const mv=e.target.closest('[data-cat-move]');if(mv){const a=CATALOGS[activeCatalogKey]?.items||[],i=a.findIndex(x=>x.id===mv.dataset.catId),j=mv.dataset.catMove==='up'?i-1:i+1;if(i>=0&&j>=0&&j<a.length){[a[i],a[j]]=[a[j],a[i]];persistCatalogChange()}return}
 });
 document.getElementById('btnNuevaDerivacion')?.addEventListener('click',()=>openReferral());document.getElementById('refClose')?.addEventListener('click',()=>{document.getElementById('moReferral').classList.remove('open');document.body.style.overflow=''});document.getElementById('rResponsable')?.addEventListener('change',()=>{syncProfessionalEmail('rResponsable','rResponsableEmail');const cb=document.getElementById('rNotifyEmail');if(cb)cb.checked=true});document.getElementById('refReasonClose')?.addEventListener('click',closeReferralReason);document.getElementById('moReferralReason')?.addEventListener('click',e=>{if(e.target.id==='moReferralReason')closeReferralReason()});document.getElementById('btnGuardarDerivacion')?.addEventListener('click',saveReferral);document.getElementById('btnEliminarDerivacion')?.addEventListener('click',async()=>{if(!editingReferralId||!confirm('¿Eliminar esta derivación?'))return;REFERRALS=REFERRALS.filter(x=>x.id!==editingReferralId);saveCatalogsLocal();document.getElementById('moReferral').classList.remove('open');renderReferrals();renderHome();await saveData(false);showToast('Derivación eliminada','ok')});document.getElementById('refOriginFilter')?.addEventListener('change',e=>{refOrigin=e.target.value;renderReferrals()});document.getElementById('refResponsibleFilter')?.addEventListener('change',e=>{refResponsible=e.target.value;renderReferrals()});document.getElementById('refSearch')?.addEventListener('input',e=>{refSearch=e.target.value;clearTimeout(window._refSearch);window._refSearch=setTimeout(renderReferrals,180)});
+
+document.getElementById('btnSatSync')?.addEventListener('click',syncSatMicrosoft);
+document.getElementById('btnSatConfigure')?.addEventListener('click',()=>{switchModule('configuration');switchConfigView('integrations')});
+document.getElementById('btnSatOpenSource')?.addEventListener('click',()=>window.open(SAT_CONFIG.fileUrl||SAT_DEFAULT_FILE_URL,'_blank','noopener'));
+document.getElementById('btnSaveSatConfig')?.addEventListener('click',readSatConfigForm);
+document.getElementById('btnConnectMicrosoft')?.addEventListener('click',connectMicrosoftSat);
+document.getElementById('btnSyncMicrosoftConfig')?.addEventListener('click',syncSatMicrosoft);
+document.getElementById('btnDisconnectMicrosoft')?.addEventListener('click',disconnectMicrosoftSat);
+document.getElementById('btnImportSatLocal')?.addEventListener('click',importSatLocal);
+document.getElementById('satRecordClose')?.addEventListener('click',closeSatRecord);
+document.getElementById('moSatRecord')?.addEventListener('click',e=>{if(e.target.id==='moSatRecord')closeSatRecord()});
+document.getElementById('btnSatModalOpenExcel')?.addEventListener('click',()=>window.open(SAT_CONFIG.fileUrl||SAT_DEFAULT_FILE_URL,'_blank','noopener'));
+document.getElementById('btnSatImportReferral')?.addEventListener('click',()=>SAT_SELECTED_KEY&&importSatReferral(SAT_SELECTED_KEY));
+document.querySelectorAll('[data-sat-import]').forEach(()=>{});
+document.getElementById('satTypeFilter')?.addEventListener('change',e=>{SAT_TYPE_FILTER=e.target.value;renderSatInbox()});
+document.getElementById('satPriorityFilter')?.addEventListener('change',e=>{SAT_PRIORITY_FILTER=e.target.value;renderSatInbox()});
+document.getElementById('satProfessionalFilter')?.addEventListener('change',e=>{SAT_PRO_FILTER=e.target.value;renderSatInbox()});
+document.getElementById('satSearch')?.addEventListener('input',e=>{SAT_SEARCH=e.target.value;clearTimeout(window._satSearch);window._satSearch=setTimeout(renderSatInbox,160)});
+document.getElementById('satImportSeg')?.addEventListener('click',e=>{const b=e.target.closest('[data-sat-import]');if(!b)return;document.querySelectorAll('[data-sat-import]').forEach(x=>x.classList.remove('active'));b.classList.add('active');SAT_IMPORT_FILTER=b.dataset.satImport;renderSatInbox()});
 document.getElementById('catalogItemAdd')?.addEventListener('click',addCatalogItem);document.getElementById('catalogItemInput')?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addCatalogItem()}});document.getElementById('btnNewCatalog')?.addEventListener('click',()=>document.getElementById('catalogNewBox').classList.toggle('show'));document.getElementById('catalogNewCancel')?.addEventListener('click',()=>document.getElementById('catalogNewBox').classList.remove('show'));document.getElementById('catalogNewSave')?.addEventListener('click',()=>{const inp=document.getElementById('catalogNewName'),name=inp.value.trim();if(!name)return;const key='custom_'+Date.now().toString(36);CATALOGS[key]={name,description:'Catálogo personalizado',items:[]};activeCatalogKey=key;inp.value='';document.getElementById('catalogNewBox').classList.remove('show');persistCatalogChange()});
 
 function renderAll(){
