@@ -897,7 +897,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 
 
 <style id="sat-v29-styles">
-/* v29.3 · SAT + OneDrive */
+/* v29.4 · SAT + OneDrive */
 .ref-source-switch,.config-section-tabs{
   display:inline-flex;gap:4px;padding:4px;margin:0 0 14px;
   border:1px solid rgba(84,92,120,.09);border-radius:12px;background:rgba(246,247,251,.72);
@@ -1029,7 +1029,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
   <div class="topbar-inner">
     <div class="tb-id">
       <span class="mono">UTE · Panel interno · v28</span>
-      <h1>Panel UTE v29.3</h1>
+      <h1>Panel UTE v29.4</h1>
     </div>
     <div class="tb-actions">
       <button class="btn-export" id="btnExportExcel" type="button">📊 Descargar todo en Excel</button>
@@ -1395,7 +1395,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
           <details class="integration-help">
             <summary>Configuración inicial de Microsoft Entra</summary>
             <div>
-              <p>La aplicación web necesita un <strong>Client ID</strong> de Microsoft Entra y la URL pública del panel registrada como <strong>Single-page application (SPA) Redirect URI</strong>.</p>
+              <p>La aplicación web usa OAuth 2.0 con PKCE directamente desde el navegador. Necesita un <strong>Client ID</strong> de Microsoft Entra y la URL pública del panel registrada como <strong>Single-page application (SPA) Redirect URI</strong>.</p>
               <p>Permisos delegados necesarios: <strong>User.Read</strong> y <strong>Files.Read</strong>. No se guarda tu contraseña ni un secreto dentro del HTML.</p>
             </div>
           </details>
@@ -1969,30 +1969,6 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 <!-- + rápido -->
 <div class="fab-wrap" id="deskFab"><div class="fab-menu"><button data-fab-action="task">✓ Nueva tarea</button><button data-fab-action="case">👤 Nuevo caso</button><button data-fab-action="workshop">▦ Nuevo taller</button><button data-fab-action="adjustment">♿ Nuevo ajuste</button><button data-fab-action="note">🗒️ Nota flotante</button></div><button class="fab-main" id="deskFabMain" type="button" aria-label="Acciones rápidas">＋</button></div>
 
-<script>
-window.__loadMSAL = async function(){
-  if(window.msal) return window.msal;
-  const sources = [
-    'https://cdn.jsdelivr.net/npm/@azure/msal-browser@5.17.3/lib/msal-browser.min.js',
-    'https://unpkg.com/@azure/msal-browser@5.17.3/lib/msal-browser.min.js'
-  ];
-  for(const src of sources){
-    try{
-      await new Promise((resolve,reject)=>{
-        const s=document.createElement('script');
-        s.src=src;
-        s.async=true;
-        s.crossOrigin='anonymous';
-        s.onload=()=>resolve();
-        s.onerror=()=>{s.remove();reject(new Error('No se pudo cargar '+src))};
-        document.head.appendChild(s);
-      });
-      if(window.msal) return window.msal;
-    }catch(e){ console.warn('MSAL fallback',e); }
-  }
-  throw new Error('No se pudo cargar Microsoft Authentication Library');
-};
-</script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
 <!-- Firebase Storage para documentos de Casos Específicos -->
@@ -2071,7 +2047,12 @@ let SAT_ROWS=[], SAT_HEADERS=[], SAT_SELECTED_KEY=null;
 let SAT_IMPORT_FILTER='ALL', SAT_TYPE_FILTER='ALL', SAT_PRIORITY_FILTER='ALL', SAT_PRO_FILTER='ALL', SAT_SEARCH='';
 const SAT_DEFAULT_FILE_URL='https://uahurtadocl-my.sharepoint.com/:x:/r/personal/fpulgar_uahurtado_cl/_layouts/15/Doc.aspx?sourcedoc=%7B103773C5-C5E3-4C35-BDCD-A5FC797F81E1%7D&file=SAT%202%25u00b0%20Semestre%20Rev_CEF_15-09.xlsx&action=default&mobileredirect=true';
 let SAT_CONFIG={fileUrl:SAT_DEFAULT_FILE_URL,sheetName:'SATT',clientId:'154b7ffc-a630-414a-b1c2-505e40e03a6c',authority:'e049a386-0d1c-4632-b31d-c627c8cd07e9',redirectUri:'https://fabianpulgaru-dev.github.io/Talleres-Trayectoria/'};
-let SAT_MSAL_APP=null, SAT_ACCOUNT=null, SAT_SYNC_META={};
+let SAT_AUTH={accessToken:'',expiresAt:0,accountName:'',username:''}, SAT_SYNC_META={};
+try{
+  const _sa=JSON.parse(sessionStorage.getItem('ute_sat_auth_v1')||'null');
+  if(_sa&&typeof _sa==='object')SAT_AUTH={...SAT_AUTH,..._sa};
+}catch(_e){}
+
 
 const DEFAULT_CATALOGS={
   unidades:{name:'Áreas y unidades',description:'Origen, articulación y destino de casos.',items:[]},
@@ -3790,9 +3771,39 @@ function satEncodeShareUrl(url){
   const bytes=new TextEncoder().encode(url);let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));
   return 'u!'+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
 }
-function satAuthConfig(){
-  const authority=SAT_CONFIG.authority||'organizations';
-  return {auth:{clientId:SAT_CONFIG.clientId,authority:`https://login.microsoftonline.com/${authority}`,redirectUri:SAT_CONFIG.redirectUri},cache:{cacheLocation:'sessionStorage',storeAuthStateInCookie:false}}
+
+function satAuthSave(){
+  try{sessionStorage.setItem('ute_sat_auth_v1',JSON.stringify(SAT_AUTH))}catch(_){}
+}
+function satAuthClear(){
+  SAT_AUTH={accessToken:'',expiresAt:0,accountName:'',username:''};
+  try{sessionStorage.removeItem('ute_sat_auth_v1')}catch(_){}
+}
+function satBase64Url(bytes){
+  let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));
+  return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+function satRandomString(bytes=48){
+  const arr=new Uint8Array(bytes);crypto.getRandomValues(arr);return satBase64Url(arr)
+}
+async function satSha256Base64Url(value){
+  const data=new TextEncoder().encode(value);
+  const hash=new Uint8Array(await crypto.subtle.digest('SHA-256',data));
+  return satBase64Url(hash)
+}
+function satJwtPayload(token=''){
+  try{
+    const p=token.split('.')[1];if(!p)return{};
+    const s=p.replace(/-/g,'+').replace(/_/g,'/');
+    const json=decodeURIComponent(atob(s).split('').map(c=>'%'+c.charCodeAt(0).toString(16).padStart(2,'0')).join(''));
+    return JSON.parse(json);
+  }catch(_){return{}}
+}
+function satOAuthScopes(){
+  return 'openid profile offline_access https://graph.microsoft.com/User.Read https://graph.microsoft.com/Files.Read';
+}
+function satAuthValid(){
+  return !!SAT_AUTH.accessToken && Number(SAT_AUTH.expiresAt||0)>Date.now()+60000;
 }
 function renderSatConfigUI(){
   // Protección adicional por si quedan datos antiguos guardados en el navegador.
@@ -3804,8 +3815,14 @@ function renderSatConfigUI(){
   if(!SAT_CONFIG.redirectUri&&TASK_NOTIFY_CONFIG?.panelUrl)SAT_CONFIG.redirectUri=TASK_NOTIFY_CONFIG.panelUrl;
   set('satRedirectUri',SAT_CONFIG.redirectUri||'');
   const msg=document.getElementById('satConfigMessage');
-  if(msg)msg.textContent=SAT_ACCOUNT?`Conectado como ${SAT_ACCOUNT.username||SAT_ACCOUNT.name||'cuenta Microsoft'}. El panel solo lee la planilla.`:'El panel solo leerá la planilla; no modificará el archivo original.';
-  if(SAT_ACCOUNT)setSatStatus('ok','Conectado');else if(SAT_ROWS.length)setSatStatus('ok',satLastSyncLabel());else setSatStatus('warn','No conectado');
+  if(msg){
+    msg.textContent=satAuthValid()
+      ?`Conectado${SAT_AUTH.username?' como '+SAT_AUTH.username:''}. El panel solo lee la planilla.`
+      :'El panel solo leerá la planilla; no modificará el archivo original.';
+  }
+  if(satAuthValid())setSatStatus('ok','Conectado');
+  else if(SAT_ROWS.length)setSatStatus('ok',satLastSyncLabel());
+  else setSatStatus('warn','No conectado');
 }
 function readSatConfigForm(){
   const get=id=>document.getElementById(id)?.value.trim()||'';
@@ -3818,23 +3835,117 @@ function readSatConfigForm(){
   };
   saveSatCache();renderSatConfigUI();showToast('Configuración Microsoft 365 guardada ✓','ok')
 }
-async function buildSatMsal(){
+async function satExchangeCode(code,verifier){
+  const tenant=SAT_CONFIG.authority||'e049a386-0d1c-4632-b31d-c627c8cd07e9';
+  const tokenUrl=`https://login.microsoftonline.com/${encodeURIComponent(tenant)}/oauth2/v2.0/token`;
+  const body=new URLSearchParams({
+    client_id:SAT_CONFIG.clientId,
+    scope:satOAuthScopes(),
+    code,
+    redirect_uri:SAT_CONFIG.redirectUri,
+    grant_type:'authorization_code',
+    code_verifier:verifier
+  });
+  const r=await fetch(tokenUrl,{
+    method:'POST',
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body
+  });
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(j?.error_description||j?.error||`Error de autenticación ${r.status}`);
+  const claims=satJwtPayload(j.id_token||'');
+  SAT_AUTH={
+    accessToken:j.access_token||'',
+    expiresAt:Date.now()+Math.max(60,Number(j.expires_in||3600)-60)*1000,
+    accountName:claims.name||'',
+    username:claims.preferred_username||claims.email||claims.upn||''
+  };
+  satAuthSave();
+  return SAT_AUTH.accessToken;
+}
+async function satAuthorizePopup(){
+  if(location.protocol==='file:')throw new Error('Abre el Panel desde la URL pública de GitHub Pages');
   if(!SAT_CONFIG.clientId)throw new Error('Falta el Client ID de Microsoft Entra');
   if(!SAT_CONFIG.redirectUri)throw new Error('Falta la Redirect URI registrada');
-  if(typeof window.msal==='undefined'){
-    if(typeof window.__loadMSAL!=='function')throw new Error('No se encontró el cargador de Microsoft Authentication Library');
-    await window.__loadMSAL();
-  }
-  SAT_MSAL_APP=new window.msal.PublicClientApplication(satAuthConfig());
-  if(SAT_MSAL_APP.initialize)await SAT_MSAL_APP.initialize();
-  return SAT_MSAL_APP;
+
+  // Abrir inmediatamente para evitar el bloqueo de popups antes de cualquier await.
+  const w=520,h=680,left=Math.max(0,(screen.width-w)/2),top=Math.max(0,(screen.height-h)/2);
+  const popup=window.open('about:blank','uteMicrosoftLogin',`popup=yes,width=${w},height=${h},left=${left},top=${top}`);
+  if(!popup)throw new Error('El navegador bloqueó la ventana de inicio de sesión');
+
+  try{
+    popup.document.title='Conectando con Microsoft 365…';
+    popup.document.body.innerHTML='<div style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;padding:32px;color:#334">Preparando inicio de sesión con Microsoft…</div>';
+  }catch(_){}
+
+  const verifier=satRandomString(64);
+  const challenge=await satSha256Base64Url(verifier);
+  const state=satRandomString(24);
+  const tenant=SAT_CONFIG.authority||'e049a386-0d1c-4632-b31d-c627c8cd07e9';
+
+  const authUrl=new URL(`https://login.microsoftonline.com/${encodeURIComponent(tenant)}/oauth2/v2.0/authorize`);
+  authUrl.search=new URLSearchParams({
+    client_id:SAT_CONFIG.clientId,
+    response_type:'code',
+    redirect_uri:SAT_CONFIG.redirectUri,
+    response_mode:'query',
+    scope:satOAuthScopes(),
+    state,
+    code_challenge:challenge,
+    code_challenge_method:'S256',
+    prompt:'select_account'
+  }).toString();
+
+  popup.location.href=authUrl.toString();
+
+  return await new Promise((resolve,reject)=>{
+    const started=Date.now();
+    const timer=setInterval(async()=>{
+      if(Date.now()-started>180000){
+        clearInterval(timer);
+        try{popup.close()}catch(_){}
+        reject(new Error('El inicio de sesión tardó demasiado'));
+        return;
+      }
+      if(popup.closed){
+        clearInterval(timer);
+        reject(new Error('Se cerró la ventana de Microsoft antes de completar el acceso'));
+        return;
+      }
+      try{
+        const href=popup.location.href;
+        if(!href||!href.startsWith(new URL(SAT_CONFIG.redirectUri).origin))return;
+        const u=new URL(href);
+        const err=u.searchParams.get('error');
+        if(err){
+          clearInterval(timer);popup.close();
+          reject(new Error(u.searchParams.get('error_description')||err));
+          return;
+        }
+        const code=u.searchParams.get('code');
+        const returnedState=u.searchParams.get('state');
+        if(!code)return;
+        clearInterval(timer);
+        popup.close();
+        if(returnedState!==state){reject(new Error('Microsoft devolvió una respuesta de seguridad no válida'));return}
+        try{
+          const token=await satExchangeCode(code,verifier);
+          resolve(token);
+        }catch(e){reject(e)}
+      }catch(_crossOrigin){
+        // Mientras el popup esté en login.microsoftonline.com no podemos leer su URL. Es esperado.
+      }
+    },250);
+  });
 }
 async function connectMicrosoftSat(){
   try{
     readSatConfigForm();
-    const app=await buildSatMsal();
-    const result=await app.loginPopup({scopes:['User.Read','Files.Read'],prompt:'select_account'});
-    SAT_ACCOUNT=result.account;setSatStatus('ok','Conectado');renderSatConfigUI();showToast('Microsoft 365 conectado ✓','ok');
+    setSatStatus('warn','Conectando…');
+    await satAuthorizePopup();
+    setSatStatus('ok','Conectado');
+    renderSatConfigUI();
+    showToast('Microsoft 365 conectado ✓','ok');
   }catch(e){
     console.error('Microsoft 365 auth',e);
     setSatStatus('bad','Error de conexión');
@@ -3842,15 +3953,17 @@ async function connectMicrosoftSat(){
   }
 }
 async function satAccessToken(){
-  const app=SAT_MSAL_APP||await buildSatMsal();
-  let account=SAT_ACCOUNT||app.getAllAccounts?.()[0];if(!account){const r=await app.loginPopup({scopes:['User.Read','Files.Read']});account=r.account}
-  SAT_ACCOUNT=account;
-  try{return (await app.acquireTokenSilent({account,scopes:['Files.Read']})).accessToken}
-  catch(_){return (await app.acquireTokenPopup({account,scopes:['Files.Read']})).accessToken}
+  if(satAuthValid())return SAT_AUTH.accessToken;
+  return await satAuthorizePopup();
 }
 async function graphJson(url,token){
-  const r=await fetch(url,{headers:{Authorization:`Bearer ${token}`}});const j=await r.json().catch(()=>({}));
-  if(!r.ok)throw new Error(j?.error?.message||`Microsoft Graph ${r.status}`);return j
+  const r=await fetch(url,{headers:{Authorization:`Bearer ${token}`}});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok){
+    if(r.status===401){satAuthClear();renderSatConfigUI()}
+    throw new Error(j?.error?.message||`Microsoft Graph ${r.status}`);
+  }
+  return j
 }
 async function syncSatMicrosoft(){
   if(!SAT_CONFIG.fileUrl){showToast('Configura la URL del archivo SAT','bad');return}
@@ -3859,29 +3972,55 @@ async function syncSatMicrosoft(){
     setSatStatus('warn','Abrir desde GitHub Pages');
     return;
   }
-  const btns=[document.getElementById('btnSatSync'),document.getElementById('btnSyncMicrosoftConfig')].filter(Boolean);btns.forEach(b=>b.disabled=true);
+  const btns=[document.getElementById('btnSatSync'),document.getElementById('btnSyncMicrosoftConfig')].filter(Boolean);
+  btns.forEach(b=>b.disabled=true);
   setSatStatus('warn','Sincronizando…');
   try{
     const token=await satAccessToken();
     const share=satEncodeShareUrl(SAT_CONFIG.fileUrl);
     const item=await graphJson(`https://graph.microsoft.com/v1.0/shares/${share}/driveItem?$select=id,name,parentReference,@microsoft.graph.downloadUrl`,token);
-    let dl=item['@microsoft.graph.downloadUrl'];
-    if(!dl&&item.parentReference?.driveId&&item.id){
-      const meta=await graphJson(`https://graph.microsoft.com/v1.0/drives/${encodeURIComponent(item.parentReference.driveId)}/items/${encodeURIComponent(item.id)}?$select=@microsoft.graph.downloadUrl`,token);
-      dl=meta['@microsoft.graph.downloadUrl'];
+
+    let buffer=null;
+    if(item.parentReference?.driveId&&item.id){
+      try{
+        const contentUrl=`https://graph.microsoft.com/v1.0/drives/${encodeURIComponent(item.parentReference.driveId)}/items/${encodeURIComponent(item.id)}/content`;
+        const rr=await fetch(contentUrl,{headers:{Authorization:`Bearer ${token}`}});
+        if(rr.ok)buffer=await rr.arrayBuffer();
+      }catch(_){}
     }
-    if(!dl)throw new Error('Microsoft no entregó una URL de descarga para el archivo');
-    const rf=await fetch(dl);if(!rf.ok)throw new Error('No se pudo descargar el Excel desde OneDrive');
-    parseSatWorkbook(await rf.arrayBuffer(),item.name||'OneDrive');
+
+    if(!buffer){
+      let dl=item['@microsoft.graph.downloadUrl'];
+      if(!dl&&item.parentReference?.driveId&&item.id){
+        const meta=await graphJson(`https://graph.microsoft.com/v1.0/drives/${encodeURIComponent(item.parentReference.driveId)}/items/${encodeURIComponent(item.id)}?$select=@microsoft.graph.downloadUrl`,token);
+        dl=meta['@microsoft.graph.downloadUrl'];
+      }
+      if(!dl)throw new Error('Microsoft no entregó una vía de descarga para el archivo');
+      const rf=await fetch(dl);
+      if(!rf.ok)throw new Error('No se pudo descargar el Excel desde OneDrive');
+      buffer=await rf.arrayBuffer();
+    }
+
+    parseSatWorkbook(buffer,item.name||'OneDrive');
     SAT_SYNC_META={...SAT_SYNC_META,driveId:item.parentReference?.driveId||'',itemId:item.id||'',source:item.name||'OneDrive'};
-    saveSatCache();setSatStatus('ok',satLastSyncLabel());renderSatConfigUI();
-  }catch(e){console.error(e);setSatStatus('bad','Error de sincronización');showToast('SAT · OneDrive: '+e.message,'bad')}
-  finally{btns.forEach(b=>b.disabled=false)}
+    saveSatCache();
+    setSatStatus('ok',satLastSyncLabel());
+    renderSatConfigUI();
+  }catch(e){
+    console.error('SAT OneDrive sync',e);
+    setSatStatus('bad','Error de sincronización');
+    showToast('SAT · OneDrive: '+(e?.message||'No se pudo sincronizar'),'bad');
+  }finally{
+    btns.forEach(b=>b.disabled=false);
+  }
 }
 async function disconnectMicrosoftSat(){
-  try{if(SAT_MSAL_APP&&SAT_ACCOUNT)await SAT_MSAL_APP.logoutPopup({account:SAT_ACCOUNT,postLogoutRedirectUri:SAT_CONFIG.redirectUri||undefined})}catch(_){}
-  SAT_ACCOUNT=null;SAT_MSAL_APP=null;setSatStatus(SAT_ROWS.length?'ok':'warn',SAT_ROWS.length?satLastSyncLabel():'No conectado');renderSatConfigUI()
+  satAuthClear();
+  setSatStatus(SAT_ROWS.length?'ok':'warn',SAT_ROWS.length?satLastSyncLabel():'No conectado');
+  renderSatConfigUI();
+  showToast('Microsoft 365 desconectado','ok');
 }
+
 function switchConfigView(view){
   const v=view==='integrations'?'integrations':'catalogs';
   document.querySelectorAll('[data-config-view]').forEach(b=>b.classList.toggle('active',b.dataset.configView===v));
