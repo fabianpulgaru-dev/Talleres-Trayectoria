@@ -896,128 +896,91 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 </style>
 
 
-<style id="sat-v29-styles">
-/* v29.4 · SAT + OneDrive */
-.ref-source-switch,.config-section-tabs{
-  display:inline-flex;gap:4px;padding:4px;margin:0 0 14px;
-  border:1px solid rgba(84,92,120,.09);border-radius:12px;background:rgba(246,247,251,.72);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.7)
+<style id="sat-paste-v29-style">
+.sat-paste-trigger{
+  appearance:none;-webkit-appearance:none;border:0;border-radius:11px;
+  padding:8px 11px;background:rgba(255,255,255,.72);color:var(--txt2);
+  font:inherit;font-size:.72rem;font-weight:690;cursor:pointer;
+  display:inline-flex;align-items:center;gap:7px;
+  box-shadow:0 1px 2px rgba(31,38,61,.04),0 5px 14px rgba(31,38,61,.045),inset 0 1px 0 rgba(255,255,255,.85);
+  transition:.15s ease
 }
-.ref-source-switch button,.config-section-tabs button{
-  appearance:none;-webkit-appearance:none;border:0;background:transparent;color:var(--txt2);
-  border-radius:9px;padding:8px 12px;font:inherit;font-size:.75rem;font-weight:680;cursor:pointer;
-  transition:.14s ease;display:inline-flex;align-items:center;gap:7px
+.sat-paste-trigger span{font-size:.63rem;color:var(--mut);font-weight:800;letter-spacing:-.02em}
+.sat-paste-trigger:hover{background:#fff;color:var(--p);transform:translateY(-1px);box-shadow:0 8px 18px rgba(31,38,61,.07)}
+.sat-paste-modal{padding-bottom:18px}
+.sat-paste-head{display:grid;grid-template-columns:46px minmax(0,1fr);gap:13px;align-items:start;margin-bottom:14px}
+.sat-paste-icon{
+  width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+  background:linear-gradient(145deg,rgba(var(--desk-accent-rgb),.12),rgba(var(--desk-accent-rgb),.055));
+  color:var(--p);font-size:.8rem;font-weight:800;box-shadow:inset 0 1px 0 rgba(255,255,255,.85)
 }
-.ref-source-switch button:hover,.config-section-tabs button:hover{color:var(--txt);background:rgba(255,255,255,.58)}
-.ref-source-switch button.active,.config-section-tabs button.active{
-  color:var(--p);background:#fff;box-shadow:0 2px 8px rgba(35,43,70,.07),inset 0 1px 0 rgba(255,255,255,.9)
+.sat-paste-kicker{font-size:.58rem;letter-spacing:.105em;text-transform:uppercase;font-weight:800;color:#8d8aa6;margin-bottom:3px}
+.sat-paste-head h3{margin:0 0 2px;font-family:var(--fd);font-weight:520}
+.sat-paste-tip{
+  padding:10px 12px;margin-bottom:9px;border-radius:12px;
+  background:rgba(var(--desk-accent-rgb),.045);border:1px solid rgba(var(--desk-accent-rgb),.08);
+  color:var(--txt2);font-size:.72rem;line-height:1.45
 }
-.ref-source-switch small{min-width:18px;padding:2px 5px;border-radius:999px;background:rgba(var(--desk-accent-rgb),.08);font-size:.62rem;text-align:center}
-
-.sat-inbox-view{animation:none}
-.sat-source-card{
-  display:grid;grid-template-columns:46px minmax(0,1fr) auto;gap:13px;align-items:center;
-  padding:14px 16px;margin-bottom:13px;border:1px solid rgba(82,91,119,.09);border-radius:16px;
-  background:rgba(255,255,255,.84);box-shadow:0 8px 24px rgba(34,43,70,.045)
+.sat-paste-tip strong{color:var(--txt)}
+.sat-paste-area{
+  width:100%;min-height:190px;resize:vertical;border:1px solid rgba(82,91,119,.10);
+  border-radius:14px;padding:14px;background:rgba(250,251,253,.86);color:var(--txt);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:.71rem;line-height:1.5;
+  outline:none;box-shadow:inset 0 1px 2px rgba(31,38,61,.025);transition:.15s
 }
-.sat-source-icon{
-  width:42px;height:42px;display:grid;place-items:center;border-radius:13px;
-  background:linear-gradient(145deg,#eef5ff,#e4edff);color:#4776c7;font-size:1.15rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.85)
+.sat-paste-area:focus{border-color:rgba(var(--desk-accent-rgb),.24);background:#fff;box-shadow:0 0 0 3px rgba(var(--desk-accent-rgb),.055)}
+.sat-paste-input-footer,.sat-paste-bottom,.sat-paste-result-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px
 }
-.sat-source-copy h3{margin:1px 0 2px;font-family:var(--fb);font-size:.92rem;font-weight:720;color:var(--txt)}
-.sat-source-copy p{margin:0;font-size:.72rem;color:var(--txt2)}
-.sat-kicker,.integration-kicker,.sat-modal-source{font-size:.58rem;letter-spacing:.105em;text-transform:uppercase;font-weight:800;color:#8d8aa6}
-.sat-source-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap}
-.sat-connection-status,.integration-state{
-  display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;font-size:.65rem;font-weight:720;
-  background:var(--surface2);color:var(--txt2)
-}
-.sat-connection-status.ok,.integration-state.ok{background:var(--ok-bg);color:var(--ok)}
-.sat-connection-status.warn,.integration-state.warn{background:var(--warn-bg);color:var(--warn)}
-.sat-connection-status.bad,.integration-state.bad{background:var(--bad-bg);color:var(--bad)}
-.sat-soft-btn{
+.sat-paste-input-footer{margin-top:9px}
+.sat-paste-input-footer>span{font-size:.68rem;color:var(--txt2)}
+.sat-paste-input-footer>div{display:flex;gap:7px}
+.sat-paste-soft{
   appearance:none;-webkit-appearance:none;border:0;border-radius:10px;padding:7px 10px;
   background:rgba(246,247,251,.9);color:var(--txt2);font:inherit;font-size:.69rem;font-weight:680;cursor:pointer;
-  box-shadow:0 1px 2px rgba(30,38,62,.04),inset 0 1px 0 rgba(255,255,255,.75);transition:.14s ease
+  box-shadow:0 1px 2px rgba(30,38,62,.035),inset 0 1px 0 rgba(255,255,255,.8);transition:.14s ease
 }
-.sat-soft-btn:hover{background:#fff;color:var(--p);transform:translateY(-1px);box-shadow:0 5px 14px rgba(31,38,61,.065)}
-.sat-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:12px}
-.sat-kpi{padding:11px 12px;border:1px solid rgba(82,91,119,.08);border-radius:13px;background:rgba(255,255,255,.78)}
-.sat-kpi strong{display:block;font-size:1.25rem;font-weight:570;color:var(--p);line-height:1.05}
-.sat-kpi span{display:block;margin-top:4px;font-size:.64rem;color:var(--txt2);font-weight:680}
-.sat-toolbar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
-.sat-toolbar .search-box{flex:1;min-width:230px}
-.sat-toolbar .search-box input{width:100%}
-.sat-sync-note{font-size:.69rem;color:var(--txt2);margin:0 2px 9px}
-.sat-list{display:grid;gap:8px}
-.sat-row{
-  display:grid;grid-template-columns:minmax(210px,1.35fr) minmax(105px,.65fr) minmax(95px,.55fr) minmax(125px,.75fr) minmax(125px,.72fr) auto;
-  gap:8px;align-items:center;padding:11px 12px;border:1px solid rgba(82,91,119,.085);border-radius:14px;background:rgba(255,255,255,.86);
-  box-shadow:0 6px 18px rgba(34,43,70,.035)
+.sat-paste-soft:hover{background:#fff;color:var(--p);transform:translateY(-1px);box-shadow:0 5px 13px rgba(31,38,61,.06)}
+.sat-paste-result-head{align-items:flex-start;margin-bottom:10px}
+.sat-paste-result-head h4{margin:0;font-size:.94rem;color:var(--txt)}
+.sat-paste-result-head p{margin:3px 0 0;font-size:.7rem;color:var(--txt2)}
+.sat-paste-list{display:grid;gap:8px;max-height:52vh;overflow:auto;padding-right:2px}
+.sat-paste-card{
+  display:grid;grid-template-columns:28px minmax(190px,1.2fr) minmax(110px,.62fr) minmax(110px,.62fr) minmax(165px,.9fr) auto;
+  gap:9px;align-items:center;padding:11px 12px;border:1px solid rgba(82,91,119,.085);
+  border-radius:14px;background:rgba(255,255,255,.86);box-shadow:0 5px 15px rgba(34,43,70,.03)
 }
-.sat-row.imported{opacity:.68;background:rgba(248,249,252,.75)}
-.sat-student{min-width:0}
-.sat-name{font-size:.84rem;font-weight:720;color:var(--txt);line-height:1.3}
-.sat-sub{margin-top:3px;font-size:.67rem;line-height:1.35;color:var(--txt2)}
-.sat-cell{min-width:0}
-.sat-label{font-size:.55rem;letter-spacing:.07em;text-transform:uppercase;color:#918eaa;font-weight:760;margin-bottom:4px}
-.sat-value{font-size:.72rem;line-height:1.35;color:var(--txt);font-weight:610;overflow-wrap:break-word}
-.sat-tags{display:flex;gap:5px;flex-wrap:wrap}
-.sat-tag{display:inline-flex;padding:4px 7px;border-radius:999px;background:var(--surface2);font-size:.62rem;font-weight:680;color:var(--txt2)}
-.sat-tag.high{background:var(--bad-bg);color:var(--bad)}.sat-tag.medium{background:var(--warn-bg);color:var(--warn)}.sat-tag.low{background:var(--ok-bg);color:var(--ok)}
-.sat-row-actions{display:flex;gap:5px;align-items:center}
-.sat-row-actions button{white-space:nowrap}
-.sat-review-btn{
-  appearance:none;border:0;border-radius:9px;padding:7px 9px;background:rgba(var(--desk-accent-rgb),.06);color:var(--p);
-  font:inherit;font-size:.67rem;font-weight:700;cursor:pointer
+.sat-paste-card.duplicate{opacity:.58;background:rgba(247,248,251,.72)}
+.sat-paste-check{display:grid;place-items:center}
+.sat-paste-check input{width:16px;height:16px;accent-color:var(--p)}
+.sat-paste-name{font-size:.82rem;font-weight:720;color:var(--txt);line-height:1.3}
+.sat-paste-sub{margin-top:3px;font-size:.66rem;line-height:1.35;color:var(--txt2)}
+.sat-paste-cell{min-width:0}
+.sat-paste-label{font-size:.54rem;letter-spacing:.07em;text-transform:uppercase;color:#918eaa;font-weight:760;margin-bottom:3px}
+.sat-paste-value{font-size:.7rem;line-height:1.35;color:var(--txt);font-weight:610;overflow-wrap:break-word}
+.sat-paste-motive{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sat-paste-tags{display:flex;gap:4px;flex-wrap:wrap}
+.sat-paste-tag{display:inline-flex;padding:4px 7px;border-radius:999px;background:var(--surface2);font-size:.61rem;font-weight:690;color:var(--txt2)}
+.sat-paste-tag.high{background:var(--bad-bg);color:var(--bad)}
+.sat-paste-tag.medium{background:var(--warn-bg);color:var(--warn)}
+.sat-paste-tag.low{background:var(--ok-bg);color:var(--ok)}
+.sat-paste-review{
+  appearance:none;-webkit-appearance:none;border:0;border-radius:9px;padding:7px 9px;
+  background:rgba(var(--desk-accent-rgb),.065);color:var(--p);font:inherit;font-size:.66rem;font-weight:700;cursor:pointer;white-space:nowrap
 }
-.sat-review-btn:hover{background:rgba(var(--desk-accent-rgb),.11)}
-.sat-imported-label{font-size:.65rem;font-weight:720;color:var(--ok)}
-
-.integration-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:12px}
-.integration-card{
-  padding:17px;border:1px solid rgba(82,91,119,.09);border-radius:16px;background:rgba(255,255,255,.82);
-  box-shadow:0 8px 24px rgba(34,43,70,.045)
+.sat-paste-review:hover{background:rgba(var(--desk-accent-rgb),.11)}
+.sat-paste-duplicate{font-size:.63rem;font-weight:720;color:var(--mut);white-space:nowrap}
+.sat-paste-warning{margin-top:5px;font-size:.62rem;color:var(--warn);font-weight:650}
+.sat-paste-bottom{margin-top:11px;padding-top:10px;border-top:1px solid rgba(82,91,119,.07)}
+.sat-paste-security{font-size:.67rem;color:var(--txt2);line-height:1.4}
+@media(max-width:980px){
+  .sat-paste-card{grid-template-columns:28px minmax(180px,1fr) minmax(100px,.65fr) minmax(130px,.8fr) auto}
+  .sat-paste-card .sat-paste-hide-md{display:none}
 }
-.integration-card-featured{background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(249,250,254,.84))}
-.integration-head{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:12px;align-items:start;margin-bottom:14px}
-.integration-head h3{margin:1px 0 3px;font-family:var(--fb);font-size:.95rem;font-weight:730}
-.integration-head p{margin:0;color:var(--txt2);font-size:.72rem;line-height:1.45}
-.integration-app-icon{
-  width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:var(--surface2);font-weight:800;color:var(--p)
-}
-.integration-app-icon.ms{background:linear-gradient(145deg,#eef4ff,#e4eeff);color:#376fc2}
-.integration-fields{display:grid;gap:8px}
-.integration-fields .fg,.integration-fields .fg-row{margin:0}
-.integration-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:12px}
-.integration-status-line{margin-top:9px;padding:8px 10px;border-radius:10px;background:rgba(246,247,251,.68);font-size:.68rem;color:var(--txt2);line-height:1.45}
-.integration-help{margin-top:10px;border-top:1px solid rgba(82,91,119,.07);padding-top:8px}
-.integration-help summary{cursor:pointer;font-size:.7rem;font-weight:700;color:var(--txt2)}
-.integration-help p{font-size:.69rem;color:var(--txt2);line-height:1.5}
-.integration-file-input{width:100%;margin-top:5px;font-size:.72rem}
-
-.sat-record-modal{padding-bottom:18px}
-.sat-modal-head h3{margin:4px 0 2px;font-family:var(--fd);font-weight:500}
-.sat-record-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0}
-.sat-summary-cell{padding:10px;border-radius:12px;background:var(--surface2);border:1px solid rgba(82,91,119,.07)}
-.sat-summary-cell strong{display:block;font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-bottom:4px}
-.sat-summary-cell span{font-size:.76rem;font-weight:650;color:var(--txt);line-height:1.35}
-.sat-record-sections{display:grid;gap:8px}
-.sat-long-block{padding:12px 13px;border:1px solid rgba(82,91,119,.08);border-radius:13px;background:rgba(250,251,253,.72)}
-.sat-long-block strong{display:block;margin-bottom:5px;font-size:.62rem;text-transform:uppercase;letter-spacing:.07em;color:#918eaa}
-.sat-long-block div{white-space:pre-wrap;font-size:.78rem;line-height:1.55;color:var(--txt)}
-.sat-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
-
-@media(max-width:1080px){
-  .sat-row{grid-template-columns:minmax(210px,1.3fr) minmax(100px,.65fr) minmax(110px,.7fr) minmax(120px,.75fr) auto}
-  .sat-row .sat-hide-md{display:none}
-  .integration-grid{grid-template-columns:1fr}
-}
-@media(max-width:760px){
-  .sat-source-card{grid-template-columns:40px 1fr}.sat-source-actions{grid-column:1/-1;justify-content:flex-start}
-  .sat-kpis{grid-template-columns:repeat(2,1fr)}
-  .sat-row{grid-template-columns:1fr}.sat-row-actions{justify-content:flex-start}
-  .sat-record-summary{grid-template-columns:repeat(2,1fr)}
+@media(max-width:700px){
+  .sat-paste-card{grid-template-columns:28px 1fr}.sat-paste-card>div:not(.sat-paste-check){grid-column:2}
+  .sat-paste-card>button,.sat-paste-card>.sat-paste-duplicate{grid-column:2;justify-self:start}
+  .sat-paste-input-footer,.sat-paste-bottom,.sat-paste-result-head{align-items:flex-start;flex-direction:column}
 }
 </style>
 
@@ -1029,7 +992,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
   <div class="topbar-inner">
     <div class="tb-id">
       <span class="mono">UTE · Panel interno · v28</span>
-      <h1>Panel UTE v29.4</h1>
+      <h1>Panel UTE v29</h1>
     </div>
     <div class="tb-actions">
       <button class="btn-export" id="btnExportExcel" type="button">📊 Descargar todo en Excel</button>
@@ -1149,58 +1112,16 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
   <!-- DERIVACIONES -->
   <section id="moduleReferrals" class="module">
     <div class="section-head"><div><h2>Derivaciones</h2><p>Recepción, abordaje y seguimiento de casos transferidos desde otras áreas o unidades.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
-
-    <div class="ref-source-switch" id="refSourceSwitch">
-      <button class="active" data-ref-view="managed"><span>↗</span> Derivaciones gestionadas</button>
-      <button data-ref-view="sat"><span>☁</span> SAT · OneDrive <small id="satInboxBadge"></small></button>
+    <div class="ref-kpis" id="refKpis"></div>
+    <div class="ref-toolbar">
+      <div class="seg" id="refStatusSeg"><button class="active" data-ref-status="ALL">Todas</button><button data-ref-status="nueva">Nuevas</button><button data-ref-status="contacto">Contacto</button><button data-ref-status="acompanamiento">Acompañamiento</button><button data-ref-status="derivada">Derivadas</button><button data-ref-status="cerrada">Cerradas</button></div>
+      <select class="filter-select" id="refOriginFilter"><option value="ALL">Todas las unidades</option></select>
+      <select class="filter-select" id="refResponsibleFilter"><option value="ALL">Todos los responsables</option></select>
+      <div class="search-box"><input id="refSearch" type="text" placeholder="Buscar estudiante, RUT, unidad, motivo…"></div>
+      <button class="sat-paste-trigger" id="btnPegarSat" type="button"><span>⌘V</span> Pegar desde SAT</button>
+      <button class="btn-primary" id="btnNuevaDerivacion">+ Nueva derivación</button>
     </div>
-
-    <div id="refManagedView">
-      <div class="ref-kpis" id="refKpis"></div>
-      <div class="ref-toolbar">
-        <div class="seg" id="refStatusSeg"><button class="active" data-ref-status="ALL">Todas</button><button data-ref-status="nueva">Nuevas</button><button data-ref-status="contacto">Contacto</button><button data-ref-status="acompanamiento">Acompañamiento</button><button data-ref-status="derivada">Derivadas</button><button data-ref-status="cerrada">Cerradas</button></div>
-        <select class="filter-select" id="refOriginFilter"><option value="ALL">Todas las unidades</option></select>
-        <select class="filter-select" id="refResponsibleFilter"><option value="ALL">Todos los responsables</option></select>
-        <div class="search-box"><input id="refSearch" type="text" placeholder="Buscar estudiante, RUT, unidad, motivo…"></div>
-        <button class="btn-primary" id="btnNuevaDerivacion">+ Nueva derivación</button>
-      </div>
-      <div class="ref-list" id="refList"></div><div class="task-empty" id="refEmpty" style="display:none">No hay derivaciones con este filtro.</div>
-    </div>
-
-    <div id="satInboxView" class="sat-inbox-view" style="display:none">
-      <div class="sat-source-card">
-        <div class="sat-source-icon">☁</div>
-        <div class="sat-source-copy">
-          <div class="sat-kicker">MICROSOFT 365 · ONEDRIVE</div>
-          <h3>SAT 2° Semestre Rev_CEF_15-09.xlsx</h3>
-          <p>Fuente externa en modo lectura. Los registros solo pasan a Derivaciones cuando tú los incorporas.</p>
-        </div>
-        <div class="sat-source-actions">
-          <span class="sat-connection-status warn" id="satConnectionStatus">Sin sincronizar</span>
-          <button class="sat-soft-btn" id="btnSatOpenSource" type="button">Abrir Excel ↗</button>
-          <button class="sat-soft-btn" id="btnSatConfigure" type="button">Configurar</button>
-          <button class="btn-primary" id="btnSatSync" type="button">↻ Sincronizar</button>
-        </div>
-      </div>
-
-      <div class="sat-kpis" id="satKpis"></div>
-
-      <div class="sat-toolbar">
-        <div class="seg sat-seg" id="satImportSeg">
-          <button class="active" data-sat-import="ALL">Todas</button>
-          <button data-sat-import="pending">Por revisar</button>
-          <button data-sat-import="imported">Incorporadas</button>
-        </div>
-        <select class="filter-select" id="satTypeFilter"><option value="ALL">Todos los tipos</option></select>
-        <select class="filter-select" id="satPriorityFilter"><option value="ALL">Todas las prioridades</option></select>
-        <select class="filter-select" id="satProfessionalFilter"><option value="ALL">Todos los profesionales</option></select>
-        <div class="search-box"><input id="satSearch" type="text" placeholder="Buscar estudiante, RUT, carrera, temática…"></div>
-      </div>
-
-      <div class="sat-sync-note" id="satSyncNote">Conecta Microsoft 365 desde Configuración → Integraciones o usa el archivo Excel como respaldo.</div>
-      <div class="sat-list" id="satList"></div>
-      <div class="task-empty" id="satEmpty" style="display:none">No hay registros SAT con este filtro.</div>
-    </div>
+    <div class="ref-list" id="refList"></div><div class="task-empty" id="refEmpty" style="display:none">No hay derivaciones con este filtro.</div>
   </section>
 
   <!-- CASOS ESPECÍFICOS -->
@@ -1340,77 +1261,19 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 
   <!-- CONFIGURACIÓN TRANSVERSAL -->
   <section id="moduleConfiguration" class="module">
-    <div class="section-head"><div><h2>Configuración</h2><p>Administra catálogos, integraciones y opciones transversales de la plataforma.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
-
-    <div class="config-section-tabs">
-      <button class="active" data-config-view="catalogs">Catálogos</button>
-      <button data-config-view="integrations">Integraciones</button>
-    </div>
-
-    <div id="configCatalogsView">
-      <div class="config-layout">
-        <aside class="catalog-sidebar">
-          <div class="catalog-side-head"><strong>Catálogos</strong><button class="catalog-btn" id="btnNewCatalog">+ Nuevo</button></div>
-          <div class="catalog-new-box" id="catalogNewBox"><input id="catalogNewName" placeholder="Nombre del catálogo"><div class="catalog-new-actions"><button class="catalog-btn" id="catalogNewCancel">Cancelar</button><button class="catalog-btn" id="catalogNewSave">Crear</button></div></div>
-          <div class="catalog-tabs" id="catalogTabs"></div>
-        </aside>
-        <main class="catalog-main">
-          <div class="catalog-main-head"><div><h3 id="catalogTitle">Catálogos</h3><p id="catalogDescription">Selecciona un catálogo para editar sus opciones.</p></div></div>
-          <div class="catalog-add"><input id="catalogItemInput" placeholder="Agregar nueva opción…"><button class="btn-primary" id="catalogItemAdd">Agregar</button></div>
-          <div class="catalog-items" id="catalogItems"></div>
-          <div class="catalog-help">Las opciones inactivas dejan de aparecer en nuevos registros, pero permanecen en los datos históricos. Puedes subir o bajar elementos para definir el orden de los menús.</div>
-        </main>
-      </div>
-    </div>
-
-    <div id="configIntegrationsView" style="display:none">
-      <div class="integration-grid">
-        <section class="integration-card integration-card-featured">
-          <div class="integration-head">
-            <div class="integration-app-icon ms">M</div>
-            <div><span class="integration-kicker">MICROSOFT 365</span><h3>OneDrive · SAT</h3><p>Sincroniza la planilla SAT directamente desde tu OneDrive institucional.</p></div>
-            <span class="integration-state" id="satConfigState">No conectado</span>
-          </div>
-
-          <div class="integration-fields">
-            <div class="fg"><label for="satFileUrl">Archivo de OneDrive / SharePoint</label><input id="satFileUrl" type="url"></div>
-            <div class="fg-row">
-              <div class="fg"><label for="satSheetName">Hoja que alimenta la bandeja</label><input id="satSheetName" value="SATT"></div>
-              <div class="fg"><label for="satClientId">Client ID · Microsoft Entra</label><input id="satClientId" value="154b7ffc-a630-414a-b1c2-505e40e03a6c" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"></div>
-            </div>
-            <div class="fg-row">
-              <div class="fg"><label for="satAuthority">Tenant / autoridad</label><input id="satAuthority" value="e049a386-0d1c-4632-b31d-c627c8cd07e9"></div>
-              <div class="fg"><label for="satRedirectUri">Redirect URI registrada</label><input id="satRedirectUri" type="url" value="https://fabianpulgaru-dev.github.io/Talleres-Trayectoria/" placeholder="https://tu-sitio.github.io/panel.html"></div>
-            </div>
-          </div>
-
-          <div class="integration-actions">
-            <button class="sat-soft-btn" id="btnSaveSatConfig" type="button">Guardar configuración</button>
-            <button class="btn-primary" id="btnConnectMicrosoft" type="button">Conectar Microsoft 365</button>
-            <button class="sat-soft-btn" id="btnSyncMicrosoftConfig" type="button">↻ Sincronizar ahora</button>
-            <button class="sat-soft-btn" id="btnDisconnectMicrosoft" type="button">Desconectar</button>
-          </div>
-          <div class="integration-status-line" id="satConfigMessage">El panel solo leerá la planilla; no modificará el archivo original.</div>
-
-          <details class="integration-help">
-            <summary>Configuración inicial de Microsoft Entra</summary>
-            <div>
-              <p>La aplicación web usa OAuth 2.0 con PKCE directamente desde el navegador. Necesita un <strong>Client ID</strong> de Microsoft Entra y la URL pública del panel registrada como <strong>Single-page application (SPA) Redirect URI</strong>.</p>
-              <p>Permisos delegados necesarios: <strong>User.Read</strong> y <strong>Files.Read</strong>. No se guarda tu contraseña ni un secreto dentro del HTML.</p>
-            </div>
-          </details>
-        </section>
-
-        <section class="integration-card">
-          <div class="integration-head">
-            <div class="integration-app-icon">X</div>
-            <div><span class="integration-kicker">RESPALDO</span><h3>Importar Excel local</h3><p>Úsalo solo si Microsoft 365 no está disponible temporalmente.</p></div>
-          </div>
-          <input id="satLocalFile" type="file" accept=".xlsx,.xls" class="integration-file-input">
-          <div class="integration-actions"><button class="sat-soft-btn" id="btnImportSatLocal" type="button">Leer archivo</button></div>
-          <div class="integration-status-line">No agrega registros manualmente: lee la misma hoja SATT desde el Excel que selecciones.</div>
-        </section>
-      </div>
+    <div class="section-head"><div><h2>Configuración</h2><p>Administra los catálogos que alimentan los menús desplegables de la plataforma sin tocar el código.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
+    <div class="config-layout">
+      <aside class="catalog-sidebar">
+        <div class="catalog-side-head"><strong>Catálogos</strong><button class="catalog-btn" id="btnNewCatalog">+ Nuevo</button></div>
+        <div class="catalog-new-box" id="catalogNewBox"><input id="catalogNewName" placeholder="Nombre del catálogo"><div class="catalog-new-actions"><button class="catalog-btn" id="catalogNewCancel">Cancelar</button><button class="catalog-btn" id="catalogNewSave">Crear</button></div></div>
+        <div class="catalog-tabs" id="catalogTabs"></div>
+      </aside>
+      <main class="catalog-main">
+        <div class="catalog-main-head"><div><h3 id="catalogTitle">Catálogos</h3><p id="catalogDescription">Selecciona un catálogo para editar sus opciones.</p></div></div>
+        <div class="catalog-add"><input id="catalogItemInput" placeholder="Agregar nueva opción…"><button class="btn-primary" id="catalogItemAdd">Agregar</button></div>
+        <div class="catalog-items" id="catalogItems"></div>
+        <div class="catalog-help">Las opciones inactivas dejan de aparecer en nuevos registros, pero permanecen en los datos históricos. Puedes subir o bajar elementos para definir el orden de los menús.</div>
+      </main>
     </div>
   </section>
 
@@ -1689,6 +1552,52 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 </div>
 
 
+<!-- MODAL PEGAR DESDE SAT -->
+<div class="mo" id="moSatPaste" role="dialog" aria-modal="true">
+  <div class="md sat-paste-modal" style="max-width:900px">
+    <button class="md-close" id="satPasteClose">✕</button>
+    <div class="sat-paste-head">
+      <div class="sat-paste-icon">⌘V</div>
+      <div>
+        <div class="sat-paste-kicker">IMPORTACIÓN LOCAL · SAT</div>
+        <h3>Pegar derivación desde Excel</h3>
+        <p class="md-info">Copia una fila completa —o varias— desde la planilla SAT y pégala tal como viene. El panel reconocerá las columnas y preparará las fichas.</p>
+      </div>
+    </div>
+
+    <div class="sat-paste-step" id="satPasteInputStep">
+      <div class="sat-paste-tip">
+        <strong>No necesitas ordenar nada.</strong>
+        Puedes copiar solo las filas o incluir también la fila de encabezados. El análisis ocurre dentro del navegador.
+      </div>
+      <textarea id="satPasteText" class="sat-paste-area" spellcheck="false" placeholder="Haz clic aquí y pega con ⌘V / Ctrl+V…"></textarea>
+      <div class="sat-paste-input-footer">
+        <span id="satPasteHint">Esperando datos de Excel…</span>
+        <div>
+          <button class="sat-paste-soft" id="satPasteClear" type="button">Limpiar</button>
+          <button class="btn-primary" id="satPasteAnalyze" type="button">Analizar datos</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sat-paste-results" id="satPasteResults" style="display:none">
+      <div class="sat-paste-result-head">
+        <div>
+          <div class="sat-paste-kicker">VISTA PREVIA</div>
+          <h4 id="satPasteResultTitle">Derivaciones detectadas</h4>
+          <p id="satPasteResultMeta">Revisa los datos antes de incorporarlos.</p>
+        </div>
+        <button class="sat-paste-soft" id="satPasteBack" type="button">← Volver a pegar</button>
+      </div>
+      <div class="sat-paste-list" id="satPasteList"></div>
+      <div class="sat-paste-bottom">
+        <div class="sat-paste-security">Los correos <strong>no se envían automáticamente</strong> al importar. Puedes notificar al profesional cuando revises la ficha.</div>
+        <button class="btn-primary" id="satPasteImportSelected" type="button">Incorporar seleccionadas</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL DERIVACIÓN -->
 <div class="mo" id="moReferral" role="dialog" aria-modal="true">
   <div class="md" style="max-width:820px">
@@ -1724,24 +1633,6 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
     <div class="fg"><label for="rNotas">Observaciones generales</label><textarea id="rNotas"></textarea></div>
     <details class="summary-collapse" open><summary><span class="summary-collapse-title">🕘 Línea de tiempo</span><span class="summary-collapse-meta">Historial del caso</span><span class="summary-collapse-chevron">⌄</span></summary><div class="summary-collapse-body"><div class="ref-timeline" id="rTimeline"></div><div class="fg-row" style="margin-top:10px"><div class="fg"><label for="rTimelineDate">Fecha</label><input id="rTimelineDate" type="date"></div><div class="fg"><label for="rTimelineType">Tipo</label><select id="rTimelineType"><option>Seguimiento</option><option>Contacto</option><option>Sesión</option><option>Coordinación</option><option>Articulación</option><option>Derivación</option><option>Cierre</option></select></div></div><div class="fg"><label for="rTimelineText">Nuevo registro</label><textarea id="rTimelineText" placeholder="Qué ocurrió, decisión o acuerdo"></textarea></div></div></details>
     <button class="btn-sub" id="btnGuardarDerivacion">Guardar derivación</button><button class="btn-danger-link" id="btnEliminarDerivacion" style="display:none">Eliminar esta derivación</button>
-  </div>
-</div>
-
-<!-- MODAL REGISTRO SAT -->
-<div class="mo" id="moSatRecord" role="dialog" aria-modal="true">
-  <div class="md sat-record-modal" style="max-width:820px">
-    <button class="md-close" id="satRecordClose">✕</button>
-    <div class="sat-modal-head">
-      <span class="sat-modal-source">SAT · ONEDRIVE</span>
-      <h3 id="satRecordTitle">Registro SAT</h3>
-      <p class="md-info" id="satRecordMeta"></p>
-    </div>
-    <div class="sat-record-summary" id="satRecordSummary"></div>
-    <div class="sat-record-sections" id="satRecordSections"></div>
-    <div class="sat-modal-actions">
-      <button class="sat-soft-btn" id="btnSatModalOpenExcel" type="button">Abrir archivo original ↗</button>
-      <button class="btn-primary" id="btnSatImportReferral" type="button">Incorporar como derivación</button>
-    </div>
   </div>
 </div>
 
@@ -2042,17 +1933,16 @@ let ACTIVE_WRITING_DOC=null;
 let BITACORA_ROWS=[], BITACORA_HEADERS=[], BITACORA_MAPPING={}, BITACORA_META={};
 
 let REFERRALS=[];
-let REFERRAL_VIEW='managed';
-let SAT_ROWS=[], SAT_HEADERS=[], SAT_SELECTED_KEY=null;
-let SAT_IMPORT_FILTER='ALL', SAT_TYPE_FILTER='ALL', SAT_PRIORITY_FILTER='ALL', SAT_PRO_FILTER='ALL', SAT_SEARCH='';
-const SAT_DEFAULT_FILE_URL='https://uahurtadocl-my.sharepoint.com/:x:/r/personal/fpulgar_uahurtado_cl/_layouts/15/Doc.aspx?sourcedoc=%7B103773C5-C5E3-4C35-BDCD-A5FC797F81E1%7D&file=SAT%202%25u00b0%20Semestre%20Rev_CEF_15-09.xlsx&action=default&mobileredirect=true';
-let SAT_CONFIG={fileUrl:SAT_DEFAULT_FILE_URL,sheetName:'SATT',clientId:'154b7ffc-a630-414a-b1c2-505e40e03a6c',authority:'e049a386-0d1c-4632-b31d-c627c8cd07e9',redirectUri:'https://fabianpulgaru-dev.github.io/Talleres-Trayectoria/'};
-let SAT_AUTH={accessToken:'',expiresAt:0,accountName:'',username:''}, SAT_SYNC_META={};
-try{
-  const _sa=JSON.parse(sessionStorage.getItem('ute_sat_auth_v1')||'null');
-  if(_sa&&typeof _sa==='object')SAT_AUTH={...SAT_AUTH,..._sa};
-}catch(_e){}
-
+let SAT_PASTE_ROWS=[];
+let SAT_PASTE_DRAFT=null;
+const SAT_PASTE_HEADERS=[
+ 'RUT TUTOR','DV TUTOR','Correo Tutor','Facultad','Carrera','TIVU ORIGEN',
+ 'Nombre estudiante','Rut estudiante','DV estudiante','Temática','Descripción',
+ 'Respuestas de la bitácora','Clasificación Alerta','Tipo Alerta','Estado Alerta',
+ 'Observaciones','Observaciones Resolución','Estado Alerta Unidad Trayectoria',
+ 'Observaciones Acompañamiento Unidad de Trayectoria/profesional a cargo',
+ 'Ingreso','Año','Mento_Mate','Mento_Alfa','Tipo apoyo','Profesional académico'
+];
 
 const DEFAULT_CATALOGS={
   unidades:{name:'Áreas y unidades',description:'Origen, articulación y destino de casos.',items:[]},
@@ -2103,27 +1993,6 @@ function setConn(ok,label){
 
 async function loadData(){
   try{
-    try{
-      const sc=JSON.parse(localStorage.getItem('ute_sat_config_v1')||'null');
-      if(sc&&typeof sc==='object'){
-        const cleaned={};
-        Object.entries(sc).forEach(([k,v])=>{
-          if(v!==''&&v!==null&&v!==undefined) cleaned[k]=v;
-        });
-        SAT_CONFIG={...SAT_CONFIG,...cleaned};
-      }
-      // Migración automática desde v29: nunca permitir que una configuración antigua vacía
-      // borre los identificadores reales de Microsoft Entra.
-      if(!SAT_CONFIG.clientId) SAT_CONFIG.clientId='154b7ffc-a630-414a-b1c2-505e40e03a6c';
-      if(!SAT_CONFIG.authority||SAT_CONFIG.authority==='organizations') SAT_CONFIG.authority='e049a386-0d1c-4632-b31d-c627c8cd07e9';
-      if(!SAT_CONFIG.redirectUri) SAT_CONFIG.redirectUri='https://fabianpulgaru-dev.github.io/Talleres-Trayectoria/';
-      if(!SAT_CONFIG.fileUrl) SAT_CONFIG.fileUrl=SAT_DEFAULT_FILE_URL;
-      if(!SAT_CONFIG.sheetName) SAT_CONFIG.sheetName='SATT';
-      try{localStorage.setItem('ute_sat_config_v1',JSON.stringify(SAT_CONFIG))}catch(_e){}
-      SAT_ROWS=JSON.parse(localStorage.getItem('ute_sat_rows_v1')||'[]');
-      SAT_SYNC_META=JSON.parse(localStorage.getItem('ute_sat_meta_v1')||'{}');
-    }catch(_){}
-
     const r=await fetch(FB_PATH);
     const j=await r.json();
     if(!r.ok || (j && j.error)){
@@ -2378,7 +2247,7 @@ function renderCal(){
 function renderCurrentModule(){
   if(curModule==='home'){ renderHome(); renderDeskSummary(); }
   else if(curModule==='monitoring') renderMonitoring();
-  else if(curModule==='referrals'){renderReferrals();renderSatInbox();}
+  else if(curModule==='referrals') renderReferrals();
   else if(curModule==='cases') renderCases();
   else if(curModule==='adjustments') renderAR();
   else if(curModule==='tasks') renderTasks();
@@ -2404,10 +2273,6 @@ function switchModule(name){
   window.scrollTo({top:0,behavior:'auto'});
 }
 document.addEventListener('click',e=>{
- const rv=e.target.closest('[data-ref-view]');if(rv){switchReferralView(rv.dataset.refView);return}
- const cv=e.target.closest('[data-config-view]');if(cv){switchConfigView(cv.dataset.configView);return}
- const sr=e.target.closest('[data-sat-review]');if(sr){openSatRecord(sr.dataset.satReview);return}
- const si=e.target.closest('[data-sat-incorporate]');if(si){importSatReferral(si.dataset.satIncorporate);return}
   const go=e.target.closest('[data-go]'); if(go){switchModule(go.dataset.go);return;}
   const mb=e.target.closest('.module-btn[data-module]'); if(mb){switchModule(mb.dataset.module);return;}
 });
@@ -3512,11 +3377,12 @@ function populateReferralFilters(){
 }
 function fillSelect(id,key,empty='Seleccionar…',selected=''){const el=document.getElementById(id);if(!el)return;const vals=catalogItems(key);el.innerHTML=`<option value="">${empty}</option>`+vals.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');if(selected&&!vals.includes(selected)){const o=document.createElement('option');o.value=selected;o.textContent=selected;el.appendChild(o)}el.value=selected||''}
 function fillProfessionals(id,selected='',emailId=''){const el=document.getElementById(id);if(!el)return;const vals=(PROFESIONALES||[]).map(p=>p.nombre).filter(Boolean);el.innerHTML='<option value="">Sin asignar</option>'+vals.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');if(selected&&!vals.includes(selected)){const o=document.createElement('option');o.value=selected;o.textContent=selected;el.appendChild(o)}el.value=selected||'';if(emailId)syncProfessionalEmail(id,emailId)}
-function openReferral(id=null){editingReferralId=id;const r=id?REFERRALS.find(x=>x.id===id):null;document.getElementById('refModalTitle').textContent=r?'Editar derivación':'Nueva derivación';document.getElementById('refId').textContent=r?`ID ${r.id}`:'';const val=(eid,key,def='')=>{const el=document.getElementById(eid);if(el)el.value=r?.[key]??def};val('rEstudiante','estudiante');val('rRut','rut');fillSelect('rCarrera','carreras','Seleccionar carrera',r?.carrera||'');fillSelect('rViaIngreso','viasIngreso','Seleccionar vía',r?.viaIngreso||'');val('rFechaRecepcion','fechaRecepcion',new Date().toISOString().slice(0,10));fillSelect('rUnidadOrigen','unidades','Seleccionar unidad',r?.unidadOrigen||'');val('rProfesionalOrigen','profesionalOrigen');fillSelect('rCanal','canalesIngreso','Seleccionar canal',r?.canal||'');val('rMotivo','motivo');val('rAntecedentes','antecedentes');fillProfessionals('rResponsable',r?.responsable||'','rResponsableEmail');document.getElementById('rResponsableEmail').value=r?.responsableEmail||document.getElementById('rResponsableEmail').value||'';document.getElementById('rNotifyEmail').checked=!r;fillSelect('rDispositivo','dispositivos','Seleccionar dispositivo',r?.dispositivo||'');fillSelect('rEstado','estadosDerivacion','Seleccionar estado',r?.estado||'Nueva');fillSelect('rPrioridad','prioridades','Seleccionar prioridad',r?.prioridad||'Media');val('rProxima','proximaAccion');val('rFechaProxima','fechaProxima');fillSelect('rUnidadDestino','unidades','Sin derivación posterior',r?.unidadDestino||'');val('rContactoDestino','contactoDestino');val('rFechaDestino','fechaDestino');val('rEstadoDestino','estadoDestino');val('rMotivoDestino','motivoDestino');val('rNotas','notas');document.getElementById('rTimelineDate').value=new Date().toISOString().slice(0,10);document.getElementById('rTimelineText').value='';
+function openReferral(id=null,draft=null){editingReferralId=id;SAT_PASTE_DRAFT=!id&&draft?draft:null;const r=id?REFERRALS.find(x=>x.id===id):(draft||null);const isSatDraft=!id&&!!draft;document.getElementById('refModalTitle').textContent=id?'Editar derivación':(isSatDraft?'Nueva derivación · SAT':'Nueva derivación');document.getElementById('refId').textContent=id?`ID ${r.id}`:(isSatDraft?'Datos precargados desde una fila SAT · revisa antes de guardar':'');const val=(eid,key,def='')=>{const el=document.getElementById(eid);if(el)el.value=r?.[key]??def};val('rEstudiante','estudiante');val('rRut','rut');fillSelect('rCarrera','carreras','Seleccionar carrera',r?.carrera||'');fillSelect('rViaIngreso','viasIngreso','Seleccionar vía',r?.viaIngreso||'');val('rFechaRecepcion','fechaRecepcion',new Date().toISOString().slice(0,10));fillSelect('rUnidadOrigen','unidades','Seleccionar unidad',r?.unidadOrigen||'');val('rProfesionalOrigen','profesionalOrigen');fillSelect('rCanal','canalesIngreso','Seleccionar canal',r?.canal||'');val('rMotivo','motivo');val('rAntecedentes','antecedentes');fillProfessionals('rResponsable',r?.responsable||'','rResponsableEmail');document.getElementById('rResponsableEmail').value=r?.responsableEmail||document.getElementById('rResponsableEmail').value||'';document.getElementById('rNotifyEmail').checked=!id;fillSelect('rDispositivo','dispositivos','Seleccionar dispositivo',r?.dispositivo||'');fillSelect('rEstado','estadosDerivacion','Seleccionar estado',r?.estado||'Nueva');fillSelect('rPrioridad','prioridades','Seleccionar prioridad',r?.prioridad||'Media');val('rProxima','proximaAccion');val('rFechaProxima','fechaProxima');fillSelect('rUnidadDestino','unidades','Sin derivación posterior',r?.unidadDestino||'');val('rContactoDestino','contactoDestino');val('rFechaDestino','fechaDestino');val('rEstadoDestino','estadoDestino');val('rMotivoDestino','motivoDestino');val('rNotas','notas');document.getElementById('rTimelineDate').value=new Date().toISOString().slice(0,10);document.getElementById('rTimelineText').value='';
  const arts=new Set(r?.articulaciones||[]);const ag=document.getElementById('rArticulaciones');ag.innerHTML=catalogItems('unidades').filter(u=>u!==r?.unidadOrigen).map(u=>`<label><input type="checkbox" value="${esc(u)}" ${arts.has(u)?'checked':''}> ${esc(u)}</label>`).join('')||'<span class="ref-sub">Agrega unidades desde Configuración → Áreas y unidades.</span>';
- renderReferralTimeline(r);document.getElementById('btnEliminarDerivacion').style.display=r?'block':'none';document.getElementById('moReferral').classList.add('open');}
+ renderReferralTimeline(r);document.getElementById('btnEliminarDerivacion').style.display=id?'block':'none';document.getElementById('moReferral').classList.add('open');}
 function renderReferralTimeline(r){const box=document.getElementById('rTimeline');if(!box)return;const tl=[...(r?.timeline||[])].sort((a,b)=>(b.date||'').localeCompare(a.date||''));box.innerHTML=tl.length?tl.map(x=>`<div class="ref-time-item"><div class="ref-time-date">${esc(x.date||'')}</div><div class="ref-time-type">${esc(x.type||'Seguimiento')}</div><div class="ref-time-text">${esc(x.text||'')}</div></div>`).join(''):'<div class="ref-sub">Aún no hay registros de seguimiento.</div>'}
-function collectReferral(){const old=editingReferralId?REFERRALS.find(x=>x.id===editingReferralId):null;const get=id=>document.getElementById(id)?.value.trim()||'';const arts=[...document.querySelectorAll('#rArticulaciones input:checked')].map(x=>x.value);const tl=[...(old?.timeline||[])];const newText=get('rTimelineText');if(newText)tl.push({id:'rt'+Date.now().toString(36),date:get('rTimelineDate')||new Date().toISOString().slice(0,10),type:get('rTimelineType')||'Seguimiento',text:newText});const now=new Date().toISOString().slice(0,10);if(!old)tl.unshift({id:'rt'+Date.now().toString(36)+'a',date:get('rFechaRecepcion')||now,type:'Recepción',text:`Derivación recibida${get('rUnidadOrigen')?' desde '+get('rUnidadOrigen'):''}.`});return {id:old?.id||'der'+Date.now().toString(36),estudiante:get('rEstudiante'),rut:get('rRut'),carrera:get('rCarrera'),viaIngreso:get('rViaIngreso'),fechaRecepcion:get('rFechaRecepcion'),unidadOrigen:get('rUnidadOrigen'),profesionalOrigen:get('rProfesionalOrigen'),canal:get('rCanal'),motivo:get('rMotivo'),antecedentes:get('rAntecedentes'),responsable:get('rResponsable'),responsableEmail:get('rResponsableEmail'),dispositivo:get('rDispositivo'),estado:get('rEstado')||'Nueva',prioridad:get('rPrioridad')||'Media',articulaciones:arts,proximaAccion:get('rProxima'),fechaProxima:get('rFechaProxima'),unidadDestino:get('rUnidadDestino'),contactoDestino:get('rContactoDestino'),fechaDestino:get('rFechaDestino'),estadoDestino:get('rEstadoDestino'),motivoDestino:get('rMotivoDestino'),notas:get('rNotas'),timeline:tl,updatedAt:Date.now()}}
+function collectReferral(){const old=editingReferralId?REFERRALS.find(x=>x.id===editingReferralId):SAT_PASTE_DRAFT;const get=id=>document.getElementById(id)?.value.trim()||'';const arts=[...document.querySelectorAll('#rArticulaciones input:checked')].map(x=>x.value);const tl=[...(old?.timeline||[])];const newText=get('rTimelineText');if(newText)tl.push({id:'rt'+Date.now().toString(36),date:get('rTimelineDate')||new Date().toISOString().slice(0,10),type:get('rTimelineType')||'Seguimiento',text:newText});const now=new Date().toISOString().slice(0,10);if(!old)tl.unshift({id:'rt'+Date.now().toString(36)+'a',date:get('rFechaRecepcion')||now,type:'Recepción',text:`Derivación recibida${get('rUnidadOrigen')?' desde '+get('rUnidadOrigen'):''}.`});return {id:old?.id||'der'+Date.now().toString(36),estudiante:get('rEstudiante'),rut:get('rRut'),carrera:get('rCarrera'),viaIngreso:get('rViaIngreso'),fechaRecepcion:get('rFechaRecepcion'),unidadOrigen:get('rUnidadOrigen'),profesionalOrigen:get('rProfesionalOrigen'),canal:get('rCanal'),motivo:get('rMotivo'),antecedentes:get('rAntecedentes'),responsable:get('rResponsable'),responsableEmail:get('rResponsableEmail'),dispositivo:get('rDispositivo'),estado:get('rEstado')||'Nueva',prioridad:get('rPrioridad')||'Media',articulaciones:arts,proximaAccion:get('rProxima'),fechaProxima:get('rFechaProxima'),unidadDestino:get('rUnidadDestino'),contactoDestino:get('rContactoDestino'),fechaDestino:get('rFechaDestino'),estadoDestino:get('rEstadoDestino'),motivoDestino:get('rMotivoDestino'),notas:get('rNotas'),timeline:tl,updatedAt:Date.now(),
+sourceSatPasteKey:old?.sourceSatPasteKey||'',sourceSatPasteData:old?.sourceSatPasteData||null,sourceSatPasteRaw:old?.sourceSatPasteRaw||''}}
 async function saveReferral(){
  const old=editingReferralId?REFERRALS.find(x=>x.id===editingReferralId):null;
  const r=collectReferral();
@@ -3529,7 +3395,7 @@ async function saveReferral(){
  const ix=REFERRALS.findIndex(x=>x.id===r.id);
  if(ix>=0)REFERRALS[ix]=r;else REFERRALS.unshift(r);
  saveCatalogsLocal();
- document.getElementById('moReferral').classList.remove('open');document.body.style.overflow='';
+ document.getElementById('moReferral').classList.remove('open');SAT_PASTE_DRAFT=null;document.body.style.overflow='';
  renderReferrals();renderHome();
  await saveData(false);
  if(wantsNotify&&r.responsable){
@@ -3550,486 +3416,219 @@ function openReferralReason(id){
 function closeReferralReason(){document.getElementById('moReferralReason')?.classList.remove('open');document.body.style.overflow='';}
 
 
-function satNorm(v=''){return String(v??'').trim()}
-function satFold(v=''){return satNorm(v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()}
-function satGet(row,...aliases){
-  if(!row)return'';
-  const keys=Object.keys(row);
-  for(const a of aliases){
-    const target=satFold(a);
-    const k=keys.find(x=>satFold(x)===target);
-    if(k!==undefined&&row[k]!==undefined&&row[k]!==null)return satNorm(row[k]);
-  }
-  return'';
-}
-function satHash(s=''){
-  let h=2166136261;
-  for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}
-  return (h>>>0).toString(36)
-}
-function satSourceKey(row){
-  const rut=satGet(row,'Rut estudiante','RUT estudiante');
-  const dv=satGet(row,'DV estudiante','DV estudiante ');
-  const tema=satGet(row,'Temática','Tematica');
-  const tivu=satGet(row,'TIVU ORIGEN');
-  return `sat_${satHash([rut,dv,tema,tivu].map(satFold).join('|'))}`;
-}
-function satIsImported(row){const key=satSourceKey(row);return REFERRALS.some(r=>r.sourceSatKey===key)}
-function satPriorityClass(v=''){const n=satFold(v);return n.includes('alta')?'high':n.includes('media')?'medium':n.includes('baja')?'low':''}
-function satRUT(row){const r=satGet(row,'Rut estudiante','RUT estudiante'),dv=satGet(row,'DV estudiante','DV estudiante ');return [r,dv].filter(Boolean).join('-')}
-function satStudent(row){return satGet(row,'Nombre estudiante','Estudiante')||'Sin nombre'}
-function satType(row){return satGet(row,'Tipo Alerta','Tipo alerta')||'Sin tipo'}
-function satPriority(row){return satGet(row,'Clasificación Alerta','Clasificacion Alerta')||'Sin clasificación'}
-function satProfessional(row){return satGet(row,'Profesional académico','Profesional academico')||''}
-
-function saveSatCache(){
-  try{
-    localStorage.setItem('ute_sat_config_v1',JSON.stringify(SAT_CONFIG));
-    localStorage.setItem('ute_sat_rows_v1',JSON.stringify(SAT_ROWS));
-    localStorage.setItem('ute_sat_meta_v1',JSON.stringify(SAT_SYNC_META));
-  }catch(e){console.warn('SAT cache',e)}
-}
-function populateSelectSimple(id,values,allLabel,current){
-  const el=document.getElementById(id);if(!el)return;
-  const vals=[...new Set(values.filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
-  el.innerHTML=`<option value="ALL">${allLabel}</option>`+vals.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
-  el.value=vals.includes(current)?current:'ALL';
-}
-function setSatStatus(kind,msg){
-  const el=document.getElementById('satConnectionStatus');if(el){el.className='sat-connection-status '+kind;el.textContent=msg}
-  const cs=document.getElementById('satConfigState');if(cs){cs.className='integration-state '+kind;cs.textContent=msg}
-}
-function satLastSyncLabel(){
-  if(!SAT_SYNC_META?.syncedAt)return'Sin sincronizar';
-  try{return 'Actualizado '+new Date(SAT_SYNC_META.syncedAt).toLocaleString('es-CL',{dateStyle:'short',timeStyle:'short'})}catch(_){return'Actualizado'}
-}
-function renderSatInbox(){
-  const view=document.getElementById('satInboxView');if(!view)return;
-  const badge=document.getElementById('satInboxBadge');
-  const pending=SAT_ROWS.filter(r=>!satIsImported(r)).length;
-  if(badge)badge.textContent=SAT_ROWS.length?String(pending):'';
-  setSatStatus(SAT_ROWS.length?'ok':'warn',SAT_ROWS.length?satLastSyncLabel():'Sin sincronizar');
-
-  const total=SAT_ROWS.length;
-  const acad=SAT_ROWS.filter(r=>satFold(satType(r)).includes('academ')).length;
-  const assigned=SAT_ROWS.filter(r=>!!satProfessional(r)).length;
-  const imported=SAT_ROWS.filter(satIsImported).length;
-  const high=SAT_ROWS.filter(r=>satFold(satPriority(r)).includes('alta')).length;
-  const k=document.getElementById('satKpis');
-  if(k)k.innerHTML=`<div class="sat-kpi"><strong>${total}</strong><span>Registros SAT</span></div><div class="sat-kpi"><strong>${pending}</strong><span>Por revisar</span></div><div class="sat-kpi"><strong>${acad}</strong><span>Alertas académicas</span></div><div class="sat-kpi"><strong>${assigned}</strong><span>Con profesional</span></div><div class="sat-kpi"><strong>${high}</strong><span>Prioridad alta</span></div>`;
-
-  populateSelectSimple('satTypeFilter',SAT_ROWS.map(satType),'Todos los tipos',SAT_TYPE_FILTER);
-  populateSelectSimple('satPriorityFilter',SAT_ROWS.map(satPriority),'Todas las prioridades',SAT_PRIORITY_FILTER);
-  populateSelectSimple('satProfessionalFilter',SAT_ROWS.map(satProfessional),'Todos los profesionales',SAT_PRO_FILTER);
-
-  const q=satFold(SAT_SEARCH);
-  let rows=SAT_ROWS.filter(r=>{
-    const imp=satIsImported(r);
-    if(SAT_IMPORT_FILTER==='pending'&&imp)return false;
-    if(SAT_IMPORT_FILTER==='imported'&&!imp)return false;
-    if(SAT_TYPE_FILTER!=='ALL'&&satType(r)!==SAT_TYPE_FILTER)return false;
-    if(SAT_PRIORITY_FILTER!=='ALL'&&satPriority(r)!==SAT_PRIORITY_FILTER)return false;
-    if(SAT_PRO_FILTER!=='ALL'&&satProfessional(r)!==SAT_PRO_FILTER)return false;
-    if(q){
-      const hay=[satStudent(r),satRUT(r),satGet(r,'Carrera'),satGet(r,'Temática','Tematica'),satGet(r,'Descripción','Descripcion'),satType(r),satProfessional(r)].join(' ');
-      if(!satFold(hay).includes(q))return false;
+function satPasteNorm(v=''){return String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase().replace(/\s+/g,' ')}
+function satPasteHash(v=''){let h=2166136261;for(let i=0;i<String(v).length;i++){h^=String(v).charCodeAt(i);h=Math.imul(h,16777619)}return(h>>>0).toString(36)}
+function satPasteParseTSV(input=''){
+  const rows=[];let row=[],cell='',quoted=false;
+  const s=String(input||'').replace(/\u00a0/g,' ');
+  for(let i=0;i<s.length;i++){
+    const ch=s[i];
+    if(ch==='"'){
+      if(quoted&&s[i+1]==='"'){cell+='"';i++}
+      else quoted=!quoted;
+      continue;
     }
-    return true;
+    if(ch==='\t'&&!quoted){row.push(cell);cell='';continue}
+    if((ch==='\n'||ch==='\r')&&!quoted){
+      if(ch==='\r'&&s[i+1]==='\n')i++;
+      row.push(cell);cell='';
+      if(row.some(v=>String(v).trim()!==''))rows.push(row);
+      row=[];continue;
+    }
+    cell+=ch;
+  }
+  row.push(cell);
+  if(row.some(v=>String(v).trim()!==''))rows.push(row);
+  return rows;
+}
+function satPasteLooksLikeHeader(row=[]){
+  const n=row.map(satPasteNorm),known=SAT_PASTE_HEADERS.map(satPasteNorm);
+  const hits=n.filter(x=>known.includes(x)).length;
+  return hits>=5&&(n.includes('nombre estudiante')||n.includes('rut estudiante'));
+}
+function satPasteCleanRow(row=[]){
+  let r=[...row];
+  // Algunas exportaciones/pegados incluyen una primera columna de índice.
+  if(r.length>=26&&/^\d+$/.test(String(r[0]||'').trim()))r=r.slice(1);
+  while(r.length<SAT_PASTE_HEADERS.length)r.push('');
+  return r;
+}
+function satPasteRowsToObjects(rows=[]){
+  if(!rows.length)return[];
+  let headers=SAT_PASTE_HEADERS,data=rows;
+  if(satPasteLooksLikeHeader(rows[0])){
+    headers=rows[0].map((x,i)=>String(x||'').trim()||`Columna ${i+1}`);
+    data=rows.slice(1);
+  }
+  return data.filter(r=>r.some(x=>String(x||'').trim()!=='')).map((raw,idx)=>{
+    let row=[...raw];
+    if(headers===SAT_PASTE_HEADERS)row=satPasteCleanRow(row);
+    const obj={};
+    headers.forEach((h,i)=>obj[h]=String(row[i]??'').trim());
+    obj.__pasteRow=idx+1;
+    obj.__raw=row.join('\t');
+    return obj;
   });
-  const list=document.getElementById('satList'),empty=document.getElementById('satEmpty');
-  if(!list)return;
-  empty.style.display=rows.length?'none':'block';
-  list.innerHTML=rows.map(r=>{
-    const imp=satIsImported(r),key=satSourceKey(r),pro=satProfessional(r);
-    return `<div class="sat-row ${imp?'imported':''}" data-sat-key="${esc(key)}">
-      <div class="sat-student"><div class="sat-name">${esc(satStudent(r))}</div><div class="sat-sub">${esc(satGet(r,'Carrera')||'Sin carrera')} · ${esc(satRUT(r)||'Sin RUT')}</div></div>
-      <div class="sat-cell"><div class="sat-label">Tipo</div><div class="sat-value">${esc(satType(r))}</div></div>
-      <div class="sat-cell"><div class="sat-label">Prioridad</div><div class="sat-tags"><span class="sat-tag ${satPriorityClass(satPriority(r))}">${esc(satPriority(r))}</span></div></div>
-      <div class="sat-cell sat-hide-md"><div class="sat-label">Temática</div><div class="sat-value">${esc(satGet(r,'Temática','Tematica')||'Sin temática')}</div></div>
-      <div class="sat-cell"><div class="sat-label">Profesional</div><div class="sat-value">${esc(pro||'Sin asignar')}</div></div>
-      <div class="sat-row-actions">
-        <button class="sat-review-btn" data-sat-review="${esc(key)}">Revisar</button>
-        ${imp?'<span class="sat-imported-label">✓ Incorporada</span>':`<button class="sat-soft-btn" data-sat-incorporate="${esc(key)}">Incorporar</button>`}
-      </div>
-    </div>`;
-  }).join('');
-  const note=document.getElementById('satSyncNote');
-  if(note)note.textContent=SAT_ROWS.length?`${SAT_ROWS.length} registros cargados desde ${SAT_SYNC_META.source||'SAT'}. La planilla original permanece intacta.`:'Conecta Microsoft 365 desde Configuración → Integraciones o usa el archivo Excel como respaldo.';
-  renderSatConfigUI();
 }
-function switchReferralView(view){
-  REFERRAL_VIEW=view==='sat'?'sat':'managed';
-  document.querySelectorAll('[data-ref-view]').forEach(b=>b.classList.toggle('active',b.dataset.refView===REFERRAL_VIEW));
-  const a=document.getElementById('refManagedView'),b=document.getElementById('satInboxView');
-  if(a)a.style.display=REFERRAL_VIEW==='managed'?'block':'none';
-  if(b)b.style.display=REFERRAL_VIEW==='sat'?'block':'none';
-  if(REFERRAL_VIEW==='sat')renderSatInbox();else renderReferrals();
+function satPasteVal(obj,aliases=[]){
+  const map={};Object.keys(obj||{}).forEach(k=>map[satPasteNorm(k)]=obj[k]);
+  for(const a of aliases){const v=map[satPasteNorm(a)];if(v!==undefined&&String(v).trim()!=='')return String(v).trim()}
+  return '';
 }
-function satRecordByKey(key){return SAT_ROWS.find(r=>satSourceKey(r)===key)}
-function openSatRecord(key){
-  const r=satRecordByKey(key);if(!r)return;SAT_SELECTED_KEY=key;
-  document.getElementById('satRecordTitle').textContent=satStudent(r);
-  document.getElementById('satRecordMeta').textContent=[satGet(r,'Carrera'),satRUT(r),satGet(r,'TIVU ORIGEN')].filter(Boolean).join(' · ');
-  document.getElementById('satRecordSummary').innerHTML=[
-    ['Tipo de alerta',satType(r)],['Prioridad',satPriority(r)],['Estado origen',satGet(r,'Estado Alerta')||'Sin registrar'],['Profesional',satProfessional(r)||'Sin asignar']
-  ].map(x=>`<div class="sat-summary-cell"><strong>${esc(x[0])}</strong><span>${esc(x[1])}</span></div>`).join('');
-  const blocks=[
-    ['Temática',satGet(r,'Temática','Tematica')],
-    ['Descripción / motivo',satGet(r,'Descripción','Descripcion')],
-    ['Respuestas de la bitácora',satGet(r,'Respuestas de la bitácora','Respuestas de la bitacora')],
-    ['Observaciones',satGet(r,'Observaciones','Observaciones ')],
-    ['Resolución de origen',satGet(r,'Observaciones Resolución','Observaciones Resolucion')],
-    ['Estado UTE',satGet(r,'Estado Alerta Unidad Trayectoria')],
-    ['Acompañamiento UTE',satGet(r,'Observaciones Acompañamiento Unidad de Trayectoria/profesional a cargo','Observaciones Acompanamiento Unidad de Trayectoria/profesional a cargo')]
-  ].filter(x=>satNorm(x[1]));
-  document.getElementById('satRecordSections').innerHTML=blocks.map(x=>`<div class="sat-long-block"><strong>${esc(x[0])}</strong><div>${esc(x[1])}</div></div>`).join('');
-  const imp=satIsImported(r),btn=document.getElementById('btnSatImportReferral');
-  btn.disabled=imp;btn.textContent=imp?'✓ Ya incorporada':'Incorporar como derivación';
-  document.getElementById('moSatRecord').classList.add('open');document.body.style.overflow='hidden';
+function satPasteRut(o){
+  const r=satPasteVal(o,['Rut estudiante','RUT estudiante']),dv=satPasteVal(o,['DV estudiante','DV estudiante ']);
+  return [r,dv].filter(Boolean).join('-');
 }
-function closeSatRecord(){document.getElementById('moSatRecord')?.classList.remove('open');document.body.style.overflow=''}
-function ensureCatalogLabel(key,label){
-  if(!label)return;
-  if(!CATALOGS[key])return;
-  if(!CATALOGS[key].items.some(x=>satFold(x.label)===satFold(label))){
-    CATALOGS[key].items.push({id:key+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),label,active:true});
+function satPastePriority(v=''){
+  const n=satPasteNorm(v);if(n.includes('alta'))return'Alta';if(n.includes('baja'))return'Baja';if(n.includes('media'))return'Media';return String(v||'').trim()||'Media'
+}
+function satPasteStatus(v=''){
+  const n=satPasteNorm(v);
+  const vals=catalogItems('estadosDerivacion');
+  const pick=(terms,fallback)=>vals.find(x=>terms.some(t=>satPasteNorm(x).includes(t)))||fallback;
+  if(n.includes('cerr'))return pick(['cerr'],'Cerrada');
+  if(n.includes('deriv'))return pick(['deriv'],'Derivada');
+  if(n.includes('acompan')||n.includes('seguimiento'))return pick(['acompan'],'En acompañamiento');
+  if(n.includes('contact'))return pick(['contact'],'Contacto pendiente');
+  if(n.includes('revis'))return pick(['revis'],'Revisada');
+  return pick(['nueva'],'Nueva')
+}
+function satPasteEnsureCatalog(key,label){
+  label=String(label||'').trim();if(!label||!CATALOGS?.[key]?.items)return;
+  if(!CATALOGS[key].items.some(x=>satPasteNorm(x.label)===satPasteNorm(label))){
+    CATALOGS[key].items.push({id:key+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),label,active:true})
   }
 }
-function satSourceToReferral(row){
-  const sourceKey=satSourceKey(row);
-  const pro=satProfessional(row);
-  const prof=PROFESIONALES.find(p=>satFold(p.nombre)===satFold(pro));
-  const estadoUTE=satFold(satGet(row,'Estado Alerta Unidad Trayectoria'));
-  let estado='Nueva';
-  if(estadoUTE.includes('seguimiento')||estadoUTE.includes('acompan'))estado='Acompañamiento';
-  else if(estadoUTE.includes('cerr'))estado='Cerrada';
-  const observaciones=[
-    satGet(row,'Temática','Tematica')&&`Temática: ${satGet(row,'Temática','Tematica')}`,
-    satGet(row,'Respuestas de la bitácora','Respuestas de la bitacora')&&`Respuestas de bitácora: ${satGet(row,'Respuestas de la bitácora','Respuestas de la bitacora')}`,
-    satGet(row,'Observaciones','Observaciones ')&&`Observaciones de origen: ${satGet(row,'Observaciones','Observaciones ')}`
+function satPasteMap(o){
+  const estudiante=satPasteVal(o,['Nombre estudiante']);
+  const rut=satPasteRut(o),carrera=satPasteVal(o,['Carrera']),via=satPasteVal(o,['Ingreso']);
+  const tivu=satPasteVal(o,['TIVU ORIGEN']),tema=satPasteVal(o,['Temática','Tematica']);
+  const descripcion=satPasteVal(o,['Descripción','Descripcion']);
+  const respuestas=satPasteVal(o,['Respuestas de la bitácora','Respuestas de la bitácora ','Respuestas de la bitacora']);
+  const prioridad=satPastePriority(satPasteVal(o,['Clasificación Alerta','Clasificacion Alerta']));
+  const tipo=satPasteVal(o,['Tipo Alerta']);
+  const estadoOrigen=satPasteVal(o,['Estado Alerta']);
+  const obs=satPasteVal(o,['Observaciones','Observaciones ']);
+  const resol=satPasteVal(o,['Observaciones Resolución','Observaciones Resolucion']);
+  const estadoUte=satPasteVal(o,['Estado Alerta Unidad Trayectoria']);
+  const obsUte=satPasteVal(o,['Observaciones Acompañamiento Unidad de Trayectoria/profesional a cargo','Observaciones Acompanamiento Unidad de Trayectoria/profesional a cargo']);
+  const correoTutor=satPasteVal(o,['Correo Tutor']);
+  const apoyo=satPasteVal(o,['Tipo apoyo']);
+  const profesional=satPasteVal(o,['Profesional académico','Profesional academico']);
+  const facultad=satPasteVal(o,['Facultad']),anio=satPasteVal(o,['Año','Ano']);
+  const antecedentes=[
+    tema&&`Temática: ${tema}`,
+    tipo&&`Tipo de alerta: ${tipo}`,
+    estadoOrigen&&`Estado de alerta en origen: ${estadoOrigen}`,
+    respuestas&&`Respuestas de la bitácora:\n${respuestas}`,
+    obs&&`Observaciones de origen:\n${obs}`
   ].filter(Boolean).join('\n\n');
-  const notes=[
-    satGet(row,'Observaciones Resolución','Observaciones Resolucion'),
-    satGet(row,'Observaciones Acompañamiento Unidad de Trayectoria/profesional a cargo','Observaciones Acompanamiento Unidad de Trayectoria/profesional a cargo')
+  const notas=[
+    tivu&&`TIVU origen: ${tivu}`,
+    facultad&&`Facultad: ${facultad}`,
+    anio&&`Año: ${anio}`,
+    resol&&`Observaciones de resolución:\n${resol}`,
+    estadoUte&&`Estado UTE informado: ${estadoUte}`,
+    obsUte&&`Acompañamiento UTE previo:\n${obsUte}`
   ].filter(Boolean).join('\n\n');
-  ensureCatalogLabel('unidades','Tutorías / SAT');
-  ensureCatalogLabel('carreras',satGet(row,'Carrera'));
-  ensureCatalogLabel('viasIngreso',satGet(row,'Ingreso'));
-  if(satGet(row,'Tipo apoyo'))ensureCatalogLabel('dispositivos',satGet(row,'Tipo apoyo'));
+  const sourceKey='satpaste_'+satPasteHash([rut,estudiante,tema,descripcion].map(satPasteNorm).join('|'));
+  const prof=PROFESIONALES.find(p=>satPasteNorm(p.nombre)===satPasteNorm(profesional));
   return {
-    id:'der'+Date.now().toString(36),
-    estudiante:satStudent(row),rut:satRUT(row),carrera:satGet(row,'Carrera'),viaIngreso:satGet(row,'Ingreso'),
-    fechaRecepcion:new Date().toISOString().slice(0,10),unidadOrigen:'Tutorías / SAT',
-    profesionalOrigen:satGet(row,'Correo Tutor'),canal:'Derivación interna',
-    motivo:satGet(row,'Descripción','Descripcion')||satGet(row,'Temática','Tematica'),
-    antecedentes:observaciones,responsable:pro,responsableEmail:prof?.correo||'',
-    dispositivo:satGet(row,'Tipo apoyo'),estado,prioridad:satPriority(row)||'Media',
-    articulaciones:[],proximaAccion:'Revisar antecedentes y definir contacto',fechaProxima:'',
-    unidadDestino:'',contactoDestino:'',fechaDestino:'',estadoDestino:'',motivoDestino:'',
-    notas:notes,
-    timeline:[{id:'rt'+Date.now().toString(36),date:new Date().toISOString().slice(0,10),type:'Recepción',text:`Registro incorporado desde SAT · ${satGet(row,'TIVU ORIGEN')||'fuente OneDrive'}.`}],
-    updatedAt:Date.now(),sourceSatKey:sourceKey,sourceSat:{...row}
+    estudiante,rut,carrera,viaIngreso:via,fechaRecepcion:new Date().toISOString().slice(0,10),
+    unidadOrigen:'Programa de tutorías',profesionalOrigen:correoTutor,canal:'SAT',
+    motivo:descripcion||tema,antecedentes,responsable:profesional,responsableEmail:prof?.correo||'',
+    dispositivo:apoyo,estado:satPasteStatus(estadoUte),prioridad,articulaciones:[],
+    proximaAccion:'',fechaProxima:'',unidadDestino:'',contactoDestino:'',fechaDestino:'',
+    estadoDestino:'',motivoDestino:'',notas,timeline:[{
+      id:'rt'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),
+      date:new Date().toISOString().slice(0,10),type:'Recepción',
+      text:`Derivación incorporada desde SAT${tivu?' · '+tivu:''}.`
+    }],
+    sourceSatPasteKey:sourceKey,sourceSatPasteData:o,sourceSatPasteRaw:o.__raw||'',
+    _satMeta:{tema,tipo,tivu,correoTutor,estadoUte}
   }
 }
-async function importSatReferral(key,{open=true}={}){
-  const row=satRecordByKey(key);if(!row)return;
-  const existing=REFERRALS.find(r=>r.sourceSatKey===key);
-  if(existing){showToast('Este registro SAT ya fue incorporado','bad');if(open)openReferral(existing.id);return}
-  const ref=satSourceToReferral(row);REFERRALS.unshift(ref);saveCatalogsLocal();await saveData(false);renderReferrals();renderSatInbox();renderHome();
-  showToast('Registro SAT incorporado como derivación ✓','ok');
-  closeSatRecord();
-  if(open){openReferral(ref.id);const cb=document.getElementById('rNotifyEmail');if(cb&&ref.responsable)cb.checked=true}
+function satPasteDuplicate(d){
+  return REFERRALS.find(r=>{
+    if(d.sourceSatPasteKey&&r.sourceSatPasteKey===d.sourceSatPasteKey)return true;
+    return satPasteNorm(r.rut)===satPasteNorm(d.rut)&&satPasteNorm(r.motivo)===satPasteNorm(d.motivo)&&!!d.rut&&!!d.motivo
+  })
 }
-function satAoAToRows(values){
-  if(!Array.isArray(values)||!values.length)return[];
-  let headerIndex=values.findIndex(row=>Array.isArray(row)&&row.some(v=>satFold(v)==='nombre estudiante')&&row.some(v=>satFold(v).includes('rut estudiante')));
-  if(headerIndex<0)headerIndex=0;
-  const raw=(values[headerIndex]||[]).map((h,i)=>satNorm(h)||`Columna ${i+1}`);
-  const seen={};
-  const headers=raw.map(h=>{seen[h]=(seen[h]||0)+1;return seen[h]===1?h:`${h} (${seen[h]})`});
-  SAT_HEADERS=headers;
-  return values.slice(headerIndex+1).filter(row=>Array.isArray(row)&&row.some(v=>satNorm(v)!=='')).map(row=>{
-    const obj={};headers.forEach((h,i)=>obj[h]=row[i]??'');return obj
+function satPasteAnalyze(){
+  const raw=document.getElementById('satPasteText')?.value||'';
+  if(!raw.trim()){showToast('Pega primero una o más filas desde Excel','bad');return}
+  const parsed=satPasteRowsToObjects(satPasteParseTSV(raw));
+  const mapped=parsed.map(satPasteMap).filter(d=>d.estudiante||d.rut||d.motivo);
+  if(!mapped.length){showToast('No pude reconocer registros SAT en el texto pegado','bad');return}
+  SAT_PASTE_ROWS=mapped;
+  renderSatPasteResults();
+}
+function satPasteMissing(d){
+  const m=[];if(!d.estudiante)m.push('nombre');if(!d.rut)m.push('RUT');if(!d.carrera)m.push('carrera');if(!d.motivo)m.push('motivo');return m
+}
+function renderSatPasteResults(){
+  const a=document.getElementById('satPasteInputStep'),b=document.getElementById('satPasteResults'),list=document.getElementById('satPasteList');
+  if(!a||!b||!list)return;a.style.display='none';b.style.display='block';
+  const dup=SAT_PASTE_ROWS.filter(satPasteDuplicate).length;
+  document.getElementById('satPasteResultTitle').textContent=`${SAT_PASTE_ROWS.length} ${SAT_PASTE_ROWS.length===1?'derivación detectada':'derivaciones detectadas'}`;
+  document.getElementById('satPasteResultMeta').textContent=dup?`${dup} ya ${dup===1?'parece existir':'parecen existir'} en la plataforma y no se seleccionará automáticamente.`:'Revisa la vista previa. Todas vienen seleccionadas.';
+  list.innerHTML=SAT_PASTE_ROWS.map((d,i)=>{
+    const duplicate=satPasteDuplicate(d),missing=satPasteMissing(d),pc=satPasteNorm(d.prioridad).includes('alta')?'high':satPasteNorm(d.prioridad).includes('baja')?'low':'medium';
+    return `<div class="sat-paste-card ${duplicate?'duplicate':''}" data-sat-paste-card="${i}">
+      <div class="sat-paste-check"><input type="checkbox" data-sat-paste-select="${i}" ${duplicate?'disabled':'checked'}></div>
+      <div>
+        <div class="sat-paste-name">${esc(d.estudiante||'Estudiante sin identificar')}</div>
+        <div class="sat-paste-sub">${esc(d.carrera||'Sin carrera')} · ${esc(d.rut||'Sin RUT')}</div>
+        ${missing.length?`<div class="sat-paste-warning">Falta: ${esc(missing.join(', '))}</div>`:''}
+      </div>
+      <div class="sat-paste-cell"><div class="sat-paste-label">Prioridad</div><div class="sat-paste-tags"><span class="sat-paste-tag ${pc}">${esc(d.prioridad||'—')}</span></div></div>
+      <div class="sat-paste-cell sat-paste-hide-md"><div class="sat-paste-label">Profesional</div><div class="sat-paste-value">${esc(d.responsable||'Sin asignar')}</div></div>
+      <div class="sat-paste-cell"><div class="sat-paste-label">Motivo</div><div class="sat-paste-value sat-paste-motive">${esc(d.motivo||'Sin motivo')}</div></div>
+      ${duplicate?'<span class="sat-paste-duplicate">✓ Ya existe</span>':`<button class="sat-paste-review" type="button" data-sat-paste-review="${i}">Revisar ficha</button>`}
+    </div>`
+  }).join('');
+  satPasteUpdateImportButton();
+}
+function satPasteUpdateImportButton(){
+  const n=[...document.querySelectorAll('[data-sat-paste-select]:checked')].length,btn=document.getElementById('satPasteImportSelected');
+  if(btn){btn.disabled=!n;btn.textContent=n?`Incorporar seleccionadas (${n})`:'Nada seleccionado'}
+}
+function openSatPaste(){
+  SAT_PASTE_ROWS=[];SAT_PASTE_DRAFT=null;
+  const ta=document.getElementById('satPasteText');if(ta)ta.value='';
+  document.getElementById('satPasteInputStep').style.display='block';document.getElementById('satPasteResults').style.display='none';
+  document.getElementById('satPasteHint').textContent='Esperando datos de Excel…';
+  document.getElementById('moSatPaste').classList.add('open');document.body.style.overflow='hidden';
+  setTimeout(()=>ta?.focus(),80)
+}
+function closeSatPaste(){document.getElementById('moSatPaste')?.classList.remove('open');document.body.style.overflow=''}
+function satPastePrepareCatalogs(d){
+  satPasteEnsureCatalog('unidades','Programa de tutorías');satPasteEnsureCatalog('canalesIngreso','SAT');
+  satPasteEnsureCatalog('carreras',d.carrera);satPasteEnsureCatalog('viasIngreso',d.viaIngreso);
+  satPasteEnsureCatalog('dispositivos',d.dispositivo);satPasteEnsureCatalog('prioridades',d.prioridad);
+}
+function satPasteReview(index){
+  const d=SAT_PASTE_ROWS[index];if(!d)return;
+  satPastePrepareCatalogs(d);saveCatalogsLocal();closeSatPaste();openReferral(null,d)
+}
+async function satPasteImportSelected(){
+  const idx=[...document.querySelectorAll('[data-sat-paste-select]:checked')].map(x=>Number(x.dataset.satPasteSelect)).filter(Number.isFinite);
+  if(!idx.length)return;
+  let added=0;
+  idx.forEach(i=>{
+    const d=SAT_PASTE_ROWS[i];if(!d||satPasteDuplicate(d))return;
+    satPastePrepareCatalogs(d);
+    const clean={...d};delete clean._satMeta;
+    clean.id='der'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+    clean.updatedAt=Date.now();
+    REFERRALS.unshift(clean);added++;
   });
-}
-function parseSatWorkbook(buffer,source='Excel local'){
-  if(typeof XLSX==='undefined')throw new Error('No se cargó el lector de Excel');
-  const wb=XLSX.read(buffer,{type:'array'});
-  const sheetName=SAT_CONFIG.sheetName||'SATT';
-  const ws=wb.Sheets[sheetName]||wb.Sheets[wb.SheetNames.find(n=>satFold(n)===satFold(sheetName))];
-  if(!ws)throw new Error(`No se encontró la hoja "${sheetName}"`);
-  const values=XLSX.utils.sheet_to_json(ws,{header:1,defval:'',raw:false});
-  SAT_ROWS=satAoAToRows(values);
-  SAT_SYNC_META={source,syncedAt:new Date().toISOString(),sheetName:ws['!ref']?sheetName:sheetName,total:SAT_ROWS.length};
-  saveSatCache();renderSatInbox();showToast(`SAT sincronizado · ${SAT_ROWS.length} registros`,'ok');
-}
-async function importSatLocal(){
-  const f=document.getElementById('satLocalFile')?.files?.[0];if(!f){showToast('Selecciona el archivo Excel','bad');return}
-  try{parseSatWorkbook(await f.arrayBuffer(),f.name)}catch(e){showToast('No se pudo leer SAT: '+e.message,'bad')}
-}
-function satEncodeShareUrl(url){
-  const bytes=new TextEncoder().encode(url);let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));
-  return 'u!'+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  if(!added){showToast('No había derivaciones nuevas para incorporar','bad');return}
+  saveCatalogsLocal();await saveData(false);renderReferrals();renderHome();closeSatPaste();
+  showToast(`${added} ${added===1?'derivación incorporada':'derivaciones incorporadas'} desde SAT ✓`,'ok')
 }
 
-function satAuthSave(){
-  try{sessionStorage.setItem('ute_sat_auth_v1',JSON.stringify(SAT_AUTH))}catch(_){}
-}
-function satAuthClear(){
-  SAT_AUTH={accessToken:'',expiresAt:0,accountName:'',username:''};
-  try{sessionStorage.removeItem('ute_sat_auth_v1')}catch(_){}
-}
-function satBase64Url(bytes){
-  let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));
-  return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
-}
-function satRandomString(bytes=48){
-  const arr=new Uint8Array(bytes);crypto.getRandomValues(arr);return satBase64Url(arr)
-}
-async function satSha256Base64Url(value){
-  const data=new TextEncoder().encode(value);
-  const hash=new Uint8Array(await crypto.subtle.digest('SHA-256',data));
-  return satBase64Url(hash)
-}
-function satJwtPayload(token=''){
-  try{
-    const p=token.split('.')[1];if(!p)return{};
-    const s=p.replace(/-/g,'+').replace(/_/g,'/');
-    const json=decodeURIComponent(atob(s).split('').map(c=>'%'+c.charCodeAt(0).toString(16).padStart(2,'0')).join(''));
-    return JSON.parse(json);
-  }catch(_){return{}}
-}
-function satOAuthScopes(){
-  return 'openid profile offline_access https://graph.microsoft.com/User.Read https://graph.microsoft.com/Files.Read';
-}
-function satAuthValid(){
-  return !!SAT_AUTH.accessToken && Number(SAT_AUTH.expiresAt||0)>Date.now()+60000;
-}
-function renderSatConfigUI(){
-  // Protección adicional por si quedan datos antiguos guardados en el navegador.
-  if(!SAT_CONFIG.clientId) SAT_CONFIG.clientId='154b7ffc-a630-414a-b1c2-505e40e03a6c';
-  if(!SAT_CONFIG.authority||SAT_CONFIG.authority==='organizations') SAT_CONFIG.authority='e049a386-0d1c-4632-b31d-c627c8cd07e9';
-  if(!SAT_CONFIG.redirectUri) SAT_CONFIG.redirectUri='https://fabianpulgaru-dev.github.io/Talleres-Trayectoria/';
-  const set=(id,val)=>{const e=document.getElementById(id);if(e&&document.activeElement!==e)e.value=val||''};
-  set('satFileUrl',SAT_CONFIG.fileUrl||SAT_DEFAULT_FILE_URL);set('satSheetName',SAT_CONFIG.sheetName||'SATT');set('satClientId',SAT_CONFIG.clientId);set('satAuthority',SAT_CONFIG.authority||'organizations');
-  if(!SAT_CONFIG.redirectUri&&TASK_NOTIFY_CONFIG?.panelUrl)SAT_CONFIG.redirectUri=TASK_NOTIFY_CONFIG.panelUrl;
-  set('satRedirectUri',SAT_CONFIG.redirectUri||'');
-  const msg=document.getElementById('satConfigMessage');
-  if(msg){
-    msg.textContent=satAuthValid()
-      ?`Conectado${SAT_AUTH.username?' como '+SAT_AUTH.username:''}. El panel solo lee la planilla.`
-      :'El panel solo leerá la planilla; no modificará el archivo original.';
-  }
-  if(satAuthValid())setSatStatus('ok','Conectado');
-  else if(SAT_ROWS.length)setSatStatus('ok',satLastSyncLabel());
-  else setSatStatus('warn','No conectado');
-}
-function readSatConfigForm(){
-  const get=id=>document.getElementById(id)?.value.trim()||'';
-  SAT_CONFIG={...SAT_CONFIG,
-    fileUrl:get('satFileUrl')||SAT_DEFAULT_FILE_URL,
-    sheetName:get('satSheetName')||'SATT',
-    clientId:get('satClientId')||'154b7ffc-a630-414a-b1c2-505e40e03a6c',
-    authority:get('satAuthority')||'e049a386-0d1c-4632-b31d-c627c8cd07e9',
-    redirectUri:get('satRedirectUri')||'https://fabianpulgaru-dev.github.io/Talleres-Trayectoria/'
-  };
-  saveSatCache();renderSatConfigUI();showToast('Configuración Microsoft 365 guardada ✓','ok')
-}
-async function satExchangeCode(code,verifier){
-  const tenant=SAT_CONFIG.authority||'e049a386-0d1c-4632-b31d-c627c8cd07e9';
-  const tokenUrl=`https://login.microsoftonline.com/${encodeURIComponent(tenant)}/oauth2/v2.0/token`;
-  const body=new URLSearchParams({
-    client_id:SAT_CONFIG.clientId,
-    scope:satOAuthScopes(),
-    code,
-    redirect_uri:SAT_CONFIG.redirectUri,
-    grant_type:'authorization_code',
-    code_verifier:verifier
-  });
-  const r=await fetch(tokenUrl,{
-    method:'POST',
-    headers:{'Content-Type':'application/x-www-form-urlencoded'},
-    body
-  });
-  const j=await r.json().catch(()=>({}));
-  if(!r.ok)throw new Error(j?.error_description||j?.error||`Error de autenticación ${r.status}`);
-  const claims=satJwtPayload(j.id_token||'');
-  SAT_AUTH={
-    accessToken:j.access_token||'',
-    expiresAt:Date.now()+Math.max(60,Number(j.expires_in||3600)-60)*1000,
-    accountName:claims.name||'',
-    username:claims.preferred_username||claims.email||claims.upn||''
-  };
-  satAuthSave();
-  return SAT_AUTH.accessToken;
-}
-async function satAuthorizePopup(){
-  if(location.protocol==='file:')throw new Error('Abre el Panel desde la URL pública de GitHub Pages');
-  if(!SAT_CONFIG.clientId)throw new Error('Falta el Client ID de Microsoft Entra');
-  if(!SAT_CONFIG.redirectUri)throw new Error('Falta la Redirect URI registrada');
-
-  // Abrir inmediatamente para evitar el bloqueo de popups antes de cualquier await.
-  const w=520,h=680,left=Math.max(0,(screen.width-w)/2),top=Math.max(0,(screen.height-h)/2);
-  const popup=window.open('about:blank','uteMicrosoftLogin',`popup=yes,width=${w},height=${h},left=${left},top=${top}`);
-  if(!popup)throw new Error('El navegador bloqueó la ventana de inicio de sesión');
-
-  try{
-    popup.document.title='Conectando con Microsoft 365…';
-    popup.document.body.innerHTML='<div style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;padding:32px;color:#334">Preparando inicio de sesión con Microsoft…</div>';
-  }catch(_){}
-
-  const verifier=satRandomString(64);
-  const challenge=await satSha256Base64Url(verifier);
-  const state=satRandomString(24);
-  const tenant=SAT_CONFIG.authority||'e049a386-0d1c-4632-b31d-c627c8cd07e9';
-
-  const authUrl=new URL(`https://login.microsoftonline.com/${encodeURIComponent(tenant)}/oauth2/v2.0/authorize`);
-  authUrl.search=new URLSearchParams({
-    client_id:SAT_CONFIG.clientId,
-    response_type:'code',
-    redirect_uri:SAT_CONFIG.redirectUri,
-    response_mode:'query',
-    scope:satOAuthScopes(),
-    state,
-    code_challenge:challenge,
-    code_challenge_method:'S256',
-    prompt:'select_account'
-  }).toString();
-
-  popup.location.href=authUrl.toString();
-
-  return await new Promise((resolve,reject)=>{
-    const started=Date.now();
-    const timer=setInterval(async()=>{
-      if(Date.now()-started>180000){
-        clearInterval(timer);
-        try{popup.close()}catch(_){}
-        reject(new Error('El inicio de sesión tardó demasiado'));
-        return;
-      }
-      if(popup.closed){
-        clearInterval(timer);
-        reject(new Error('Se cerró la ventana de Microsoft antes de completar el acceso'));
-        return;
-      }
-      try{
-        const href=popup.location.href;
-        if(!href||!href.startsWith(new URL(SAT_CONFIG.redirectUri).origin))return;
-        const u=new URL(href);
-        const err=u.searchParams.get('error');
-        if(err){
-          clearInterval(timer);popup.close();
-          reject(new Error(u.searchParams.get('error_description')||err));
-          return;
-        }
-        const code=u.searchParams.get('code');
-        const returnedState=u.searchParams.get('state');
-        if(!code)return;
-        clearInterval(timer);
-        popup.close();
-        if(returnedState!==state){reject(new Error('Microsoft devolvió una respuesta de seguridad no válida'));return}
-        try{
-          const token=await satExchangeCode(code,verifier);
-          resolve(token);
-        }catch(e){reject(e)}
-      }catch(_crossOrigin){
-        // Mientras el popup esté en login.microsoftonline.com no podemos leer su URL. Es esperado.
-      }
-    },250);
-  });
-}
-async function connectMicrosoftSat(){
-  try{
-    readSatConfigForm();
-    setSatStatus('warn','Conectando…');
-    await satAuthorizePopup();
-    setSatStatus('ok','Conectado');
-    renderSatConfigUI();
-    showToast('Microsoft 365 conectado ✓','ok');
-  }catch(e){
-    console.error('Microsoft 365 auth',e);
-    setSatStatus('bad','Error de conexión');
-    showToast('Microsoft 365: '+(e?.message||'No se pudo iniciar sesión'),'bad');
-  }
-}
-async function satAccessToken(){
-  if(satAuthValid())return SAT_AUTH.accessToken;
-  return await satAuthorizePopup();
-}
-async function graphJson(url,token){
-  const r=await fetch(url,{headers:{Authorization:`Bearer ${token}`}});
-  const j=await r.json().catch(()=>({}));
-  if(!r.ok){
-    if(r.status===401){satAuthClear();renderSatConfigUI()}
-    throw new Error(j?.error?.message||`Microsoft Graph ${r.status}`);
-  }
-  return j
-}
-async function syncSatMicrosoft(){
-  if(!SAT_CONFIG.fileUrl){showToast('Configura la URL del archivo SAT','bad');return}
-  if(location.protocol==='file:'){
-    showToast('Para iniciar sesión con Microsoft, abre el Panel desde la URL pública de GitHub Pages','bad');
-    setSatStatus('warn','Abrir desde GitHub Pages');
-    return;
-  }
-  const btns=[document.getElementById('btnSatSync'),document.getElementById('btnSyncMicrosoftConfig')].filter(Boolean);
-  btns.forEach(b=>b.disabled=true);
-  setSatStatus('warn','Sincronizando…');
-  try{
-    const token=await satAccessToken();
-    const share=satEncodeShareUrl(SAT_CONFIG.fileUrl);
-    const item=await graphJson(`https://graph.microsoft.com/v1.0/shares/${share}/driveItem?$select=id,name,parentReference,@microsoft.graph.downloadUrl`,token);
-
-    let buffer=null;
-    if(item.parentReference?.driveId&&item.id){
-      try{
-        const contentUrl=`https://graph.microsoft.com/v1.0/drives/${encodeURIComponent(item.parentReference.driveId)}/items/${encodeURIComponent(item.id)}/content`;
-        const rr=await fetch(contentUrl,{headers:{Authorization:`Bearer ${token}`}});
-        if(rr.ok)buffer=await rr.arrayBuffer();
-      }catch(_){}
-    }
-
-    if(!buffer){
-      let dl=item['@microsoft.graph.downloadUrl'];
-      if(!dl&&item.parentReference?.driveId&&item.id){
-        const meta=await graphJson(`https://graph.microsoft.com/v1.0/drives/${encodeURIComponent(item.parentReference.driveId)}/items/${encodeURIComponent(item.id)}?$select=@microsoft.graph.downloadUrl`,token);
-        dl=meta['@microsoft.graph.downloadUrl'];
-      }
-      if(!dl)throw new Error('Microsoft no entregó una vía de descarga para el archivo');
-      const rf=await fetch(dl);
-      if(!rf.ok)throw new Error('No se pudo descargar el Excel desde OneDrive');
-      buffer=await rf.arrayBuffer();
-    }
-
-    parseSatWorkbook(buffer,item.name||'OneDrive');
-    SAT_SYNC_META={...SAT_SYNC_META,driveId:item.parentReference?.driveId||'',itemId:item.id||'',source:item.name||'OneDrive'};
-    saveSatCache();
-    setSatStatus('ok',satLastSyncLabel());
-    renderSatConfigUI();
-  }catch(e){
-    console.error('SAT OneDrive sync',e);
-    setSatStatus('bad','Error de sincronización');
-    showToast('SAT · OneDrive: '+(e?.message||'No se pudo sincronizar'),'bad');
-  }finally{
-    btns.forEach(b=>b.disabled=false);
-  }
-}
-async function disconnectMicrosoftSat(){
-  satAuthClear();
-  setSatStatus(SAT_ROWS.length?'ok':'warn',SAT_ROWS.length?satLastSyncLabel():'No conectado');
-  renderSatConfigUI();
-  showToast('Microsoft 365 desconectado','ok');
-}
-
-function switchConfigView(view){
-  const v=view==='integrations'?'integrations':'catalogs';
-  document.querySelectorAll('[data-config-view]').forEach(b=>b.classList.toggle('active',b.dataset.configView===v));
-  const a=document.getElementById('configCatalogsView'),b=document.getElementById('configIntegrationsView');
-  if(a)a.style.display=v==='catalogs'?'block':'none';if(b)b.style.display=v==='integrations'?'block':'none';
-  if(v==='integrations')renderSatConfigUI();else renderConfiguration();
-}
-
-function renderConfiguration(){renderSatConfigUI();if(!CATALOGS||!Object.keys(CATALOGS).length)CATALOGS=initCatalogs(null);if(!CATALOGS[activeCatalogKey])activeCatalogKey=Object.keys(CATALOGS)[0];const tabs=document.getElementById('catalogTabs');if(!tabs)return;tabs.innerHTML=Object.entries(CATALOGS).map(([k,c])=>`<button class="catalog-tab ${k===activeCatalogKey?'active':''}" data-catalog-key="${esc(k)}"><span>${esc(c.name)}</span><small>${(c.items||[]).filter(x=>x.active!==false).length}</small></button>`).join('');const cat=CATALOGS[activeCatalogKey];document.getElementById('catalogTitle').textContent=cat?.name||'Catálogo';document.getElementById('catalogDescription').textContent=cat?.description||'Opciones disponibles';const list=document.getElementById('catalogItems');list.innerHTML=(cat?.items||[]).map((x,i)=>`<div class="catalog-item ${x.active===false?'inactive':''}" data-cat-item="${esc(x.id)}"><div class="catalog-order">${i+1}</div><div><div class="catalog-name">${esc(x.label)}</div><div class="catalog-meta">${x.active===false?'Inactiva · se conserva en registros históricos':'Activa'}</div></div><div><button class="catalog-btn" data-cat-move="up" data-cat-id="${esc(x.id)}">↑</button><button class="catalog-btn" data-cat-move="down" data-cat-id="${esc(x.id)}">↓</button></div><button class="catalog-btn" data-cat-toggle="${esc(x.id)}">${x.active===false?'Activar':'Desactivar'}</button></div>`).join('')||'<div class="task-empty">Este catálogo todavía no tiene opciones.</div>';applyCatalogsToPlatform()}
+function renderConfiguration(){if(!CATALOGS||!Object.keys(CATALOGS).length)CATALOGS=initCatalogs(null);if(!CATALOGS[activeCatalogKey])activeCatalogKey=Object.keys(CATALOGS)[0];const tabs=document.getElementById('catalogTabs');if(!tabs)return;tabs.innerHTML=Object.entries(CATALOGS).map(([k,c])=>`<button class="catalog-tab ${k===activeCatalogKey?'active':''}" data-catalog-key="${esc(k)}"><span>${esc(c.name)}</span><small>${(c.items||[]).filter(x=>x.active!==false).length}</small></button>`).join('');const cat=CATALOGS[activeCatalogKey];document.getElementById('catalogTitle').textContent=cat?.name||'Catálogo';document.getElementById('catalogDescription').textContent=cat?.description||'Opciones disponibles';const list=document.getElementById('catalogItems');list.innerHTML=(cat?.items||[]).map((x,i)=>`<div class="catalog-item ${x.active===false?'inactive':''}" data-cat-item="${esc(x.id)}"><div class="catalog-order">${i+1}</div><div><div class="catalog-name">${esc(x.label)}</div><div class="catalog-meta">${x.active===false?'Inactiva · se conserva en registros históricos':'Activa'}</div></div><div><button class="catalog-btn" data-cat-move="up" data-cat-id="${esc(x.id)}">↑</button><button class="catalog-btn" data-cat-move="down" data-cat-id="${esc(x.id)}">↓</button></div><button class="catalog-btn" data-cat-toggle="${esc(x.id)}">${x.active===false?'Activar':'Desactivar'}</button></div>`).join('')||'<div class="task-empty">Este catálogo todavía no tiene opciones.</div>';applyCatalogsToPlatform()}
 function addCatalogItem(){const i=document.getElementById('catalogItemInput'),label=i?.value.trim();if(!label||!CATALOGS[activeCatalogKey])return;const arr=CATALOGS[activeCatalogKey].items;if(arr.some(x=>x.label.toLowerCase()===label.toLowerCase())){showToast('Esa opción ya existe','bad');return}arr.push({id:activeCatalogKey+'_'+Date.now().toString(36),label,active:true});i.value='';persistCatalogChange()}
 function persistCatalogChange(){saveCatalogsLocal();renderConfiguration();renderReferrals();debounceSave()}
 function applyCatalogsToPlatform(){
@@ -4047,26 +3646,18 @@ document.addEventListener('click',e=>{
  const tog=e.target.closest('[data-cat-toggle]');if(tog){const x=CATALOGS[activeCatalogKey]?.items.find(z=>z.id===tog.dataset.catToggle);if(x){x.active=x.active===false;persistCatalogChange()}return}
  const mv=e.target.closest('[data-cat-move]');if(mv){const a=CATALOGS[activeCatalogKey]?.items||[],i=a.findIndex(x=>x.id===mv.dataset.catId),j=mv.dataset.catMove==='up'?i-1:i+1;if(i>=0&&j>=0&&j<a.length){[a[i],a[j]]=[a[j],a[i]];persistCatalogChange()}return}
 });
-document.getElementById('btnNuevaDerivacion')?.addEventListener('click',()=>openReferral());document.getElementById('refClose')?.addEventListener('click',()=>{document.getElementById('moReferral').classList.remove('open');document.body.style.overflow=''});document.getElementById('rResponsable')?.addEventListener('change',()=>{syncProfessionalEmail('rResponsable','rResponsableEmail');const cb=document.getElementById('rNotifyEmail');if(cb)cb.checked=true});document.getElementById('refReasonClose')?.addEventListener('click',closeReferralReason);document.getElementById('moReferralReason')?.addEventListener('click',e=>{if(e.target.id==='moReferralReason')closeReferralReason()});document.getElementById('btnGuardarDerivacion')?.addEventListener('click',saveReferral);document.getElementById('btnEliminarDerivacion')?.addEventListener('click',async()=>{if(!editingReferralId||!confirm('¿Eliminar esta derivación?'))return;REFERRALS=REFERRALS.filter(x=>x.id!==editingReferralId);saveCatalogsLocal();document.getElementById('moReferral').classList.remove('open');renderReferrals();renderHome();await saveData(false);showToast('Derivación eliminada','ok')});document.getElementById('refOriginFilter')?.addEventListener('change',e=>{refOrigin=e.target.value;renderReferrals()});document.getElementById('refResponsibleFilter')?.addEventListener('change',e=>{refResponsible=e.target.value;renderReferrals()});document.getElementById('refSearch')?.addEventListener('input',e=>{refSearch=e.target.value;clearTimeout(window._refSearch);window._refSearch=setTimeout(renderReferrals,180)});
+document.getElementById('btnNuevaDerivacion')?.addEventListener('click',()=>openReferral());document.getElementById('refClose')?.addEventListener('click',()=>{document.getElementById('moReferral').classList.remove('open');SAT_PASTE_DRAFT=null;document.body.style.overflow=''});document.getElementById('rResponsable')?.addEventListener('change',()=>{syncProfessionalEmail('rResponsable','rResponsableEmail');const cb=document.getElementById('rNotifyEmail');if(cb)cb.checked=true});document.getElementById('refReasonClose')?.addEventListener('click',closeReferralReason);document.getElementById('moReferralReason')?.addEventListener('click',e=>{if(e.target.id==='moReferralReason')closeReferralReason()});document.getElementById('btnGuardarDerivacion')?.addEventListener('click',saveReferral);document.getElementById('btnEliminarDerivacion')?.addEventListener('click',async()=>{if(!editingReferralId||!confirm('¿Eliminar esta derivación?'))return;REFERRALS=REFERRALS.filter(x=>x.id!==editingReferralId);saveCatalogsLocal();document.getElementById('moReferral').classList.remove('open');renderReferrals();renderHome();await saveData(false);showToast('Derivación eliminada','ok')});document.getElementById('refOriginFilter')?.addEventListener('change',e=>{refOrigin=e.target.value;renderReferrals()});document.getElementById('refResponsibleFilter')?.addEventListener('change',e=>{refResponsible=e.target.value;renderReferrals()});document.getElementById('refSearch')?.addEventListener('input',e=>{refSearch=e.target.value;clearTimeout(window._refSearch);window._refSearch=setTimeout(renderReferrals,180)});
 
-document.getElementById('btnSatSync')?.addEventListener('click',syncSatMicrosoft);
-document.getElementById('btnSatConfigure')?.addEventListener('click',()=>{switchModule('configuration');switchConfigView('integrations')});
-document.getElementById('btnSatOpenSource')?.addEventListener('click',()=>window.open(SAT_CONFIG.fileUrl||SAT_DEFAULT_FILE_URL,'_blank','noopener'));
-document.getElementById('btnSaveSatConfig')?.addEventListener('click',readSatConfigForm);
-document.getElementById('btnConnectMicrosoft')?.addEventListener('click',connectMicrosoftSat);
-document.getElementById('btnSyncMicrosoftConfig')?.addEventListener('click',syncSatMicrosoft);
-document.getElementById('btnDisconnectMicrosoft')?.addEventListener('click',disconnectMicrosoftSat);
-document.getElementById('btnImportSatLocal')?.addEventListener('click',importSatLocal);
-document.getElementById('satRecordClose')?.addEventListener('click',closeSatRecord);
-document.getElementById('moSatRecord')?.addEventListener('click',e=>{if(e.target.id==='moSatRecord')closeSatRecord()});
-document.getElementById('btnSatModalOpenExcel')?.addEventListener('click',()=>window.open(SAT_CONFIG.fileUrl||SAT_DEFAULT_FILE_URL,'_blank','noopener'));
-document.getElementById('btnSatImportReferral')?.addEventListener('click',()=>SAT_SELECTED_KEY&&importSatReferral(SAT_SELECTED_KEY));
-document.querySelectorAll('[data-sat-import]').forEach(()=>{});
-document.getElementById('satTypeFilter')?.addEventListener('change',e=>{SAT_TYPE_FILTER=e.target.value;renderSatInbox()});
-document.getElementById('satPriorityFilter')?.addEventListener('change',e=>{SAT_PRIORITY_FILTER=e.target.value;renderSatInbox()});
-document.getElementById('satProfessionalFilter')?.addEventListener('change',e=>{SAT_PRO_FILTER=e.target.value;renderSatInbox()});
-document.getElementById('satSearch')?.addEventListener('input',e=>{SAT_SEARCH=e.target.value;clearTimeout(window._satSearch);window._satSearch=setTimeout(renderSatInbox,160)});
-document.getElementById('satImportSeg')?.addEventListener('click',e=>{const b=e.target.closest('[data-sat-import]');if(!b)return;document.querySelectorAll('[data-sat-import]').forEach(x=>x.classList.remove('active'));b.classList.add('active');SAT_IMPORT_FILTER=b.dataset.satImport;renderSatInbox()});
+document.getElementById('btnPegarSat')?.addEventListener('click',openSatPaste);
+document.getElementById('satPasteClose')?.addEventListener('click',closeSatPaste);
+document.getElementById('moSatPaste')?.addEventListener('click',e=>{if(e.target.id==='moSatPaste')closeSatPaste()});
+document.getElementById('satPasteAnalyze')?.addEventListener('click',satPasteAnalyze);
+document.getElementById('satPasteBack')?.addEventListener('click',()=>{document.getElementById('satPasteResults').style.display='none';document.getElementById('satPasteInputStep').style.display='block';setTimeout(()=>document.getElementById('satPasteText')?.focus(),50)});
+document.getElementById('satPasteClear')?.addEventListener('click',()=>{const ta=document.getElementById('satPasteText');if(ta){ta.value='';ta.focus()}document.getElementById('satPasteHint').textContent='Esperando datos de Excel…'});
+document.getElementById('satPasteImportSelected')?.addEventListener('click',satPasteImportSelected);
+document.getElementById('satPasteText')?.addEventListener('paste',()=>setTimeout(()=>{const ta=document.getElementById('satPasteText');const rows=satPasteParseTSV(ta?.value||'');document.getElementById('satPasteHint').textContent=rows.length?`${rows.length} ${rows.length===1?'fila pegada':'filas pegadas'} · pulsa Analizar datos`:'Esperando datos de Excel…'},40));
+document.getElementById('satPasteList')?.addEventListener('click',e=>{const b=e.target.closest('[data-sat-paste-review]');if(b){satPasteReview(Number(b.dataset.satPasteReview));return}});
+document.getElementById('satPasteList')?.addEventListener('change',e=>{if(e.target.matches('[data-sat-paste-select]'))satPasteUpdateImportButton()});
 document.getElementById('catalogItemAdd')?.addEventListener('click',addCatalogItem);document.getElementById('catalogItemInput')?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addCatalogItem()}});document.getElementById('btnNewCatalog')?.addEventListener('click',()=>document.getElementById('catalogNewBox').classList.toggle('show'));document.getElementById('catalogNewCancel')?.addEventListener('click',()=>document.getElementById('catalogNewBox').classList.remove('show'));document.getElementById('catalogNewSave')?.addEventListener('click',()=>{const inp=document.getElementById('catalogNewName'),name=inp.value.trim();if(!name)return;const key='custom_'+Date.now().toString(36);CATALOGS[key]={name,description:'Catálogo personalizado',items:[]};activeCatalogKey=key;inp.value='';document.getElementById('catalogNewBox').classList.remove('show');persistCatalogChange()});
 
 function renderAll(){
