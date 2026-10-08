@@ -622,6 +622,21 @@ body.v25-ready .shell{visibility:visible}
 @media(max-width:980px){.bit-book-shell{grid-template-columns:1fr}.bit-sheet-nav{position:static;display:flex;overflow:auto;max-height:none}.bit-sheet-nav-head{min-width:145px;border-bottom:0;border-right:1px solid var(--hairline);margin:0 6px 0 0}.bit-sheet-item{min-width:180px}.bit-columns{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.bit-columns{grid-template-columns:1fr}.bit-map-summary{grid-template-columns:repeat(2,1fr)}.bit-current-head{align-items:flex-start;flex-direction:column}}
 
+
+/* v30: controles de acceso y visibilidad por módulo */
+[hidden]{display:none!important}
+.visibility-panel{background:#fff;border:2px solid var(--line);border-radius:16px;padding:20px;margin-bottom:22px}
+.visibility-panel h3{margin:0 0 5px;font-family:var(--fd);color:var(--p-dk)}
+.visibility-panel p{color:var(--txt2);font-size:.88rem;margin:0 0 12px}
+.visibility-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:12px 0}
+.visibility-identity{font-size:.84rem;font-weight:800;color:var(--p-dk)}
+.visibility-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:15px 0}
+.visibility-item{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid var(--line);border-radius:10px;padding:11px;background:var(--bg)}
+.visibility-item strong{display:block;font-size:.83rem}.visibility-item small{display:block;color:var(--mut);font-size:.72rem}
+.visibility-item>span:last-child{display:flex;align-items:center;gap:7px;white-space:nowrap;font-size:.76rem}
+.visibility-item input{accent-color:var(--p);width:20px;height:20px}.visibility-item em{font-style:normal;color:var(--txt2);font-weight:800}
+.visibility-warning{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:12px;color:#74541c!important}
+@media(max-width:720px){.visibility-list{grid-template-columns:1fr}}
 </style>
 <script>window.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{document.body?.classList.remove('v25-loading');document.body?.classList.add('v25-ready')},1200));</script>
 
@@ -1273,6 +1288,15 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
   <!-- CONFIGURACIÓN TRANSVERSAL -->
   <section id="moduleConfiguration" class="module">
     <div class="section-head"><div><h2>Configuración</h2><p>Administra los catálogos que alimentan los menús desplegables de la plataforma sin tocar el código.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
+    <div class="visibility-panel" id="visibilityPanel">
+      <h3>🔐 Privacidad y visibilidad de secciones</h3>
+      <p>Decide qué apartados aparecen para tus colegas. Cuando inicies sesión con tu Gmail autorizado, podrás ver todos, incluidos los que estén ocultos para el equipo.</p>
+      <div class="visibility-identity" id="visibilityIdentity">Verificando sesión…</div>
+      <div class="visibility-actions"><button type="button" class="btn-primary" id="visibilityLogin">Acceder con Google</button><button type="button" class="back-home" id="visibilityLogout" hidden>Cerrar sesión</button></div>
+      <div class="visibility-list" id="visibilitySectionList"></div>
+      <button type="button" class="btn-primary" id="visibilitySave" disabled>Guardar visibilidad para el equipo</button>
+      <p class="visibility-warning" style="margin-top:14px">⚠ Esta configuración oculta secciones en la interfaz, pero no protege por sí sola los datos de Firebase ni las hojas enlazadas. Para información sensible hay que aplicar permisos de lectura en Firebase y en las fuentes de datos.</p>
+    </div>
     <div class="config-layout">
       <aside class="catalog-sidebar">
         <div class="catalog-side-head"><strong>Catálogos</strong><button class="catalog-btn" id="btnNewCatalog">+ Nuevo</button></div>
@@ -1922,6 +1946,48 @@ const DOCS_FIREBASE_CONFIG={
   appId:"1:963939528799:web:dc462d7717bc0e7df5abea"
 };
 let docsApp=null,docsAuth=null,docsStorage=null,docsUser=null,docsCaseId=null;
+// IMPORTANTE: sustituir por el Gmail real del propietario ANTES de publicar.
+const VISIBILITY_ADMIN_EMAIL='fabianpulgaru@gmail.com';
+const VISIBILITY_MODULES=[['home','Resumen'],['monitoring','Monitoreo y seguimiento'],['referrals','Derivaciones'],['cases','Casos Específicos'],['adjustments','Ajustes Razonables'],['workshops','Talleres'],['tasks','Organización y tareas'],['worklog','Registro de gestión'],['management','Gestión'],['early','Educación Parvularia'],['bitacora','Bitácora'],['writing','Escritura'],['configuration','Configuración']];
+const VISIBILITY_DEFAULT=Object.fromEntries(VISIBILITY_MODULES.map(([id])=>[id,!['early','bitacora'].includes(id)]));
+let MODULE_VISIBILITY={...VISIBILITY_DEFAULT};
+function isVisibilityAdmin(){return !!(docsUser && docsUser.email && docsUser.email.toLowerCase()===VISIBILITY_ADMIN_EMAIL.toLowerCase());}
+function canSeeModule(id){return !!(isVisibilityAdmin() || MODULE_VISIBILITY[id]!==false);}
+function applyModuleVisibility(){
+  document.querySelectorAll('[data-module],[data-go]').forEach(el=>{
+    const id=el.dataset.module||el.dataset.go;
+    if(!id || !(id in MODULE_VISIBILITY))return;
+    const allowed=canSeeModule(id);el.hidden=!allowed;
+    el.style.setProperty('display',allowed?'':'none',allowed?'':'important');
+  });
+  document.querySelectorAll('.module').forEach(el=>{
+    const id=VISIBILITY_MODULES.find(([id])=>el.id==='module'+id.charAt(0).toUpperCase()+id.slice(1))?.[0];
+    if(id&&!canSeeModule(id))el.classList.remove('active');
+  });
+  if(typeof curModule!=='undefined' && !canSeeModule(curModule))switchModule('home');
+  renderVisibilitySettings();
+}
+function renderVisibilitySettings(){
+  const status=document.getElementById('visibilityIdentity'),list=document.getElementById('visibilitySectionList'),btn=document.getElementById('visibilityLogin'),logout=document.getElementById('visibilityLogout');
+  if(!status||!list)return;
+  const admin=isVisibilityAdmin(),signed=!!docsUser;
+  status.textContent=admin?'Administrador: '+docsUser.email:(signed?'Sesión: '+docsUser.email+' (sin permisos de administración)':'Sin iniciar sesión · vista compartida');
+  if(btn)btn.hidden=admin;if(logout)logout.hidden=!signed;
+  list.innerHTML=VISIBILITY_MODULES.map(([id,label])=>`<label class="visibility-item"><span><strong>${label}</strong><small>${['early','bitacora'].includes(id)?'Oculta al equipo inicialmente':'Módulo del panel'}</small></span><span><input type="checkbox" data-visible-section="${id}" ${MODULE_VISIBILITY[id]!==false?'checked':''} ${admin?'':'disabled'}><em>${MODULE_VISIBILITY[id]!==false?'Equipo':'Solo tú'}</em></span></label>`).join('');
+  const save=document.getElementById('visibilitySave');if(save)save.disabled=!admin;
+}
+async function saveVisibilitySettings(){
+  if(!isVisibilityAdmin()){showToast('Acceso exclusivo de la cuenta administradora','bad');return;}
+  const next={...MODULE_VISIBILITY};
+  document.querySelectorAll('[data-visible-section]').forEach(i=>next[i.dataset.visibleSection]=i.checked);
+  // Guardar solo la configuración, sin sobrescribir los demás registros del panel.
+  try{
+    const r=await fetch(FB_URL+'/panel_talleres/visibility.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(next)});
+    const j=await r.json().catch(()=>null);if(!r.ok||j?.error)throw new Error(j?.error||'HTTP '+r.status);
+    MODULE_VISIBILITY=next;applyModuleVisibility();showToast('Visibilidad compartida actualizada ✓','ok');
+  }catch(e){showToast('No fue posible guardar los cambios: '+e.message,'bad');}
+}
+
 let driveAccessToken=sessionStorage.getItem('ute_drive_access_token')||'';
 let driveSyncRunning=false;
 
@@ -2055,6 +2121,7 @@ async function loadData(){
     } else {
       // Ya existe un registro previo. Si "talleres" no viene, es porque Firebase
       // descarta arrays vacíos al guardarlos — significa que la lista quedó en 0, no que falte el seed.
+      MODULE_VISIBILITY={...VISIBILITY_DEFAULT,...((j.visibility&&typeof j.visibility==='object')?j.visibility:{})};
       TALLERES=Array.isArray(j.talleres)?j.talleres:[];
       CASOS=(Array.isArray(j.casos)?j.casos:[]).map(c=>({...c,documentos:Array.isArray(c.documentos)?c.documentos:[]}));
       TAREAS=Array.isArray(j.tareas)?j.tareas:[];
@@ -2091,6 +2158,7 @@ async function loadData(){
     setConn(false,'Sin conexión · usando datos locales');
   }
   renderAll();
+  applyModuleVisibility();
   setTimeout(applyPanelDeepLink,120);
 }
 
@@ -2304,6 +2372,7 @@ function renderCurrentModule(){
   }
 }
 function switchModule(name){
+  if(!canSeeModule(name)){showToast('Esta sección está restringida','bad');return;}
   curModule=name;
   document.querySelectorAll('.module').forEach(x=>x.classList.remove('active'));
   const map={home:'moduleHome',monitoring:'moduleMonitoring',referrals:'moduleReferrals',cases:'moduleCases',adjustments:'moduleAdjustments',workshops:'moduleWorkshops',tasks:'moduleTasks',worklog:'moduleWorklog',management:'moduleManagement',early:'moduleEarly',bitacora:'moduleBitacora',writing:'moduleWriting',configuration:'moduleConfiguration'};
@@ -2602,7 +2671,7 @@ function initDocsFirebase(){
     if(typeof firebase==='undefined')return;
     docsApp=firebase.apps.find(a=>a.name==='caseDocs')||firebase.initializeApp(DOCS_FIREBASE_CONFIG,'caseDocs');
     docsAuth=docsApp.auth();docsStorage=docsApp.storage();
-    docsAuth.onAuthStateChanged(u=>{docsUser=u||null;updateStorageUI();if(docsUser)showToast('Documentos conectados a Firebase Storage ✓','ok');});
+    docsAuth.onAuthStateChanged(u=>{docsUser=u||null;updateStorageUI();applyModuleVisibility();if(docsUser)showToast('Documentos conectados a Firebase Storage ✓','ok');});
   }catch(e){console.warn('Docs Firebase init',e);}
 }
 function updateStorageUI(){
@@ -3669,7 +3738,7 @@ async function satPasteImportSelected(){
   showToast(`${added} ${added===1?'derivación incorporada':'derivaciones incorporadas'} desde SAT ✓`,'ok')
 }
 
-function renderConfiguration(){if(!CATALOGS||!Object.keys(CATALOGS).length)CATALOGS=initCatalogs(null);if(!CATALOGS[activeCatalogKey])activeCatalogKey=Object.keys(CATALOGS)[0];const tabs=document.getElementById('catalogTabs');if(!tabs)return;tabs.innerHTML=Object.entries(CATALOGS).map(([k,c])=>`<button class="catalog-tab ${k===activeCatalogKey?'active':''}" data-catalog-key="${esc(k)}"><span>${esc(c.name)}</span><small>${(c.items||[]).filter(x=>x.active!==false).length}</small></button>`).join('');const cat=CATALOGS[activeCatalogKey];document.getElementById('catalogTitle').textContent=cat?.name||'Catálogo';document.getElementById('catalogDescription').textContent=cat?.description||'Opciones disponibles';const list=document.getElementById('catalogItems');list.innerHTML=(cat?.items||[]).map((x,i)=>`<div class="catalog-item ${x.active===false?'inactive':''}" data-cat-item="${esc(x.id)}"><div class="catalog-order">${i+1}</div><div><div class="catalog-name">${esc(x.label)}</div><div class="catalog-meta">${x.active===false?'Inactiva · se conserva en registros históricos':'Activa'}</div></div><div><button class="catalog-btn" data-cat-move="up" data-cat-id="${esc(x.id)}">↑</button><button class="catalog-btn" data-cat-move="down" data-cat-id="${esc(x.id)}">↓</button></div><button class="catalog-btn" data-cat-toggle="${esc(x.id)}">${x.active===false?'Activar':'Desactivar'}</button></div>`).join('')||'<div class="task-empty">Este catálogo todavía no tiene opciones.</div>';applyCatalogsToPlatform()}
+function renderConfiguration(){renderVisibilitySettings();if(!CATALOGS||!Object.keys(CATALOGS).length)CATALOGS=initCatalogs(null);if(!CATALOGS[activeCatalogKey])activeCatalogKey=Object.keys(CATALOGS)[0];const tabs=document.getElementById('catalogTabs');if(!tabs)return;tabs.innerHTML=Object.entries(CATALOGS).map(([k,c])=>`<button class="catalog-tab ${k===activeCatalogKey?'active':''}" data-catalog-key="${esc(k)}"><span>${esc(c.name)}</span><small>${(c.items||[]).filter(x=>x.active!==false).length}</small></button>`).join('');const cat=CATALOGS[activeCatalogKey];document.getElementById('catalogTitle').textContent=cat?.name||'Catálogo';document.getElementById('catalogDescription').textContent=cat?.description||'Opciones disponibles';const list=document.getElementById('catalogItems');list.innerHTML=(cat?.items||[]).map((x,i)=>`<div class="catalog-item ${x.active===false?'inactive':''}" data-cat-item="${esc(x.id)}"><div class="catalog-order">${i+1}</div><div><div class="catalog-name">${esc(x.label)}</div><div class="catalog-meta">${x.active===false?'Inactiva · se conserva en registros históricos':'Activa'}</div></div><div><button class="catalog-btn" data-cat-move="up" data-cat-id="${esc(x.id)}">↑</button><button class="catalog-btn" data-cat-move="down" data-cat-id="${esc(x.id)}">↓</button></div><button class="catalog-btn" data-cat-toggle="${esc(x.id)}">${x.active===false?'Activar':'Desactivar'}</button></div>`).join('')||'<div class="task-empty">Este catálogo todavía no tiene opciones.</div>';applyCatalogsToPlatform()}
 function addCatalogItem(){const i=document.getElementById('catalogItemInput'),label=i?.value.trim();if(!label||!CATALOGS[activeCatalogKey])return;const arr=CATALOGS[activeCatalogKey].items;if(arr.some(x=>x.label.toLowerCase()===label.toLowerCase())){showToast('Esa opción ya existe','bad');return}arr.push({id:activeCatalogKey+'_'+Date.now().toString(36),label,active:true});i.value='';persistCatalogChange()}
 function persistCatalogChange(){saveCatalogsLocal();renderConfiguration();renderReferrals();debounceSave()}
 function applyCatalogsToPlatform(){
@@ -4722,6 +4791,10 @@ function exportWorklog(){const rows=worklogVisible();if(!rows.length){showToast(
 document.addEventListener('click',e=>{if(e.target.closest('#worklogToggleDetail')){const d=document.getElementById('worklogDetail');d.hidden=!d.hidden;if(!d.hidden){const txt=document.getElementById('worklogQuick').value;document.getElementById('worklogType').value=inferWorklogType(txt)}return}if(e.target.closest('#worklogQuickAdd')){saveWorklogEntry();return}const ed=e.target.closest('[data-worklog-edit]');if(ed){editWorklog(ed.dataset.worklogEdit);return}const del=e.target.closest('[data-worklog-delete]');if(del){if(confirm('¿Eliminar este registro de gestión?')){WORKLOG=WORKLOG.filter(x=>x.id!==del.dataset.worklogDelete);renderWorklog();saveData(false);showToast('Registro eliminado','ok')}return}if(e.target.closest('#worklogExport')){exportWorklog();return}});
 document.addEventListener('input',e=>{if(e.target.id==='worklogSearch')renderWorklog()});document.addEventListener('change',e=>{if(e.target.id==='worklogTypeFilter'||e.target.id==='worklogMonthFilter')renderWorklog()});document.addEventListener('keydown',e=>{if(e.target.id==='worklogQuick'&&(e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();saveWorklogEntry()}});
 
+document.getElementById('visibilityLogin')?.addEventListener('click',()=>loginDocs());
+document.getElementById('visibilityLogout')?.addEventListener('click',async()=>{if(docsAuth){await docsAuth.signOut();showToast('Sesión de Google cerrada','ok');}});
+document.getElementById('visibilitySave')?.addEventListener('click',saveVisibilitySettings);
+document.getElementById('visibilitySectionList')?.addEventListener('change',e=>{const input=e.target.closest('[data-visible-section]');if(input&&isVisibilityAdmin()){const label=input.closest('label');label.querySelector('em').textContent=input.checked?'Equipo':'Solo tú';}});
 </script>
 </body>
 </html>
