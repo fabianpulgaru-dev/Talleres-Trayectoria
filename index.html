@@ -1022,9 +1022,11 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
   <div class="topbar-inner">
     <div class="tb-id">
       <span class="mono">UTE · Panel interno · v28</span>
-      <h1>Panel UTE v31 · Estable</h1>
+      <h1>Panel UTE v32 · Administración restaurada</h1>
     </div>
     <div class="tb-actions">
+      <button class="btn-export" id="topAdminAccess" type="button">🔐 Administración y acceso</button>
+      <button class="btn-export" id="topAppearanceAccess" type="button">🎨 Apariencia</button>
       <button class="btn-export" id="btnExportExcel" type="button">📊 Descargar todo en Excel</button>
       <button class="global-notify-btn" id="btnGlobalNotifyConfig" type="button">✉ Profesionales y avisos</button>
       <div class="tb-status" id="connStatus">
@@ -4908,6 +4910,37 @@ document.getElementById('visibilityLogin')?.addEventListener('click',()=>loginDo
 document.getElementById('visibilityLogout')?.addEventListener('click',async()=>{if(docsAuth){await docsAuth.signOut();showToast('Sesión de Google cerrada','ok');}});
 document.getElementById('visibilitySave')?.addEventListener('click',saveVisibilitySettings);
 document.getElementById('visibilitySectionList')?.addEventListener('change',e=>{const input=e.target.closest('[data-visible-section]');if(input&&isVisibilityAdmin()){const label=input.closest('label');label.querySelector('em').textContent=input.checked?'Equipo':'Solo tú';}});
+</script>
+
+<style id="v32-admin-access-style">
+#topAdminAccess,#topAppearanceAccess{white-space:nowrap;cursor:pointer;position:relative;z-index:55}
+#moduleConfiguration.active{display:block!important}
+#moduleConfiguration .visibility-panel{display:block!important;visibility:visible!important}
+#appPersonalize.open{display:block!important;visibility:visible!important;z-index:950!important}
+@media(max-width:850px){#topAdminAccess,#topAppearanceAccess{font-size:.78rem;padding:8px 10px}}
+</style>
+<script id="v32-admin-access-fix">
+(function(){
+ function adminOpen(){
+   try{if(typeof switchModule==='function'){switchModule('configuration');return}}catch(e){console.warn('Ruta configuración:',e)}
+   document.querySelectorAll('.module').forEach(function(el){el.classList.remove('active')});
+   var cfg=document.getElementById('moduleConfiguration');if(cfg){cfg.classList.add('active');cfg.style.display='block'}
+   document.querySelectorAll('.module-btn').forEach(function(el){el.classList.toggle('active',el.dataset.module==='configuration')});
+   try{if(typeof renderVisibilitySettings==='function')renderVisibilitySettings()}catch(e){console.warn(e)}
+ }
+ function appearanceOpen(){
+   var el=document.querySelector('[data-app-window="personalize"]');if(!el)return;
+   try{if(typeof openMacApp==='function'){openMacApp('personalize');return}}catch(e){console.warn(e)}
+   document.querySelectorAll('.mac-app').forEach(function(e){e.classList.remove('open')});el.classList.add('open');
+ }
+ function connect(){
+   var a=document.getElementById('topAdminAccess'),t=document.getElementById('topAppearanceAccess');
+   if(a)a.addEventListener('click',function(e){e.preventDefault();adminOpen()});
+   if(t)t.addEventListener('click',function(e){e.preventDefault();appearanceOpen()});
+   document.querySelectorAll('[data-dock-go="configuration"]').forEach(function(e){e.addEventListener('click',function(){adminOpen()})});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',connect);else connect();
+})();
 </script>
 </body>
 </html>
