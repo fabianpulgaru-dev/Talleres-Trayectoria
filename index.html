@@ -637,6 +637,10 @@ body.v25-ready .shell{visibility:visible}
 .visibility-item input{accent-color:var(--p);width:20px;height:20px}.visibility-item em{font-style:normal;color:var(--txt2);font-weight:800}
 .visibility-warning{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:12px;color:#74541c!important}
 @media(max-width:720px){.visibility-list{grid-template-columns:1fr}}
+
+/* Propuestas de apoyo y selección múltiple */
+.proposal-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.proposal-stat{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:15px}.proposal-stat strong{font-size:1.65rem;color:var(--p);display:block}.proposal-stat span{font-size:.78rem;font-weight:800;color:var(--txt2)}
+.proposal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.proposal-card{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:19px;display:flex;flex-direction:column;gap:10px}.proposal-card h3{font-size:1.08rem;margin:0;color:var(--p-dk)}.proposal-card p{margin:0;font-size:.87rem;color:var(--txt2);white-space:pre-wrap}.proposal-card-meta{font-size:.78rem;font-weight:800;color:var(--txt2)}.proposal-card-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:auto}.proposal-card button{border:1px solid var(--line2);background:var(--p-bg);border-radius:9px;padding:7px 12px;color:var(--p-dk);cursor:pointer;font-weight:900}.proposal-pill{border-radius:99px;background:var(--p-bg);color:var(--p-dk);padding:4px 9px;font-size:.72rem;font-weight:900}.multi-profs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;max-height:240px;overflow:auto}.multi-prof{display:flex!important;align-items:center;gap:9px;border:1px solid var(--line);border-radius:10px;padding:10px;text-transform:none!important;letter-spacing:normal!important;cursor:pointer}.multi-prof input{width:17px;height:17px;accent-color:var(--p)}.multi-prof small{display:block;font-size:.7rem;font-weight:600;color:var(--txt2)}@media(max-width:760px){.proposal-stats{grid-template-columns:repeat(2,1fr)}.proposal-grid,.multi-profs{grid-template-columns:1fr}}
 </style>
 <script>window.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{document.body?.classList.remove('v25-loading');document.body?.classList.add('v25-ready')},1200));</script>
 
@@ -1012,7 +1016,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
   <div class="topbar-inner">
     <div class="tb-id">
       <span class="mono">UTE · Panel interno · v28</span>
-      <h1>Panel UTE v29</h1>
+      <h1>Panel UTE v30</h1>
     </div>
     <div class="tb-actions">
       <button class="btn-export" id="btnExportExcel" type="button">📊 Descargar todo en Excel</button>
@@ -1031,6 +1035,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
     <button class="module-btn" data-module="adjustments">♿ Ajustes Razonables</button>
     <button class="module-btn" data-module="workshops">▦ Talleres</button>
     <button class="module-btn" data-module="tasks">✓ Organización y tareas</button>
+    <button class="module-btn" data-module="proposals">✦ Propuestas de apoyo</button>
     <button class="module-btn" data-module="worklog">◎ Registro de gestión</button>
     <button class="module-btn" data-module="management">◈ Gestión</button>
     <button class="module-btn" data-module="early">🌱 Educación Parvularia</button>
@@ -1085,6 +1090,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
         <p>Centro de mando personal para organizar pendientes, proyectos, carreras, equipo, acuerdos e hitos.</p>
         <div class="area-metrics" id="homeTaskMetrics"></div>
       </button>
+      <button class="area-card" data-go="proposals"><div class="area-icon">✦</div><h3>Propuestas de apoyo</h3><p>Construcción colaborativa de nuevos talleres y apoyos para carreras y niveles.</p><div class="area-metrics" id="homeProposalMetrics"></div></button>
       <button class="area-card" data-go="worklog">
         <div class="area-icon">◎</div><h3>Registro de gestión</h3>
         <p>Deja huella del trabajo que efectivamente realizas: coordinaciones, diseño, seguimiento, reuniones, análisis y gestión cotidiana.</p>
@@ -1430,7 +1436,13 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
   </section>
 
   <!-- ORGANIZACIÓN Y TAREAS -->
-  <section id="moduleTasks" class="module">
+  <section id="moduleProposals" class="module">
+  <div class="section-head"><div><h2>Propuestas de apoyo</h2><p>Un espacio para proponer, revisar y construir conjuntamente los nuevos servicios de la Unidad de Trayectoria Estudiantil.</p></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn-primary admin-only-action" id="proposalAssignTeam" style="display:none;background:#3f3564">✉ Asignar acción al equipo</button><button class="btn-primary" id="proposalNew">+ Nueva propuesta</button></div></div>
+  <div class="proposal-stats" id="proposalStats"></div>
+  <div class="task-toolbar"><div class="search-box"><input id="proposalSearch" placeholder="Buscar propuestas, carreras u objetivos"></div><select id="proposalStatus" class="filter-select"><option value="ALL">Todos los estados</option><option value="idea">Idea inicial</option><option value="revision">En revisión</option><option value="aprobada">Aprobada</option><option value="implementada">Implementada</option></select><select id="proposalCareer" class="filter-select"><option value="ALL">Todas las carreras</option></select></div>
+  <div id="proposalList" class="proposal-grid"></div>
+</section>
+<section id="moduleTasks" class="module">
     <div class="section-head"><div><h2>Organización y tareas</h2><p>Accesos para ordenar el trabajo cotidiano sin perder una vista transversal de pendientes y fechas.</p></div><button class="back-home" data-go="home">← Volver al resumen</button></div>
     <details class="summary-collapse" open><summary><span class="summary-collapse-title">📊 Resumen de tareas</span><span class="summary-collapse-meta">Pendientes, vencidas y realizadas</span><span class="summary-collapse-chevron">⌄</span></summary><div class="summary-collapse-body"><div class="task-kpis" id="taskKpis"></div></div></details>
     <details class="task-collapse" id="taskAccessCollapse">
@@ -1585,7 +1597,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
       </div>
     </div>
     <div class="fg"><label for="fSala">Sala / lugar</label><input type="text" id="fSala" placeholder="Ej: Sala E31 o Online"></div>
-    <div class="assign-box"><div class="assign-grid"><div class="fg"><label for="fResp">Profesional asignado</label><select id="fResp"><option value="">Sin asignar</option></select></div><div class="fg"><label for="fRespEmail">Correo del profesional</label><input type="email" id="fRespEmail" readonly></div></div><label class="assign-check"><input id="fNotifyEmail" type="checkbox" checked><span>Enviar notificación por correo al profesional al guardar</span></label><div class="assign-hint">Al editar, solo se activa automáticamente si cambias el profesional.</div></div>
+    <div class="assign-box"><div class="fg"><label>Profesionales a cargo · permite codocencia</label><div class="multi-profs" id="fProfessionalsChecks"></div><div class="assign-hint" style="margin-left:0">Marca una o varias personas. Cada docente seleccionado quedará registrado y podrá recibir su propio aviso.</div></div><select id="fResp" style="display:none"><option value="">Sin asignar</option></select><input type="hidden" id="fRespEmail"><label class="assign-check"><input id="fNotifyEmail" type="checkbox" checked><span>Enviar correo a los profesionales seleccionados al guardar</span></label><div class="assign-hint">Al editar, el envío queda desactivado hasta que lo actives o cambies la selección.</div></div>
 
     <div class="fg">
       <label>Estado</label>
@@ -1732,6 +1744,15 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 <div class="fg-row"><div class="fg"><label for="aRevision">Estado</label><select id="aRevision"><option value="pendiente">Pendiente</option><option value="emitida">Emitida</option></select></div><div class="fg"><label for="aObservaciones">Observaciones</label><textarea id="aObservaciones"></textarea></div></div><div class="fg"><label for="aCartaLink">Link de la carta</label><input type="url" id="aCartaLink" placeholder="https://drive.google.com/... o enlace directo al archivo"></div>
 <div id="arCartaActual"></div><button class="btn-sub" id="btnGuardarAR">Guardar ficha</button><button class="btn-danger-link" id="btnEliminarAR" style="display:none">Eliminar estudiante de Ajustes Razonables</button></div></div>
 
+<!-- MODAL PROPUESTAS -->
+<div class="mo" id="moProposal" role="dialog" aria-modal="true"><div class="md" style="max-width:690px"><button class="md-close" id="proposalClose">✕</button><h3 id="proposalModalTitle">Nueva propuesta</h3><p class="md-info">Registra una idea que el equipo pueda revisar y desarrollar.</p>
+<div class="fg"><label for="proposalTitle">Nombre del taller o apoyo *</label><input id="proposalTitle" maxlength="180" placeholder="¿Cómo se llamará la propuesta?"></div>
+<div class="fg"><label for="proposalObjective">Objetivo *</label><textarea id="proposalObjective" rows="4" placeholder="¿Qué aprendizaje o habilidad esperamos fortalecer?"></textarea></div>
+<div class="fg-row"><div class="fg"><label for="proposalTarget">Carrera(s) a las que está dirigido *</label><input id="proposalTarget" placeholder="Ej.: Derecho, Psicología..."></div><div class="fg"><label for="proposalYear">Año(s) de carrera *</label><input id="proposalYear" placeholder="Ej.: 1°, 2° y 3°, o todos"></div></div>
+<div class="fg-row"><div class="fg"><label for="proposalAuthor">Propone</label><select id="proposalAuthor"></select></div><div class="fg"><label for="proposalStage">Estado de la propuesta</label><select id="proposalStage"><option value="idea">Idea inicial</option><option value="revision">En revisión</option><option value="aprobada">Aprobada</option><option value="implementada">Implementada</option></select></div></div>
+<div class="fg"><label for="proposalNotes">Comentarios / acuerdos del equipo (opcional)</label><textarea id="proposalNotes" placeholder="Ajustes que podemos incorporar..."></textarea></div>
+<button class="btn-sub" id="proposalSave">Guardar propuesta</button><button class="btn-danger-link" id="proposalDelete" style="display:none">Eliminar propuesta</button>
+</div></div>
 <!-- MODAL TAREA -->
 <div class="mo" id="moTarea" role="dialog" aria-modal="true">
   <div class="md" style="max-width:650px">
@@ -1740,8 +1761,8 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
     <div class="fg-row"><div class="fg"><label for="tAcceso">Acceso</label><select id="tAcceso"></select></div><div class="fg"><label for="tEstado">Estado</label><select id="tEstado"><option value="pendiente">Pendiente</option><option value="en-curso">En curso</option><option value="realizada">Realizada</option></select></div></div>
     <div class="fg-row"><div class="fg"><label for="tPrioridad">Prioridad</label><select id="tPrioridad"><option value="alta">Alta</option><option value="media" selected>Media</option><option value="baja">Baja</option></select></div><div class="fg"><label for="tFecha">Fecha límite / hito</label><input id="tFecha" type="date"></div></div>
     <div class="fg-row"><div class="fg"><label for="tProyecto">Proyecto</label><input id="tProyecto" type="text" list="taskProjectNames" placeholder="Opcional"><datalist id="taskProjectNames"></datalist></div><div class="fg"><label for="tCarrera">Carrera</label><input id="tCarrera" type="text" placeholder="Opcional"></div></div>
-    <div class="fg-row"><div class="fg"><label for="tResponsable">Profesional asignado</label><select id="tResponsable"><option value="">Sin asignar</option></select></div><div class="fg"><label for="tResponsableEmail">Correo del profesional</label><input id="tResponsableEmail" type="email" readonly placeholder="Se completa desde Profesionales y avisos"></div></div>
-    <div class="task-notify-box"><label><input id="tNotifyEmail" type="checkbox" checked><span>Enviar notificación por correo al profesional al guardar</span></label><div class="task-notify-hint">En una tarea nueva viene activado. Al editar, se activa automáticamente si cambias de profesional; también puedes marcarlo para reenviar.</div></div>
+    <div class="fg"><label>Profesionales asignados (selección múltiple)</label><div class="multi-profs" id="tProfessionalsChecks"></div><div class="assign-hint">Puedes seleccionar cuantos profesionales necesites. Cada uno recibirá su propio correo si activas el aviso.</div><select id="tResponsable" style="display:none"><option value="">Sin asignar</option></select><input id="tResponsableEmail" type="hidden"></div>
+    <div class="task-notify-box"><label><input id="tNotifyEmail" type="checkbox" checked><span>Enviar notificación por correo al profesional al guardar</span></label><div class="task-notify-hint">En una tarea nueva viene activado. Al editar puedes activarlo para reenviar el aviso a todas las personas seleccionadas.</div></div>
     <div class="fg-row"><div class="fg"><label for="tPersona">Persona / equipo relacionado</label><input id="tPersona" type="text" placeholder="Opcional"></div><div class="fg"><label for="tReunion">Reunión / acuerdo</label><input id="tReunion" type="text" placeholder="Opcional"></div></div>
     <div class="fg"><label for="tDetalle">Detalle / próximo paso</label><textarea id="tDetalle"></textarea></div>
     <div class="fg"><label for="tLink">Enlace</label><input id="tLink" type="url" placeholder="https://..."></div>
@@ -1948,12 +1969,13 @@ const DOCS_FIREBASE_CONFIG={
 let docsApp=null,docsAuth=null,docsStorage=null,docsUser=null,docsCaseId=null;
 // IMPORTANTE: sustituir por el Gmail real del propietario ANTES de publicar.
 const VISIBILITY_ADMIN_EMAIL='fabianpulgaru@gmail.com';
-const VISIBILITY_MODULES=[['home','Resumen'],['monitoring','Monitoreo y seguimiento'],['referrals','Derivaciones'],['cases','Casos Específicos'],['adjustments','Ajustes Razonables'],['workshops','Talleres'],['tasks','Organización y tareas'],['worklog','Registro de gestión'],['management','Gestión'],['early','Educación Parvularia'],['bitacora','Bitácora'],['writing','Escritura'],['configuration','Configuración']];
+const VISIBILITY_MODULES=[['home','Resumen'],['monitoring','Monitoreo y seguimiento'],['referrals','Derivaciones'],['cases','Casos Específicos'],['adjustments','Ajustes Razonables'],['workshops','Talleres'],['tasks','Organización y tareas'],['proposals','Propuestas de apoyo'],['worklog','Registro de gestión'],['management','Gestión'],['early','Educación Parvularia'],['bitacora','Bitácora'],['writing','Escritura'],['configuration','Configuración']];
 const VISIBILITY_DEFAULT=Object.fromEntries(VISIBILITY_MODULES.map(([id])=>[id,!['early','bitacora'].includes(id)]));
 let MODULE_VISIBILITY={...VISIBILITY_DEFAULT};
 function isVisibilityAdmin(){return !!(docsUser && docsUser.email && docsUser.email.toLowerCase()===VISIBILITY_ADMIN_EMAIL.toLowerCase());}
 function canSeeModule(id){return !!(isVisibilityAdmin() || MODULE_VISIBILITY[id]!==false);}
 function applyModuleVisibility(){
+  document.querySelectorAll('.admin-only-action').forEach(el=>el.style.display=isVisibilityAdmin()?'inline-flex':'none');
   document.querySelectorAll('[data-module],[data-go]').forEach(el=>{
     const id=el.dataset.module||el.dataset.go;
     if(!id || !(id in MODULE_VISIBILITY))return;
@@ -2018,6 +2040,7 @@ const SEED=[
 let TALLERES=[];
 let CASOS=[];
 let TAREAS=[];
+let SUPPORT_PROPOSALS=[];
 let WORKLOG=[];
 let PROFESIONALES=[];
 let TASK_NOTIFY_CONFIG={panelUrl:''};
@@ -2104,6 +2127,7 @@ async function loadData(){
       TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
       CASOS=[];
       TAREAS=[];
+      SUPPORT_PROPOSALS=[];
       WORKLOG=[];
       PROFESIONALES=DEFAULT_PROFESIONALES.map(x=>({...x}));
       TASK_NOTIFY_CONFIG={panelUrl:''};
@@ -2125,6 +2149,7 @@ async function loadData(){
       TALLERES=Array.isArray(j.talleres)?j.talleres:[];
       CASOS=(Array.isArray(j.casos)?j.casos:[]).map(c=>({...c,documentos:Array.isArray(c.documentos)?c.documentos:[]}));
       TAREAS=Array.isArray(j.tareas)?j.tareas:[];
+      SUPPORT_PROPOSALS=Array.isArray(j.supportProposals)?j.supportProposals:[];
       WORKLOG=Array.isArray(j.worklog)?j.worklog:[];
       PROFESIONALES=Array.isArray(j.profesionales)&&j.profesionales.length?j.profesionales:DEFAULT_PROFESIONALES.map(x=>({...x}));
       TASK_NOTIFY_CONFIG=(j.taskNotifyConfig&&typeof j.taskNotifyConfig==='object')?j.taskNotifyConfig:{panelUrl:''};
@@ -2145,6 +2170,7 @@ async function loadData(){
     TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
     CASOS=[];
     TAREAS=[];
+    SUPPORT_PROPOSALS=JSON.parse(localStorage.getItem('ute_support_proposals_v1')||'[]');
     WORKLOG=JSON.parse(localStorage.getItem('ute_worklog_v1')||'[]');
     PROFESIONALES=DEFAULT_PROFESIONALES.map(x=>({...x}));
     TASK_NOTIFY_CONFIG={panelUrl:''};
@@ -2163,9 +2189,9 @@ async function loadData(){
 }
 
 async function saveData(toast=true){
-  try{localStorage.setItem('ute_worklog_v1',JSON.stringify(WORKLOG));}catch(_e){}
+  try{localStorage.setItem('ute_worklog_v1',JSON.stringify(WORKLOG));localStorage.setItem('ute_support_proposals_v1',JSON.stringify(SUPPORT_PROPOSALS));}catch(_e){}
   try{
-    const r=await fetch(FB_PATH,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,tareas:TAREAS,worklog:WORKLOG,profesionales:PROFESIONALES,taskNotifyConfig:TASK_NOTIFY_CONFIG,metas2s:METAS_2S,managementProjects:MANAGEMENT_PROJECTS,managementPresentations:MANAGEMENT_PRESENTATIONS,earlyCourses:EARLY_COURSES,earlyProjects:EARLY_PROJECTS,earlyResources:EARLY_RESOURCES,monitorAlerts:MONITOR_ALERTS,derivaciones:REFERRALS,catalogs:CATALOGS,deskNotes:DESK_NOTES,writingDocs:WRITING_DOCS,activeWritingDoc:ACTIVE_WRITING_DOC,ajustesRazonables:AJUSTES,ajustesDriveEliminados:AR_DELETED_DRIVE_IDS,ts:Date.now()})});
+    const r=await fetch(FB_PATH,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,tareas:TAREAS,supportProposals:SUPPORT_PROPOSALS,worklog:WORKLOG,profesionales:PROFESIONALES,taskNotifyConfig:TASK_NOTIFY_CONFIG,metas2s:METAS_2S,managementProjects:MANAGEMENT_PROJECTS,managementPresentations:MANAGEMENT_PRESENTATIONS,earlyCourses:EARLY_COURSES,earlyProjects:EARLY_PROJECTS,earlyResources:EARLY_RESOURCES,monitorAlerts:MONITOR_ALERTS,derivaciones:REFERRALS,catalogs:CATALOGS,deskNotes:DESK_NOTES,writingDocs:WRITING_DOCS,activeWritingDoc:ACTIVE_WRITING_DOC,ajustesRazonables:AJUSTES,ajustesDriveEliminados:AR_DELETED_DRIVE_IDS,ts:Date.now()})});
     const j=await r.json().catch(()=>null);
     if(!r.ok || (j && j.error)){
       throw new Error((j && j.error) ? j.error : `HTTP ${r.status}`);
@@ -2358,6 +2384,7 @@ function renderCurrentModule(){
   else if(curModule==='cases') renderCases();
   else if(curModule==='adjustments') renderAR();
   else if(curModule==='tasks') renderTasks();
+  else if(curModule==='proposals') renderProposals();
   else if(curModule==='worklog') renderWorklog();
   else if(curModule==='management'){renderGoals();renderManagement();renderManagementAccess();}
   else if(curModule==='early'){renderEarly();renderEarlyAccess();}
@@ -2375,7 +2402,7 @@ function switchModule(name){
   if(!canSeeModule(name)){showToast('Esta sección está restringida','bad');return;}
   curModule=name;
   document.querySelectorAll('.module').forEach(x=>x.classList.remove('active'));
-  const map={home:'moduleHome',monitoring:'moduleMonitoring',referrals:'moduleReferrals',cases:'moduleCases',adjustments:'moduleAdjustments',workshops:'moduleWorkshops',tasks:'moduleTasks',worklog:'moduleWorklog',management:'moduleManagement',early:'moduleEarly',bitacora:'moduleBitacora',writing:'moduleWriting',configuration:'moduleConfiguration'};
+  const map={home:'moduleHome',monitoring:'moduleMonitoring',referrals:'moduleReferrals',cases:'moduleCases',adjustments:'moduleAdjustments',workshops:'moduleWorkshops',tasks:'moduleTasks',proposals:'moduleProposals',worklog:'moduleWorklog',management:'moduleManagement',early:'moduleEarly',bitacora:'moduleBitacora',writing:'moduleWriting',configuration:'moduleConfiguration'};
   document.getElementById(map[name]||map.home).classList.add('active');
   document.querySelectorAll('.module-btn').forEach(b=>b.classList.toggle('active',b.dataset.module===name));
   renderCurrentModule();
@@ -2397,6 +2424,7 @@ function renderHome(){
   const realizados=TALLERES.filter(t=>t.estado==='realizado').length;
   const pendientes=TALLERES.filter(t=>t.estado==='pendiente').length;
   document.getElementById('homeWorkshopMetrics').innerHTML=`<span class="metric-mini">${TALLERES.length} talleres</span><span class="metric-mini">${realizados} realizados</span><span class="metric-mini">${pendientes} pendientes</span>`;
+  const hp=document.getElementById('homeProposalMetrics');if(hp)hp.innerHTML=`<span class="metric-mini">${SUPPORT_PROPOSALS.length} propuestas</span><span class="metric-mini">${SUPPORT_PROPOSALS.filter(x=>x.estado==='revision').length} en revisión</span>`;
   const taskPend=TAREAS.filter(t=>t.estado!=='realizada').length;
   const taskOver=TAREAS.filter(t=>t.estado!=='realizada'&&isTaskOverdue(t)).length;
   const taskWeek=TAREAS.filter(t=>t.estado!=='realizada'&&isTaskThisWeek(t)).length;
@@ -3049,7 +3077,7 @@ function filteredTasks(){
     if(taskCareer!=='ALL'&&(t.carrera||'')!==taskCareer)return false;
     if(taskPerson!=='ALL'&&(t.persona||'')!==taskPerson)return false;
     if(taskMeeting!=='ALL'&&(t.reunion||'')!==taskMeeting)return false;
-    if(taskSearch){const h=[t.titulo,t.acceso,t.proyecto,t.carrera,t.responsable,t.responsableEmail,t.persona,t.reunion,t.detalle].join(' ').toLowerCase();if(!h.includes(taskSearch.toLowerCase()))return false;}
+    if(taskSearch){const h=[t.titulo,t.acceso,t.proyecto,t.carrera,t.responsable,t.responsableEmail,...(t.responsables||[]).map(p=>p.nombre),t.persona,t.reunion,t.detalle].join(' ').toLowerCase();if(!h.includes(taskSearch.toLowerCase()))return false;}
     return true;
   }).sort((a,b)=>{
     if(a.estado==='realizada'&&b.estado!=='realizada')return 1;if(a.estado!=='realizada'&&b.estado==='realizada')return -1;
@@ -3068,7 +3096,7 @@ function renderTasks(){
     const tags=[t.proyecto&&`🗃️ ${t.proyecto}`,t.carrera&&`🎓 ${t.carrera}`,t.persona&&`👤 ${t.persona}`].filter(Boolean).join(' · ');
     return `<div class="task-row ${t.estado==='realizada'?'done':''} ${overdue?'overdue':''} ${todayTask?'today':''}">
       <input class="task-check" type="checkbox" data-task-toggle="${t.id}" ${t.estado==='realizada'?'checked':''} aria-label="Marcar tarea como realizada">
-      <div><div class="task-title ${t.estado==='realizada'?'done':''}">${escapeHTML(t.titulo||'Sin título')}</div><div class="task-sub">${escapeHTML(t.acceso||'Mis tareas')}${tags?' · '+escapeHTML(tags):''}${t.detalle?' · '+escapeHTML(t.detalle):''}</div>${t.responsable?`<span class="task-assignee">✉ ${escapeHTML(t.responsable)}</span>`:''}</div>
+      <div><div class="task-title ${t.estado==='realizada'?'done':''}">${escapeHTML(t.titulo||'Sin título')}</div><div class="task-sub">${escapeHTML(t.acceso||'Mis tareas')}${tags?' · '+escapeHTML(tags):''}${t.detalle?' · '+escapeHTML(t.detalle):''}</div>${(t.responsables?.length?t.responsables.map(p=>p.nombre):(t.responsable?[t.responsable]:[])).map(n=>`<span class="task-assignee">✉ ${escapeHTML(n)}</span>`).join('')}</div>
       <div class="task-col-secondary"><div class="task-label">Estado</div><div class="task-value">${TASK_STATUS_LABEL[t.estado]||t.estado}</div></div>
       <div class="task-col-secondary"><div class="task-label">Prioridad</div><span class="task-priority ${t.prioridad||'media'}">${(t.prioridad||'media').toUpperCase()}</span></div>
       <div class="task-date-col"><div class="task-label">Fecha</div><div class="task-date ${overdue?'bad':todayTask?'warn':''}">${t.fecha||'—'}</div></div>
@@ -3084,7 +3112,13 @@ function fillProfessionalSelect(selectId,emailId,selected=''){
 function syncProfessionalEmail(selectId,emailId){const name=document.getElementById(selectId)?.value||'';const p=PROFESIONALES.find(x=>x.nombre===name);const em=document.getElementById(emailId);if(em)em.value=p?.correo||'';}
 function entityDeepLink(module,param,id){let base=String(TASK_NOTIFY_CONFIG?.panelUrl||'').trim();if(!base&&/^https?:$/.test(location.protocol))base=location.origin+location.pathname;if(!base)return '';try{const u=new URL(base);u.searchParams.set('modulo',module);u.searchParams.set(param,id);return u.toString();}catch{return '';}}
 async function sendEntityNotification(o){if(!o?.to)throw new Error('El profesional asignado no tiene correo configurado');const panelUrl=entityDeepLink(o.module,o.param,o.id);if(!panelUrl)throw new Error('Configura la URL pública del panel en “Profesionales y avisos”');return jsonpDrive({mode:'notifyItem',to:o.to,responsable:o.responsable||'',entityType:o.type||'Registro',entityId:o.id||'',titulo:(o.title||'').slice(0,180),fecha:o.date||'',prioridad:o.priority||'',estado:o.status||'',detalle:(o.detail||'').slice(0,700),panelUrl},45000);}
-function fillTaskProfessionalSelect(selected=''){fillProfessionalSelect('tResponsable','tResponsableEmail',selected);}
+function fillTaskProfessionalSelect(selected=''){
+  const t=editingTaskId?TAREAS.find(x=>x.id===editingTaskId):null;
+  const chosen=new Set((t?.responsables?.length?t.responsables.map(p=>p.nombre):(selected?[selected]:[])));
+  const box=document.getElementById('tProfessionalsChecks');
+  box.innerHTML=PROFESIONALES.filter(p=>p?.nombre).map(p=>`<label class="multi-prof"><input type="checkbox" data-task-prof="${escapeHTML(p.nombre)}" ${chosen.has(p.nombre)?'checked':''}><span><strong>${escapeHTML(p.nombre)}</strong><small>${escapeHTML(p.correo||'Sin correo configurado')}</small></span></label>`).join('')||'<p>No hay profesionales en el directorio. Agrégalos en «Profesionales y avisos».</p>';
+}
+function selectedTaskProfessionals(){return [...document.querySelectorAll('#tProfessionalsChecks [data-task-prof]:checked')].map(el=>{const p=PROFESIONALES.find(x=>x.nombre===el.dataset.taskProf);return {nombre:p?.nombre||el.dataset.taskProf,correo:p?.correo||''};});}
 function syncTaskResponsibleEmail(){syncProfessionalEmail('tResponsable','tResponsableEmail');}
 function taskDeepLink(taskId){return entityDeepLink('tareas','tarea',taskId);}
 async function sendTaskNotification(task){return sendEntityNotification({module:'tareas',param:'tarea',id:task.id,type:'Tarea',title:task.titulo,to:task.responsableEmail,responsable:task.responsable,date:task.fecha,priority:task.prioridad,status:task.estado,detail:task.detalle});}
@@ -3103,6 +3137,7 @@ async function saveTaskNotifyConfig(){
 function applyPanelDeepLink(){
   const q=new URLSearchParams(location.search),m=q.get('modulo');if(!m)return;
   if(m==='monitoring'){switchModule('monitoring');const id=q.get('alerta');if(id&&MONITOR_ALERTS.some(x=>x.id===id))setTimeout(()=>openMonitor(id),120);return;}
+  if(m==='propuestas'){switchModule('proposals');const id=q.get('propuesta');if(id&&SUPPORT_PROPOSALS.some(x=>x.id===id))setTimeout(()=>openProposal(id),120);return;}
   if(m==='tareas'){switchModule('tasks');const id=q.get('tarea');if(id&&TAREAS.some(t=>t.id===id))setTimeout(()=>openTask(id),120);return;}
   if(m==='cases'){switchModule('cases');const id=q.get('caso');if(id&&CASOS.some(x=>x.id===id))setTimeout(()=>openCase(id),120);return;}
   if(m==='adjustments'){switchModule('adjustments');const id=q.get('ajuste');if(id&&AJUSTES.some(x=>x.id===id))setTimeout(()=>openAR(id),120);return;}
@@ -3111,14 +3146,14 @@ function applyPanelDeepLink(){
 }
 function fillTaskAccessSelect(){const el=document.getElementById('tAcceso');el.innerHTML=TASK_ACCESOS.map(([n,i])=>`<option value="${n}">${i} ${n}</option>`).join('');}
 function openTask(id=''){
-  fillTaskAccessSelect();const t=id?TAREAS.find(x=>x.id===id):null;editingTaskId=t?t.id:null;fillTaskProfessionalSelect(t?.responsable||'');
+  fillTaskAccessSelect();const t=id?TAREAS.find(x=>x.id===id):null;editingTaskId=t?t.id:null;fillTaskProfessionalSelect(t?.responsables?.length?'':(t?.responsable||''));
   document.getElementById('taskModalTitle').textContent=t?'Editar tarea':'Nueva tarea';document.getElementById('taskId').textContent=t?'ID '+t.id:'';
   document.getElementById('tTitulo').value=t?.titulo||'';document.getElementById('tAcceso').value=t?.acceso||'Mis tareas';document.getElementById('tEstado').value=t?.estado||'pendiente';document.getElementById('tPrioridad').value=t?.prioridad||'media';document.getElementById('tFecha').value=t?.fecha||'';document.getElementById('tProyecto').value=t?.proyecto||'';document.getElementById('tCarrera').value=t?.carrera||'';document.getElementById('tPersona').value=t?.persona||'';document.getElementById('tReunion').value=t?.reunion||'';document.getElementById('tDetalle').value=t?.detalle||'';document.getElementById('tLink').value=t?.link||'';document.getElementById('tNotifyEmail').checked=!t;syncTaskResponsibleEmail();
   document.getElementById('btnEliminarTarea').style.display=t?'block':'none';document.getElementById('moTarea').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>document.getElementById('tTitulo').focus(),80);
 }
 function closeTask(){document.getElementById('moTarea').classList.remove('open');document.body.style.overflow='';editingTaskId=null;}
 document.getElementById('btnNuevaTarea').onclick=()=>openTask();document.getElementById('taskClose').onclick=closeTask;document.getElementById('moTarea').addEventListener('click',e=>{if(e.target.id==='moTarea')closeTask();});
-document.getElementById('tResponsable').addEventListener('change',()=>{syncTaskResponsibleEmail();document.getElementById('tNotifyEmail').checked=true;});
+document.getElementById('tProfessionalsChecks').addEventListener('change',()=>{document.getElementById('tNotifyEmail').checked=true;});
 document.getElementById('btnTaskNotifyConfig').onclick=openTaskNotifyConfig;document.getElementById('btnGlobalNotifyConfig').onclick=openTaskNotifyConfig;document.getElementById('taskNotifyClose').onclick=closeTaskNotifyConfig;document.getElementById('moTaskNotifyConfig').addEventListener('click',e=>{if(e.target.id==='moTaskNotifyConfig')closeTaskNotifyConfig();});document.getElementById('btnAddProfessional').onclick=()=>{PROFESIONALES.push({nombre:'',correo:''});renderProfessionalsConfig();};document.getElementById('taskProfessionalsList').addEventListener('click',e=>{const b=e.target.closest('[data-prof-delete]');if(!b)return;PROFESIONALES.splice(Number(b.dataset.profDelete),1);renderProfessionalsConfig();});document.getElementById('btnSaveTaskNotifyConfig').onclick=saveTaskNotifyConfig;
 document.getElementById('taskSearch').addEventListener('input',e=>{taskSearch=e.target.value;renderTasks();});
 document.getElementById('taskStatusSeg').addEventListener('click',e=>{const b=e.target.closest('[data-task-status]');if(!b)return;taskStatus=b.dataset.taskStatus;document.querySelectorAll('[data-task-status]').forEach(x=>x.classList.toggle('active',x===b));renderTasks();});
@@ -3134,19 +3169,20 @@ document.addEventListener('change',async e=>{const cb=e.target.closest('[data-ta
 document.getElementById('btnGuardarTarea').onclick=async()=>{
   const titulo=document.getElementById('tTitulo').value.trim();if(!titulo){showToast('Escribe la tarea','bad');return;}
   const oldTask=editingTaskId?TAREAS.find(x=>x.id===editingTaskId):null;
-  const responsable=document.getElementById('tResponsable').value;
-  const responsableEmail=document.getElementById('tResponsableEmail').value.trim();
-  const data={titulo,acceso:document.getElementById('tAcceso').value,estado:document.getElementById('tEstado').value,prioridad:document.getElementById('tPrioridad').value,fecha:document.getElementById('tFecha').value,proyecto:document.getElementById('tProyecto').value.trim(),carrera:document.getElementById('tCarrera').value.trim(),responsable,responsableEmail,persona:document.getElementById('tPersona').value.trim(),reunion:document.getElementById('tReunion').value.trim(),detalle:document.getElementById('tDetalle').value.trim(),link:document.getElementById('tLink').value.trim(),actualizado:Date.now()};
+  const responsables=selectedTaskProfessionals();
+  const responsable=responsables.map(p=>p.nombre).join(', ');
+  const responsableEmail=responsables.map(p=>p.correo).join(', ');
+  const data={titulo,acceso:document.getElementById('tAcceso').value,estado:document.getElementById('tEstado').value,prioridad:document.getElementById('tPrioridad').value,fecha:document.getElementById('tFecha').value,proyecto:document.getElementById('tProyecto').value.trim(),carrera:document.getElementById('tCarrera').value.trim(),responsable,responsableEmail,responsables,persona:document.getElementById('tPersona').value.trim(),reunion:document.getElementById('tReunion').value.trim(),detalle:document.getElementById('tDetalle').value.trim(),link:document.getElementById('tLink').value.trim(),actualizado:Date.now()};
   let task;
   if(editingTaskId){const i=TAREAS.findIndex(x=>x.id===editingTaskId);if(i>-1){TAREAS[i]={...TAREAS[i],...data};task=TAREAS[i];}}
   else{task={id:'ta'+Date.now().toString(36),creado:Date.now(),...data};TAREAS.push(task);}
   const wantsNotify=document.getElementById('tNotifyEmail').checked;
-  const assignmentChanged=!oldTask || oldTask.responsable!==responsable || normalizedEmail(oldTask.responsableEmail)!==normalizedEmail(responsableEmail);
   closeTask();renderAll();await saveData(false);
-  if(wantsNotify&&responsable){
-    if(!responsableEmail){showToast('Tarea guardada, pero falta el correo del profesional','bad');return;}
-    try{await sendTaskNotification(task);showToast(assignmentChanged?'Tarea guardada y profesional notificado ✓':'Tarea guardada y correo reenviado ✓','ok');}
-    catch(e){console.warn('Task notify error',e);showToast('Tarea guardada · no se pudo enviar el correo: '+e.message,'bad');}
+  if(wantsNotify&&responsables.length){
+    const missing=responsables.filter(p=>!p.correo);
+    const results=await Promise.allSettled(responsables.filter(p=>p.correo).map(p=>sendEntityNotification({module:'tareas',param:'tarea',id:task.id,type:'Tarea',title:task.titulo,to:p.correo,responsable:p.nombre,date:task.fecha,priority:task.prioridad,status:task.estado,detail:task.detalle})));
+    const sent=results.filter(r=>r.status==='fulfilled').length,failed=results.length-sent;
+    showToast(`Tarea guardada · ${sent} correo(s) enviados${missing.length||failed?` · ${missing.length+failed} sin enviar`:''}`,missing.length||failed?'bad':'ok');
   }else showToast('Tarea guardada ✓','ok');
 };
 document.getElementById('btnEliminarTarea').onclick=async()=>{if(!editingTaskId)return;if(!confirm('¿Eliminar esta tarea?'))return;TAREAS=TAREAS.filter(t=>t.id!==editingTaskId);closeTask();renderAll();await saveData(true);};
@@ -3770,6 +3806,52 @@ document.getElementById('satPasteList')?.addEventListener('click',e=>{const b=e.
 document.getElementById('satPasteList')?.addEventListener('change',e=>{if(e.target.matches('[data-sat-paste-select]'))satPasteUpdateImportButton()});
 document.getElementById('catalogItemAdd')?.addEventListener('click',addCatalogItem);document.getElementById('catalogItemInput')?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addCatalogItem()}});document.getElementById('btnNewCatalog')?.addEventListener('click',()=>document.getElementById('catalogNewBox').classList.toggle('show'));document.getElementById('catalogNewCancel')?.addEventListener('click',()=>document.getElementById('catalogNewBox').classList.remove('show'));document.getElementById('catalogNewSave')?.addEventListener('click',()=>{const inp=document.getElementById('catalogNewName'),name=inp.value.trim();if(!name)return;const key='custom_'+Date.now().toString(36);CATALOGS[key]={name,description:'Catálogo personalizado',items:[]};activeCatalogKey=key;inp.value='';document.getElementById('catalogNewBox').classList.remove('show');persistCatalogChange()});
 
+
+// ══ BANCO COLABORATIVO DE PROPUESTAS ══
+let editingProposalId=null;
+const PROPOSAL_STATES={idea:'Idea inicial',revision:'En revisión',aprobada:'Aprobada',implementada:'Implementada'};
+function renderProposals(){
+ const search=(document.getElementById('proposalSearch').value||'').trim().toLowerCase(),status=document.getElementById('proposalStatus').value,career=document.getElementById('proposalCareer');
+ const prev=career.value;const careers=[...new Set(SUPPORT_PROPOSALS.flatMap(p=>(p.carrera||'').split(',').map(x=>x.trim()).filter(Boolean)))].sort((a,b)=>a.localeCompare(b,'es'));
+ career.innerHTML='<option value="ALL">Todas las carreras</option>'+careers.map(c=>`<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`).join('');career.value=careers.includes(prev)?prev:'ALL';
+ document.getElementById('proposalStats').innerHTML=[['Total',SUPPORT_PROPOSALS.length],...Object.entries(PROPOSAL_STATES).slice(0,3).map(([k,v])=>[v,SUPPORT_PROPOSALS.filter(p=>p.estado===k).length])].map(([l,n])=>`<div class="proposal-stat"><strong>${n}</strong><span>${l}</span></div>`).join('');
+ const rows=SUPPORT_PROPOSALS.filter(p=>(status==='ALL'||p.estado===status)&&(career.value==='ALL'||(p.carrera||'').split(',').map(x=>x.trim()).includes(career.value))&&[p.nombre,p.objetivo,p.carrera,p.anio,p.autor,p.comentarios].join(' ').toLowerCase().includes(search)).sort((a,b)=>(b.actualizado||0)-(a.actualizado||0));
+ document.getElementById('proposalList').innerHTML=rows.length?rows.map(p=>`<article class="proposal-card"><div class="proposal-card-footer"><span class="proposal-pill">${PROPOSAL_STATES[p.estado]||'Idea inicial'}</span><span class="proposal-card-meta">${escapeHTML(p.autor||'Equipo')}</span></div><h3>${escapeHTML(p.nombre)}</h3><p>${escapeHTML(p.objetivo)}</p><div class="proposal-card-meta">🎓 ${escapeHTML(p.carrera)} · ${escapeHTML(p.anio)} año(s)</div>${p.comentarios?`<p class="proposal-card-meta">💬 ${escapeHTML(p.comentarios)}</p>`:''}<div class="proposal-card-footer"><small>${new Date(p.actualizado||p.creado||Date.now()).toLocaleDateString('es-CL')}</small><button type="button" data-proposal-edit="${escapeHTML(p.id)}">Revisar / editar →</button></div></article>`).join(''):'<div class="task-empty" style="grid-column:1/-1">Todavía no hay propuestas con estos filtros. Crea una para comenzar a construir el catálogo en equipo.</div>';
+}
+function openProposal(id=''){
+ const p=SUPPORT_PROPOSALS.find(x=>x.id===id);editingProposalId=p?.id||null;
+ document.getElementById('proposalModalTitle').textContent=p?'Editar propuesta':'Nueva propuesta';
+ for(const [field,key] of Object.entries({proposalTitle:'nombre',proposalObjective:'objetivo',proposalTarget:'carrera',proposalYear:'anio',proposalNotes:'comentarios'}))document.getElementById(field).value=p?.[key]||'';
+ document.getElementById('proposalStage').value=p?.estado||'idea';
+ const author=document.getElementById('proposalAuthor');author.innerHTML='<option value="">Sin especificar</option>'+PROFESIONALES.filter(x=>x.nombre).map(x=>`<option value="${escapeHTML(x.nombre)}">${escapeHTML(x.nombre)}</option>`).join('');if(p?.autor&&!PROFESIONALES.some(x=>x.nombre===p.autor))author.insertAdjacentHTML('beforeend',`<option value="${escapeHTML(p.autor)}">${escapeHTML(p.autor)}</option>`);author.value=p?.autor||'';
+ document.getElementById('proposalDelete').style.display=p?'block':'none';document.getElementById('moProposal').classList.add('open');document.body.style.overflow='hidden';
+}
+function closeProposal(){document.getElementById('moProposal').classList.remove('open');document.body.style.overflow='';editingProposalId=null;}
+function refreshAdminActions(){document.querySelectorAll('.admin-only-action').forEach(el=>{el.style.display=isVisibilityAdmin()?'inline-flex':'none';});}
+function assignGeneralTeamAction(context='proposals'){
+ if(!isVisibilityAdmin()){showToast('Esta acción requiere iniciar sesión como administrador','bad');return;}
+ switchModule('tasks');openTask();
+ document.getElementById('taskModalTitle').textContent='Asignar acción al equipo';
+ document.getElementById('tTitulo').value=context==='workshops'?'Diseñar y coordinar talleres en codocencia':'Registrar propuestas de nuevos apoyos';
+ document.getElementById('tProyecto').value='Diversificación de servicios · Unidad de Trayectoria Estudiantil';
+ document.getElementById('tDetalle').value=context==='workshops'?'Revisar los talleres asignados, coordinar responsabilidades y registrar acuerdos de codocencia.':'Registrar en la sección Propuestas de apoyo las iniciativas que propones desarrollar. Para cada una, indicar nombre del taller, objetivo, carrera(s) destinatarias y año(s) de carrera.';
+ document.getElementById('tAcceso').value='Mis tareas';
+ document.getElementById('tNotifyEmail').checked=true;
+}
+document.getElementById('proposalAssignTeam').onclick=()=>assignGeneralTeamAction('proposals');
+{const b=document.createElement('button');b.type='button';b.className='task-notify-btn admin-only-action';b.style.display='none';b.textContent='✉ Encargar coordinación de talleres';b.onclick=()=>assignGeneralTeamAction('workshops');document.getElementById('btnNuevo')?.parentElement?.appendChild(b);}
+document.getElementById('proposalNew').onclick=()=>openProposal();document.getElementById('proposalClose').onclick=closeProposal;
+document.getElementById('moProposal').onclick=e=>{if(e.target.id==='moProposal')closeProposal()};
+document.getElementById('proposalSearch').oninput=renderProposals;document.getElementById('proposalStatus').onchange=renderProposals;document.getElementById('proposalCareer').onchange=renderProposals;
+document.getElementById('proposalList').onclick=e=>{const b=e.target.closest('[data-proposal-edit]');if(b)openProposal(b.dataset.proposalEdit)};
+document.getElementById('proposalSave').onclick=async()=>{
+ const data={nombre:document.getElementById('proposalTitle').value.trim(),objetivo:document.getElementById('proposalObjective').value.trim(),carrera:document.getElementById('proposalTarget').value.trim(),anio:document.getElementById('proposalYear').value.trim(),autor:document.getElementById('proposalAuthor').value,estado:document.getElementById('proposalStage').value,comentarios:document.getElementById('proposalNotes').value.trim(),actualizado:Date.now()};
+ if(!data.nombre||!data.objetivo||!data.carrera||!data.anio){showToast('Completa nombre, objetivo, carrera y año','bad');return}
+ const i=SUPPORT_PROPOSALS.findIndex(x=>x.id===editingProposalId);if(i>=0)SUPPORT_PROPOSALS[i]={...SUPPORT_PROPOSALS[i],...data};else SUPPORT_PROPOSALS.push({id:'pr'+Date.now().toString(36),creado:Date.now(),...data});
+ closeProposal();renderAll();await saveData(true);
+};
+document.getElementById('proposalDelete').onclick=async()=>{if(!editingProposalId||!confirm('¿Eliminar esta propuesta?'))return;SUPPORT_PROPOSALS=SUPPORT_PROPOSALS.filter(x=>x.id!==editingProposalId);closeProposal();renderAll();await saveData(true)};
+
 function renderAll(){
   applyCatalogsToPlatform();
   renderCurrentModule();
@@ -3906,6 +3988,15 @@ document.querySelectorAll('.status-opt').forEach(o=>{
 });
 document.getElementById('fResp').addEventListener('change',()=>{syncProfessionalEmail('fResp','fRespEmail');document.getElementById('fNotifyEmail').checked=true;});
 
+function fillWorkshopProfessionals(item=null){
+ const chosen=new Set((Array.isArray(item?.responsables)&&item.responsables.length?item.responsables.map(p=>p.nombre):item?.resp?[item.resp]:[]));
+ const box=document.getElementById('fProfessionalsChecks');
+ box.innerHTML=PROFESIONALES.filter(p=>p?.nombre).map(p=>`<label class="multi-prof"><input type="checkbox" data-workshop-prof="${escapeHTML(p.nombre)}" ${chosen.has(p.nombre)?'checked':''}><span><strong>${escapeHTML(p.nombre)}</strong><small>${escapeHTML(p.correo||'Sin correo configurado')}</small></span></label>`).join('');
+ // Conserva nombres de registros antiguos aunque ya no estén en el directorio.
+ [...chosen].filter(name=>!PROFESIONALES.some(p=>p.nombre===name)).forEach(name=>box.insertAdjacentHTML('beforeend',`<label class="multi-prof"><input type="checkbox" data-workshop-prof="${escapeHTML(name)}" checked><span><strong>${escapeHTML(name)}</strong><small>Sin correo configurado</small></span></label>`));
+}
+function selectedWorkshopProfessionals(){return [...document.querySelectorAll('#fProfessionalsChecks [data-workshop-prof]:checked')].map(el=>{const p=PROFESIONALES.find(x=>x.nombre===el.dataset.workshopProf);return {nombre:p?.nombre||el.dataset.workshopProf,correo:p?.correo||''};});}
+document.getElementById('fProfessionalsChecks').addEventListener('change',()=>document.getElementById('fNotifyEmail').checked=true);
 function openNew(){
   editingId=null;
   document.getElementById('mdTitleText').textContent='Nuevo taller';
@@ -3918,7 +4009,7 @@ function openNew(){
   document.getElementById('fLinea').value='LEA+';
   document.getElementById('fModalidad').value='presencial';
   document.getElementById('fSala').value='';
-  fillProfessionalSelect('fResp','fRespEmail','');document.getElementById('fNotifyEmail').checked=true;
+  fillWorkshopProfessionals();document.getElementById('fNotifyEmail').checked=true;
   setStatusRadio('pendiente');
   document.getElementById('fInscritos').value='';
   document.getElementById('fAsistentes').value='';
@@ -3942,7 +4033,7 @@ function openEdit(id){
   document.getElementById('fLinea').value=t.linea;
   document.getElementById('fModalidad').value=t.modalidad;
   document.getElementById('fSala').value=t.sala;
-  fillProfessionalSelect('fResp','fRespEmail',t.resp||'');document.getElementById('fNotifyEmail').checked=false;
+  fillWorkshopProfessionals(t);document.getElementById('fNotifyEmail').checked=false;
   setStatusRadio(t.estado);
   document.getElementById('fInscritos').value=t.inscritos||'';
   document.getElementById('fAsistentes').value=t.asistentes||'';
@@ -3964,10 +4055,15 @@ document.getElementById('moTaller').addEventListener('click',e=>{
 
 document.getElementById('btnGuardar').onclick=async()=>{
   const titulo=document.getElementById('fTitulo').value.trim(),fecha=document.getElementById('fFecha').value,hora=document.getElementById('fHora').value.trim();if(!titulo||!fecha||!hora){showToast('Completa al menos fecha, hora y nombre del taller','bad');return;}
-  const estadoSel=document.querySelector('input[name="fEstado"]:checked'),old=editingId?TALLERES.find(x=>x.id===editingId):null,responsable=document.getElementById('fResp').value,responsableEmail=document.getElementById('fRespEmail').value.trim();
-  const data={fecha,hora,titulo,carrera:document.getElementById('fCarrera').value.trim(),categoria:document.getElementById('fCategoria').value,linea:document.getElementById('fLinea').value,modalidad:document.getElementById('fModalidad').value,sala:document.getElementById('fSala').value.trim()||'Por confirmar',resp:responsable,respEmail:responsableEmail,estado:estadoSel?estadoSel.value:'pendiente',inscritos:Number(document.getElementById('fInscritos').value)||0,asistentes:Number(document.getElementById('fAsistentes').value)||0,notas:document.getElementById('fNotas').value.trim()};
+  const estadoSel=document.querySelector('input[name="fEstado"]:checked'),old=editingId?TALLERES.find(x=>x.id===editingId):null,responsables=selectedWorkshopProfessionals(),responsable=responsables.map(p=>p.nombre).join(', '),responsableEmail=responsables.map(p=>p.correo).filter(Boolean).join(', ');
+  const data={fecha,hora,titulo,carrera:document.getElementById('fCarrera').value.trim(),categoria:document.getElementById('fCategoria').value,linea:document.getElementById('fLinea').value,modalidad:document.getElementById('fModalidad').value,sala:document.getElementById('fSala').value.trim()||'Por confirmar',resp:responsable,respEmail:responsableEmail,responsables,estado:estadoSel?estadoSel.value:'pendiente',inscritos:Number(document.getElementById('fInscritos').value)||0,asistentes:Number(document.getElementById('fAsistentes').value)||0,notas:document.getElementById('fNotas').value.trim()};
   let item;if(editingId){const idx=TALLERES.findIndex(x=>x.id===editingId);if(idx>-1){TALLERES[idx]={...TALLERES[idx],...data};item=TALLERES[idx];}}else{item={id:'t'+Date.now().toString(36),...data};TALLERES.push(item);}const notify=document.getElementById('fNotifyEmail').checked;closeModal();renderAll();await saveData(false);
-  if(notify&&responsable){try{await sendEntityNotification({module:'workshops',param:'taller',id:item.id,type:'Taller',title:item.titulo,to:responsableEmail,responsable,date:`${item.fecha} ${item.hora}`,status:item.estado,detail:item.notas||item.carrera});showToast('Taller guardado y profesional notificado ✓','ok');}catch(e){showToast('Taller guardado · no se pudo enviar el correo: '+e.message,'bad');}}else showToast('Taller guardado ✓','ok');
+  if(notify&&responsables.length){
+    const missing=responsables.filter(p=>!p.correo);
+    const results=await Promise.allSettled(responsables.filter(p=>p.correo).map(p=>sendEntityNotification({module:'workshops',param:'taller',id:item.id,type:'Taller',title:item.titulo,to:p.correo,responsable:p.nombre,date:`${item.fecha} ${item.hora}`,status:item.estado,detail:item.notas||item.carrera})));
+    const sent=results.filter(r=>r.status==='fulfilled').length,failed=results.length-sent;
+    showToast(`Taller guardado · ${sent} correo(s) enviados${missing.length+failed?' · '+(missing.length+failed)+' sin enviar':''}`,missing.length+failed?'bad':'ok');
+  }else showToast('Taller guardado ✓','ok');
 };
 
 document.getElementById('btnEliminar').onclick=async()=>{
