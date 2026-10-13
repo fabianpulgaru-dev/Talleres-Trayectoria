@@ -1043,6 +1043,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
     <button class="module-btn" data-module="adjustments">♿ Ajustes Razonables</button>
     <button class="module-btn" data-module="workshops">▦ Talleres</button>
     <button class="module-btn" data-module="tasks">✓ Organización y tareas</button>
+    <button class="module-btn" data-module="news">🔔 Novedades de estudiantes <span id="newsNavCount"></span></button>
     <button class="module-btn" data-module="proposals">✦ Propuestas de apoyo</button>
     <button class="module-btn" data-module="worklog">◎ Registro de gestión</button>
     <button class="module-btn" data-module="management">◈ Gestión</button>
@@ -1098,6 +1099,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
         <p>Centro de mando personal para organizar pendientes, proyectos, carreras, equipo, acuerdos e hitos.</p>
         <div class="area-metrics" id="homeTaskMetrics"></div>
       </button>
+      <button class="area-card" data-go="news"><div class="area-icon">🔔</div><h3>Novedades de estudiantes</h3><p>Información relevante compartida por el equipo, avisos, confirmaciones y acciones relacionadas.</p><div class="area-metrics" id="homeNewsMetrics"></div></button>
       <button class="area-card" data-go="proposals"><div class="area-icon">✦</div><h3>Propuestas de apoyo</h3><p>Construcción colaborativa de nuevos talleres y apoyos para carreras y niveles.</p><div class="area-metrics" id="homeProposalMetrics"></div></button>
       <button class="area-card" data-go="worklog">
         <div class="area-icon">◎</div><h3>Registro de gestión</h3>
@@ -1148,6 +1150,14 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
     <div class="monitor-list" id="monitorList"></div><div class="task-empty" id="monitorEmpty" style="display:none">No hay alertas con este filtro.</div>
   </section>
 
+
+  <!-- NOVEDADES DE ESTUDIANTES -->
+  <section id="moduleNews" class="module">
+    <div class="section-head"><div><h2>🔔 Novedades de estudiantes</h2><p>Información relevante para la coordinación del equipo. Una novedad no se convierte automáticamente en una tarea.</p></div><div style="display:flex;gap:8px"><button class="btn-primary" id="newsNew">+ Registrar novedad</button><button class="back-home" data-go="home">← Resumen</button></div></div>
+    <div class="news-stats" id="newsStats"></div>
+    <div class="news-bar"><input id="newsSearch" placeholder="Buscar por estudiante, RUT, carrera o contenido…"><select id="newsTypeFilter"><option value="">Todos los tipos</option><option>Alerta</option><option>Situación académica</option><option>Derivación o articulación</option><option>Antecedente relevante</option><option>Acuerdo o decisión</option><option>Actualización o resolución</option></select><select id="newsLevelFilter"><option value="">Todas las importancias</option><option>Informativa</option><option>Importante</option><option>Urgente</option></select><label><input id="newsOnlyUnread" type="checkbox"> Pendientes de leer</label></div>
+    <div class="news-list" id="newsList"></div>
+  </section>
 
   <!-- DERIVACIONES -->
   <section id="moduleReferrals" class="module">
@@ -1977,7 +1987,7 @@ const DOCS_FIREBASE_CONFIG={
 let docsApp=null,docsAuth=null,docsStorage=null,docsUser=null,docsCaseId=null;
 // IMPORTANTE: sustituir por el Gmail real del propietario ANTES de publicar.
 const VISIBILITY_ADMIN_EMAIL='fabianpulgaru@gmail.com';
-const VISIBILITY_MODULES=[['home','Resumen'],['monitoring','Monitoreo y seguimiento'],['referrals','Derivaciones'],['cases','Casos Específicos'],['adjustments','Ajustes Razonables'],['workshops','Talleres'],['tasks','Organización y tareas'],['proposals','Propuestas de apoyo'],['worklog','Registro de gestión'],['management','Gestión'],['early','Educación Parvularia'],['bitacora','Bitácora'],['writing','Escritura'],['configuration','Configuración']];
+const VISIBILITY_MODULES=[['home','Resumen'],['monitoring','Monitoreo y seguimiento'],['referrals','Derivaciones'],['cases','Casos Específicos'],['adjustments','Ajustes Razonables'],['workshops','Talleres'],['tasks','Organización y tareas'],['news','Novedades de estudiantes'],['proposals','Propuestas de apoyo'],['worklog','Registro de gestión'],['management','Gestión'],['early','Educación Parvularia'],['bitacora','Bitácora'],['writing','Escritura'],['configuration','Configuración']];
 const VISIBILITY_DEFAULT=Object.fromEntries(VISIBILITY_MODULES.map(([id])=>[id,!['early','bitacora'].includes(id)]));
 let MODULE_VISIBILITY={...VISIBILITY_DEFAULT};
 function isVisibilityAdmin(){return !!(docsUser && docsUser.email && docsUser.email.toLowerCase()===VISIBILITY_ADMIN_EMAIL.toLowerCase());}
@@ -2052,6 +2062,7 @@ let TAREAS=[];
 let SUPPORT_PROPOSALS=[];
 let WORKLOG=[];
 let PROFESIONALES=[];
+let STUDENT_NEWS=[];
 let TASK_NOTIFY_CONFIG={panelUrl:''};
 let METAS_2S={};
 let MANAGEMENT_PROJECTS=[];
@@ -2136,6 +2147,7 @@ async function loadData(){
       TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
       CASOS=[];
       TAREAS=[];
+      STUDENT_NEWS=[];
       SUPPORT_PROPOSALS=[];
       WORKLOG=[];
       PROFESIONALES=DEFAULT_PROFESIONALES.map(x=>({...x}));
@@ -2158,6 +2170,7 @@ async function loadData(){
       TALLERES=Array.isArray(j.talleres)?j.talleres:[];
       CASOS=(Array.isArray(j.casos)?j.casos:[]).map(c=>({...c,documentos:Array.isArray(c.documentos)?c.documentos:[]}));
       TAREAS=Array.isArray(j.tareas)?j.tareas:[];
+      STUDENT_NEWS=Array.isArray(j.studentNews)?j.studentNews:[];
       SUPPORT_PROPOSALS=Array.isArray(j.supportProposals)?j.supportProposals:[];
       WORKLOG=Array.isArray(j.worklog)?j.worklog:[];
       PROFESIONALES=Array.isArray(j.profesionales)&&j.profesionales.length?j.profesionales:DEFAULT_PROFESIONALES.map(x=>({...x}));
@@ -2179,6 +2192,7 @@ async function loadData(){
     TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
     CASOS=[];
     TAREAS=[];
+    STUDENT_NEWS=JSON.parse(localStorage.getItem('ute_student_news_v1')||'[]');
     SUPPORT_PROPOSALS=JSON.parse(localStorage.getItem('ute_support_proposals_v1')||'[]');
     WORKLOG=JSON.parse(localStorage.getItem('ute_worklog_v1')||'[]');
     PROFESIONALES=DEFAULT_PROFESIONALES.map(x=>({...x}));
@@ -2198,9 +2212,9 @@ async function loadData(){
 }
 
 async function saveData(toast=true){
-  try{localStorage.setItem('ute_worklog_v1',JSON.stringify(WORKLOG));localStorage.setItem('ute_support_proposals_v1',JSON.stringify(SUPPORT_PROPOSALS));}catch(_e){}
+  try{localStorage.setItem('ute_student_news_v1',JSON.stringify(STUDENT_NEWS));localStorage.setItem('ute_worklog_v1',JSON.stringify(WORKLOG));localStorage.setItem('ute_support_proposals_v1',JSON.stringify(SUPPORT_PROPOSALS));}catch(_e){}
   try{
-    const r=await fetch(FB_PATH,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,tareas:TAREAS,supportProposals:SUPPORT_PROPOSALS,worklog:WORKLOG,profesionales:PROFESIONALES,taskNotifyConfig:TASK_NOTIFY_CONFIG,metas2s:METAS_2S,managementProjects:MANAGEMENT_PROJECTS,managementPresentations:MANAGEMENT_PRESENTATIONS,earlyCourses:EARLY_COURSES,earlyProjects:EARLY_PROJECTS,earlyResources:EARLY_RESOURCES,monitorAlerts:MONITOR_ALERTS,derivaciones:REFERRALS,catalogs:CATALOGS,deskNotes:DESK_NOTES,writingDocs:WRITING_DOCS,activeWritingDoc:ACTIVE_WRITING_DOC,ajustesRazonables:AJUSTES,ajustesDriveEliminados:AR_DELETED_DRIVE_IDS,ts:Date.now()})});
+    const r=await fetch(FB_PATH,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,tareas:TAREAS,studentNews:STUDENT_NEWS,supportProposals:SUPPORT_PROPOSALS,worklog:WORKLOG,profesionales:PROFESIONALES,taskNotifyConfig:TASK_NOTIFY_CONFIG,metas2s:METAS_2S,managementProjects:MANAGEMENT_PROJECTS,managementPresentations:MANAGEMENT_PRESENTATIONS,earlyCourses:EARLY_COURSES,earlyProjects:EARLY_PROJECTS,earlyResources:EARLY_RESOURCES,monitorAlerts:MONITOR_ALERTS,derivaciones:REFERRALS,catalogs:CATALOGS,deskNotes:DESK_NOTES,writingDocs:WRITING_DOCS,activeWritingDoc:ACTIVE_WRITING_DOC,ajustesRazonables:AJUSTES,ajustesDriveEliminados:AR_DELETED_DRIVE_IDS,ts:Date.now()})});
     const j=await r.json().catch(()=>null);
     if(!r.ok || (j && j.error)){
       throw new Error((j && j.error) ? j.error : `HTTP ${r.status}`);
@@ -2394,6 +2408,7 @@ function renderCurrentModule(){
   else if(curModule==='adjustments') renderAR();
   else if(curModule==='tasks') renderTasks();
   else if(curModule==='proposals') renderProposals();
+  else if(curModule==='news') renderStudentNews();
   else if(curModule==='worklog') renderWorklog();
   else if(curModule==='management'){renderGoals();renderManagement();renderManagementAccess();}
   else if(curModule==='early'){renderEarly();renderEarlyAccess();}
@@ -2411,7 +2426,7 @@ function switchModule(name){
   if(!canSeeModule(name)){showToast('Esta sección está restringida','bad');return;}
   curModule=name;
   document.querySelectorAll('.module').forEach(x=>x.classList.remove('active'));
-  const map={home:'moduleHome',monitoring:'moduleMonitoring',referrals:'moduleReferrals',cases:'moduleCases',adjustments:'moduleAdjustments',workshops:'moduleWorkshops',tasks:'moduleTasks',proposals:'moduleProposals',worklog:'moduleWorklog',management:'moduleManagement',early:'moduleEarly',bitacora:'moduleBitacora',writing:'moduleWriting',configuration:'moduleConfiguration'};
+  const map={home:'moduleHome',monitoring:'moduleMonitoring',referrals:'moduleReferrals',cases:'moduleCases',adjustments:'moduleAdjustments',workshops:'moduleWorkshops',tasks:'moduleTasks',news:'moduleNews',proposals:'moduleProposals',worklog:'moduleWorklog',management:'moduleManagement',early:'moduleEarly',bitacora:'moduleBitacora',writing:'moduleWriting',configuration:'moduleConfiguration'};
   document.getElementById(map[name]||map.home).classList.add('active');
   document.querySelectorAll('.module-btn').forEach(b=>b.classList.toggle('active',b.dataset.module===name));
   renderCurrentModule();
@@ -2422,6 +2437,9 @@ document.addEventListener('click',e=>{
   const mb=e.target.closest('.module-btn[data-module]'); if(mb){switchModule(mb.dataset.module);return;}
 });
 function renderHome(){
+  const unconfirmed=STUDENT_NEWS.filter(n=>newsForMe(n)&&!(n.readBy||[]).some(x=>x.email===newsCurrentEmail())).length;
+  const hmNews=document.getElementById('homeNewsMetrics');if(hmNews)hmNews.innerHTML=`<span class="metric-mini">${STUDENT_NEWS.length} novedades</span><span class="metric-mini">${unconfirmed} por revisar</span>`;
+  const navCount=document.getElementById('newsNavCount');if(navCount)navCount.textContent=unconfirmed?`· ${unconfirmed}`:'';
   const hw=document.getElementById('homeWorklogMetrics'); if(hw){const now=new Date(), ym=now.toISOString().slice(0,7), month=WORKLOG.filter(x=>(x.date||'').slice(0,7)===ym), mins=month.reduce((a,x)=>a+(Number(x.minutes)||0),0); hw.innerHTML=`<span class="metric-mini">${month.length} este mes</span><span class="metric-mini">${fmtWorklogDuration(mins)}</span>`;}
   const monNew=MONITOR_ALERTS.filter(a=>(a.uteStatus||'nueva')==='nueva').length, monHigh=MONITOR_ALERTS.filter(a=>String(a.nivel||'').toLowerCase()==='alta'&&(a.uteStatus||'nueva')!=='cerrada').length, monActive=MONITOR_ALERTS.filter(a=>!['nueva','cerrada'].includes(a.uteStatus||'nueva')).length; const hm=document.getElementById('homeMonitoringMetrics'); if(hm)hm.innerHTML=`<span class="metric-mini">${MONITOR_ALERTS.length} alertas</span><span class="metric-mini">${monNew} nuevas</span><span class="metric-mini">${monHigh} altas activas</span>`;
   const refActive=REFERRALS.filter(r=>!['cerrada'].includes(normRefStatus(r.estado))).length; const refNew=REFERRALS.filter(r=>normRefStatus(r.estado)==='nueva').length; const refDue=REFERRALS.filter(isReferralOverdue).length; const hr=document.getElementById('homeReferralMetrics'); if(hr)hr.innerHTML=`<span class="metric-mini">${refActive} activas</span><span class="metric-mini">${refNew} nuevas</span><span class="metric-mini">${refDue} sin movimiento</span>`;
@@ -3146,6 +3164,7 @@ async function saveTaskNotifyConfig(){
 function applyPanelDeepLink(){
   const q=new URLSearchParams(location.search),m=q.get('modulo');if(!m)return;
   if(m==='monitoring'){switchModule('monitoring');const id=q.get('alerta');if(id&&MONITOR_ALERTS.some(x=>x.id===id))setTimeout(()=>openMonitor(id),120);return;}
+  if(m==='news'){switchModule('news');const id=q.get('novedad');if(id)setTimeout(()=>openStudentNews(id),120);return;}
   if(m==='propuestas'){switchModule('proposals');const id=q.get('propuesta');if(id&&SUPPORT_PROPOSALS.some(x=>x.id===id))setTimeout(()=>openProposal(id),120);return;}
   if(m==='tareas'){switchModule('tasks');const id=q.get('tarea');if(id&&TAREAS.some(t=>t.id===id))setTimeout(()=>openTask(id),120);return;}
   if(m==='cases'){switchModule('cases');const id=q.get('caso');if(id&&CASOS.some(x=>x.id===id))setTimeout(()=>openCase(id),120);return;}
@@ -4941,6 +4960,48 @@ document.getElementById('visibilitySectionList')?.addEventListener('change',e=>{
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',connect);else connect();
 })();
+</script>
+
+<style id="student-news-style">
+.news-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 16px}.news-stat,.news-card{background:#fff;border:1px solid var(--hairline,#ddd);border-radius:15px;padding:15px;box-shadow:0 4px 18px #2020400b}.news-stat strong{display:block;font-size:1.65rem;color:var(--p)}.news-stat span{color:var(--txt2);font-size:.78rem}.news-bar{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-bottom:15px}.news-bar input:not([type=checkbox]),.news-bar select{border:1px solid #dfe3ef;border-radius:10px;padding:10px;font:inherit;font-size:.83rem;background:#fff;color:var(--txt)}.news-bar>input{flex:1;min-width:210px}.news-bar label{font-size:.78rem;color:var(--txt2)}.news-list{display:grid;gap:10px}.news-card{border-left:4px solid var(--p)}.news-card.urgente{border-left-color:var(--bad)}.news-card.importante{border-left-color:var(--warn)}.news-header{display:flex;align-items:start;justify-content:space-between;gap:12px}.news-person{font-size:1.01rem;font-weight:800}.news-caption{font-size:.72rem;color:var(--txt2)}.news-pill{display:inline-flex;padding:4px 8px;border-radius:99px;background:var(--p-bg);color:var(--p-dk);font-size:.68rem;font-weight:800;margin-right:5px}.news-pill.urgente{color:var(--bad);background:var(--bad-bg)}.news-pill.importante{color:var(--warn);background:var(--warn-bg)}.news-title{font-size:.96rem;font-weight:800;margin:11px 0 5px}.news-details{font-size:.82rem;white-space:pre-wrap;color:var(--txt2);line-height:1.5}.news-footer{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:11px;border-top:1px solid var(--line)}.news-footer button,.news-soft{border:1px solid var(--line2);background:#fff;color:var(--p-dk);border-radius:9px;padding:7px 10px;font-size:.76rem;font-weight:800;cursor:pointer}.news-muted{color:var(--txt2);font-size:.73rem;margin-right:auto}.news-editor{max-width:750px!important}.news-editor .fg-row{margin-bottom:0}.news-checks{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-height:145px;overflow:auto}.news-checks label{padding:8px;border:1px solid var(--line);border-radius:9px;font-size:.82rem}.news-timeline{display:grid;gap:9px}.news-timeitem{padding:10px;border-left:3px solid var(--p);background:var(--surface2);border-radius:8px;font-size:.8rem}.news-notice{font-size:.75rem;color:var(--txt2);background:var(--surface2);border-radius:10px;padding:10px 12px;margin-bottom:12px}.news-formbuttons{display:flex;gap:10px;align-items:center}.news-formbuttons button{flex:1}.news-opt{display:flex;gap:8px;align-items:center;font-size:.8rem;font-weight:700;color:var(--txt2)}
+@media(max-width:760px){.news-stats{grid-template-columns:repeat(2,1fr)}.news-checks{grid-template-columns:1fr}.news-header{flex-direction:column}}
+</style>
+<div class="mo" id="moStudentNews"><div class="md news-editor"><button class="md-close" id="newsClose" type="button">✕</button><h3 id="newsModalHeading">Registrar novedad</h3><p class="md-info">Información necesaria para coordinar el acompañamiento</p>
+  <div class="news-notice">Registra información verificable y pertinente. Evita diagnósticos, detalles clínicos o antecedentes personales innecesarios. Las novedades se comparten solo con profesionales autorizados.</div>
+  <div class="fg-row"><div class="fg"><label>Buscar estudiante</label><input id="nStudent" list="newsStudentSuggestions" placeholder="Nombre completo"><datalist id="newsStudentSuggestions"></datalist></div><div class="fg"><label>RUT / identificador</label><input id="nRut" placeholder="Para vincular registros existentes"></div></div>
+  <div class="fg-row"><div class="fg"><label>Carrera</label><input id="nCareer" placeholder="Carrera de estudiante"></div><div class="fg"><label>Tipo de novedad</label><select id="nType"><option>Alerta</option><option>Situación académica</option><option>Derivación o articulación</option><option>Antecedente relevante</option><option>Acuerdo o decisión</option><option>Actualización o resolución</option></select></div></div>
+  <div class="fg"><label>Título de la información</label><input id="nTitle" placeholder="Ej. Carrera informa suspensión de matrícula"></div>
+  <div class="fg"><label>¿Qué ocurrió y qué necesita saber el equipo?</label><textarea id="nDetails" rows="4" placeholder="Describe brevemente hechos, fecha y situación actual"></textarea></div>
+  <div class="fg-row"><div class="fg"><label>Fuente</label><select id="nSource"><option>Estudiante</option><option>Docente</option><option>Carrera</option><option>SAT</option><option>Registro institucional</option><option>Otro profesional</option><option>Otra unidad</option></select></div><div class="fg"><label>Importancia</label><select id="nLevel"><option>Informativa</option><option>Importante</option><option>Urgente</option></select></div></div>
+  <div class="fg"><label>¿Qué necesita hacer el equipo?</label><select id="nAction"><option value="informar">Solo informar</option><option value="revisar">Requiere atención o revisión</option><option value="tarea">Crear una tarea vinculada</option><option value="seguimiento">Requiere seguimiento (vincular a Monitoreo)</option><option value="derivacion">Corresponde a derivación formal</option></select></div>
+  <div class="fg"><label>Profesionales destinatarios</label><label class="news-opt"><input id="nAll" type="checkbox" checked> Todo el equipo</label><div id="newsRecipients" class="news-checks"></div></div>
+  <div style="display:flex;gap:16px;flex-wrap:wrap;margin:12px 0"><label class="news-opt"><input id="nMail" type="checkbox"> Enviar avisos por correo</label><label class="news-opt"><input id="nConfirmation" type="checkbox"> Solicitar confirmación de lectura</label></div>
+  <div id="nHistory" class="news-timeline" style="margin-bottom:12px"></div>
+  <div class="news-formbuttons"><button class="back-home" id="newsCancel" type="button">Cancelar</button><button class="btn-primary" id="newsSave" type="button">Guardar novedad</button></div><p id="newsSendStatus" class="news-caption" role="status" style="margin-top:8px"></p>
+</div></div>
+<div class="mo" id="moNewsStudent"><div class="md news-editor"><button class="md-close" id="newsStudentClose">✕</button><h3 id="newsProfileHeading">Ficha del estudiante</h3><p class="md-info">Vista transversal · no duplica los registros de otros módulos</p><div id="newsProfile" class="news-timeline"></div></div></div>
+<script id="student-news-script">
+let editingNewsId=null;
+const newsIdKey=x=>String(x||'').toLowerCase().replace(/[^0-9k]/g,'');
+const newsNameKey=x=>String(x||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
+function newsCurrentEmail(){return String(docsUser?.email||'').trim().toLowerCase()}
+function newsPerson(){return PROFESIONALES.find(p=>String(p.correo||'').toLowerCase()===newsCurrentEmail())||null}
+function newsAuthor(){return newsPerson()?.nombre||docsUser?.email||''}
+function newsForMe(n){return n.all||!n.recipients?.length||n.recipients.some(p=>String(p.correo||'').toLowerCase()===newsCurrentEmail())}
+function newsStudents(){const map=new Map();[...CASOS,...MONITOR_ALERTS,...REFERRALS,...AJUSTES].forEach(c=>{const name=c.estudiante||c.nombre||c.nombreEstudiante||'',rut=c.rut||c.RUT||'',career=c.carrera||'';if(!name)return;const key=newsIdKey(rut)||newsNameKey(name);if(!map.has(key))map.set(key,{name,rut,career})});return [...map.values()]}
+function newsMatches(a,b){if(a.rut&&b.rut&&newsIdKey(a.rut)===newsIdKey(b.rut))return true;return newsNameKey(a.student||a.estudiante||a.nombre)===newsNameKey(b.student||b.estudiante||b.nombre)&&!!newsNameKey(a.student||a.estudiante||a.nombre)}
+function newsFmt(d){return d?new Date(d).toLocaleString('es-CL',{dateStyle:'short',timeStyle:'short'}):'—'}
+function renderStudentNews(){const arr=STUDENT_NEWS.filter(newsForMe);const unread=arr.filter(n=>!(n.readBy||[]).some(r=>r.email===newsCurrentEmail()));const pending=arr.filter(n=>n.action!=='informar'&&!n.closed);const stats=document.getElementById('newsStats');if(!stats)return;stats.innerHTML=[['Total',arr.length],['Sin leer',unread.length],['Requieren atención',pending.length],['Urgentes',arr.filter(n=>n.level==='Urgente'&&!n.closed).length]].map(x=>`<div class="news-stat"><strong>${x[1]}</strong><span>${x[0]}</span></div>`).join('');const q=newsNameKey(document.getElementById('newsSearch').value),type=document.getElementById('newsTypeFilter').value,level=document.getElementById('newsLevelFilter').value,only=document.getElementById('newsOnlyUnread').checked;const visible=arr.filter(n=>(!q||newsNameKey([n.student,n.rut,n.career,n.title,n.details].join(' ')).includes(q))&&(!type||n.type===type)&&(!level||n.level===level)&&(!only||unread.includes(n))).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));document.getElementById('newsList').innerHTML=visible.map(n=>{const read=(n.readBy||[]).some(r=>r.email===newsCurrentEmail());return `<article class="news-card ${n.level.toLowerCase()}"><div class="news-header"><div><div class="news-person">${escapeHTML(n.student)}</div><div class="news-caption">${escapeHTML([n.career,n.rut].filter(Boolean).join(' · '))}</div></div><div><span class="news-pill ${n.level.toLowerCase()}">${escapeHTML(n.level)}</span><span class="news-pill">${escapeHTML(n.type)}</span></div></div><div class="news-title">${escapeHTML(n.title)}</div><div class="news-details">${escapeHTML(n.details)}</div><div class="news-caption" style="margin-top:10px">Fuente: ${escapeHTML(n.source)} · Registró: ${escapeHTML(n.author)} · ${newsFmt(n.createdAt)} · ${n.all?'Todo el equipo':(n.recipients||[]).map(p=>escapeHTML(p.nombre)).join(', ')}</div><div class="news-footer"><span class="news-muted">${n.requiresConfirmation?'Confirmaciones':'Lecturas'}: ${(n.readBy||[]).length} ${read?'· Ya leída':''} ${n.closed?'· Resuelta':''}</span><button data-news-profile="${escapeHTML(n.id)}">Ficha estudiante</button><button data-news-view="${escapeHTML(n.id)}">Abrir</button>${!read?`<button data-news-read="${escapeHTML(n.id)}">✓ Confirmar lectura</button>`:''}${n.action==='tarea'?`<button data-news-task="${escapeHTML(n.id)}">Crear tarea</button>`:''}<button data-news-status="${escapeHTML(n.id)}">${n.closed?'Reabrir':'Marcar resuelta'}</button></div></article>`}).join('')||'<div class="task-empty">No se encontraron novedades.</div>';const nav=document.getElementById('newsNavCount');if(nav)nav.textContent=unread.length?'· '+unread.length:''}
+function newsOpenModal(id=''){const n=STUDENT_NEWS.find(x=>x.id===id);editingNewsId=n?.id||null;document.getElementById('newsModalHeading').textContent=n?'Novedad registrada':'Registrar novedad';for(const [id,key] of [['nStudent','student'],['nRut','rut'],['nCareer','career'],['nType','type'],['nTitle','title'],['nDetails','details'],['nSource','source'],['nLevel','level'],['nAction','action']]){const el=document.getElementById(id);el.value=n?.[key]||({nType:'Alerta',nSource:'Estudiante',nLevel:'Informativa',nAction:'informar'}[id]||'');el.disabled=!!n}document.getElementById('nAll').checked=n?.all??true;document.getElementById('nAll').disabled=!!n;document.getElementById('nMail').checked=false;document.getElementById('nMail').disabled=!!n;document.getElementById('nConfirmation').checked=n?.requiresConfirmation||false;document.getElementById('nConfirmation').disabled=!!n;document.getElementById('newsRecipients').innerHTML=PROFESIONALES.filter(x=>x.correo).map(p=>`<label><input type="checkbox" data-news-recipient="${escapeHTML(p.correo)}" ${(n?.recipients||[]).some(x=>x.correo===p.correo)?'checked':''} ${n?'disabled':''}> ${escapeHTML(p.nombre)}</label>`).join('');document.getElementById('newsRecipients').style.display=document.getElementById('nAll').checked?'none':'grid';document.getElementById('nHistory').innerHTML=n?`<div class="news-timeitem"><strong>Historial de lectura</strong><div class="news-caption">${(n.readBy||[]).map(x=>escapeHTML(x.nombre||x.email)+' · '+newsFmt(x.at)).join('<hr>')||'Sin confirmaciones todavía'}</div></div>`:'';document.getElementById('newsSave').style.display=n?'none':'';document.getElementById('newsSendStatus').textContent='';document.getElementById('newsStudentSuggestions').innerHTML=newsStudents().map(s=>`<option value="${escapeHTML(s.name)}">${escapeHTML(s.career)}</option>`).join('');document.getElementById('moStudentNews').classList.add('open')}
+function newsCloseModal(){document.getElementById('moStudentNews').classList.remove('open')}
+function openStudentNews(id){newsOpenModal(id)}
+async function newsSave(){if(!newsCurrentEmail()){showToast('Inicia sesión para registrar autoría y confirmaciones','bad');return}const v=id=>document.getElementById(id).value.trim(),student=v('nStudent'),title=v('nTitle'),details=v('nDetails'),all=document.getElementById('nAll').checked;const recipients=PROFESIONALES.filter(p=>[...document.querySelectorAll('[data-news-recipient]:checked')].some(i=>i.dataset.newsRecipient===p.correo)).map(p=>({nombre:p.nombre,correo:p.correo}));if(!student||!title||!details){showToast('Completa estudiante, título y antecedentes','bad');return}if(!all&&!recipients.length){showToast('Selecciona al menos un destinatario','bad');return}const n={id:'nw'+Date.now().toString(36),student,rut:v('nRut'),career:v('nCareer'),type:v('nType'),title,details,source:v('nSource'),level:v('nLevel'),action:v('nAction'),all,recipients,requiresConfirmation:document.getElementById('nConfirmation').checked,author:newsAuthor(),authorEmail:newsCurrentEmail(),createdAt:new Date().toISOString(),readBy:[{email:newsCurrentEmail(),nombre:newsAuthor(),at:new Date().toISOString()}],closed:false};STUDENT_NEWS.push(n);const students=newsStudents(),related=students.find(s=>newsNameKey(s.name)===newsNameKey(student));if(related){if(!n.rut)n.rut=related.rut;if(!n.career)n.career=related.career}await saveData(false);newsCloseModal();renderStudentNews();const mailing=document.getElementById('nMail').checked;let sent=0,failed=0;if(mailing){const ppl=(all?PROFESIONALES:recipients).filter(p=>p.correo&&p.correo.toLowerCase()!==newsCurrentEmail());for(const p of ppl){try{await sendEntityNotification({module:'news',param:'novedad',id:n.id,type:'Novedad de estudiante',title:'Información nueva para revisar en el panel',to:p.correo,responsable:p.nombre,status:n.type,priority:n.level,detail:'Hay una novedad sobre la trayectoria de un estudiante. Ingresa al panel institucional autorizado para consultar el contenido.'});sent++}catch(e){failed++;console.warn(e)}}}showToast('Novedad registrada'+(mailing?` · Correos: ${sent} enviados, ${failed} fallidos`:'')+(n.action==='tarea'?' · Puedes crear la tarea desde su tarjeta':''),failed?'bad':'ok')}
+async function newsRead(id){if(!newsCurrentEmail()){showToast('Inicia sesión para confirmar lectura','bad');return}const n=STUDENT_NEWS.find(x=>x.id===id);if(!n||!newsForMe(n))return;n.readBy=n.readBy||[];if(!n.readBy.some(x=>x.email===newsCurrentEmail()))n.readBy.push({email:newsCurrentEmail(),nombre:newsAuthor(),at:new Date().toISOString()});await saveData(false);renderStudentNews()}
+async function newsToggle(id){const n=STUDENT_NEWS.find(x=>x.id===id);if(!n||!newsCurrentEmail())return;n.closed=!n.closed;n.closedBy=newsAuthor();n.closedAt=new Date().toISOString();await saveData(false);renderStudentNews()}
+async function newsCreateTask(id){const n=STUDENT_NEWS.find(x=>x.id===id);if(!n)return;let t=TAREAS.find(x=>x.id===n.taskId);if(!t){t={id:'ta'+Date.now().toString(36),titulo:n.title,acceso:'Mis tareas',estado:'pendiente',prioridad:n.level==='Urgente'?'alta':n.level==='Importante'?'media':'baja',fecha:'',proyecto:'Novedades de estudiantes',carrera:n.career,persona:n.student,detalle:n.details,link:'',creado:Date.now(),actualizado:Date.now(),responsables:n.recipients};TAREAS.push(t);n.taskId=t.id;await saveData(false)}switchModule('tasks');setTimeout(()=>openTask(t.id),50)}
+function newsStudentProfile(id){const n=STUDENT_NEWS.find(x=>x.id===id);if(!n)return;document.getElementById('newsProfileHeading').textContent=n.student;const sources=[['Novedad',STUDENT_NEWS.filter(newsForMe)],['Monitoreo',MONITOR_ALERTS],['Derivación',REFERRALS],['Caso específico',CASOS],['Ajustes razonables',AJUSTES]];let items=[];for(const [label,arr] of sources)for(const x of arr)if(newsMatches(n,x))items.push({label,title:x.title||x.titulo||x.motivo||x.descripcion||x.estado||label,date:x.createdAt||x.fechaRecepcion||x.fecha||'',details:x.details||x.descripcion||''});items.sort((a,b)=>String(b.date).localeCompare(String(a.date)));document.getElementById('newsProfile').innerHTML=`<div class="news-notice">${escapeHTML(n.career||'Carrera no registrada')} · ${escapeHTML(n.rut||'Sin identificador')}<div>Coincidencias por RUT o nombre normalizado. Verifica homónimos antes de tomar decisiones.</div></div>`+items.map(x=>`<div class="news-timeitem"><div class="news-caption">${escapeHTML(x.label)} · ${newsFmt(x.date)}</div><strong>${escapeHTML(x.title)}</strong><div class="news-caption">${escapeHTML(x.details)}</div></div>`).join('');document.getElementById('moNewsStudent').classList.add('open')}
+document.getElementById('newsNew').onclick=()=>newsOpenModal();document.getElementById('newsClose').onclick=document.getElementById('newsCancel').onclick=newsCloseModal;document.getElementById('newsSave').onclick=newsSave;document.getElementById('newsStudentClose').onclick=()=>document.getElementById('moNewsStudent').classList.remove('open');document.getElementById('nAll').onchange=e=>document.getElementById('newsRecipients').style.display=e.target.checked?'none':'grid';document.getElementById('nStudent').onchange=e=>{const s=newsStudents().find(x=>newsNameKey(x.name)===newsNameKey(e.target.value));if(s){document.getElementById('nRut').value=s.rut||'';document.getElementById('nCareer').value=s.career||''}};for(const id of ['newsSearch','newsTypeFilter','newsLevelFilter','newsOnlyUnread'])document.getElementById(id).addEventListener('input',renderStudentNews);
+document.getElementById('newsList').addEventListener('click',e=>{const a=e.target.closest('[data-news-view],[data-news-read],[data-news-task],[data-news-profile],[data-news-status]');if(!a)return;const d=a.dataset;if(d.newsView)openStudentNews(d.newsView);else if(d.newsRead)newsRead(d.newsRead);else if(d.newsTask)newsCreateTask(d.newsTask);else if(d.newsProfile)newsStudentProfile(d.newsProfile);else if(d.newsStatus)newsToggle(d.newsStatus)});
 </script>
 </body>
 </html>
