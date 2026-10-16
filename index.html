@@ -3138,7 +3138,7 @@ function fillProfessionalSelect(selectId,emailId,selected=''){
 }
 function syncProfessionalEmail(selectId,emailId){const name=document.getElementById(selectId)?.value||'';const p=PROFESIONALES.find(x=>x.nombre===name);const em=document.getElementById(emailId);if(em)em.value=p?.correo||'';}
 function entityDeepLink(module,param,id){let base=String(TASK_NOTIFY_CONFIG?.panelUrl||'').trim();if(!base&&/^https?:$/.test(location.protocol))base=location.origin+location.pathname;if(!base)return '';try{const u=new URL(base);u.searchParams.set('modulo',module);u.searchParams.set(param,id);return u.toString();}catch{return '';}}
-async function sendEntityNotification(o){if(!o?.to)throw new Error('El profesional asignado no tiene correo configurado');const panelUrl=entityDeepLink(o.module,o.param,o.id);if(!panelUrl)throw new Error('Configura la URL pública del panel en “Profesionales y avisos”');return jsonpDrive({mode:'notifyItem',to:o.to,responsable:o.responsable||'',entityType:o.type||'Registro',entityId:o.id||'',titulo:(o.title||'').slice(0,180),fecha:o.date||'',prioridad:o.priority||'',estado:o.status||'',detalle:(o.detail||'').slice(0,700),panelUrl},45000);}
+async function sendEntityNotification(o){if(!o?.to)throw new Error('El profesional asignado no tiene correo configurado');const panelUrl=entityDeepLink(o.module,o.param,o.id);if(!panelUrl)throw new Error('Configura la URL pública del panel en “Profesionales y avisos”');return jsonpDrive({mode:'notifyItem',to:o.to,responsable:o.responsable||'',entityType:o.type||'Registro',entityId:o.id||'',titulo:(o.title||'').slice(0,180),fecha:o.date||'',prioridad:o.priority||'',estado:o.status||'',detalle:(o.detail||'').slice(0,700),htmlBody:o.mailHtml||'',panelUrl},45000);}
 function fillTaskProfessionalSelect(selected=''){
   const t=editingTaskId?TAREAS.find(x=>x.id===editingTaskId):null;
   const chosen=new Set((t?.responsables?.length?t.responsables.map(p=>p.nombre):(selected?[selected]:[])));
@@ -4551,7 +4551,20 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 
 </style>
 
-</head><body>${d.html}</body></html>`;const blob=new Blob([html],{type:'application/msword'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(d.title||'documento').replace(/[\\/:*?"<>|]+/g,'_')+'.doc';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+</head><body>${d.html}<style id="student-news-v36-priority">
+/* La información central debe dominar el resumen, no quedar bajo la ficha administrativa. */
+#moNewsSummary .news-editor{max-width:800px!important}
+#moNewsSummary .news-summary-reason{background:#f3f0ff;border:1px solid #ded5ff;border-left:5px solid #7155d8;border-radius:17px;padding:23px 25px;margin:8px 0 20px;white-space:normal}
+#moNewsSummary .news-summary-kicker{font-size:.83rem;font-weight:850;letter-spacing:.07em;text-transform:uppercase;color:#6250a2;margin-bottom:11px}
+#moNewsSummary .news-summary-title{font-family:var(--fb),sans-serif;font-size:clamp(1.32rem,2.3vw,1.75rem);font-weight:850;line-height:1.3;letter-spacing:-.025em;color:#242139;margin:0 0 15px;white-space:pre-wrap;overflow-wrap:anywhere}
+#moNewsSummary .news-summary-description{font-size:1.05rem;line-height:1.75;color:#36334b;white-space:pre-wrap;overflow-wrap:anywhere;border-top:1px solid #ded5f5;padding-top:15px}
+#moNewsSummary .news-summary-grid{margin-top:0}
+#moduleNews .news-card .news-title{font-size:1.18rem;line-height:1.35;color:#2a253e;font-weight:850;margin:16px 0 8px}
+#moduleNews .news-card .news-details{font-size:1rem;line-height:1.65;color:#424258}
+#moduleNews .news-card .news-caption{font-size:.78rem}
+@media(max-width:560px){#moNewsSummary .news-summary-reason{padding:17px}#moNewsSummary .news-summary-description{font-size:1rem}}
+</style>
+</body></html>`;const blob=new Blob([html],{type:'application/msword'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(d.title||'documento').replace(/[\\/:*?"<>|]+/g,'_')+'.doc';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
 function printWritingDoc(){captureWritingDoc();const d=WRITING_DOCS.find(x=>x.id===ACTIVE_WRITING_DOC);if(!d)return;const w=window.open('','_blank');if(!w)return;w.document.write(`<html><head><title>${escapeHTML(d.title)}</title><style>@page{margin:2.2cm}body{font-family:Arial,sans-serif;font-size:12pt;line-height:1.55}h1{font-size:22pt}h2{font-size:17pt}</style>
 <style id="v26-polish">
 /* v26 · Pulido visual: líneas finas, tipografía más ligera, menos volumen */
@@ -4880,7 +4893,20 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 
 </style>
 
-</head><body>${d.html}</body></html>`);w.document.close();w.focus();setTimeout(()=>w.print(),150);}
+</head><body>${d.html}<style id="student-news-v36-priority">
+/* La información central debe dominar el resumen, no quedar bajo la ficha administrativa. */
+#moNewsSummary .news-editor{max-width:800px!important}
+#moNewsSummary .news-summary-reason{background:#f3f0ff;border:1px solid #ded5ff;border-left:5px solid #7155d8;border-radius:17px;padding:23px 25px;margin:8px 0 20px;white-space:normal}
+#moNewsSummary .news-summary-kicker{font-size:.83rem;font-weight:850;letter-spacing:.07em;text-transform:uppercase;color:#6250a2;margin-bottom:11px}
+#moNewsSummary .news-summary-title{font-family:var(--fb),sans-serif;font-size:clamp(1.32rem,2.3vw,1.75rem);font-weight:850;line-height:1.3;letter-spacing:-.025em;color:#242139;margin:0 0 15px;white-space:pre-wrap;overflow-wrap:anywhere}
+#moNewsSummary .news-summary-description{font-size:1.05rem;line-height:1.75;color:#36334b;white-space:pre-wrap;overflow-wrap:anywhere;border-top:1px solid #ded5f5;padding-top:15px}
+#moNewsSummary .news-summary-grid{margin-top:0}
+#moduleNews .news-card .news-title{font-size:1.18rem;line-height:1.35;color:#2a253e;font-weight:850;margin:16px 0 8px}
+#moduleNews .news-card .news-details{font-size:1rem;line-height:1.65;color:#424258}
+#moduleNews .news-card .news-caption{font-size:.78rem}
+@media(max-width:560px){#moNewsSummary .news-summary-reason{padding:17px}#moNewsSummary .news-summary-description{font-size:1rem}}
+</style>
+</body></html>`);w.document.close();w.focus();setTimeout(()=>w.print(),150);}
 
 loadUITextPrefs();
 document.addEventListener('click',e=>{const doc=e.target.closest('[data-writing-doc]');if(doc){captureWritingDoc();ACTIVE_WRITING_DOC=doc.dataset.writingDoc;persistWritingLocal();renderWritingModule();return;}const cmd=e.target.closest('[data-cmd]');if(cmd&&cmd.closest('#writingToolbar')){execWrite(cmd.dataset.cmd);return;}const block=e.target.closest('[data-block]');if(block&&block.closest('#writingToolbar')){execWrite('formatBlock',block.dataset.block);return;}});
@@ -5003,6 +5029,11 @@ document.getElementById('visibilitySectionList')?.addEventListener('change',e=>{
 </style>
 <script id="student-news-script">
 let editingNewsId=null;
+function newsEmailHtml(n){
+ const esc=v=>escapeHTML(String(v||''));
+ const item=(label,value)=>`<div style="margin:0 0 10px"><span style="font-size:12px;color:#68718a;font-weight:700">${esc(label)}</span><div style="font-size:15px;color:#303349;font-weight:650">${esc(value||'No registrado')}</div></div>`;
+ return `<div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;background:#ffffff;color:#262437;padding:28px"><p style="font-size:12px;font-weight:700;letter-spacing:1px;color:#7050bc;text-transform:uppercase;margin:0 0 9px">Unidad de Trayectoria Estudiantil · Novedad</p><h1 style="font-size:25px;line-height:1.3;margin:0 0 18px;color:#242039">${esc(n.title)}</h1><div style="background:#f3f0ff;border-left:5px solid #7050bc;padding:18px 20px;border-radius:10px;margin:0 0 22px"><div style="font-size:12px;font-weight:800;letter-spacing:.7px;color:#6250a2;text-transform:uppercase;margin-bottom:10px">Motivo de notificación</div><div style="font-size:19px;font-weight:750;line-height:1.4;margin-bottom:12px">${esc(n.title)}</div><div style="font-size:16px;line-height:1.7;white-space:pre-wrap">${esc(n.details)}</div></div><div style="border-top:1px solid #e7e7ef;padding-top:18px">${item('Estudiante',n.student)}${item('RUT',n.rut)}${item('Carrera',n.career)}${item('Año de formación',n.year)}</div><p style="font-size:12px;color:#768097;margin-top:22px">Abre la plataforma mediante el enlace seguro incluido en el aviso para revisar la ficha y editar según tus permisos.</p></div>`;
+}
 const newsIdKey=x=>String(x||'').toLowerCase().replace(/[^0-9k]/g,'');
 const newsNameKey=x=>String(x||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
 function newsCurrentEmail(){return String(docsUser?.email||'').trim().toLowerCase()}
@@ -5047,7 +5078,7 @@ async function newsSave(){
    const mailing=document.getElementById('nMail').checked;
    newsCloseModal();renderStudentNews();
    let sent=0,failed=0;
-   if(mailing){const ppl=recipients.filter(p=>p.correo&&p.correo.toLowerCase()!==email);for(const p of ppl){try{await sendEntityNotification({module:'news',param:'novedad',id:n.id,type:'Novedad de estudiante',title:'Novedad: '+n.student,to:p.correo,responsable:p.nombre,status:n.type,priority:n.level,detail:['Estudiante: '+n.student,'RUT: '+(n.rut||'No registrado'),'Carrera: '+(n.career||'No registrada'),'Año: '+(n.year||'No registrado'),'Motivo de notificación: '+n.title,'Antecedentes: '+n.details].join('\n').slice(0,700)});sent++}catch(e){failed++;console.warn('Error de notificación',e)}}}
+   if(mailing){const ppl=recipients.filter(p=>p.correo&&p.correo.toLowerCase()!==email);for(const p of ppl){try{await sendEntityNotification({module:'news',param:'novedad',id:n.id,type:'Novedad de estudiante',title:'Novedad: '+n.student,to:p.correo,responsable:p.nombre,status:n.type,priority:n.level,detail:['MOTIVO DE NOTIFICACIÓN',n.title,'','ANTECEDENTES',n.details,'','DATOS DEL ESTUDIANTE','Nombre: '+n.student,'RUT: '+(n.rut||'No registrado'),'Carrera: '+(n.career||'No registrada'),'Año: '+(n.year||'No registrado')].join('\n').slice(0,700),mailHtml:newsEmailHtml(n)});sent++}catch(e){failed++;console.warn('Error de notificación',e)}}}
    showToast('Novedad guardada en Firebase ✓'+(mailing?` · Avisos: ${sent} enviados, ${failed} fallidos`:'') ,failed?'bad':'ok');
  }catch(e){status.className+=' error';status.textContent='No se guardó la novedad: '+(e.message||e)+'. Revisa la conexión y los permisos de Firebase.';console.warn('Error al guardar novedad',e)}
  finally{saveBtn.disabled=false}
@@ -5061,7 +5092,7 @@ let newsSummaryId=null,newsProfileId=null;
 function newsOpenSummary(id){
  const n=STUDENT_NEWS.find(x=>x.id===id);if(!n||!newsForMe(n))return;newsSummaryId=id;
  const fields=[['Nombre del estudiante',n.student],['RUT',n.rut],['Carrera',n.career],['Año de formación',n.year],['Tipo de novedad',n.type],['Importancia',n.level],['Informó',n.author],['Fecha',newsFmt(n.createdAt)]];
- document.getElementById('newsSummaryContent').innerHTML='<div class="news-summary-grid">'+fields.map(([k,v])=>`<div class="news-summary-cell"><small>${escapeHTML(k)}</small><strong>${escapeHTML(v||'No registrado')}</strong></div>`).join('')+'</div>'+`<div class="news-summary-reason"><strong>Motivo de notificación</strong>${escapeHTML(n.title)}<div style="margin-top:10px">${escapeHTML(n.details)}</div></div>`;
+ document.getElementById('newsSummaryContent').innerHTML=`<section class="news-summary-reason"><div class="news-summary-kicker">Motivo de notificación</div><h4 class="news-summary-title">${escapeHTML(n.title)}</h4><div class="news-summary-description">${escapeHTML(n.details)}</div></section>`+'<div class="news-summary-grid">'+fields.map(([k,v])=>`<div class="news-summary-cell"><small>${escapeHTML(k)}</small><strong>${escapeHTML(v||'No registrado')}</strong></div>`).join('')+'</div>';
  document.getElementById('moNewsSummary').classList.add('open');
 }
 async function newsDeleteRecords(ids){
@@ -5083,5 +5114,18 @@ document.getElementById('newsDeleteStudent').onclick=newsDeleteStudent;
 document.getElementById('newsNew').onclick=()=>newsOpenModal();document.getElementById('newsClose').onclick=document.getElementById('newsCancel').onclick=newsCloseModal;document.getElementById('newsSave').onclick=newsSave;document.getElementById('newsStudentClose').onclick=()=>document.getElementById('moNewsStudent').classList.remove('open');document.getElementById('nAll').onchange=e=>{if(!e.target.checked)document.querySelectorAll('[data-news-prof-index]').forEach(x=>x.checked=false);newsSyncRecipients()};document.getElementById('nStudent').onchange=e=>{const s=newsStudents().find(x=>newsNameKey(x.name)===newsNameKey(e.target.value));if(s){document.getElementById('nRut').value=s.rut||'';document.getElementById('nCareer').value=s.career||''}};for(const id of ['newsSearch','newsTypeFilter','newsLevelFilter','newsOnlyUnread'])document.getElementById(id).addEventListener('input',renderStudentNews);
 document.getElementById('newsList').addEventListener('click',e=>{const a=e.target.closest('[data-news-view],[data-news-read],[data-news-task],[data-news-profile],[data-news-status],[data-news-delete]');if(!a)return;const d=a.dataset;if(d.newsView)openStudentNews(d.newsView);else if(d.newsRead)newsRead(d.newsRead);else if(d.newsTask)newsCreateTask(d.newsTask);else if(d.newsProfile)newsStudentProfile(d.newsProfile);else if(d.newsStatus)newsToggle(d.newsStatus);else if(d.newsDelete)newsDeleteOne(d.newsDelete)});
 </script>
+<style id="student-news-v36-priority">
+/* La información central debe dominar el resumen, no quedar bajo la ficha administrativa. */
+#moNewsSummary .news-editor{max-width:800px!important}
+#moNewsSummary .news-summary-reason{background:#f3f0ff;border:1px solid #ded5ff;border-left:5px solid #7155d8;border-radius:17px;padding:23px 25px;margin:8px 0 20px;white-space:normal}
+#moNewsSummary .news-summary-kicker{font-size:.83rem;font-weight:850;letter-spacing:.07em;text-transform:uppercase;color:#6250a2;margin-bottom:11px}
+#moNewsSummary .news-summary-title{font-family:var(--fb),sans-serif;font-size:clamp(1.32rem,2.3vw,1.75rem);font-weight:850;line-height:1.3;letter-spacing:-.025em;color:#242139;margin:0 0 15px;white-space:pre-wrap;overflow-wrap:anywhere}
+#moNewsSummary .news-summary-description{font-size:1.05rem;line-height:1.75;color:#36334b;white-space:pre-wrap;overflow-wrap:anywhere;border-top:1px solid #ded5f5;padding-top:15px}
+#moNewsSummary .news-summary-grid{margin-top:0}
+#moduleNews .news-card .news-title{font-size:1.18rem;line-height:1.35;color:#2a253e;font-weight:850;margin:16px 0 8px}
+#moduleNews .news-card .news-details{font-size:1rem;line-height:1.65;color:#424258}
+#moduleNews .news-card .news-caption{font-size:.78rem}
+@media(max-width:560px){#moNewsSummary .news-summary-reason{padding:17px}#moNewsSummary .news-summary-description{font-size:1rem}}
+</style>
 </body>
 </html>
