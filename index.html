@@ -1027,6 +1027,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
     <div class="tb-actions">
       <button class="btn-export" id="topAdminAccess" type="button">🔐 Administración y acceso</button>
       <button class="btn-export" id="topAppearanceAccess" type="button">🎨 Apariencia</button>
+      <button class="btn-export" id="btnSafeBackup" type="button">💾 Respaldar Firebase</button>
       <button class="btn-export" id="btnExportExcel" type="button">📊 Descargar todo en Excel</button>
       <button class="global-notify-btn" id="btnGlobalNotifyConfig" type="button">✉ Profesionales y avisos</button>
       <div class="tb-status" id="connStatus">
@@ -1054,6 +1055,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
   </nav>
 </header>
 
+<div id="uteDataWarning" hidden role="alert" style="position:sticky;top:0;z-index:999;background:#fff1da;color:#7c271e;border-bottom:3px solid #d6526b;padding:13px 22px;font-size:15px;font-weight:900;text-align:center"></div>
 <div class="shell">
 
   <!-- PORTADA -->
@@ -2016,7 +2018,7 @@ function renderVisibilitySettings(){
   list.innerHTML=VISIBILITY_MODULES.map(([id,label])=>`<label class="visibility-item"><span><strong>${label}</strong><small>${['early','bitacora'].includes(id)?'Oculta al equipo inicialmente':'Módulo del panel'}</small></span><span><input type="checkbox" data-visible-section="${id}" ${(id==='configuration'||MODULE_VISIBILITY[id]!==false)?'checked':''} ${(admin&&id!=='configuration')?'':'disabled'}><em>${MODULE_VISIBILITY[id]!==false?'Equipo':'Solo tú'}</em></span></label>`).join('');
   const save=document.getElementById('visibilitySave');if(save)save.disabled=!admin;
 }
-async function saveVisibilitySettings(){
+async function saveVisibilitySettings(){if(!PANEL_DATA_LOADED){panelWarning('Visibilidad: Firebase no verificado. No se aplicaron cambios.');showToast('Guardado bloqueado: Firebase no verificado','bad');return;}
   if(!isVisibilityAdmin()){showToast('Acceso exclusivo de la cuenta administradora','bad');return;}
   const next={...MODULE_VISIBILITY};
   document.querySelectorAll('[data-visible-section]').forEach(i=>next[i.dataset.visibleSection]=i.dataset.visibleSection==='configuration'?true:i.checked);
@@ -2056,6 +2058,32 @@ const SEED=[
   {id:'t08',fecha:'2026-03-30',hora:'19:00',titulo:'Desafíos del primer año: encuentro con familias',carrera:'',linea:'GESTI-ON',modalidad:'online',sala:'Online',resp:'Fabián Pulgar',estado:'realizado',inscritos:5,asistentes:5,notas:''},
 ];
 
+// v37 RECUPERACIÓN: jamás escribir hasta obtener datos reales y validados.
+let PANEL_DATA_LOADED=false;
+let PANEL_REMOTE_RAW=null;
+let PANEL_BASELINE=null;
+let PANEL_SAVE_CHAIN=Promise.resolve();
+function panelValueEqual(a,b){
+  // Firebase omite valores vacíos al materializarlos en una lectura REST.
+  const empty=x=>x===null||x===undefined||(Array.isArray(x)&&!x.length)||(x&&typeof x==='object'&&!Array.isArray(x)&&!Object.keys(x).length);
+  return (empty(a)&&empty(b))||JSON.stringify(a)===JSON.stringify(b);
+}
+function panelWarning(msg){
+  const el=document.getElementById('uteDataWarning');
+  if(el){el.textContent='⚠ '+msg;el.hidden=false;}
+}
+function clearPanelWarning(){const el=document.getElementById('uteDataWarning');if(el)el.hidden=true;}
+function panelPayload(){return {
+  talleres:TALLERES,casos:CASOS,tareas:TAREAS,supportProposals:SUPPORT_PROPOSALS,
+  worklog:WORKLOG,profesionales:PROFESIONALES,taskNotifyConfig:TASK_NOTIFY_CONFIG,
+  metas2s:METAS_2S,managementProjects:MANAGEMENT_PROJECTS,
+  managementPresentations:MANAGEMENT_PRESENTATIONS,earlyCourses:EARLY_COURSES,
+  earlyProjects:EARLY_PROJECTS,earlyResources:EARLY_RESOURCES,
+  monitorAlerts:MONITOR_ALERTS,derivaciones:REFERRALS,catalogs:CATALOGS,
+  deskNotes:DESK_NOTES,writingDocs:WRITING_DOCS,
+  activeWritingDoc:ACTIVE_WRITING_DOC,ajustesRazonables:AJUSTES,
+  ajustesDriveEliminados:AR_DELETED_DRIVE_IDS
+};}
 let TALLERES=[];
 let CASOS=[];
 let TAREAS=[];
@@ -2143,26 +2171,17 @@ async function loadData(){
       throw new Error((j && j.error) ? j.error : `HTTP ${r.status}`);
     }
     if(j===null || j===undefined){
-      // La ruta nunca se ha escrito en Firebase: primera carga real, sembramos datos de ejemplo.
-      TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
-      CASOS=[];
-      TAREAS=[];
-      STUDENT_NEWS=[];
-      SUPPORT_PROPOSALS=[];
-      WORKLOG=[];
-      PROFESIONALES=DEFAULT_PROFESIONALES.map(x=>({...x}));
-      TASK_NOTIFY_CONFIG={panelUrl:''};
-      METAS_2S=JSON.parse(JSON.stringify(DEFAULT_METAS_2S));
-      MANAGEMENT_PROJECTS=[]; MANAGEMENT_PRESENTATIONS=[];
-      EARLY_COURSES=[]; EARLY_PROJECTS=[]; EARLY_RESOURCES=[];
-      MONITOR_ALERTS=[];
-      REFERRALS=[]; CATALOGS=initCatalogs(null);
-      DESK_NOTES=[];
-      WRITING_DOCS=[]; ACTIVE_WRITING_DOC=null;
-      AJUSTES=[];
-      AR_DELETED_DRIVE_IDS=[];
-      setConn(true,'Sincronizado · datos de ejemplo cargados');
-      await saveData(false);
+      // Un null también puede deberse a borrados previos. NO cargar ejemplos ni guardar.
+      PANEL_DATA_LOADED=false;
+      TALLERES=[];CASOS=[];TAREAS=[];STUDENT_NEWS=[];SUPPORT_PROPOSALS=[];
+      WORKLOG=[];PROFESIONALES=DEFAULT_PROFESIONALES.map(x=>({...x}));
+      TASK_NOTIFY_CONFIG={panelUrl:''};METAS_2S=JSON.parse(JSON.stringify(DEFAULT_METAS_2S));
+      MANAGEMENT_PROJECTS=[];MANAGEMENT_PRESENTATIONS=[];
+      EARLY_COURSES=[];EARLY_PROJECTS=[];EARLY_RESOURCES=[];MONITOR_ALERTS=[];
+      REFERRALS=[];CATALOGS=initCatalogs(null);DESK_NOTES=[];
+      WRITING_DOCS=[];ACTIVE_WRITING_DOC=null;AJUSTES=[];AR_DELETED_DRIVE_IDS=[];
+      setConn(false,'Firebase sin datos · GUARDADO BLOQUEADO');
+      panelWarning('Firebase devolvió una rama vacía. Ninguna operación se guardará para evitar sobrescrituras. Usa primero la herramienta de rescate.');
     } else {
       // Ya existe un registro previo. Si "talleres" no viene, es porque Firebase
       // descarta arrays vacíos al guardarlos — significa que la lista quedó en 0, no que falte el seed.
@@ -2185,11 +2204,18 @@ async function loadData(){
       AJUSTES=(Array.isArray(j.ajustesRazonables)?j.ajustesRazonables:[]).map(a=>({...a,secciones:a.secciones||{},carta:a.carta||null}));
       AR_DELETED_DRIVE_IDS=[]; // v14: eliminar del panel no bloquea futuras resincronizaciones
       TALLERES=TALLERES.map(t=>({...t,categoria:t.categoria||'Ciclo de Inserción'}));
-      setConn(true,'Sincronizado con Firebase');
+      const meaningful=['talleres','casos','tareas','monitorAlerts','derivaciones','ajustesRazonables','studentNews','worklog','supportProposals'].some(k=>j[k]!=null);
+      PANEL_DATA_LOADED=meaningful;
+      PANEL_REMOTE_RAW=JSON.parse(JSON.stringify(j));
+      PANEL_BASELINE=JSON.parse(JSON.stringify(panelPayload()));
+      if(!meaningful){
+        setConn(false,'Datos incompletos · GUARDADO BLOQUEADO');
+        panelWarning('No hay módulos reconocibles en la respuesta de Firebase. Se bloquean los guardados por seguridad.');
+      }else{clearPanelWarning();setConn(true,'Sincronizado con Firebase · modo protegido');}
     }
   }catch(e){
     console.warn('FB load error',e);
-    TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
+    PANEL_DATA_LOADED=false;TALLERES=[];
     CASOS=[];
     TAREAS=[];
     STUDENT_NEWS=JSON.parse(localStorage.getItem('ute_student_news_v1')||'[]');
@@ -2204,27 +2230,63 @@ async function loadData(){
     REFERRALS=JSON.parse(localStorage.getItem('ute_referrals_v1')||'[]'); CATALOGS=initCatalogs(JSON.parse(localStorage.getItem('ute_catalogs_v1')||'null'));
     DESK_NOTES=JSON.parse(localStorage.getItem('ute_desk_notes_v1')||'[]');
     WRITING_DOCS=JSON.parse(localStorage.getItem('ute_writing_docs_v1')||'[]'); ACTIVE_WRITING_DOC=localStorage.getItem('ute_writing_active_v1')||null;
-    setConn(false,'Sin conexión · usando datos locales');
+    setConn(false,'Sin conexión · GUARDADO BLOQUEADO');
+    panelWarning('No se pudo leer Firebase. Se muestran datos locales disponibles, pero el guardado se bloquea hasta confirmar la conexión.');
   }
   renderAll();
   applyModuleVisibility();
   setTimeout(applyPanelDeepLink,120);
 }
 
-async function saveData(toast=true){
-  try{localStorage.setItem('ute_student_news_v1',JSON.stringify(STUDENT_NEWS));localStorage.setItem('ute_worklog_v1',JSON.stringify(WORKLOG));localStorage.setItem('ute_support_proposals_v1',JSON.stringify(SUPPORT_PROPOSALS));}catch(_e){}
+// v37: Guardado parcial, con comprobación de conflictos entre personas.
+function saveData(toast=true){
+  const task=PANEL_SAVE_CHAIN.then(()=>saveDataProtected(toast));
+  PANEL_SAVE_CHAIN=task.catch(()=>{});
+  return task;
+}
+async function saveDataProtected(toast=true){
   try{
-    const r=await fetch(FB_PATH,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,tareas:TAREAS,supportProposals:SUPPORT_PROPOSALS,worklog:WORKLOG,profesionales:PROFESIONALES,taskNotifyConfig:TASK_NOTIFY_CONFIG,metas2s:METAS_2S,managementProjects:MANAGEMENT_PROJECTS,managementPresentations:MANAGEMENT_PRESENTATIONS,earlyCourses:EARLY_COURSES,earlyProjects:EARLY_PROJECTS,earlyResources:EARLY_RESOURCES,monitorAlerts:MONITOR_ALERTS,derivaciones:REFERRALS,catalogs:CATALOGS,deskNotes:DESK_NOTES,writingDocs:WRITING_DOCS,activeWritingDoc:ACTIVE_WRITING_DOC,ajustesRazonables:AJUSTES,ajustesDriveEliminados:AR_DELETED_DRIVE_IDS,ts:Date.now()})});
-    const j=await r.json().catch(()=>null);
-    if(!r.ok || (j && j.error)){
-      throw new Error((j && j.error) ? j.error : `HTTP ${r.status}`);
+    localStorage.setItem('ute_student_news_v1',JSON.stringify(STUDENT_NEWS));
+    localStorage.setItem('ute_worklog_v1',JSON.stringify(WORKLOG));
+    localStorage.setItem('ute_support_proposals_v1',JSON.stringify(SUPPORT_PROPOSALS));
+  }catch(_e){}
+  if(!PANEL_DATA_LOADED || !PANEL_BASELINE || !PANEL_REMOTE_RAW){
+    setConn(false,'GUARDADO BLOQUEADO · Firebase no verificado');
+    panelWarning('No se guardó ningún cambio. Firebase no pudo verificarse; revisa la información con la herramienta de rescate.');
+    if(toast)showToast('Guardado bloqueado: base no verificada','bad');
+    return false;
+  }
+  try{
+    const current=panelPayload(),patch={};
+    for(const [key,val] of Object.entries(current)){
+      if(!panelValueEqual(val,PANEL_BASELINE[key]))patch[key]=val;
     }
-    setConn(true,'Sincronizado con Firebase');
-    if(toast) showToast('Guardado ✓','ok');
+    if(!Object.keys(patch).length){if(toast)showToast('Sin cambios pendientes ✓','ok');return true;}
+    const check=await fetch(FB_PATH,{cache:'no-store'}),remote=await check.json();
+    if(!check.ok||!remote||typeof remote!=='object'||remote.error)throw new Error('No se pudo verificar la última versión de Firebase');
+    const conflicts=Object.keys(patch).filter(key=>!panelValueEqual(remote[key],PANEL_REMOTE_RAW[key]));
+    if(conflicts.length){
+      panelWarning('Cambios sin guardar: otro acceso modificó '+conflicts.join(', ')+'. No se sobrescribirá la información. Haz respaldo antes de actualizar.');
+      setConn(false,'Conflicto entre versiones · GUARDADO BLOQUEADO');
+      if(toast)showToast('Conflicto detectado: no se sobrescribió Firebase','bad');
+      return false;
+    }
+    const r=await fetch(FB_PATH,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({...patch,ts:Date.now()})});
+    const j=await r.json().catch(()=>null);
+    if(!r.ok||(j&&j.error))throw new Error(j?.error||'HTTP '+r.status);
+    for(const [key,val] of Object.entries(patch)){
+      PANEL_BASELINE[key]=JSON.parse(JSON.stringify(val));
+      PANEL_REMOTE_RAW[key]=JSON.parse(JSON.stringify(val));
+    }
+    clearPanelWarning();setConn(true,'Sincronizado con Firebase · guardado protegido');
+    if(toast)showToast('Guardado ✓','ok');
+    return true;
   }catch(e){
     console.warn('FB save error',e);
-    setConn(false,'Sin conexión · cambios solo locales');
-    if(toast) showToast('No se pudo guardar: '+e.message,'bad');
+    setConn(false,'Sin conexión · cambios NO confirmados');
+    panelWarning('Guardado sin confirmar: '+(e.message||e)+'. No cierres sin conservar una copia de tus cambios.');
+    if(toast)showToast('No se pudo guardar: '+e.message,'bad');
+    return false;
   }
 }
 
@@ -5027,7 +5089,7 @@ function renderStudentNews(){const arr=STUDENT_NEWS.filter(newsForMe);const unre
 function newsOpenModal(id=''){const n=STUDENT_NEWS.find(x=>x.id===id);editingNewsId=n?.id||null;document.getElementById('newsModalHeading').textContent=n?'Editar novedad':'Registrar novedad';for(const [id,key] of [['nStudent','student'],['nRut','rut'],['nCareer','career'],['nYear','year'],['nType','type'],['nTitle','title'],['nDetails','details'],['nSource','source'],['nLevel','level'],['nAction','action']]){const el=document.getElementById(id);el.value=n?.[key]||({nType:'Alerta',nSource:'Estudiante',nLevel:'Informativa',nAction:'informar'}[id]||'');el.disabled=false}document.getElementById('nAll').disabled=false;document.getElementById('nMail').checked=false;document.getElementById('nMail').disabled=false;document.getElementById('nConfirmation').checked=n?.requiresConfirmation||false;document.getElementById('nConfirmation').disabled=false;newsRenderRecipients(n);document.getElementById('nHistory').innerHTML=n?`<div class="news-timeitem"><strong>Historial de lectura</strong><div class="news-caption">${(n.readBy||[]).map(x=>escapeHTML(x.nombre||x.email)+' · '+newsFmt(x.at)).join('<hr>')||'Sin confirmaciones todavía'}</div></div>`:'';document.getElementById('newsSave').style.display='';document.getElementById('newsSave').textContent=n?'Guardar cambios':'Guardar novedad';document.getElementById('newsSendStatus').textContent='';document.getElementById('newsStudentSuggestions').innerHTML=newsStudents().map(s=>`<option value="${escapeHTML(s.name)}">${escapeHTML(s.career)}</option>`).join('');document.getElementById('moStudentNews').classList.add('open')}
 function newsCloseModal(){document.getElementById('moStudentNews').classList.remove('open')}
 function openStudentNews(id){newsOpenSummary(id)}
-async function newsSave(){
+async function newsSave(){if(!PANEL_DATA_LOADED){panelWarning('Novedades: Firebase no verificado. No se aplicaron cambios.');showToast('Guardado bloqueado: Firebase no verificado','bad');return;}
  const status=document.getElementById('newsSendStatus');status.className='news-save-feedback';status.textContent='';
  const email=newsCurrentEmail();if(!email){status.className+=' error';status.textContent='Debes iniciar sesión para registrar y compartir novedades.';return;}
  const v=id=>document.getElementById(id).value.trim(),student=v('nStudent'),title=v('nTitle'),details=v('nDetails'),all=document.getElementById('nAll').checked;
@@ -5054,7 +5116,7 @@ async function newsSave(){
  }catch(e){status.className+=' error';status.textContent='No se guardó la novedad: '+(e.message||e)+'. Revisa la conexión y los permisos de Firebase.';console.warn('Error al guardar novedad',e)}
  finally{saveBtn.disabled=false}
 }
-async function newsPatch(id,payload){const r=await fetch(FB_URL+'/panel_talleres/studentNews/'+encodeURIComponent(id)+'.json',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(!r.ok)showToast('No se sincronizó el cambio de estado','bad')}
+async function newsPatch(id,payload){if(!PANEL_DATA_LOADED){panelWarning('Novedades: Firebase no verificado.');return false;}const r=await fetch(FB_URL+'/panel_talleres/studentNews/'+encodeURIComponent(id)+'.json',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(!r.ok)showToast('No se sincronizó el cambio de estado','bad')}
 async function newsRead(id){if(!newsCurrentEmail()){showToast('Inicia sesión para confirmar lectura','bad');return}const n=STUDENT_NEWS.find(x=>x.id===id);if(!n||!newsForMe(n))return;n.readBy=n.readBy||[];if(!n.readBy.some(x=>x.email===newsCurrentEmail()))n.readBy.push({email:newsCurrentEmail(),nombre:newsAuthor(),at:new Date().toISOString()});await newsPatch(id,{readBy:n.readBy});renderStudentNews()}
 async function newsToggle(id){const n=STUDENT_NEWS.find(x=>x.id===id);if(!n||!newsCurrentEmail())return;n.closed=!n.closed;n.closedBy=newsAuthor();n.closedAt=new Date().toISOString();await newsPatch(id,{closed:n.closed,closedBy:n.closedBy,closedAt:n.closedAt});renderStudentNews()}
 async function newsCreateTask(id){const n=STUDENT_NEWS.find(x=>x.id===id);if(!n)return;let t=TAREAS.find(x=>x.id===n.taskId);if(!t){t={id:'ta'+Date.now().toString(36),titulo:n.title,acceso:'Mis tareas',estado:'pendiente',prioridad:n.level==='Urgente'?'alta':n.level==='Importante'?'media':'baja',fecha:'',proyecto:'Novedades de estudiantes',carrera:n.career,persona:n.student,detalle:n.details,link:'',creado:Date.now(),actualizado:Date.now(),responsables:n.recipients};TAREAS.push(t);n.taskId=t.id;await saveData(false)}switchModule('tasks');setTimeout(()=>openTask(t.id),50)}
@@ -5066,7 +5128,7 @@ function newsOpenSummary(id){
  document.getElementById('newsSummaryContent').innerHTML=`<section class="news-summary-reason"><div class="news-summary-kicker">Motivo de notificación</div><h4 class="news-summary-title">${escapeHTML(n.title)}</h4><div class="news-summary-description">${escapeHTML(n.details)}</div></section>`+'<div class="news-summary-grid">'+fields.map(([k,v])=>`<div class="news-summary-cell"><small>${escapeHTML(k)}</small><strong>${escapeHTML(v||'No registrado')}</strong></div>`).join('')+'</div>';
  document.getElementById('moNewsSummary').classList.add('open');
 }
-async function newsDeleteRecords(ids){
+async function newsDeleteRecords(ids){if(!PANEL_DATA_LOADED){panelWarning('Firebase no verificado: eliminación bloqueada.');showToast('Eliminación bloqueada','bad');return;}
  if(!newsCurrentEmail())return showToast('Inicia sesión para eliminar registros','bad');
  const auth=ids.map(id=>STUDENT_NEWS.find(x=>x.id===id)).filter(Boolean);
  if(auth.some(n=>n.authorEmail!==newsCurrentEmail()&&!isVisibilityAdmin()))return showToast('Solo quien registró la novedad o la administración puede eliminarla','bad');
@@ -5098,5 +5160,19 @@ document.getElementById('newsList').addEventListener('click',e=>{const a=e.targe
 #moduleNews .news-card .news-caption{font-size:.78rem}
 @media(max-width:560px){#moNewsSummary .news-summary-reason{padding:17px}#moNewsSummary .news-summary-description{font-size:1rem}}
 </style>
+
+<script id="ute-safe-backup-v37">
+document.getElementById('btnSafeBackup')?.addEventListener('click',async()=>{
+  const b=document.getElementById('btnSafeBackup');b.disabled=true;b.textContent='Consultando Firebase…';
+  try{
+    const r=await fetch('https://ee12026-f5e3d-default-rtdb.firebaseio.com/panel_talleres.json',{cache:'no-store'});
+    const j=await r.json();if(!r.ok||!j||typeof j!=='object'||j.error)throw Error(j?.error||'La base está vacía o no se puede leer');
+    const blob=new Blob([JSON.stringify(j,null,2)],{type:'application/json'}),href=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=href;a.download='UTE_respaldo_'+new Date().toISOString().replace(/[:.]/g,'-')+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(href),1500);
+    showToast('Respaldo descargado ✓','ok');
+  }catch(e){showToast('No fue posible crear el respaldo: '+e.message,'bad')}
+  finally{b.disabled=false;b.textContent='💾 Respaldar Firebase';}
+});
+</script>
 </body>
 </html>
