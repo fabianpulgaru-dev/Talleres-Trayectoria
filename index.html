@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Panel UTE v26 · Escritorio unificado</title>
+<title>Panel UTE · Rescate parcial v39</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,400&family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
@@ -1016,17 +1016,22 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 </style>
 </head>
 <body class="v25-loading">
+<div id="uteRescueBanner" style="position:sticky;top:0;z-index:10000;display:flex;flex-wrap:wrap;align-items:center;gap:10px;background:#2e2350;color:white;padding:10px 18px;font:700 14px Nunito,Arial,sans-serif;border-bottom:3px solid #adc749">
+ <span style="flex:1"><strong>RESCATE UTE v39</strong> · Datos parciales recuperados + guardado automático en navegador. <span style="font-weight:400">Firebase no se modifica. Estados históricos por verificar.</span></span>
+ <button type="button" id="uteAutoFile" style="padding:9px 13px;border:0;border-radius:9px;background:#fff;color:#2c2240;font:900 13px Nunito,Arial,sans-serif;cursor:pointer">📁 Vincular archivo para copia automática</button><span id="utePersistStatus" style="font-size:12px;font-weight:500">Guardado local activo</span><button type="button" id="uteRescueExport" style="padding:9px 13px;border:0;border-radius:9px;background:#adc749;color:#2c2240;font:900 13px Nunito,Arial,sans-serif;cursor:pointer">⬇ Descargar respaldo local JSON</button>
+</div>
 
 <!-- TOPBAR -->
 <header class="topbar">
   <div class="topbar-inner">
     <div class="tb-id">
       <span class="mono">UTE · Panel interno · v28</span>
-      <h1>Panel UTE v32 · Administración restaurada</h1>
+      <h1>Panel UTE · Recuperación parcial v39</h1>
     </div>
     <div class="tb-actions">
       <button class="btn-export" id="topAdminAccess" type="button">🔐 Administración y acceso</button>
       <button class="btn-export" id="topAppearanceAccess" type="button">🎨 Apariencia</button>
+      <button class="btn-export" id="btnSafeBackup" type="button">💾 Respaldar Firebase</button>
       <button class="btn-export" id="btnExportExcel" type="button">📊 Descargar todo en Excel</button>
       <button class="global-notify-btn" id="btnGlobalNotifyConfig" type="button">✉ Profesionales y avisos</button>
       <div class="tb-status" id="connStatus">
@@ -1054,6 +1059,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
   </nav>
 </header>
 
+<div id="uteDataWarning" hidden role="alert" style="position:sticky;top:0;z-index:999;background:#fff1da;color:#7c271e;border-bottom:3px solid #d6526b;padding:13px 22px;font-size:15px;font-weight:900;text-align:center"></div>
 <div class="shell">
 
   <!-- PORTADA -->
@@ -1959,6 +1965,22 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
+<script id="ute-offline-enforce">
+window.UTE_RESCUE_OFFLINE=true;
+window.UTE_RESQUED_INITIAL={"derivaciones":[{"id":"dermuzttruo","estudiante":"MATILDE CLARA VALENZUELA GATICA","rut":"22171094-0","carrera":"","viaIngreso":"Regular","fechaRecepcion":"2026-10-08","unidadOrigen":"Programa de tutorías","profesionalOrigen":"Natalia Ferndández","canal":"Derivación interna","motivo":"El tutor par señala que \"la estudiante presenta dificultades para la organización de sus tiempos de estudio como tambien se ve abrumada por las lecturas que le corresponden a su carrera\"","antecedentes":"","responsable":"Sandra Rivera","responsableEmail":"sarivera@uahurtado.cl","dispositivo":"Mentoría académica","estado":"Nueva","prioridad":"Alta","articulaciones":[],"proximaAccion":"Contactar y convocar","fechaProxima":"2026-10-09","unidadDestino":"","contactoDestino":"","fechaDestino":"","estadoDestino":"","motivoDestino":"","notas":"","timeline":[{"id":"rtmuzttruoa","date":"2026-10-08","type":"Recepción","text":"Derivación recibida desde Programa de tutorías."}],"updatedAt":1791481501368,"sourceSatPasteKey":"","sourceSatPasteData":null,"sourceSatPasteRaw":""},{"id":"dermuztmy48","estudiante":"ANGHELI YANELA CRUZ DIESTRA","rut":"25434338-2","carrera":"Psicología","viaIngreso":"PACE","fechaRecepcion":"2026-10-08","unidadOrigen":"Programa de tutorías","profesionalOrigen":"Natalia Ferndández","canal":"Derivación interna","motivo":"","antecedentes":"","responsable":"Fabián Pulgar","responsableEmail":"fpulgar@uahurtado.cl","dispositivo":"","estado":"Nueva","prioridad":"Alta","articulaciones":[],"proximaAccion":"Convocar con urgencia a esta estudiante","fechaProxima":"2026-10-09","unidadDestino":"","contactoDestino":"","fechaDestino":"","estadoDestino":"","motivoDestino":"","notas":"Correo Tdt:\n\nEspero que se encuentren bien. Les escribo para consultar por la situación de Angheli Cruz, tutorada de María Paz, respecto a las tutorías de Alfabetización Académica con Sandra.\nAngheli comenta que desde hace aproximadamente un mes no ha recibido respuesta de Sandra. Además, señala que hace unas dos semanas fue a buscarla presencialmente y, en esa ocasión, Sandra le indicó que le hablara posteriormente, ya que se encontraba atendiendo a otro grupo. Sin embargo, desde entonces no ha vuelto a recibir respuesta.\nPor lo anterior, Angheli quisiera saber cómo proceder con las tutorías y si corresponde que continúe intentando contactarla o si existe alguna otra alternativa para poder acceder al acompañamiento","timeline":[{"id":"rtmuztmy48a","date":"2026-10-08","type":"Recepción","text":"Derivación recibida desde Programa de tutorías."},{"id":"rtmuztzz68resp","date":"2026-10-08","type":"Asignación","text":"Caso asignado a Fabián Pulgar."}],"updatedAt":1791481783760,"sourceSatPasteKey":"","sourceSatPasteData":null,"sourceSatPasteRaw":""},{"id":"dermuzth1oa","estudiante":"EDUARD FREDY QUISPE QUISPE","rut":"22541918-3","carrera":"","viaIngreso":"PACE","fechaRecepcion":"2026-10-08","unidadOrigen":"Programa de tutorías","profesionalOrigen":"Natalia Fernández","canal":"Derivación interna","motivo":"El tutor declara que el estudiante presenta \"vacíos\" en álgebra, por lo que cree necesario una derivación.","antecedentes":"","responsable":"Diego Jiménez","responsableEmail":"djimenez@uahurtado.cl","dispositivo":"","estado":"Nueva","prioridad":"Media","articulaciones":[],"proximaAccion":"Convocar al estudiante","fechaProxima":"2026-10-08","unidadDestino":"","contactoDestino":"","fechaDestino":"","estadoDestino":"","motivoDestino":"","notas":"","timeline":[{"id":"rtmuzth1oaa","date":"2026-10-08","type":"Recepción","text":"Derivación recibida desde Programa de tutorías."}],"updatedAt":1791481517247,"sourceSatPasteKey":"","sourceSatPasteData":null,"sourceSatPasteRaw":""},{"antecedentes":"","articulaciones":["Programa de tutorías"],"canal":"Derivación interna","carrera":"","contactoDestino":"","dispositivo":"Mentoría académica","estado":"Contacto","estadoDestino":"","estudiante":"Elizabeth Almonacid","fechaDestino":"","fechaProxima":"2026-09-16","fechaRecepcion":"2026-09-16","id":"dermu49fe5l","motivo":"","motivoDestino":"","notas":"","prioridad":"Alta","profesionalOrigen":"Natalia Fernández","proximaAccion":"Contactar y Convocar","responsable":"Claudio Espinoza","responsableEmail":"clespinozf@uahurtado.cl","rut":"22431316 -0","timeline":[{"date":"2026-09-16","id":"rtmu49fe5la","text":"Derivación recibida desde Programa de tutorías.","type":"Recepción"}],"unidadDestino":"","unidadOrigen":"Programa de tutorías","updatedAt":1789572779625,"viaIngreso":""},{"antecedentes":"","articulaciones":["Programa de tutorías"],"canal":"Derivación interna","carrera":"","contactoDestino":"","dispositivo":"","estado":"Contacto","estadoDestino":"","estudiante":"Damaris Cabrera","fechaDestino":"","fechaProxima":"2026-09-16","fechaRecepcion":"2026-09-16","id":"dermu49dktb","motivo":"Presenta dificultades para la lectura, la retención de los contenidos y la organización de sus horarios. Asi, se muestra poco motivada para el semestre que inició. Se deduce tambien posibles dificultades con su promedio en las asignaturas.","motivoDestino":"","notas":"","prioridad":"Alta","profesionalOrigen":"Natalia Fernández","proximaAccion":"Contactar y Convocar","responsable":"Claudio Espinoza","responsableEmail":"clespinozf@uahurtado.cl","rut":"22657241-4","timeline":[{"date":"2026-09-16","id":"rtmu49dktba","text":"Derivación recibida.","type":"Recepción"},{"date":"2026-09-16","id":"rtmu49drhsresp","text":"Caso asignado a Claudio Espinoza.","type":"Asignación"}],"unidadDestino":"","unidadOrigen":"","updatedAt":1789572703600,"viaIngreso":""},{"antecedentes":"","articulaciones":["Programa de tutorías"],"canal":"Derivación interna","carrera":"","contactoDestino":"","dispositivo":"Mentoría académica","estado":"Contacto","estadoDestino":"","estudiante":"Dawensley Celestin","fechaDestino":"","fechaProxima":"2026-09-16","fechaRecepcion":"2026-09-16","id":"dermu49blcw","motivo":"Estudiante cree que debe organizar de mejor manera sus tiempos de estudio, ya que su objetivo para este semestre es aprobar todo.","motivoDestino":"","notas":"","prioridad":"Alta","profesionalOrigen":"Natalia Fernández","proximaAccion":"Contacto y convocatoria","responsable":"Claudio Espinoza","responsableEmail":"clespinozf@uahurtado.cl","rut":"26866031-3","timeline":[{"date":"2026-09-16","id":"rtmu49blcwa","text":"Derivación recibida desde Programa de tutorías.","type":"Recepción"}],"unidadDestino":"","unidadOrigen":"Programa de tutorías","updatedAt":1789572602336,"viaIngreso":""},{"antecedentes":"","canal":"Formulario","carrera":"Psicología","contactoDestino":"","dispositivo":"Mentoría académica","estado":"Contacto","estadoDestino":"","estudiante":"Matilde Valenzuela Gatica","fechaDestino":"","fechaProxima":"2026-09-15","fechaRecepcion":"2026-09-15","id":"dermu2uur5u","motivo":"El tutor par señala que \"la estudiante presenta dificultades para la organización de sus tiempos de estudio como tambien se ve abrumada por las lecturas que le corresponden a su carrera\"","motivoDestino":"","notas":"","prioridad":"Alta","profesionalOrigen":"Natalia Fernández","proximaAccion":"Contactar y convocar a la estudiante","responsable":"Sandra Rivera","responsableEmail":"sarivera@uahurtado.cl","rut":"22171094-0","timeline":[{"date":"2026-09-15","id":"rtmu2uur5ua","text":"Derivación recibida.","type":"Recepción"}],"unidadDestino":"","unidadOrigen":"Programa de tutorías","updatedAt":1789572797744,"viaIngreso":"Regular"}],"catalogs":{"unidades":{"name":"Áreas y unidades","description":"Origen, articulación y destino de casos.","items":[{"id":"unidades_mu2uw6at","label":"Programa de tutorías","active":true},{"id":"unidades_mu2uw9a8","label":"Psicoeducativo","active":true},{"id":"unidades_mu2uwbup","label":"Salud Mental","active":true},{"id":"unidades_mu2uwga1","label":"Coordinación de carrera","active":true},{"id":"unidades_muzv5dk0","label":"Beneficios","active":true},{"id":"unidades_muzv5eps","label":"DARA","active":true},{"id":"unidades_muzv5h7k","label":"Biblioteca","active":true}]},"carreras":{"name":"Carreras","description":"Carreras disponibles para registros y derivaciones.","items":[{"id":"carreras_mu2uuzs1","label":"Psicología","active":true},{"id":"carreras_mu2uv8e1","label":"Licenciatura en Lengua y Literatura","active":true},{"id":"carreras_mu2uvcnz","label":"Pedagogía en Inglés","active":true},{"id":"carreras_mu2uvg7e","label":"Educación Parvularia","active":true},{"id":"carreras_muzuz2ow","label":"Pedagogía en Lenguaje","active":true},{"id":"carreras_muzuz9so","label":"Pedagogía en Matemática","active":true},{"id":"carreras_muzuzd3l","label":"Pedagogía en Historia","active":true},{"id":"carreras_muzuzfu0","label":"Pedagogía en Artes","active":true},{"id":"carreras_muzuzjco","label":"Pedagogía en Biología","active":true},{"id":"carreras_muzuznxc","label":"Educación Diferencial","active":true},{"id":"carreras_muzuzrq8","label":"Educación Básica","active":true},{"id":"carreras_muzuzyao","label":"Derecho","active":true},{"id":"carreras_muzv0475","label":"Licenciatura en Historia","active":true},{"id":"carreras_muzv08kw","label":"Licenciatura en Filosofía","active":true},{"id":"carreras_muzv0dx4","label":"Licenciatura en Teoría e Historia del Arte","active":true},{"id":"carreras_muzv20zs","label":"CIPOL","active":true},{"id":"carreras_muzv24je","label":"Administración Pública","active":true},{"id":"carreras_muzv26ns","label":"Antropolog+ia","active":false},{"id":"carreras_muzv2de0","label":"Geografía","active":true},{"id":"carreras_muzv2g8w","label":"Arqueología","active":true},{"id":"carreras_muzv2p4w","label":"Antropología","active":true},{"id":"carreras_muzv2zfc","label":"CPA","active":true},{"id":"carreras_muzv35cw","label":"Ingeniería Comercial","active":true},{"id":"carreras_muzv39bc","label":"Ingeniería Civil","active":true},{"id":"carreras_muzv3wts","label":"Periodismo","active":true},{"id":"carreras_muzv3yin","label":"Sociologia","active":true},{"id":"carreras_muzv41s7","label":"Trabajo Social","active":true},{"id":"carreras_muzv4dbd","label":"Gestión de Información, Bibliotecología y Archivística","active":true},{"id":"carreras_muzv4pn5","label":"Pedagogía en Música","active":true},{"id":"carreras_muzv4ye9","label":"Bachillerato en Humanidades","active":true}]},"viasIngreso":{"name":"Vías / tipos de ingreso","description":"PACE, Elijo Ser Docente, ingreso regular u otras vías.","items":[{"id":"viasIngreso_0","label":"Regular","active":true},{"id":"viasIngreso_1","label":"PACE","active":true},{"id":"viasIngreso_2","label":"Elijo Ser Docente","active":true}]},"canalesIngreso":{"name":"Canales de ingreso","description":"Cómo llega formalmente una derivación.","items":[{"id":"canalesIngreso_0","label":"Correo","active":true},{"id":"canalesIngreso_1","label":"Reunión / coordinación","active":true},{"id":"canalesIngreso_2","label":"Formulario","active":true},{"id":"canalesIngreso_3","label":"Derivación interna","active":true},{"id":"canalesIngreso_4","label":"Otro","active":true}]},"dispositivos":{"name":"Dispositivos / intervenciones","description":"Tipos de apoyo que puede definir el equipo.","items":[{"id":"dispositivos_0","label":"Mentoría académica","active":true},{"id":"dispositivos_1","label":"Apoyo focalizado","active":true},{"id":"dispositivos_2","label":"Plan específico","active":true},{"id":"dispositivos_3","label":"Articulación interdisciplinaria","active":true},{"id":"dispositivos_4","label":"Monitoreo","active":true},{"id":"dispositivos_5","label":"Otro","active":true}]},"estadosDerivacion":{"name":"Estados de derivación","description":"Etapas operativas de una derivación.","items":[{"id":"estadosDerivacion_0","label":"Nueva","active":true},{"id":"estadosDerivacion_1","label":"Revisada","active":true},{"id":"estadosDerivacion_2","label":"Contacto","active":true},{"id":"estadosDerivacion_3","label":"Acompañamiento","active":true},{"id":"estadosDerivacion_4","label":"Derivada","active":true},{"id":"estadosDerivacion_5","label":"Cerrada","active":true}]},"prioridades":{"name":"Prioridades","description":"Niveles de prioridad usados transversalmente.","items":[{"id":"prioridades_0","label":"Alta","active":true},{"id":"prioridades_1","label":"Media","active":true},{"id":"prioridades_2","label":"Baja","active":true}]},"modalidades":{"name":"Modalidades","description":"Modalidades de atención o actividades.","items":[{"id":"modalidades_0","label":"Presencial","active":true},{"id":"modalidades_1","label":"Online","active":true},{"id":"modalidades_2","label":"Híbrida","active":true}]},"tipologiasBitacora":{"name":"Tipologías de Bitácora","description":"Clasificación de registros profesionales.","items":[{"id":"tipologiasBitacora_0","label":"Atención directa","active":true},{"id":"tipologiasBitacora_1","label":"Monitoreo","active":true},{"id":"tipologiasBitacora_2","label":"Coordinación con terceros","active":true}]},"motivosDerivacion":{"name":"Motivos de derivación","description":"Catálogo opcional de motivos frecuentes.","items":[{"id":"motivosDerivacion_0","label":"Académico","active":true},{"id":"motivosDerivacion_1","label":"Lectura y escritura","active":true},{"id":"motivosDerivacion_2","label":"Matemática","active":true},{"id":"motivosDerivacion_3","label":"Gestión del estudio","active":true},{"id":"motivosDerivacion_4","label":"Situación psicoeducativa","active":true},{"id":"motivosDerivacion_5","label":"Otro","active":true}]}},"writingDocs":[{"createdAt":"2026-09-22T14:43:15.285Z","html":"<p style=\"text-align: justify;\"><font face=\"Nunito\">Ya sé qué es una mentoría, lo hemos trabajado durante muchos años. En el fondo, es una estructura de trabajo personalizado, desde enfoques didácticos y socioculturales. Esto implica, entre otros aspectos, un espacio de aprendizaje procesual, dialógico y situado en las actividades académicas de las/os estudiantes. En este marco se diseñan las planificaciones para cada sesión, a partir de lo que cada docente considera relevante para cumplir con los objetivos de aprendizaje de la sesión.&nbsp;<br><\/font><font face=\"Nunito\">Como estructura genera es muy clara, sin embargo, hay particularidades que es necesario mirar, sobre todo, porque el perfil de los/as estudiantes ha cambiado bastante en múltiples sentidos y, particularmente, en los modos de aprender, por lo que es necesario problematizar el espacio de mentorías, con el fin de encontrar elementos de mejora y otros que es necesario diseñar.&nbsp;<\/font><\/p><p style=\"text-align: justify;\"><font face=\"Nunito\">Las primeras ideas que me han surgido en este que llevo atendiendo a estudiantes es que existen aspectos que deben trabajar, pero que no están insertos, de manera formal, en el espacio de mentorías. Es posible que los/as profesionales de área lo hagan, pero, aun así, no tenemos indicadores, criterios ni orientaciones didácticas y evaluativas específicas. Concretamente, estoy pensando en el trabajo de fortalecimiento de funciones ejecutivas, lo cual es una línea a parte (pero, en completa relación) del desarrollo de habilidades centrales y disciplinares. En esta línea, creo que hay que pensar en otros dispositivos que permiten, entre varios otros aspectos (que aún hay que pensar), permitan que el estudiante \"entrene\" dichas habilidades y funciones ejecutivas.&nbsp;<\/font><\/p><p style=\"text-align: justify;\"><font face=\"Nunito\">En el caso de Kiara, por ejemplo, existen desafíos en su memoria, capacidad de relacionar, capacidad de identificar y construir estructuras, los que no se pueden resolver desde la mentoría \"tradicional\", pues, a pesar de utilizar material auténtico y situarse en las tareas disciplinares de cada estudiante, las actividades y acciones que se llevan a cabo guardan relación con procesos más amplios, que se relacionan con sus tareas académicas, pero no se enfocan en el fortalecimiento de las funciones ejecutivas que necesitan algunos/as estudiantes para desenvolverse con éxito en la universidad.<\/font><\/p><p style=\"text-align: justify;\"><font face=\"Nunito\">Kiara necesita trabajar en las siguientes funciones ejecutivas, razón por la cual es necesario que la mentoría, como mecanismo de acompañamiento no se limite, únicamente al desarrollo de habilidades superiores, sino también al fortalecimiento y entretenimiento de las funciones ejecutivas. Para esto, es necesario contar con dispositivos de autoaprendizaje&nbsp;<\/font><\/p><p style=\"text-align: justify;\"><font face=\"Nunito\"><br><\/font><span style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\"><b>1. Control inhibitorio<br><\/b><\/span><font face=\"Nunito\">Se trabajará principalmente cuando sea necesario detener una respuesta inicial, revisar una interpretación o evitar conclusiones que excedan la información disponible.<br><\/font><span style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\">Ejemplos:<br><\/span><span style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\">- distinguir entre relación y causalidad;<br><\/span><font face=\"Nunito\">-detenerse antes de seleccionar una respuesta;<br><\/font><font face=\"Nunito\">-verificar si una idea realmente corresponde al propósito de un párrafo.<\/font><\/p><p style=\"text-align: justify;\"><font face=\"Nunito\"><b>2. Memoria de trabajo<br><\/b><\/font><span style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\">Se fortalecerá mediante actividades en las que sea necesario mantener activa información relevante mientras se toma una decisión.<br><\/span><span style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\">Ejemplos:<br><\/span><span style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\">-recordar el propósito de un párrafo mientras se evalúan distintas ideas;<br><\/span><font face=\"Nunito\">-mantener presente una consigna durante su resolución;<br><\/font><font face=\"Nunito\">-relacionar una afirmación con la evidencia presentada.<\/font><\/p><p style=\"text-align: justify;\"><font face=\"Nunito\"><b>3. Flexibilidad cognitiva<br><\/b><\/font><span style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\">Se trabajará mediante tareas que requieran reconsiderar una respuesta, cambiar de criterio o observar una misma información desde distintas funciones.<br><\/span><span style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\">Ejemplos:<br><\/span><span style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\">- distinguir que una idea puede ser correcta pero no pertinente<br><\/span><font face=\"Nunito\">- comparar dos interpretaciones<br><\/font><font face=\"Nunito\">- reconocer que un mismo contenido puede cumplir funciones diferentes según el contexto<br><\/font><font face=\"Nunito\">&nbsp;<\/font><b style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\">4. Planificación y organización<\/b><\/p><p style=\"text-align: justify;\"><span style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\">Será una de las funciones prioritarias del acompañamiento.<br><\/span><span style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\">Se trabajará mediante:<br><\/span><span style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\">-secuenciación de pasos<br><\/span><font face=\"Nunito\">-ordenamiento de fragmentos<br><\/font><font face=\"Nunito\">-planificación visual<br><\/font><font face=\"Nunito\">-identificación de etapas<br><\/font><font face=\"Nunito\">-reconstrucción de estructuras textuales<br><\/font><font face=\"Nunito\">uso de organizadores.<br><\/font><b style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\"><br>5. Monitoreo<\/b><font face=\"Nunito\"><br><\/font><\/p><p style=\"text-align: justify;\"><span style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\">Se promoverá progresivamente la revisión de las propias decisiones.<br><\/span><span style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\">El objetivo es que la estudiante pueda preguntarse, con apoyo:<br><\/span><span style=\"font-family: Nunito; font-size: 12pt; letter-spacing: -0.005em;\">- ¿esto responde a la consigna?<br><\/span><font face=\"Nunito\">- ¿esta idea pertenece aquí?<br><\/font><font face=\"Nunito\">- ¿esta evidencia demuestra realmente lo que estoy diciendo?<br><\/font><font face=\"Nunito\">- ¿qué función cumple esta parte?<br><\/font><font face=\"Nunito\">¿falta algo entre estas ideas?<\/font><\/p><p style=\"text-align: justify;\"><font face=\"Nunito\"><\/font><\/p><p style=\"text-align: justify;\"><font face=\"Nunito\"><br><\/font><\/p><p style=\"text-align: justify;\"><font face=\"Nunito\"><br><\/font><\/p>","id":"wd_mucsajf9xi74","title":"Mentorías Académicas","updatedAt":"2026-10-16T13:11:47.065Z"},{"createdAt":"2026-09-27T00:20:34.390Z","html":"<p data-pm-slice=\"1 1 []\" style=\"text-align: justify; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); letter-spacing: normal;\"><font face=\"Nunito\">La continuidad, restricciones e interrupciones son conceptos que intentan abordar, de manera parcial, el funcionamiento del pensamiento humano. Lo que continua es que lo que articula la mente y el cuerpo, lo que se interrumpe siempre tiene que ver con aquello que necesita el organismo para continuar en espacios psíquicos seguros, los cuales son vitales para la autorregulación biológica (homeostasis) y su correspondiente producción de pensamiento con \"sentido\". Espacio psíquico seguro y sentido son dos conceptos que se articulan en su génesis y que forman parte de un proceso recursivo y paralelo que, si bien, implica formas de funcionamiento distinto, son, al mismo tiempo, parte de un proceso único.<\/font><\/p><p data-pm-slice=\"1 1 []\" style=\"text-align: justify; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); letter-spacing: normal;\"><font face=\"Nunito\">Luego viene las restricciones, proceso que antecede a la interrupción y que la articula en función de la continuidad. Es decir, lo que se restringe siempre es algo identificado como nocivo para el funcionamiento del organismo<\/font><\/p>","id":"wd_muj2odsmfcqo","title":"Apuntes: Filosofía y Educación","updatedAt":"2026-10-16T13:10:54.315Z"},{"createdAt":"2026-10-16T13:11:47.065Z","html":"<p><font face=\"Palatino Linotype\">A pesar de los cambios de mentalidad aparentes, los nuevos conceptos, identidades y líneas teóricas, a pesar de los discursos, supuestamente, integrados, a pesar de la \"conciencia\" social y el respeto por la otredad, a pesar de la promesa eterna de la educación equitativa, todo sigue más o menos igual.&nbsp;<\/font><\/p>","id":"wd_mvazlcopqj3t","title":"Discapacidad, neurodivergencia, discriminación y exclusión","updatedAt":"2026-10-19T14:32:02.077Z"},{"id":"wd_mvfcs3z115pe","title":"Inmanencia de Espectros","html":"<p>La enfermedad mental es una reacción del cuerpo ante la imposibilidad de producción. Lo leí hace unos minutos y sin darle mucha vuelta hace sentido, sin embargo, la construcción de esa conceptualización es en lo que hay que indagar, pues su articulación semiótica es más compleja de lo que se identifica a simple vista. La producción es un tema de discusión antiguo y actualizable pues se articula siempre con las transformaciones sociales y los esquemas simbólico-emocionales que se desprenden desde allí. Lo que se produce, en este sentido, es siempre (la poca cautela es estimulante) lo que permite que las continuidades sigan su curso. Esto implica, por efecto directo, que las restricciones e interrupciones también son funcionales y coherentes con ese estado de cosas, definible siempre en el contexto del desarrollo social, las subjetividades y los movimientos de las maquinarias estatales, sus legalismos e ilegalismos.&nbsp;<\/p><p>Las continuidades no implican bienestar ni malestar, esos son efectos de la conjugación entre continuidad, restricción e interrupción, es decir, no es un efecto in<\/p>","createdAt":"2026-10-19T14:32:02.077Z","updatedAt":"2026-10-23T14:25:58.689Z"}],"activeWritingDoc":"wd_mucsajf9xi74","tareas":[{"id":"tamv70a5qk","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a1367e4e57f3cd0","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"EJEMPLO: cambio de Estado Fabián Pulgar","acceso":"Mis tareas","estado":"pendiente","prioridad":"media","fecha":"","proyecto":"","carrera":"","responsable":"Soledad Romero","responsables":[{"nombre":"Soledad Romero","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamuzyalew","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a11d10fe73113f8","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Diseñar ciclo de talleres para semana de inserción 1er año 2027","acceso":"Mis tareas","estado":"pendiente","prioridad":"alta","fecha":"2026-10-19","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamuyih3gx","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a117e0e46cda5ed","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Escribir a todos los estudiantes que han asistido a trayectoria para enviarles el catálogo","acceso":"Mis tareas","estado":"pendiente","prioridad":"alta","fecha":"2026-10-09","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamux2a0wh","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a112a72a6214ce6","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Difusión de catálogo con Tutores y Consejeros Académicos","acceso":"Mis tareas","estado":"pendiente","prioridad":"media","fecha":"2026-10-07","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamux1x11d","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a1129de2c596566","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Ajustar Bookings: mensaje en pagina de reservas con la ubicación","acceso":"Mis tareas","estado":"pendiente","prioridad":"media","fecha":"2026-10-07","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamux1tg0p","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a1129b9a0a5c3f8","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Organizar turnos para stand dia de la salud mental","acceso":"Mis tareas","estado":"pendiente","prioridad":"alta","fecha":"2026-10-07","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamuvli8gd","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a10d5ea947f5eb1","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Comunícate con Franco de TS para gestionar taller","acceso":"Mis tareas","estado":"pendiente","prioridad":"media","fecha":"2026-10-06","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamupxg3d3","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a0f8f0dcd67b4b2","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Enviar Catálogo y afiches virtuales a Ed: Diferencial, Básica, Parvularia y Matemática","acceso":"Mis tareas","estado":"pendiente","prioridad":"alta","fecha":"2026-10-02","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamupm1xge","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a0f7ccd9a58ecfc","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Coordinar acompañamiento y seguimiento CPA- Diego J.","acceso":"Mis tareas","estado":"pendiente","prioridad":"alta","fecha":"2026-10-01","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamun2axia","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a0ee9d6cf1076c2","estadoHistorico":"en-curso","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Derivar a Tamara Arriza a Sandra","acceso":"Mis tareas","estado":"en-curso","prioridad":"alta","fecha":"2026-09-30","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamun1ccxo","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a0ee84d0ef5df64","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Escribir a Gonzalo y Daniela sobre disponibildad de salas","acceso":"Mis tareas","estado":"pendiente","prioridad":"alta","fecha":"2026-09-29","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamumpvb8e","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a0ed5ec1067f802","estadoHistorico":"en-curso","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Subir versión final de catálogo y avisar a Daniela y Gonzalo","acceso":"Mis tareas","estado":"en-curso","prioridad":"alta","fecha":"2026-09-29","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamumpuemv","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a0ed5e1819d9f44","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Repartir Catálog y Afiches en carreras","acceso":"Mis tareas","estado":"pendiente","prioridad":"alta","fecha":"2026-10-02","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamu2qxl2s","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a0d98d71ba53ba3","estadoHistorico":"en-curso","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Diseñar flujos y procesos y enviar a Nico","acceso":"Mis tareas","estado":"en-curso","prioridad":"alta","fecha":"2026-09-28","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamuh4t9kx","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a0d93df6c4a5ada","estadoHistorico":"en-curso","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Organizar stand día de la salud mental","acceso":"Mis tareas","estado":"en-curso","prioridad":"alta","fecha":"2026-09-30","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Convocar a reunión al equipo\n\nRecuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamu19kc5o","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a0a00d9b40c3b2f","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Revisar Indicadores de logro 2s 2026","acceso":"Mis tareas","estado":"pendiente","prioridad":"alta","fecha":"2026-09-15","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamtvzwafl","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a08d10ac3c0caaa","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Diseño de flujo para consultas emergentes","acceso":"Mis tareas","estado":"pendiente","prioridad":"alta","fecha":"2026-09-11","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamtvshi8q","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a08c52d3f6c70e2","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Identificar grupos de estudiantes de reingreso para convocatorias diferenciadas","acceso":"Mis tareas","estado":"pendiente","prioridad":"alta","fecha":"2026-09-11","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamtvmn11p","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a08bbce92aee671","estadoHistorico":"en-curso","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Crear nuevos servicios para Acomp. Psicoed . Bookings","acceso":"Mis tareas","estado":"en-curso","prioridad":"alta","fecha":"2026-09-10","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Sol debe escribir la descripción de los servicios\n\nRecuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamtlu4616","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a0687265ff86694","estadoHistorico":"en-curso","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Diseñar documento Servicios DAE para sesión con estudiantes reingresantes","acceso":"Mis tareas","estado":"en-curso","prioridad":"alta","fecha":"2026-09-04","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Conseguir documento DAE con Giannina; Diseñar Información; Enviar a diseño con Camila\n\nRecuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamtlm6x5z","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a067a7574dab8cc","estadoHistorico":"en-curso","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Oferta Académica: Mentorías, Talleres, Ciclos, Catálogo","acceso":"Mis tareas","estado":"en-curso","prioridad":"alta","fecha":"2026-09-04","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamtkl855h","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a063f3abb53eaed","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Coordinar con Sandra acompañamiento a Natalia Madrid","acceso":"Mis tareas","estado":"pendiente","prioridad":"alta","fecha":"2026-09-03","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Evalúa con Sandra el cambio de profesional de apoyo para Natalia o trabajo en codocencia.\n\nRecuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamtkkxpfw","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a063ec3bc27a648","estadoHistorico":"en-curso","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Desarrollar línea de desarrollo de competencias de lectura, escritura y comunicación oral para estudiantes con DI","acceso":"Mis tareas","estado":"en-curso","prioridad":"alta","fecha":"2026-09-20","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamtkkizyd","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a063e1bc5bf13b7","estadoHistorico":"en-curso","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Actividad para estudiantes que reingresan a la UAH","acceso":"Mis tareas","estado":"en-curso","prioridad":"alta","fecha":"2026-09-03","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"1. Diseño de planificación para sesión virtual individual. 2. Fecha, hora y lugar de la actividad. 3. Ver opción de coffee. 4. Difusión.\n\nRecuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0},{"id":"tamtj4u1ad","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a05eb51fa0debab","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","titulo":"Revisar alertas TAI que envió Nata","acceso":"Mis tareas","estado":"pendiente","prioridad":"alta","fecha":"2026-09-02","proyecto":"","carrera":"","responsable":"Fabián Pulgar","responsables":[{"nombre":"Fabián Pulgar","correo":""}],"persona":"","detalle":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","creado":0,"actualizado":0}],"talleres":[{"id":"tmv6truwf","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a135d77ddb191fa","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","fecha":"2026-11-11","hora":"09:30","titulo":"Autocuidado desde el rol docente (título provisorio)","carrera":"","categoria":"Talleres solicitados por carrera","linea":"CONECTA","modalidad":"presencial","sala":"","resp":"Sandra Rivera","estado":"pendiente","inscritos":0,"asistentes":0,"notas":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.\nFecha/hito original: 2026-11-11 09:30 - 11:30 / 11:30 -12.50 (Dos sesiones iguales)\nELAB FED - Semana de las pedagogías. También notificado a Fabián Pulgar."},{"id":"tmv6tlhrf","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a135d2f432c70c2","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","fecha":"2026-10-15","hora":"11:30","titulo":"Convivencia, rol profesional","carrera":"","categoria":"Talleres solicitados por carrera","linea":"CONECTA","modalidad":"presencial","sala":"","resp":"Sandra Rivera","estado":"pendiente","inscritos":0,"asistentes":0,"notas":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.\nFecha/hito original: 2026-10-15 11:30\nEducación Básica"},{"id":"tmtisy00g","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a0ed988ed406720","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","fecha":"2026-10-07","hora":"10:00","titulo":"Herramientas para la interacción en contexto de salidas a terreno","carrera":"","categoria":"Talleres solicitados por carrera","linea":"CONECTA","modalidad":"presencial","sala":"","resp":"Sandra Rivera","estado":"pendiente","inscritos":0,"asistentes":0,"notas":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.\nFecha/hito original: 2026-10-07 10:00-11:30\nNotificación indica 'Definir'. Registro distinto del taller de septiembre."},{"id":"tmtiql9ww","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a05d836a4e18b72","estadoHistorico":"pendiente","fuenteRecuperacion":"Correo automático del Panel UTE","fecha":"2026-09-22","hora":"13:00","titulo":"Herramientas para la interacción en contexto de salidas a terreno","carrera":"","categoria":"Talleres solicitados por carrera","linea":"CONECTA","modalidad":"presencial","sala":"","resp":"Sandra Rivera","estado":"pendiente","inscritos":0,"asistentes":0,"notas":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.\nFecha/hito original: 2026-09-22 13:00 - 14:320\nAntropología. Hora anotada con error aparente '14:320'; se conserva el dato en observaciones."}],"monitorAlerts":[{"id":"sat-149q2cn","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a068138c7bb5467","estadoHistorico":"Nueva","fuenteRecuperacion":"Correo automático del Panel UTE","estudiante":"Polette Ocaranza","rut":"","carrera":"","responsable":"Fabián Pulgar","nivel":"Alta","uteStatus":"nueva","tipo":"Recuperada de notificación","fuente":"Correo UTE","descripcion":"Consultar a Salud Mental si hay antecedentes y derivar a estudiante","observacionesOrigen":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","nextDate":"","nextAction":"Consultar a Salud Mental si hay antecedentes y derivar a estudiante","bitacora":[]},{"id":"sat-obvv1","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a06810d936e620a","estadoHistorico":"En revisión","fuenteRecuperacion":"Correo automático del Panel UTE","estudiante":"Diego Cabello","rut":"","carrera":"","responsable":"Sandra Rivera","nivel":"Media","uteStatus":"revision","tipo":"Recuperada de notificación","fuente":"Correo UTE","descripcion":"El semestre anterior ya manifestó dificultades para la lectura, y ahora vuelve a mencionarlo junto con la organización de los tiempos.","observacionesOrigen":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","nextDate":"","nextAction":"El semestre anterior ya manifestó dificultades para la lectura, y ahora vuelve a mencionarlo junto con la organización de los tiempos.","bitacora":[]},{"id":"sat-f3ga64","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a0680ea7e468ebf","estadoHistorico":"Derivada / articulada","fuenteRecuperacion":"Correo automático del Panel UTE","estudiante":"Tamara Arriaza","rut":"","carrera":"","responsable":"Sandra Rivera","nivel":"Alta","uteStatus":"derivada","tipo":"Recuperada de notificación","fuente":"Correo UTE","descripcion":"La estudiante declara poca motivación por el semestre y dificultades de retención de información. El correo incluye más antecedentes; consultar la fuente para recuperar el relato íntegro.","observacionesOrigen":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","nextDate":"","nextAction":"La estudiante declara poca motivación por el semestre y dificultades de retención de información. El correo incluye más antecedentes; consultar la fuente para recuperar el relato íntegro.","bitacora":[]}],"casos":[{"id":"cmtkkyny4","recuperadoCorreo":true,"verificarEstado":true,"correoFuenteId":"1a063ece424547f1","estadoHistorico":"indagacion","fuenteRecuperacion":"Correo automático del Panel UTE","estudiante":"Kiara González","rut":"","carrera":"","responsable":"Fabián Pulgar","dispositivo":"Mentoría","prioridad":"alta","estado":"indagacion","fechaIngreso":"2026-09-01","motivo":"1er sesión mentoría","proxima":"Revisar estado histórico","fechaProxima":"","notas":"Recuperado desde correo de asignación. Fecha y estado son HISTÓRICOS: verificar situación actual antes de tomar decisiones.","documentos":[]}],"studentNews":[{"id":"nwmvbbdwts","student":"Camela Todorovich","rut":"19007371-8","career":"Administración Pública","year":"5.º año","type":"Alerta","title":"fasf","details":"asfasfsf","source":"Registro institucional","level":"Informativa","recipients":[{"nombre":"Fabián Pulgar","correo":""}],"correoFuenteId":"1a146056d88e5ce7","nota":"POSIBLE PRUEBA; revisar antes de usar institucionalmente","all":true,"action":"informar","author":"Reconstrucción desde correo","authorEmail":"","readBy":[],"closed":false,"createdAt":"2026-10-16T18:42:03Z","recuperadoCorreo":true,"verificarEstado":true,"fuenteRecuperacion":"Correo automático del Panel UTE"},{"id":"nwmvbaxehu","student":"Fabián Pulgar","rut":"177805319","career":"Lic. en Lengua y Literatura","year":"4.º año","type":"Situación académica","title":"Cambio de estado académico: retiro voluntario","details":"dd","source":"Registro institucional","level":"Informativa","recipients":[{"nombre":"Fabián Pulgar","correo":""}],"correoFuenteId":"1a145f9a7727df94","nota":"POSIBLE PRUEBA; revisar antes de usar institucionalmente","all":true,"action":"informar","author":"Reconstrucción desde correo","authorEmail":"","readBy":[],"closed":false,"createdAt":"2026-10-16T18:29:11Z","recuperadoCorreo":true,"verificarEstado":true,"fuenteRecuperacion":"Correo automático del Panel UTE"},{"id":"nwmv71pmfg","student":"[Estudiante no identificable desde correo]","rut":"","career":"","year":"","type":"Situación académica","title":"Información nueva para revisar en el panel","details":"El correo no incluye datos que permitan identificar la novedad. Es imprescindible verificar la fuente.","source":"Registro institucional","level":"Informativa","recipients":[{"nombre":"Soledad Romero","correo":""}],"correoFuenteId":"1a136a2ee629cbc5","nota":"CONTENIDO INCOMPLETO","all":true,"action":"informar","author":"Reconstrucción desde correo","authorEmail":"","readBy":[],"closed":false,"createdAt":"2026-10-13T19:00:10Z","recuperadoCorreo":true,"verificarEstado":true,"fuenteRecuperacion":"Correo automático del Panel UTE"},{"id":"nwmv71pll2","student":"[Estudiante no identificable desde correo]","rut":"","career":"","year":"","type":"Situación académica","title":"Información nueva para revisar en el panel","details":"El correo no incluye datos que permitan identificar la novedad. Es imprescindible verificar la fuente.","source":"Registro institucional","level":"Informativa","recipients":[{"nombre":"Soledad Romero","correo":""}],"correoFuenteId":"1a136a2ed3579625","nota":"CONTENIDO INCOMPLETO","all":true,"action":"informar","author":"Reconstrucción desde correo","authorEmail":"","readBy":[],"closed":false,"createdAt":"2026-10-13T19:00:09Z","recuperadoCorreo":true,"verificarEstado":true,"fuenteRecuperacion":"Correo automático del Panel UTE"}]};
+window.UTE_OFFLINE_STORAGE_KEY='ute_offline_ute_v38_26oct2026';
+const UTE_originalFetch=window.fetch.bind(window);
+window.fetch=function(input, options){
+ const method=String((options&&options.method)||(input&&input.method)||'GET').toUpperCase();
+ let url='';try{url=typeof input==='string'?input:String(input?.url||input)}catch(_){}
+ if(method!=='GET'&&method!=='HEAD'){
+   console.warn('[Rescate UTE] Se bloqueó la escritura externa: '+method+' '+url.slice(0,100));
+   return Promise.reject(new Error('Modo rescate: las operaciones externas están desactivadas.'));
+ }
+ return UTE_originalFetch(input,options);
+};
+</script>
+
 <!-- Firebase Storage para documentos de Casos Específicos -->
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
@@ -2016,7 +2038,7 @@ function renderVisibilitySettings(){
   list.innerHTML=VISIBILITY_MODULES.map(([id,label])=>`<label class="visibility-item"><span><strong>${label}</strong><small>${['early','bitacora'].includes(id)?'Oculta al equipo inicialmente':'Módulo del panel'}</small></span><span><input type="checkbox" data-visible-section="${id}" ${(id==='configuration'||MODULE_VISIBILITY[id]!==false)?'checked':''} ${(admin&&id!=='configuration')?'':'disabled'}><em>${MODULE_VISIBILITY[id]!==false?'Equipo':'Solo tú'}</em></span></label>`).join('');
   const save=document.getElementById('visibilitySave');if(save)save.disabled=!admin;
 }
-async function saveVisibilitySettings(){
+async function saveVisibilitySettings(){if(!PANEL_DATA_LOADED){panelWarning('Visibilidad: Firebase no verificado. No se aplicaron cambios.');showToast('Guardado bloqueado: Firebase no verificado','bad');return;}
   if(!isVisibilityAdmin()){showToast('Acceso exclusivo de la cuenta administradora','bad');return;}
   const next={...MODULE_VISIBILITY};
   document.querySelectorAll('[data-visible-section]').forEach(i=>next[i.dataset.visibleSection]=i.dataset.visibleSection==='configuration'?true:i.checked);
@@ -2056,6 +2078,32 @@ const SEED=[
   {id:'t08',fecha:'2026-03-30',hora:'19:00',titulo:'Desafíos del primer año: encuentro con familias',carrera:'',linea:'GESTI-ON',modalidad:'online',sala:'Online',resp:'Fabián Pulgar',estado:'realizado',inscritos:5,asistentes:5,notas:''},
 ];
 
+// v37 RECUPERACIÓN: jamás escribir hasta obtener datos reales y validados.
+let PANEL_DATA_LOADED=false;
+let PANEL_REMOTE_RAW=null;
+let PANEL_BASELINE=null;
+let PANEL_SAVE_CHAIN=Promise.resolve();
+function panelValueEqual(a,b){
+  // Firebase omite valores vacíos al materializarlos en una lectura REST.
+  const empty=x=>x===null||x===undefined||(Array.isArray(x)&&!x.length)||(x&&typeof x==='object'&&!Array.isArray(x)&&!Object.keys(x).length);
+  return (empty(a)&&empty(b))||JSON.stringify(a)===JSON.stringify(b);
+}
+function panelWarning(msg){
+  const el=document.getElementById('uteDataWarning');
+  if(el){el.textContent='⚠ '+msg;el.hidden=false;}
+}
+function clearPanelWarning(){const el=document.getElementById('uteDataWarning');if(el)el.hidden=true;}
+function panelPayload(){return {
+  talleres:TALLERES,casos:CASOS,tareas:TAREAS,supportProposals:SUPPORT_PROPOSALS,
+  worklog:WORKLOG,profesionales:PROFESIONALES,taskNotifyConfig:TASK_NOTIFY_CONFIG,
+  metas2s:METAS_2S,managementProjects:MANAGEMENT_PROJECTS,
+  managementPresentations:MANAGEMENT_PRESENTATIONS,earlyCourses:EARLY_COURSES,
+  earlyProjects:EARLY_PROJECTS,earlyResources:EARLY_RESOURCES,
+  monitorAlerts:MONITOR_ALERTS,derivaciones:REFERRALS,catalogs:CATALOGS,
+  deskNotes:DESK_NOTES,writingDocs:WRITING_DOCS,
+  activeWritingDoc:ACTIVE_WRITING_DOC,ajustesRazonables:AJUSTES,
+  ajustesDriveEliminados:AR_DELETED_DRIVE_IDS
+};}
 let TALLERES=[];
 let CASOS=[];
 let TAREAS=[];
@@ -2136,6 +2184,60 @@ function setConn(ok,label){
 }
 
 async function loadData(){
+  if(window.UTE_RESCUE_OFFLINE){
+    let j=window.UTE_RESQUED_INITIAL;
+    try{
+      const saved=localStorage.getItem(window.UTE_OFFLINE_STORAGE_KEY);
+      const parsed=saved?JSON.parse(saved):null;
+      if(parsed&&typeof parsed==='object'&&Array.isArray(parsed.derivaciones)){
+        if(localStorage.getItem('ute_v39_migrated')==='1'){
+          j=parsed;
+        }else{
+          j={...j,...parsed};
+          for(const k of ['talleres','casos','tareas','monitorAlerts','studentNews','derivaciones']){
+            const map=new Map();
+            for(const rec of window.UTE_RESQUED_INITIAL[k]||[]) if(rec?.id)map.set(rec.id,rec);
+            for(const rec of parsed[k]||[]) if(rec?.id)map.set(rec.id,rec);
+            j[k]=[...map.values()];
+          }
+          // Keep the prior browser's writing docs/catalogs; recovered originals only as fallback.
+          for(const k of ['writingDocs','catalogs']) if(!parsed[k])j[k]=window.UTE_RESQUED_INITIAL[k];
+          localStorage.setItem(window.UTE_OFFLINE_STORAGE_KEY,JSON.stringify(j));
+          localStorage.setItem('ute_v39_migrated','1');
+        }
+      }else{
+        localStorage.setItem('ute_v39_migrated','1');
+      }
+    }catch(e){console.warn('Fallo de migración local, se mantiene respaldo inicial',e)}
+    TALLERES=Array.isArray(j.talleres)?j.talleres:[];
+    CASOS=Array.isArray(j.casos)?j.casos:[];
+    TAREAS=Array.isArray(j.tareas)?j.tareas:[];
+    STUDENT_NEWS=Array.isArray(j.studentNews)?j.studentNews:[];
+    SUPPORT_PROPOSALS=Array.isArray(j.supportProposals)?j.supportProposals:[];
+    WORKLOG=Array.isArray(j.worklog)?j.worklog:[];
+    PROFESIONALES=Array.isArray(j.profesionales)&&j.profesionales.length?j.profesionales:DEFAULT_PROFESIONALES.map(x=>({...x}));
+    TASK_NOTIFY_CONFIG={panelUrl:''};
+    METAS_2S=j.metas2s&&typeof j.metas2s==='object'?j.metas2s:JSON.parse(JSON.stringify(DEFAULT_METAS_2S));
+    MANAGEMENT_PROJECTS=Array.isArray(j.managementProjects)?j.managementProjects:[];
+    MANAGEMENT_PRESENTATIONS=Array.isArray(j.managementPresentations)?j.managementPresentations:[];
+    EARLY_COURSES=Array.isArray(j.earlyCourses)?j.earlyCourses:[];
+    EARLY_PROJECTS=Array.isArray(j.earlyProjects)?j.earlyProjects:[];
+    EARLY_RESOURCES=Array.isArray(j.earlyResources)?j.earlyResources:[];
+    MONITOR_ALERTS=Array.isArray(j.monitorAlerts)?j.monitorAlerts:[];
+    REFERRALS=Array.isArray(j.derivaciones)?j.derivaciones:[];
+    CATALOGS=initCatalogs(j.catalogs);
+    DESK_NOTES=Array.isArray(j.deskNotes)?j.deskNotes:[];
+    WRITING_DOCS=Array.isArray(j.writingDocs)?j.writingDocs:[];
+    ACTIVE_WRITING_DOC=j.activeWritingDoc||WRITING_DOCS[0]?.id||null;
+    AJUSTES=Array.isArray(j.ajustesRazonables)?j.ajustesRazonables:[];
+    AR_DELETED_DRIVE_IDS=[];
+    PANEL_DATA_LOADED=true;
+    PANEL_REMOTE_RAW={};PANEL_BASELINE={};
+    setConn(false,'RESCATE LOCAL · Firebase desactivado');
+    panelWarning('RECUPERACIÓN PARCIAL: 7 derivaciones, 25 tareas, 4 talleres, 3 alertas, 1 caso, 4 novedades para revisión, 4 documentos y catálogos. Estados de correos históricos: verificar. Guardado AUTOMÁTICO LOCAL; Firebase no se modifica.');
+    renderAll();applyModuleVisibility();setTimeout(applyPanelDeepLink,120);
+    return;
+  }
   try{
     const r=await fetch(FB_PATH);
     const j=await r.json();
@@ -2143,26 +2245,17 @@ async function loadData(){
       throw new Error((j && j.error) ? j.error : `HTTP ${r.status}`);
     }
     if(j===null || j===undefined){
-      // La ruta nunca se ha escrito en Firebase: primera carga real, sembramos datos de ejemplo.
-      TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
-      CASOS=[];
-      TAREAS=[];
-      STUDENT_NEWS=[];
-      SUPPORT_PROPOSALS=[];
-      WORKLOG=[];
-      PROFESIONALES=DEFAULT_PROFESIONALES.map(x=>({...x}));
-      TASK_NOTIFY_CONFIG={panelUrl:''};
-      METAS_2S=JSON.parse(JSON.stringify(DEFAULT_METAS_2S));
-      MANAGEMENT_PROJECTS=[]; MANAGEMENT_PRESENTATIONS=[];
-      EARLY_COURSES=[]; EARLY_PROJECTS=[]; EARLY_RESOURCES=[];
-      MONITOR_ALERTS=[];
-      REFERRALS=[]; CATALOGS=initCatalogs(null);
-      DESK_NOTES=[];
-      WRITING_DOCS=[]; ACTIVE_WRITING_DOC=null;
-      AJUSTES=[];
-      AR_DELETED_DRIVE_IDS=[];
-      setConn(true,'Sincronizado · datos de ejemplo cargados');
-      await saveData(false);
+      // Un null también puede deberse a borrados previos. NO cargar ejemplos ni guardar.
+      PANEL_DATA_LOADED=false;
+      TALLERES=[];CASOS=[];TAREAS=[];STUDENT_NEWS=[];SUPPORT_PROPOSALS=[];
+      WORKLOG=[];PROFESIONALES=DEFAULT_PROFESIONALES.map(x=>({...x}));
+      TASK_NOTIFY_CONFIG={panelUrl:''};METAS_2S=JSON.parse(JSON.stringify(DEFAULT_METAS_2S));
+      MANAGEMENT_PROJECTS=[];MANAGEMENT_PRESENTATIONS=[];
+      EARLY_COURSES=[];EARLY_PROJECTS=[];EARLY_RESOURCES=[];MONITOR_ALERTS=[];
+      REFERRALS=[];CATALOGS=initCatalogs(null);DESK_NOTES=[];
+      WRITING_DOCS=[];ACTIVE_WRITING_DOC=null;AJUSTES=[];AR_DELETED_DRIVE_IDS=[];
+      setConn(false,'Firebase sin datos · GUARDADO BLOQUEADO');
+      panelWarning('Firebase devolvió una rama vacía. Ninguna operación se guardará para evitar sobrescrituras. Usa primero la herramienta de rescate.');
     } else {
       // Ya existe un registro previo. Si "talleres" no viene, es porque Firebase
       // descarta arrays vacíos al guardarlos — significa que la lista quedó en 0, no que falte el seed.
@@ -2185,11 +2278,18 @@ async function loadData(){
       AJUSTES=(Array.isArray(j.ajustesRazonables)?j.ajustesRazonables:[]).map(a=>({...a,secciones:a.secciones||{},carta:a.carta||null}));
       AR_DELETED_DRIVE_IDS=[]; // v14: eliminar del panel no bloquea futuras resincronizaciones
       TALLERES=TALLERES.map(t=>({...t,categoria:t.categoria||'Ciclo de Inserción'}));
-      setConn(true,'Sincronizado con Firebase');
+      const meaningful=['talleres','casos','tareas','monitorAlerts','derivaciones','ajustesRazonables','studentNews','worklog','supportProposals'].some(k=>j[k]!=null);
+      PANEL_DATA_LOADED=meaningful;
+      PANEL_REMOTE_RAW=JSON.parse(JSON.stringify(j));
+      PANEL_BASELINE=JSON.parse(JSON.stringify(panelPayload()));
+      if(!meaningful){
+        setConn(false,'Datos incompletos · GUARDADO BLOQUEADO');
+        panelWarning('No hay módulos reconocibles en la respuesta de Firebase. Se bloquean los guardados por seguridad.');
+      }else{clearPanelWarning();setConn(true,'Sincronizado con Firebase · modo protegido');}
     }
   }catch(e){
     console.warn('FB load error',e);
-    TALLERES=SEED.map(t=>({...t,categoria:'Ciclo de Inserción'}));
+    PANEL_DATA_LOADED=false;TALLERES=[];
     CASOS=[];
     TAREAS=[];
     STUDENT_NEWS=JSON.parse(localStorage.getItem('ute_student_news_v1')||'[]');
@@ -2204,27 +2304,79 @@ async function loadData(){
     REFERRALS=JSON.parse(localStorage.getItem('ute_referrals_v1')||'[]'); CATALOGS=initCatalogs(JSON.parse(localStorage.getItem('ute_catalogs_v1')||'null'));
     DESK_NOTES=JSON.parse(localStorage.getItem('ute_desk_notes_v1')||'[]');
     WRITING_DOCS=JSON.parse(localStorage.getItem('ute_writing_docs_v1')||'[]'); ACTIVE_WRITING_DOC=localStorage.getItem('ute_writing_active_v1')||null;
-    setConn(false,'Sin conexión · usando datos locales');
+    setConn(false,'Sin conexión · GUARDADO BLOQUEADO');
+    panelWarning('No se pudo leer Firebase. Se muestran datos locales disponibles, pero el guardado se bloquea hasta confirmar la conexión.');
   }
   renderAll();
   applyModuleVisibility();
   setTimeout(applyPanelDeepLink,120);
 }
 
-async function saveData(toast=true){
-  try{localStorage.setItem('ute_student_news_v1',JSON.stringify(STUDENT_NEWS));localStorage.setItem('ute_worklog_v1',JSON.stringify(WORKLOG));localStorage.setItem('ute_support_proposals_v1',JSON.stringify(SUPPORT_PROPOSALS));}catch(_e){}
+// v37: Guardado parcial, con comprobación de conflictos entre personas.
+function saveData(toast=true){
+  const task=PANEL_SAVE_CHAIN.then(()=>saveDataProtected(toast));
+  PANEL_SAVE_CHAIN=task.catch(()=>{});
+  return task;
+}
+async function saveDataProtected(toast=true){
+  if(window.UTE_RESCUE_OFFLINE){
+    try{
+      const snap={...panelPayload(),studentNews:STUDENT_NEWS};
+      localStorage.setItem(window.UTE_OFFLINE_STORAGE_KEY,JSON.stringify(snap));
+      localStorage.setItem('ute_referrals_v1',JSON.stringify(REFERRALS));
+      localStorage.setItem('ute_catalogs_v1',JSON.stringify(CATALOGS));
+      localStorage.setItem('ute_writing_docs_v1',JSON.stringify(WRITING_DOCS));
+      localStorage.setItem('ute_student_news_v1',JSON.stringify(STUDENT_NEWS));
+      localStorage.setItem('ute_support_proposals_v1',JSON.stringify(SUPPORT_PROPOSALS));
+      localStorage.setItem('ute_worklog_v1',JSON.stringify(WORKLOG));
+      queueSafetySnapshot(snap);
+      if(toast)showToast('Guardado automáticamente en este navegador ✓','ok');
+      setConn(false,'Guardado automático local · Firebase desactivado');
+      return true;
+    }catch(e){showToast('Falló el guardado local: '+e.message,'bad');return false;}
+  }
   try{
-    const r=await fetch(FB_PATH,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({talleres:TALLERES,casos:CASOS,tareas:TAREAS,supportProposals:SUPPORT_PROPOSALS,worklog:WORKLOG,profesionales:PROFESIONALES,taskNotifyConfig:TASK_NOTIFY_CONFIG,metas2s:METAS_2S,managementProjects:MANAGEMENT_PROJECTS,managementPresentations:MANAGEMENT_PRESENTATIONS,earlyCourses:EARLY_COURSES,earlyProjects:EARLY_PROJECTS,earlyResources:EARLY_RESOURCES,monitorAlerts:MONITOR_ALERTS,derivaciones:REFERRALS,catalogs:CATALOGS,deskNotes:DESK_NOTES,writingDocs:WRITING_DOCS,activeWritingDoc:ACTIVE_WRITING_DOC,ajustesRazonables:AJUSTES,ajustesDriveEliminados:AR_DELETED_DRIVE_IDS,ts:Date.now()})});
-    const j=await r.json().catch(()=>null);
-    if(!r.ok || (j && j.error)){
-      throw new Error((j && j.error) ? j.error : `HTTP ${r.status}`);
+    localStorage.setItem('ute_student_news_v1',JSON.stringify(STUDENT_NEWS));
+    localStorage.setItem('ute_worklog_v1',JSON.stringify(WORKLOG));
+    localStorage.setItem('ute_support_proposals_v1',JSON.stringify(SUPPORT_PROPOSALS));
+  }catch(_e){}
+  if(!PANEL_DATA_LOADED || !PANEL_BASELINE || !PANEL_REMOTE_RAW){
+    setConn(false,'GUARDADO BLOQUEADO · Firebase no verificado');
+    panelWarning('No se guardó ningún cambio. Firebase no pudo verificarse; revisa la información con la herramienta de rescate.');
+    if(toast)showToast('Guardado bloqueado: base no verificada','bad');
+    return false;
+  }
+  try{
+    const current=panelPayload(),patch={};
+    for(const [key,val] of Object.entries(current)){
+      if(!panelValueEqual(val,PANEL_BASELINE[key]))patch[key]=val;
     }
-    setConn(true,'Sincronizado con Firebase');
-    if(toast) showToast('Guardado ✓','ok');
+    if(!Object.keys(patch).length){if(toast)showToast('Sin cambios pendientes ✓','ok');return true;}
+    const check=await fetch(FB_PATH,{cache:'no-store'}),remote=await check.json();
+    if(!check.ok||!remote||typeof remote!=='object'||remote.error)throw new Error('No se pudo verificar la última versión de Firebase');
+    const conflicts=Object.keys(patch).filter(key=>!panelValueEqual(remote[key],PANEL_REMOTE_RAW[key]));
+    if(conflicts.length){
+      panelWarning('Cambios sin guardar: otro acceso modificó '+conflicts.join(', ')+'. No se sobrescribirá la información. Haz respaldo antes de actualizar.');
+      setConn(false,'Conflicto entre versiones · GUARDADO BLOQUEADO');
+      if(toast)showToast('Conflicto detectado: no se sobrescribió Firebase','bad');
+      return false;
+    }
+    const r=await fetch(FB_PATH,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({...patch,ts:Date.now()})});
+    const j=await r.json().catch(()=>null);
+    if(!r.ok||(j&&j.error))throw new Error(j?.error||'HTTP '+r.status);
+    for(const [key,val] of Object.entries(patch)){
+      PANEL_BASELINE[key]=JSON.parse(JSON.stringify(val));
+      PANEL_REMOTE_RAW[key]=JSON.parse(JSON.stringify(val));
+    }
+    clearPanelWarning();setConn(true,'Sincronizado con Firebase · guardado protegido');
+    if(toast)showToast('Guardado ✓','ok');
+    return true;
   }catch(e){
     console.warn('FB save error',e);
-    setConn(false,'Sin conexión · cambios solo locales');
-    if(toast) showToast('No se pudo guardar: '+e.message,'bad');
+    setConn(false,'Sin conexión · cambios NO confirmados');
+    panelWarning('Guardado sin confirmar: '+(e.message||e)+'. No cierres sin conservar una copia de tus cambios.');
+    if(toast)showToast('No se pudo guardar: '+e.message,'bad');
+    return false;
   }
 }
 
@@ -2672,7 +2824,7 @@ function renderCases(){
   const rows=filteredCases();
   document.getElementById('caseEmpty').style.display=rows.length?'none':'block';
   document.getElementById('caseList').innerHTML=rows.map(c=>`<div class="case-row prio-${c.prioridad||'media'}">
-    <div><div class="case-name">${c.estudiante||'Sin nombre'}</div><div class="case-sub">${c.rut||'Sin identificador'} · ${c.carrera||'Sin carrera'}</div></div>
+    <div><div class="case-name">${c.estudiante||'Sin nombre'}</div>${c.recuperadoCorreo?'<div class="case-sub" style="color:#9b651c">✉ Registro parcial · verificar estado</div>':''}<div class="case-sub">${c.rut||'Sin identificador'} · ${c.carrera||'Sin carrera'}</div></div>
     <div class="case-col-mobile"><div class="case-label">Intervención</div><div class="case-value">${c.dispositivo||'—'}</div></div>
     <div class="case-col-hide"><div class="case-label">Próxima acción</div><div class="case-value">${c.proxima||'—'}${c.fechaProxima?` · ${c.fechaProxima}`:''}</div></div>
     <div><span class="case-status ${c.estado}">${CASE_STATUS_LABEL[c.estado]||c.estado}</span></div>
@@ -3123,7 +3275,7 @@ function renderTasks(){
     const tags=[t.proyecto&&`🗃️ ${t.proyecto}`,t.carrera&&`🎓 ${t.carrera}`,t.persona&&`👤 ${t.persona}`].filter(Boolean).join(' · ');
     return `<div class="task-row ${t.estado==='realizada'?'done':''} ${overdue?'overdue':''} ${todayTask?'today':''}">
       <input class="task-check" type="checkbox" data-task-toggle="${t.id}" ${t.estado==='realizada'?'checked':''} aria-label="Marcar tarea como realizada">
-      <div><div class="task-title ${t.estado==='realizada'?'done':''}">${escapeHTML(t.titulo||'Sin título')}</div><div class="task-sub">${escapeHTML(t.acceso||'Mis tareas')}${tags?' · '+escapeHTML(tags):''}${t.detalle?' · '+escapeHTML(t.detalle):''}</div>${(t.responsables?.length?t.responsables.map(p=>p.nombre):(t.responsable?[t.responsable]:[])).map(n=>`<span class="task-assignee">✉ ${escapeHTML(n)}</span>`).join('')}</div>
+      <div><div class="task-title ${t.estado==='realizada'?'done':''}">${escapeHTML(t.titulo||'Sin título')}</div>${t.recuperadoCorreo?'<div style="color:#9b651c;font-size:.71rem;font-weight:800">✉ Recuperado de correo · Estado histórico por verificar</div>':''}<div class="task-sub">${escapeHTML(t.acceso||'Mis tareas')}${tags?' · '+escapeHTML(tags):''}${t.detalle?' · '+escapeHTML(t.detalle):''}</div>${(t.responsables?.length?t.responsables.map(p=>p.nombre):(t.responsable?[t.responsable]:[])).map(n=>`<span class="task-assignee">✉ ${escapeHTML(n)}</span>`).join('')}</div>
       <div class="task-col-secondary"><div class="task-label">Estado</div><div class="task-value">${TASK_STATUS_LABEL[t.estado]||t.estado}</div></div>
       <div class="task-col-secondary"><div class="task-label">Prioridad</div><span class="task-priority ${t.prioridad||'media'}">${(t.prioridad||'media').toUpperCase()}</span></div>
       <div class="task-date-col"><div class="task-label">Fecha</div><div class="task-date ${overdue?'bad':todayTask?'warn':''}">${t.fecha||'—'}</div></div>
@@ -3138,7 +3290,7 @@ function fillProfessionalSelect(selectId,emailId,selected=''){
 }
 function syncProfessionalEmail(selectId,emailId){const name=document.getElementById(selectId)?.value||'';const p=PROFESIONALES.find(x=>x.nombre===name);const em=document.getElementById(emailId);if(em)em.value=p?.correo||'';}
 function entityDeepLink(module,param,id){let base=String(TASK_NOTIFY_CONFIG?.panelUrl||'').trim();if(!base&&/^https?:$/.test(location.protocol))base=location.origin+location.pathname;if(!base)return '';try{const u=new URL(base);u.searchParams.set('modulo',module);u.searchParams.set(param,id);return u.toString();}catch{return '';}}
-async function sendEntityNotification(o){if(!o?.to)throw new Error('El profesional asignado no tiene correo configurado');const panelUrl=entityDeepLink(o.module,o.param,o.id);if(!panelUrl)throw new Error('Configura la URL pública del panel en “Profesionales y avisos”');return jsonpDrive({mode:'notifyItem',to:o.to,responsable:o.responsable||'',entityType:o.type||'Registro',entityId:o.id||'',titulo:(o.title||'').slice(0,180),fecha:o.date||'',prioridad:o.priority||'',estado:o.status||'',detalle:(o.detail||'').slice(0,700),htmlBody:o.mailHtml||'',panelUrl},45000);}
+async function sendEntityNotification(o){if(window.UTE_RESCUE_OFFLINE)throw new Error('Notificaciones externas desactivadas en modo rescate');if(!o?.to)throw new Error('El profesional asignado no tiene correo configurado');const panelUrl=entityDeepLink(o.module,o.param,o.id);if(!panelUrl)throw new Error('Configura la URL pública del panel en “Profesionales y avisos”');return jsonpDrive({mode:'notifyItem',to:o.to,responsable:o.responsable||'',entityType:o.type||'Registro',entityId:o.id||'',titulo:(o.title||'').slice(0,180),fecha:o.date||'',prioridad:o.priority||'',estado:o.status||'',detalle:(o.detail||'').slice(0,700),panelUrl},45000);}
 function fillTaskProfessionalSelect(selected=''){
   const t=editingTaskId?TAREAS.find(x=>x.id===editingTaskId):null;
   const chosen=new Set((t?.responsables?.length?t.responsables.map(p=>p.nombre):(selected?[selected]:[])));
@@ -4551,19 +4703,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 
 </style>
 
-</head><body>${d.html}<style id="student-news-v36-priority">
-/* La información central debe dominar el resumen, no quedar bajo la ficha administrativa. */
-#moNewsSummary .news-editor{max-width:800px!important}
-#moNewsSummary .news-summary-reason{background:#f3f0ff;border:1px solid #ded5ff;border-left:5px solid #7155d8;border-radius:17px;padding:23px 25px;margin:8px 0 20px;white-space:normal}
-#moNewsSummary .news-summary-kicker{font-size:.83rem;font-weight:850;letter-spacing:.07em;text-transform:uppercase;color:#6250a2;margin-bottom:11px}
-#moNewsSummary .news-summary-title{font-family:var(--fb),sans-serif;font-size:clamp(1.32rem,2.3vw,1.75rem);font-weight:850;line-height:1.3;letter-spacing:-.025em;color:#242139;margin:0 0 15px;white-space:pre-wrap;overflow-wrap:anywhere}
-#moNewsSummary .news-summary-description{font-size:1.05rem;line-height:1.75;color:#36334b;white-space:pre-wrap;overflow-wrap:anywhere;border-top:1px solid #ded5f5;padding-top:15px}
-#moNewsSummary .news-summary-grid{margin-top:0}
-#moduleNews .news-card .news-title{font-size:1.18rem;line-height:1.35;color:#2a253e;font-weight:850;margin:16px 0 8px}
-#moduleNews .news-card .news-details{font-size:1rem;line-height:1.65;color:#424258}
-#moduleNews .news-card .news-caption{font-size:.78rem}
-@media(max-width:560px){#moNewsSummary .news-summary-reason{padding:17px}#moNewsSummary .news-summary-description{font-size:1rem}}
-</style>
+</head><body>${d.html}
 </body></html>`;const blob=new Blob([html],{type:'application/msword'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(d.title||'documento').replace(/[\\/:*?"<>|]+/g,'_')+'.doc';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
 function printWritingDoc(){captureWritingDoc();const d=WRITING_DOCS.find(x=>x.id===ACTIVE_WRITING_DOC);if(!d)return;const w=window.open('','_blank');if(!w)return;w.document.write(`<html><head><title>${escapeHTML(d.title)}</title><style>@page{margin:2.2cm}body{font-family:Arial,sans-serif;font-size:12pt;line-height:1.55}h1{font-size:22pt}h2{font-size:17pt}</style>
 <style id="v26-polish">
@@ -4893,19 +5033,7 @@ body.density-airy .shell{padding-top:38px}body.density-airy .area-card{padding:3
 
 </style>
 
-</head><body>${d.html}<style id="student-news-v36-priority">
-/* La información central debe dominar el resumen, no quedar bajo la ficha administrativa. */
-#moNewsSummary .news-editor{max-width:800px!important}
-#moNewsSummary .news-summary-reason{background:#f3f0ff;border:1px solid #ded5ff;border-left:5px solid #7155d8;border-radius:17px;padding:23px 25px;margin:8px 0 20px;white-space:normal}
-#moNewsSummary .news-summary-kicker{font-size:.83rem;font-weight:850;letter-spacing:.07em;text-transform:uppercase;color:#6250a2;margin-bottom:11px}
-#moNewsSummary .news-summary-title{font-family:var(--fb),sans-serif;font-size:clamp(1.32rem,2.3vw,1.75rem);font-weight:850;line-height:1.3;letter-spacing:-.025em;color:#242139;margin:0 0 15px;white-space:pre-wrap;overflow-wrap:anywhere}
-#moNewsSummary .news-summary-description{font-size:1.05rem;line-height:1.75;color:#36334b;white-space:pre-wrap;overflow-wrap:anywhere;border-top:1px solid #ded5f5;padding-top:15px}
-#moNewsSummary .news-summary-grid{margin-top:0}
-#moduleNews .news-card .news-title{font-size:1.18rem;line-height:1.35;color:#2a253e;font-weight:850;margin:16px 0 8px}
-#moduleNews .news-card .news-details{font-size:1rem;line-height:1.65;color:#424258}
-#moduleNews .news-card .news-caption{font-size:.78rem}
-@media(max-width:560px){#moNewsSummary .news-summary-reason{padding:17px}#moNewsSummary .news-summary-description{font-size:1rem}}
-</style>
+</head><body>${d.html}
 </body></html>`);w.document.close();w.focus();setTimeout(()=>w.print(),150);}
 
 loadUITextPrefs();
@@ -4929,8 +5057,8 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeC
 // ══════════════════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════════════════
-initDocsFirebase();
-loadData();
+// Rescate offline: autenticación y almacenamiento externo desactivados.
+setTimeout(()=>loadData(),0);
 
 
 /* v29 · REGISTRO DE GESTIÓN */
@@ -5029,17 +5157,12 @@ document.getElementById('visibilitySectionList')?.addEventListener('change',e=>{
 </style>
 <script id="student-news-script">
 let editingNewsId=null;
-function newsEmailHtml(n){
- const esc=v=>escapeHTML(String(v||''));
- const item=(label,value)=>`<div style="margin:0 0 10px"><span style="font-size:12px;color:#68718a;font-weight:700">${esc(label)}</span><div style="font-size:15px;color:#303349;font-weight:650">${esc(value||'No registrado')}</div></div>`;
- return `<div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;background:#ffffff;color:#262437;padding:28px"><p style="font-size:12px;font-weight:700;letter-spacing:1px;color:#7050bc;text-transform:uppercase;margin:0 0 9px">Unidad de Trayectoria Estudiantil · Novedad</p><h1 style="font-size:25px;line-height:1.3;margin:0 0 18px;color:#242039">${esc(n.title)}</h1><div style="background:#f3f0ff;border-left:5px solid #7050bc;padding:18px 20px;border-radius:10px;margin:0 0 22px"><div style="font-size:12px;font-weight:800;letter-spacing:.7px;color:#6250a2;text-transform:uppercase;margin-bottom:10px">Motivo de notificación</div><div style="font-size:19px;font-weight:750;line-height:1.4;margin-bottom:12px">${esc(n.title)}</div><div style="font-size:16px;line-height:1.7;white-space:pre-wrap">${esc(n.details)}</div></div><div style="border-top:1px solid #e7e7ef;padding-top:18px">${item('Estudiante',n.student)}${item('RUT',n.rut)}${item('Carrera',n.career)}${item('Año de formación',n.year)}</div><p style="font-size:12px;color:#768097;margin-top:22px">Abre la plataforma mediante el enlace seguro incluido en el aviso para revisar la ficha y editar según tus permisos.</p></div>`;
-}
 const newsIdKey=x=>String(x||'').toLowerCase().replace(/[^0-9k]/g,'');
 const newsNameKey=x=>String(x||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
-function newsCurrentEmail(){return String(docsUser?.email||'').trim().toLowerCase()}
+function newsCurrentEmail(){if(window.UTE_RESCUE_OFFLINE)return 'rescate@local.invalid';return String(docsUser?.email||'').trim().toLowerCase()}
 function newsPerson(){return PROFESIONALES.find(p=>String(p.correo||'').toLowerCase()===newsCurrentEmail())||null}
 function newsAuthor(){return newsPerson()?.nombre||docsUser?.email||''}
-function newsForMe(n){const email=newsCurrentEmail();if(!email)return false;return n.all||n.authorEmail===email||!!(n.recipients||[]).some(p=>String(p.correo||'').toLowerCase()===email)}
+function newsForMe(n){if(window.UTE_RESCUE_OFFLINE)return true;const email=newsCurrentEmail();if(!email)return false;return n.all||n.authorEmail===email||!!(n.recipients||[]).some(p=>String(p.correo||'').toLowerCase()===email)}
 function newsRenderRecipients(n){
  const all=document.getElementById('nAll');all.checked=n?.all??false;
  const selected=new Set((n?.recipients||[]).map(p=>String(p.nombre||'').trim()));
@@ -5052,11 +5175,11 @@ function newsChosenRecipients(){return [...document.querySelectorAll('[data-news
 function newsStudents(){const map=new Map();[...CASOS,...MONITOR_ALERTS,...REFERRALS,...AJUSTES].forEach(c=>{const name=c.estudiante||c.nombre||c.nombreEstudiante||'',rut=c.rut||c.RUT||'',career=c.carrera||'';if(!name)return;const key=newsIdKey(rut)||newsNameKey(name);if(!map.has(key))map.set(key,{name,rut,career})});return [...map.values()]}
 function newsMatches(a,b){if(a.rut&&b.rut&&newsIdKey(a.rut)===newsIdKey(b.rut))return true;return newsNameKey(a.student||a.estudiante||a.nombre)===newsNameKey(b.student||b.estudiante||b.nombre)&&!!newsNameKey(a.student||a.estudiante||a.nombre)}
 function newsFmt(d){return d?new Date(d).toLocaleString('es-CL',{dateStyle:'short',timeStyle:'short'}):'—'}
-function renderStudentNews(){const arr=STUDENT_NEWS.filter(newsForMe);const unread=arr.filter(n=>!(n.readBy||[]).some(r=>r.email===newsCurrentEmail()));const pending=arr.filter(n=>n.action!=='informar'&&!n.closed);const stats=document.getElementById('newsStats');if(!stats)return;stats.innerHTML=[['Total',arr.length],['Sin leer',unread.length],['Requieren atención',pending.length],['Urgentes',arr.filter(n=>n.level==='Urgente'&&!n.closed).length]].map(x=>`<div class="news-stat"><strong>${x[1]}</strong><span>${x[0]}</span></div>`).join('');const q=newsNameKey(document.getElementById('newsSearch').value),type=document.getElementById('newsTypeFilter').value,level=document.getElementById('newsLevelFilter').value,only=document.getElementById('newsOnlyUnread').checked;const visible=arr.filter(n=>(!q||newsNameKey([n.student,n.rut,n.career,n.title,n.details].join(' ')).includes(q))&&(!type||n.type===type)&&(!level||n.level===level)&&(!only||unread.includes(n))).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));document.getElementById('newsList').innerHTML=visible.map(n=>{const read=(n.readBy||[]).some(r=>r.email===newsCurrentEmail());return `<article class="news-card ${n.level.toLowerCase()}"><div class="news-header"><div><div class="news-person">${escapeHTML(n.student)}</div><div class="news-caption">${escapeHTML([n.career,n.year,n.rut].filter(Boolean).join(' · '))}</div></div><div><span class="news-pill ${n.level.toLowerCase()}">${escapeHTML(n.level)}</span><span class="news-pill">${escapeHTML(n.type)}</span></div></div><div class="news-title">${escapeHTML(n.title)}</div><div class="news-details">${escapeHTML(n.details)}</div><div class="news-caption" style="margin-top:10px">Fuente: ${escapeHTML(n.source)} · Registró: ${escapeHTML(n.author)} · ${newsFmt(n.createdAt)} · ${n.all?'Todo el equipo':(n.recipients||[]).map(p=>escapeHTML(p.nombre)).join(', ')}</div><div class="news-footer"><span class="news-muted">${n.requiresConfirmation?'Confirmaciones':'Lecturas'}: ${(n.readBy||[]).length} ${read?'· Ya leída':''} ${n.closed?'· Resuelta':''}</span><button data-news-profile="${escapeHTML(n.id)}">Ficha estudiante</button><button data-news-view="${escapeHTML(n.id)}">Abrir</button>${!read?`<button data-news-read="${escapeHTML(n.id)}">✓ Confirmar lectura</button>`:''}${n.action==='tarea'?`<button data-news-task="${escapeHTML(n.id)}">Crear tarea</button>`:''}<button data-news-status="${escapeHTML(n.id)}">${n.closed?'Reabrir':'Marcar resuelta'}</button><button class="news-delete" data-news-delete="${escapeHTML(n.id)}">Eliminar</button></div></article>`}).join('')||'<div class="task-empty">No se encontraron novedades.</div>';const nav=document.getElementById('newsNavCount');if(nav)nav.textContent=unread.length?'· '+unread.length:''}
+function renderStudentNews(){const arr=STUDENT_NEWS.filter(newsForMe);const unread=arr.filter(n=>!(n.readBy||[]).some(r=>r.email===newsCurrentEmail()));const pending=arr.filter(n=>n.action!=='informar'&&!n.closed);const stats=document.getElementById('newsStats');if(!stats)return;stats.innerHTML=[['Total',arr.length],['Sin leer',unread.length],['Requieren atención',pending.length],['Urgentes',arr.filter(n=>n.level==='Urgente'&&!n.closed).length]].map(x=>`<div class="news-stat"><strong>${x[1]}</strong><span>${x[0]}</span></div>`).join('');const q=newsNameKey(document.getElementById('newsSearch').value),type=document.getElementById('newsTypeFilter').value,level=document.getElementById('newsLevelFilter').value,only=document.getElementById('newsOnlyUnread').checked;const visible=arr.filter(n=>(!q||newsNameKey([n.student,n.rut,n.career,n.title,n.details].join(' ')).includes(q))&&(!type||n.type===type)&&(!level||n.level===level)&&(!only||unread.includes(n))).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));document.getElementById('newsList').innerHTML=visible.map(n=>{const read=(n.readBy||[]).some(r=>r.email===newsCurrentEmail());return `<article class="news-card ${n.level.toLowerCase()}"><div class="news-header"><div><div class="news-person">${escapeHTML(n.student)}</div><div class="news-caption">${escapeHTML([n.career,n.year,n.rut].filter(Boolean).join(' · '))}</div></div><div><span class="news-pill ${n.level.toLowerCase()}">${escapeHTML(n.level)}</span><span class="news-pill">${escapeHTML(n.type)}</span></div></div>${n.recuperadoCorreo?'<div style="font-weight:850;font-size:.74rem;color:#99571b;background:#fff2d9;padding:5px 8px;border-radius:8px;margin-top:8px">✉ Recuperación parcial · Posible prueba o información incompleta: verificar antes de utilizar</div>':''}<div class="news-title">${escapeHTML(n.title)}</div><div class="news-details">${escapeHTML(n.details)}</div><div class="news-caption" style="margin-top:10px">Fuente: ${escapeHTML(n.source)} · Registró: ${escapeHTML(n.author)} · ${newsFmt(n.createdAt)} · ${n.all?'Todo el equipo':(n.recipients||[]).map(p=>escapeHTML(p.nombre)).join(', ')}</div><div class="news-footer"><span class="news-muted">${n.requiresConfirmation?'Confirmaciones':'Lecturas'}: ${(n.readBy||[]).length} ${read?'· Ya leída':''} ${n.closed?'· Resuelta':''}</span><button data-news-profile="${escapeHTML(n.id)}">Ficha estudiante</button><button data-news-view="${escapeHTML(n.id)}">Abrir</button>${!read?`<button data-news-read="${escapeHTML(n.id)}">✓ Confirmar lectura</button>`:''}${n.action==='tarea'?`<button data-news-task="${escapeHTML(n.id)}">Crear tarea</button>`:''}<button data-news-status="${escapeHTML(n.id)}">${n.closed?'Reabrir':'Marcar resuelta'}</button><button class="news-delete" data-news-delete="${escapeHTML(n.id)}">Eliminar</button></div></article>`}).join('')||'<div class="task-empty">No se encontraron novedades.</div>';const nav=document.getElementById('newsNavCount');if(nav)nav.textContent=unread.length?'· '+unread.length:''}
 function newsOpenModal(id=''){const n=STUDENT_NEWS.find(x=>x.id===id);editingNewsId=n?.id||null;document.getElementById('newsModalHeading').textContent=n?'Editar novedad':'Registrar novedad';for(const [id,key] of [['nStudent','student'],['nRut','rut'],['nCareer','career'],['nYear','year'],['nType','type'],['nTitle','title'],['nDetails','details'],['nSource','source'],['nLevel','level'],['nAction','action']]){const el=document.getElementById(id);el.value=n?.[key]||({nType:'Alerta',nSource:'Estudiante',nLevel:'Informativa',nAction:'informar'}[id]||'');el.disabled=false}document.getElementById('nAll').disabled=false;document.getElementById('nMail').checked=false;document.getElementById('nMail').disabled=false;document.getElementById('nConfirmation').checked=n?.requiresConfirmation||false;document.getElementById('nConfirmation').disabled=false;newsRenderRecipients(n);document.getElementById('nHistory').innerHTML=n?`<div class="news-timeitem"><strong>Historial de lectura</strong><div class="news-caption">${(n.readBy||[]).map(x=>escapeHTML(x.nombre||x.email)+' · '+newsFmt(x.at)).join('<hr>')||'Sin confirmaciones todavía'}</div></div>`:'';document.getElementById('newsSave').style.display='';document.getElementById('newsSave').textContent=n?'Guardar cambios':'Guardar novedad';document.getElementById('newsSendStatus').textContent='';document.getElementById('newsStudentSuggestions').innerHTML=newsStudents().map(s=>`<option value="${escapeHTML(s.name)}">${escapeHTML(s.career)}</option>`).join('');document.getElementById('moStudentNews').classList.add('open')}
 function newsCloseModal(){document.getElementById('moStudentNews').classList.remove('open')}
 function openStudentNews(id){newsOpenSummary(id)}
-async function newsSave(){
+async function newsSave(){if(!PANEL_DATA_LOADED){panelWarning('Novedades: Firebase no verificado. No se aplicaron cambios.');showToast('Guardado bloqueado: Firebase no verificado','bad');return;}
  const status=document.getElementById('newsSendStatus');status.className='news-save-feedback';status.textContent='';
  const email=newsCurrentEmail();if(!email){status.className+=' error';status.textContent='Debes iniciar sesión para registrar y compartir novedades.';return;}
  const v=id=>document.getElementById(id).value.trim(),student=v('nStudent'),title=v('nTitle'),details=v('nDetails'),all=document.getElementById('nAll').checked;
@@ -5067,6 +5190,11 @@ async function newsSave(){
  const related=newsStudents().find(s=>newsNameKey(s.name)===newsNameKey(student));if(related){if(!n.rut)n.rut=related.rut;if(!n.career)n.career=related.career;}
  const saveBtn=document.getElementById('newsSave');saveBtn.disabled=true;status.textContent='Guardando y verificando registro…';
  try{
+   if(window.UTE_RESCUE_OFFLINE){
+     if(previous){const i=STUDENT_NEWS.findIndex(x=>x.id===n.id);STUDENT_NEWS[i]=n;}else STUDENT_NEWS.push(n);
+     const ok=await saveData(false);if(!ok)throw new Error('Falló el guardado local');
+     newsCloseModal();renderStudentNews();showToast('Novedad guardada automáticamente (solo local) ✓','ok');return;
+   }
    // Escribe solamente la novedad nueva: evita que otro integrante sobrescriba la bandeja completa.
    const url=FB_URL+'/panel_talleres/studentNews/'+encodeURIComponent(n.id)+'.json';
    const response=await fetch(url,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(n)});
@@ -5078,12 +5206,12 @@ async function newsSave(){
    const mailing=document.getElementById('nMail').checked;
    newsCloseModal();renderStudentNews();
    let sent=0,failed=0;
-   if(mailing){const ppl=recipients.filter(p=>p.correo&&p.correo.toLowerCase()!==email);for(const p of ppl){try{await sendEntityNotification({module:'news',param:'novedad',id:n.id,type:'Novedad de estudiante',title:'Novedad: '+n.student,to:p.correo,responsable:p.nombre,status:n.type,priority:n.level,detail:['MOTIVO DE NOTIFICACIÓN',n.title,'','ANTECEDENTES',n.details,'','DATOS DEL ESTUDIANTE','Nombre: '+n.student,'RUT: '+(n.rut||'No registrado'),'Carrera: '+(n.career||'No registrada'),'Año: '+(n.year||'No registrado')].join('\n').slice(0,700),mailHtml:newsEmailHtml(n)});sent++}catch(e){failed++;console.warn('Error de notificación',e)}}}
+   if(mailing){const ppl=recipients.filter(p=>p.correo&&p.correo.toLowerCase()!==email);for(const p of ppl){try{await sendEntityNotification({module:'news',param:'novedad',id:n.id,type:'Novedad de estudiante',title:'Novedad: '+n.student,to:p.correo,responsable:p.nombre,status:n.type,priority:n.level,detail:['MOTIVO DE NOTIFICACIÓN',n.title,'','ANTECEDENTES',n.details,'','DATOS DEL ESTUDIANTE','Nombre: '+n.student,'RUT: '+(n.rut||'No registrado'),'Carrera: '+(n.career||'No registrada'),'Año: '+(n.year||'No registrado')].join('\n').slice(0,700)});sent++}catch(e){failed++;console.warn('Error de notificación',e)}}}
    showToast('Novedad guardada en Firebase ✓'+(mailing?` · Avisos: ${sent} enviados, ${failed} fallidos`:'') ,failed?'bad':'ok');
  }catch(e){status.className+=' error';status.textContent='No se guardó la novedad: '+(e.message||e)+'. Revisa la conexión y los permisos de Firebase.';console.warn('Error al guardar novedad',e)}
  finally{saveBtn.disabled=false}
 }
-async function newsPatch(id,payload){const r=await fetch(FB_URL+'/panel_talleres/studentNews/'+encodeURIComponent(id)+'.json',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(!r.ok)showToast('No se sincronizó el cambio de estado','bad')}
+async function newsPatch(id,payload){if(window.UTE_RESCUE_OFFLINE)return saveData(false);if(!PANEL_DATA_LOADED){panelWarning('Novedades: Firebase no verificado.');return false;}const r=await fetch(FB_URL+'/panel_talleres/studentNews/'+encodeURIComponent(id)+'.json',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(!r.ok)showToast('No se sincronizó el cambio de estado','bad')}
 async function newsRead(id){if(!newsCurrentEmail()){showToast('Inicia sesión para confirmar lectura','bad');return}const n=STUDENT_NEWS.find(x=>x.id===id);if(!n||!newsForMe(n))return;n.readBy=n.readBy||[];if(!n.readBy.some(x=>x.email===newsCurrentEmail()))n.readBy.push({email:newsCurrentEmail(),nombre:newsAuthor(),at:new Date().toISOString()});await newsPatch(id,{readBy:n.readBy});renderStudentNews()}
 async function newsToggle(id){const n=STUDENT_NEWS.find(x=>x.id===id);if(!n||!newsCurrentEmail())return;n.closed=!n.closed;n.closedBy=newsAuthor();n.closedAt=new Date().toISOString();await newsPatch(id,{closed:n.closed,closedBy:n.closedBy,closedAt:n.closedAt});renderStudentNews()}
 async function newsCreateTask(id){const n=STUDENT_NEWS.find(x=>x.id===id);if(!n)return;let t=TAREAS.find(x=>x.id===n.taskId);if(!t){t={id:'ta'+Date.now().toString(36),titulo:n.title,acceso:'Mis tareas',estado:'pendiente',prioridad:n.level==='Urgente'?'alta':n.level==='Importante'?'media':'baja',fecha:'',proyecto:'Novedades de estudiantes',carrera:n.career,persona:n.student,detalle:n.details,link:'',creado:Date.now(),actualizado:Date.now(),responsables:n.recipients};TAREAS.push(t);n.taskId=t.id;await saveData(false)}switchModule('tasks');setTimeout(()=>openTask(t.id),50)}
@@ -5095,7 +5223,7 @@ function newsOpenSummary(id){
  document.getElementById('newsSummaryContent').innerHTML=`<section class="news-summary-reason"><div class="news-summary-kicker">Motivo de notificación</div><h4 class="news-summary-title">${escapeHTML(n.title)}</h4><div class="news-summary-description">${escapeHTML(n.details)}</div></section>`+'<div class="news-summary-grid">'+fields.map(([k,v])=>`<div class="news-summary-cell"><small>${escapeHTML(k)}</small><strong>${escapeHTML(v||'No registrado')}</strong></div>`).join('')+'</div>';
  document.getElementById('moNewsSummary').classList.add('open');
 }
-async function newsDeleteRecords(ids){
+async function newsDeleteRecords(ids){if(window.UTE_RESCUE_OFFLINE){STUDENT_NEWS=STUDENT_NEWS.filter(n=>!ids.includes(n.id));await saveData(false);document.getElementById('moNewsSummary').classList.remove('open');document.getElementById('moNewsStudent').classList.remove('open');renderStudentNews();showToast('Novedad eliminada de esta copia local','ok');return;}if(!PANEL_DATA_LOADED){panelWarning('Firebase no verificado: eliminación bloqueada.');showToast('Eliminación bloqueada','bad');return;}
  if(!newsCurrentEmail())return showToast('Inicia sesión para eliminar registros','bad');
  const auth=ids.map(id=>STUDENT_NEWS.find(x=>x.id===id)).filter(Boolean);
  if(auth.some(n=>n.authorEmail!==newsCurrentEmail()&&!isVisibilityAdmin()))return showToast('Solo quien registró la novedad o la administración puede eliminarla','bad');
@@ -5127,5 +5255,90 @@ document.getElementById('newsList').addEventListener('click',e=>{const a=e.targe
 #moduleNews .news-card .news-caption{font-size:.78rem}
 @media(max-width:560px){#moNewsSummary .news-summary-reason{padding:17px}#moNewsSummary .news-summary-description{font-size:1rem}}
 </style>
+
+<script id="ute-safe-backup-v37">
+document.getElementById('btnSafeBackup')?.addEventListener('click',async()=>{
+  const b=document.getElementById('btnSafeBackup');b.disabled=true;b.textContent='Consultando Firebase…';
+  try{
+    const r=await fetch('https://ee12026-f5e3d-default-rtdb.firebaseio.com/panel_talleres.json',{cache:'no-store'});
+    const j=await r.json();if(!r.ok||!j||typeof j!=='object'||j.error)throw Error(j?.error||'La base está vacía o no se puede leer');
+    const blob=new Blob([JSON.stringify(j,null,2)],{type:'application/json'}),href=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=href;a.download='UTE_respaldo_'+new Date().toISOString().replace(/[:.]/g,'-')+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(href),1500);
+    showToast('Respaldo descargado ✓','ok');
+  }catch(e){showToast('No fue posible crear el respaldo: '+e.message,'bad')}
+  finally{b.disabled=false;b.textContent='💾 Respaldar Firebase';}
+});
+</script>
+<script id="ute-safe-persist-v39">
+(function(){
+const STATUS_ID='utePersistStatus', HIST_KEY='ute_v39_rolling_history';
+let handle=null, saving=false, pending=false, lastSerialized='', lastExternalError='';
+const setStatus=(s)=>{const el=document.getElementById(STATUS_ID);if(el)el.textContent=s;};
+const iso=()=>new Date().toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+function openHandleDb(){return new Promise((resolve,reject)=>{
+  if(!indexedDB){reject(Error('Almacenamiento de permisos no disponible'));return;}
+  const req=indexedDB.open('UTE_V39_FILE_HANDLE',1);
+  req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('handles'))req.result.createObjectStore('handles')};
+  req.onerror=()=>reject(req.error);req.onsuccess=()=>resolve(req.result);
+})}
+async function rememberHandle(h){try{const d=await openHandleDb();await new Promise((res,rej)=>{const tx=d.transaction('handles','readwrite');tx.objectStore('handles').put(h,'backup');tx.oncomplete=res;tx.onerror=()=>rej(tx.error)});d.close()}catch(e){console.warn('No fue posible recordar el archivo para próxima sesión',e)}}
+async function recallHandle(){try{const d=await openHandleDb();const h=await new Promise((res,rej)=>{const tx=d.transaction('handles','readonly');const q=tx.objectStore('handles').get('backup');q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)});d.close();return h||null}catch(e){return null}}
+async function flush(){if(saving||!pending||!handle)return;saving=true;pending=false;
+ try{
+  if(await handle.queryPermission({mode:'readwrite'})!=='granted')throw Error('Permiso pendiente; pulsa «Vincular archivo» para autorizar de nuevo');
+  const snapshot=localStorage.getItem(window.UTE_OFFLINE_STORAGE_KEY);
+  if(!snapshot)throw Error('No hay una copia local para guardar');
+  const stream=await handle.createWritable();await stream.write(JSON.stringify({tipo:'UTE Panel v39 · archivo de respaldo automático',exportedAt:new Date().toISOString(),panel:JSON.parse(snapshot)},null,2));await stream.close();
+  lastExternalError='';setStatus('✓ Guardado en navegador y archivo · '+iso());
+ }catch(e){lastExternalError=e.message||String(e);setStatus('Navegador guardado · archivo pendiente: '+lastExternalError)}
+ finally{saving=false;if(pending)setTimeout(flush,600)}
+}
+let timer=null;
+window.queueSafetySnapshot=(snap)=>{
+ try{
+  const serialized=JSON.stringify(snap),history=JSON.parse(localStorage.getItem(HIST_KEY)||'[]');
+  if(serialized!==lastSerialized){
+   if(!history.length || Date.now()-history[history.length-1].at>60000){history.push({at:Date.now(),payload:serialized});if(history.length>10)history.splice(0,history.length-10);}
+   else history[history.length-1]={at:Date.now(),payload:serialized};
+   localStorage.setItem(HIST_KEY,JSON.stringify(history));lastSerialized=serialized;
+  }
+  setStatus('✓ Guardado en navegador · '+iso()+(handle?' · copiando archivo…':''));
+  if(handle){pending=true;clearTimeout(timer);timer=setTimeout(flush,900)}
+ }catch(e){setStatus('⚠ Historial no disponible: '+(e.message||e));console.warn(e)}
+};
+async function init(){handle=await recallHandle();if(handle){try{if(await handle.queryPermission({mode:'readwrite'})==='granted'){setStatus('Archivo de respaldo vinculado · guardado automático activo');pending=true;flush()}else{setStatus('Guardado en navegador · autoriza archivo nuevamente para copia externa')}}catch(e){setStatus('Guardado en navegador · archivo requiere permiso')}}}
+const b=document.getElementById('uteAutoFile');if(b)b.addEventListener('click',async()=>{
+ try{
+  if(!window.showSaveFilePicker){alert('Tu navegador no admite la copia automática en archivo. El panel seguirá guardando localmente; puedes usar el respaldo JSON manual. Chrome o Edge actualizado suele permitirlo.');return;}
+  // File picker requires an actual user gesture. Reuse handle if it already exists.
+  if(handle){const permission=await handle.requestPermission({mode:'readwrite'});if(permission!=='granted')throw Error('No se autorizó el archivo')}else{
+   handle=await window.showSaveFilePicker({suggestedName:'UTE_Respaldo_Continuo_v39.json',types:[{description:'Copia de seguridad JSON',accept:{'application/json':['.json']}}]});
+  }
+  await rememberHandle(handle);pending=true;await flush();
+ }catch(e){if(e.name!=='AbortError')setStatus('Navegador guardado · archivo externo sin activar: '+e.message)}
+});
+window.addEventListener('storage',e=>{if(e.key===window.UTE_OFFLINE_STORAGE_KEY)setStatus('⚠ Otra pestaña modificó la copia: revisa cambios antes de continuar')});
+// First save after importing the recovery seed; no Firebase requests.
+window.addEventListener('load',()=>setTimeout(()=>{if(typeof panelPayload==='function'&&window.UTE_RESCUE_OFFLINE){
+ try{const existing=localStorage.getItem(window.UTE_OFFLINE_STORAGE_KEY);if(!existing){const snap={...panelPayload(),studentNews:STUDENT_NEWS};localStorage.setItem(window.UTE_OFFLINE_STORAGE_KEY,JSON.stringify(snap));}window.queueSafetySnapshot(JSON.parse(localStorage.getItem(window.UTE_OFFLINE_STORAGE_KEY)))}catch(e){setStatus('⚠ El navegador no pudo guardar la copia: '+e.message)}
+} },450));
+init();
+})();
+</script>
+<script id="ute-offline-export">
+(function(){
+ const b=document.getElementById('uteRescueExport');if(!b)return;
+ const cloudBackup=document.getElementById('btnSafeBackup');if(cloudBackup){cloudBackup.disabled=true;cloudBackup.style.display='none';}
+ const notify=document.getElementById('btnGlobalNotifyConfig');if(notify){notify.title='Las notificaciones por correo no están operativas en modo rescate';}
+ b.addEventListener('click',function(){
+   if(typeof panelPayload!=='function')return alert('Panel todavía no cargó.');
+   const snap={...panelPayload(),studentNews:STUDENT_NEWS};
+   const text=JSON.stringify({rescate:'Panel UTE local 26/10/2026',fuente:'Datos locales recuperados, no copia histórica de Firebase',exportedAt:new Date().toISOString(),panel:snap},null,2);
+   const blob=new Blob([text],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+   a.href=url;a.download='UTE_Rescate_Actualizado_v39_'+new Date().toISOString().slice(0,10)+'.json';a.click();
+   setTimeout(()=>URL.revokeObjectURL(url),4000);
+ });
+})();
+</script>
 </body>
 </html>
